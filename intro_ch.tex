@@ -1,0 +1,63 @@
+% vim: set filetype=tex spell :
+
+\chapter{Introduction}
+
+The subject of this thesis is an attitude control system which will be a subsystem for the \ac{ARC} which is planed to be launched in quarter 1 of 2012.
+
+\section{CubeSats}
+
+Electronic devices seem to continually get smaller and cheaper as time goes on. Recently the decrease in size and cost has allowed universities to feasibly design, build and launch a complete satellite. 
+
+The \acf{CDS} is a small sattelite standard that many universities, private companies and NASA are building to. The \ac{CDS} defines, among other things, the size of the CubeSats, a 10 cm cube, and how they interface with the launching mechanism which puts them into orbit. Because CubeSats are small and launched from a standard launcher they are easy to integrate into the extra space leftover on larger missions making launches relatively cheap and easy to come by.
+
+Because CubeSats are small they have limited surface area for power generation. The limited space also makes deployable panels difficult. The result is that CubeSats have to run on a limited power budget. Many science missions require a fixed or at least stable orbit. Many of the usual attitude control methods, used on larger satellites, such as reaction wheels or thrusters use to much power mass and or volume to be feasible for a CubeSat.
+
+Many CubeSats have magnetic attitude control systems that push against the earths magnetic field. Magnetic attitude control systems are generally capable of less force then mechanical methods but are smaller and lighter making them a popular choice for many CubeSats.
+
+If the attitude requirements are not very demanding a completely passive magnetic system can be built. In a passive system a permanent magnet on the space craft forces an axis to align with the local magnetic field. Because there is little friction in space hysteresis rods must be added to the spacecraft to dampen out oscillations. The main drawback for a passive system is that there is no face of the satellite that is continually facing the earth. Having a face that constantly points in the nadir direction is useful for communications and for earth observation.
+
+If more control of the attitude is desired then active control can be used. For magnetic control this usually means that coils of wire with a soft magnetic or air core are used to produce torque. These types of torquers only produce torque if current is flowing through the coil. This puts a strain on the typical CubeSat power budget.
+
+This thesis will describe a new type of torquer that uses a hard magnetic core. The hard magnetic core acts as a permanent magnet that can be switched by pulsing a current through the core. Using this setup torque can be generated without a constant expenditure of current. This has been called the \acf{LPMT}. The \ac{LPMT} is a good fit for CubeSats because of their low power usage.
+
+\section{\acl{ARC}}
+
+\ac{ARC} is a CubeSat built built by the \ac{UAF} \ac{SSEP} and funded by \ac{ASGP}. 
+
+
+\subsection{Mission Objectives}
+
+%TODO: this is ripped from the proposal reword if necessary
+
+\ac{ARC} has four main mission objectives. These are divided into \acp{EMO} and \acp{SMO}. The \acp{EMO} provide an educational oppertnity for students. \ac{ARC} is primarily an educational project which is aimed at giving students an oppertunity for hands on learning. The \acp{SMO} are missions where the objective is to  \cite{ArcCdr}.
+
+\subsubsection{\acl{EMO} 1}
+
+Provide an authentic, interdisciplinary, hands-on student experiences in science and engineering through the design, development, operation of a student small satellite mission.
+
+\subsubsection{\acl{SMO} 1}
+
+Characterize thermal and vibration environment inside the launch vehicle from ignition to orbital insertion.
+
+\subsubsection{\acl{SMO} 2}
+
+Validate a novel low power \ac{ADCS}.
+
+\subsubsection{\acl{SMO} 3}
+
+Validate a high bandwidth communication system by obtaining images of changing snow/ice coverage in arctic regions.
+
+\section{\acl{ADCS}}
+
+The \ac{ADCS} algorithm and torquers have been designed by Dr. Donald Mentch for his PhD thesis. The remaining work for this thesis is the design, implementation and testing of the hardware and software to realize the \ac{ADCS} on the \ac{ARC}.
+
+\ChapterRef{ch:BG} outlines the prevous work on \acp{LPMT} and the alignment algorithm that will be used on the \ac{ARC}.
+
+\ChapterRef{ch:CubeSat} describes how the \ac{ADCS} is implemented on the \ac{ARC}. 
+
+\ChapterRef{ch:Hardware} describes the hardware that is used to run the \ac{ADCS}. This hardware was constructed based on the parameters outlined in \cite{Mentch11} but the bulk of the design was done by the author of this thesis.
+
+\ChapterRef{ch:Software} describes the software for the \ac{ADCS}. The algorithm for \ac{ADCS} was written by Donald Mentch for his Doctoral work \cite{Mentch11}. For this thesis the algorithm was taken from the Matlab simulation and converted into C code so that it could be run on a msp430. Because of the change in platform many other support functionality had to be written. Some of this functionality will be documented here.
+
+\ChapterRef{ch:Verification} outlines the verification plan for flight hardware to make share that it performs adequately on orbit. Some of the basic ideas of verification were outlined in \cite{Mentch11} as well as conversations with Donald Mentch. Most of the testing and verification has been performed by the author of this thesis and adjusted accordingly.
+

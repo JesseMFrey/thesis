@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#Make a png of from LaTex file usefull for importing into MS powerpoint
+pdflatex $1.tex
+convert -density 600x600 $1.pdf -quality 90 -resize 800x600 $1.png

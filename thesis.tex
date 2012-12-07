@@ -1,0 +1,275 @@
+% vim: set spell:
+\documentclass{uafthesis}
+\usepackage{amsmath, amssymb, amsfonts} % Thanks, AMS!
+\usepackage{xfrac}
+\usepackage{graphicx, float} % Graphics stuff
+\usepackage{textcomp}
+\usepackage{array}
+\usepackage{fixltx2e} % Allows \(\) in captions, amongst other things.
+\usepackage{pxfonts} % The Paladino font
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{amssymb,amsfonts,textcomp}
+\usepackage{array}
+\usepackage{fullpage}
+\usepackage{float}
+\usepackage[printonlyused,withpage]{acronym}
+\usepackage{tocloft}
+\usepackage{topsection}
+\usepackage{pdflscape}
+\usepackage[square,numbers,comma,sort&compress]{natbib}
+
+\def\xcolorversion{2.00}
+
+\usepackage[version=latest]{pgf}
+\usepackage{xkeyval,calc,tikz,fp}
+\usepackage{listings}
+\usepackage[textwidth=5em]{todonotes}
+
+%include hyperref last so that it can modify some commands
+\usepackage{hyperref}
+
+%blue links good for on screen
+\hypersetup{bookmarks,colorlinks,linkcolor=blue,pdfauthor={Jesse Frey},pdfusetitle,pdfstartview=FitH}
+%Black links good for printing
+%\hypersetup{bookmarks,colorlinks,citecolor=black,urlcolor=black,filecolor=black,linkcolor=black,pdfauthor={Jesse Frey},pdfusetitle,pdfstartview=FitH}
+
+%add figures folder to graphics path
+\graphicspath{{./Figures/}}
+
+%libraries for tikz
+\usetikzlibrary{chains}
+\usetikzlibrary{decorations.shapes}
+\usetikzlibrary{shapes,arrows}
+
+%so I can try without hyperref
+%\newcommand{\autoref}[1]{\ref{#1}}
+%\newcommand{\pdfbookmark}[1]{}
+%\newcommand{\ChapterRef}[1]{\ref{#1}}
+
+\author{Jesse Frey}
+\title{Hardware and Software Implementation of a CubeSat Attitude Determination and Control System}
+\degreeyear{2013}
+\degreemonth{May}
+\degree{Master of Science}
+\department{Dept. Electrical and Computer Engineering}
+%\department{Dept. ECE}
+\numberofmembers{3}
+\prevdegrees{B.A.}
+\college{College of Engineering and Mines}
+\date{\today}
+
+%define some math commands
+\newcommand{\vect}[1]{\overrightarrow{#1}}
+\newcommand{\cross}[0]{\times}
+\newcommand{\matt}[1]{\boldsymbol{#1}}
+\newcommand{\transpose}{^T}
+\newcommand{\unit}[1]{\, \mathrm{#1}}
+
+%command to indicate things to be done
+%\newcommand{\todo}[1]{\typeout{TODO : #1}(\textbf{TODO : }#1)}
+%\newcommand{\todo}[1]{(\textbf{TODO : }#1)}
+
+
+%define block shapes
+
+
+\pgfdeclareshape{inshape}
+{%
+  % All anchors are taken from the 'rectangle' shape:
+  \inheritsavedanchors[from={rectangle}]%
+  \inheritanchor[from={rectangle}]{center}%
+  \inheritanchor[from={rectangle}]{north}%
+  \inheritanchor[from={rectangle}]{south}%
+  \inheritanchor[from={rectangle}]{west}%
+  \inheritanchor[from={rectangle}]{east}%
+  \inheritanchorborder[from={rectangle}]%
+  %
+  % Only the background path is different
+  %
+  \backgroundpath{%
+    % First the existing 'circle' code:
+    \pgfmathsetlength{\pgf@xb}{\pgfkeysvalueof{/pgf/outer xsep}}%
+    \pgfmathsetlength{\pgf@yb}{\pgfkeysvalueof{/pgf/outer ysep}}%
+    \ifdim\pgf@xb<\pgf@yb%
+      \advance\pgfutil@tempdima by-\pgf@yb%
+    \else%
+      \advance\pgfutil@tempdima  by-\pgf@xb%
+    \fi%
+    \pgfpathcircle{\centerpoint}{\pgfutil@tempdima}%
+    %
+    % Now the | and -- lines:
+    \pgfmoveto{\pgfpointadd{\centerpoint}{\pgfpoint{0pt}{\pgfutil@tempdima}}}%
+    \pgflineto{\pgfpointadd{\centerpoint}{\pgfpoint{0pt}{-\pgfutil@tempdima}}}%
+    \pgfmoveto{\pgfpointadd{\centerpoint}{\pgfpoint{\pgfutil@tempdima}{0pt}}}%
+    \pgflineto{\pgfpointadd{\centerpoint}{\pgfpoint{-\pgfutil@tempdima}{0pt}}}%
+  }%
+}
+
+% Define block styles
+\tikzstyle{decision} = [diamond, draw, fill=blue!20, text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, text width=5em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{input} = [rectangle, draw, fill=green!20, text width=5em, text centered, rounded corners, minimum height=4em]
+%\tikzstyle{input} = [inshape, draw, fill=green!20, text width=5em, text centered, minimum height=4em]
+\tikzstyle{line} = [draw]
+\tikzstyle{conn} = [draw,->]
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em]
+%\tikzstyle{point} = [circle,inner sep=0pt,minimum size=2pt,fill=red,node distance = 1.5cm]
+\tikzstyle{point} = [circle,inner sep=0pt,minimum size=0pt,fill=none,node distance = 1.5cm]
+\tikzstyle{oppr} = [draw, circle,fill=blue!20, node distance=2.5cm,minimum height=2em]
+
+
+\begin{document}
+
+%command for capital chapter autoref
+\newcommand{\ChapterRef}[1]{\hyperref[#1]{Chapter~\ref*{#1}}}
+%\newcommand{\ChapterRef}[1]{\ref{#1}}
+
+\listoftodos
+\clearpage
+
+\pagenumbering{Roman}
+\setcounter{page}{1}
+\thispagestyle{empty}
+
+
+\phantomsection
+\makesig
+
+\begin{comment}
+\addcontentsline{toc}{section}{\signame}
+\begin{center}
+    {\large \bfseries {\expandafter\uppercase\expandafter{Title}} \par}
+    \bigskip \bigskip
+    By \par
+    \bigskip \bigskip
+    {Jesse Frey} \par
+    \bigskip \bigskip \medskip
+\vspace{.25in}
+\end{center}
+RECOMMENDED: \hspace{.75in} \rule{3in}{.05mm}\vskip2.5ex\relax
+\noindent\phantom{RECOMMENDED: \hspace{.75in} }\rule{3in}{.05mm}
+\vskip2.5ex\relax
+\noindent\phantom{RECOMMENDED: \hspace{.75in} }\rule{3in}{.05mm}
+\vskip2.5ex\relax
+
+\vskip-3.5ex\relax
+\noindent\phantom{RECOMMENDED: \hspace{.75in} }\relax Advisory Committee Chair \vskip2.5ex
+
+\noindent\phantom{RECOMMENDED: \hspace{.75in} }\rule{3in}{.05mm}
+\vskip-1ex\relax
+\noindent\phantom{RECOMMENDED: \hspace{.75in} }\relax Chair, Dep. Electrical and Computer Engineering
+
+\bigskip \bigskip \bigskip \par
+
+\noindent APPROVED: \hspace{.75in} \rule{3.75in}{.05mm}
+\vskip-1ex\relax
+\noindent\phantom{APPROVED: \hspace{.75in} }Dean, {College of Engineering and Mines}
+\vskip2.5ex\relax
+\noindent\phantom{APPROVED: \hspace{.75in} }\rule{3.75in}{.05mm}
+\vskip-1ex\relax
+\noindent\phantom{APPROVED: \hspace{.75in} }Dean of the Graduate
+School
+\vskip2.5ex\relax
+\noindent\phantom{APPROVED: \hspace{.75in} }\rule{3.75in}{.05mm}
+\vskip-1ex\relax
+\noindent\phantom{APPROVED: \hspace{.75in} }Date
+
+\newpage
+\end{comment}
+
+\phantomsection
+\maketitle
+
+\clearpage
+
+\phantomsection
+\begin{abstract}
+    \input{abstract}
+\end{abstract}
+
+%\clearpage
+
+%Table of Contents and such
+\pdfbookmark[1]{Table Of Contents}{toc}
+\tableofcontents
+
+\clearpage
+
+\phantomsection
+\addcontentsline{toc}{section}{List of Figures}
+\listoffigures
+
+\clearpage
+
+%\listofmyequations
+%\listoftables
+
+%\clearpage
+
+%\listofothermaterials
+%\listofappendices
+
+
+\phantomsection
+\topsection{List of Acronyms}
+\addcontentsline{toc}{section}{List of Acronyms}
+
+\newacro{CalPoly}[Cal Poly]{California Polytechnic University}
+\begin{acronym}
+    \acro{ACS}{Attitude Control System}
+    \acro{ADC}{Analog to Digital Converter}
+    \acro{ADCS}{Attitude Determination and Control System}
+    \acro{ADS}{Attitude Determination System}
+    \acro{AMR}{Anisotropic magnetoresistance}
+    \acro{ARC}{Alaska Research CubeSat}
+    \acro{ASGP}{Alaska Space Grant Program}
+    \acro{CDS}{CubeSat Design Specification}
+    \acro{EMO}{Education Mission Objective}
+    \acro{LEDL}{Launch Environment Data Logger}
+    \acro{LPMT}{Low Power Magnetic Torquer}
+    \acro{MEMS}{Microelectromechanical systems}
+    \acro{MOSFET}{Metal Oxide Semiconductor Field Effect Transistor}
+    \acro{PPOD}[P-POD]{Poly-Picosatellite Orbital Deployer}
+    \acro{SMO}{Science Mission Objective}
+    \acro{SPB}{Solar Panel Board}
+    \acro{SSEP}{Space Systems Engineering Program}
+\end{acronym}
+
+    \newacro{UAF}{University of Alaska Fairbanks}
+    \acused{UAF}
+\clearpage
+
+%\begin{acknowledgements}
+    %\input{acknowledgements}
+%\end{acknowledgements}
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\acresetall 
+\acused{UAF}
+
+\include{intro_ch}
+\include{Background_ch}
+\include{CubeSat_ch}
+\include{Hardware_ch}
+\include{Software_ch}
+\include{Verification_ch}
+\include{Conclusion}
+%\include{drive_circuit_ch}
+%\include{algorythm_ch}
+
+\clearpage
+
+%\bibliographystyle{ieeetr}
+%\bibliographystyle{agufull08}
+%\bibliographystyle{plain}
+\bibliographystyle{IEEEtranN}
+\phantomsection
+\bibliography{references}
+
+%\appendix
+
+\end{document}

@@ -1,0 +1,19 @@
+% vim: set filetype=tex :
+
+\chapter{Torquer Drive Circuit}
+
+The energy to flip the torquers is stored in a capacitor that is slowly charged from the power supply and discharged quickly into a torque coil. There are three capacitors, one for each axis. 
+
+\section{Capicitor Charging}
+
+Figure \autoref{fig:cap-chg} shows the charging circuit. The resistor limits the current from the power supply to a maximum of ?? mA. A switch is shown instead of the H-bridge for simplicity.
+
+\section{Rational}
+
+A resistor was chosen for the charging circuit because it is simple and robust. The main drawback of the design is that it is about 50\% efficient. The capacitor voltage also depends on the supply voltage which will vary with battery discharge depth. 
+
+\section{H-Bridge}
+
+The H-bridge allows current to be driven in both directions through the torquer coils. 
+
+
