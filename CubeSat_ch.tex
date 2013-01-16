@@ -133,7 +133,7 @@ To calculate the calibration values \autoref{eq:magmat} must be solved for $\vec
     \label{eq:maglstsq}
 \end{equation}
 
-The least squares solution is one that minimizes the error 
+The least squared solution minimizes the error across all data points. This results in calibration values that minimize error across the range of calibration points that were taken.
 
 \subsubsection{Torquer Calibration}
 
@@ -151,6 +151,7 @@ To test how well the calibration functions a testing script was written. \autore
     \includegraphics[width=\textwidth]{Figures/torqueCalTst}
     \caption{Torquer Calibration Test Graph}
     \label{fig:tcalTst}
+    \todo[inline]{Repeat with fully integrated satellite as it says in the text.}
 \end{figure}
 
 \section{Attitude Determination}
