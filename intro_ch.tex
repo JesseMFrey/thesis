@@ -1,14 +1,17 @@
 % vim: set filetype=tex spell :
 
+%Indroduction: give background on ARC project
+
 \chapter{Introduction}
 
-The subject of this thesis is an attitude control system which will be a subsystem for the \ac{ARC} which is planed to be launched in quarter 1 of 2012.
 
 \section{CubeSats}
 
-Electronic devices seem to continually get smaller and cheaper as time goes on. Recently the decrease in size and cost has allowed universities to feasibly design, build and launch a complete satellite. 
+Over the past few decades electronic devices have continued to get smaller, cheaper and more powerful. This has made many things possible that were not feasible before. Recently it has become posible for universities to build and launch their own small satellites.
 
-The \acf{CDS} is a small sattelite standard that many universities, private companies and NASA are building to. The \ac{CDS} defines, among other things, the size of the CubeSats, a 10 cm cube, and how they interface with the launching mechanism which puts them into orbit. Because CubeSats are small and launched from a standard launcher they are easy to integrate into the extra space leftover on larger missions making launches relatively cheap and easy to come by.
+The \acf{CDS} is a small satellite standard that many universities, private companies and NASA are building to. The \ac{CDS} defines, among other things, the size of the CubeSats, a 10 cm cube, and how they interface with the launching mechanism which puts them into orbit. Because CubeSats are small and launched from a standard launcher they are easy to integrate into the extra space leftover on larger missions making launches relatively cheap and easy to come by.
+
+In recent years the number of CubeSat launches has grown significantly. CubeSats are launched by universities as well as goverment institudions like NASA and the Air Force\todo{find references} and private companies. While CubeSats may have been concieved as primarly an educational tool\todo{find reference(s)} many CubeSats do real sience\todo{find reference(s)}. 
 
 Because CubeSats are small they have limited surface area for power generation. The limited space also makes deployable panels difficult. The result is that CubeSats have to run on a limited power budget. Many science missions require a fixed or at least stable orbit. Many of the usual attitude control methods, used on larger satellites, such as reaction wheels or thrusters use to much power mass and or volume to be feasible for a CubeSat.
 
@@ -22,42 +25,35 @@ This thesis will describe a new type of torquer that uses a hard magnetic core. 
 
 \section{\acl{ARC}}
 
-\ac{ARC} is a CubeSat built built by the \ac{UAF} \ac{SSEP} and funded by \ac{ASGP}. 
+\ac{ARC} is a CubeSat built built by the \ac{UAF} \ac{SSEP} and funded by \ac{ASGP}. The main purpose of \ac{ARC} is to give students a chance to work on real space flight hardware. \ac{ARC} also has other mission objectives which are focused on testing out new hardware in the space environment The stated mission objectives are listed below.
 
 
 \subsection{Mission Objectives}
 
 %TODO: this is ripped from the proposal reword if necessary
 
-\ac{ARC} has four main mission objectives. These are divided into \acp{EMO} and \acp{SMO}. The \acp{EMO} provide an educational oppertnity for students. \ac{ARC} is primarily an educational project which is aimed at giving students an oppertunity for hands on learning. The \acp{SMO} are missions where the objective is to  \cite{ArcCdr}.
+\ac{ARC} has four main mission objectives. These are divided into \acp{EMO} and \acp{SMO}. The \acp{EMO} provide an educational opportunity for students. \ac{ARC} is primarily an educational project which is aimed at giving students an opportunity for hands on learning. The \acp{SMO} are missions where the objective is to  \cite{ArcCdr}.
 
-\subsubsection{\acl{EMO} 1}
+\begin{description}
 
-Provide an authentic, interdisciplinary, hands-on student experiences in science and engineering through the design, development, operation of a student small satellite mission.
+    \item[\acl{EMO} 1] Provide an authentic, interdisciplinary, hands-on student experiences in science and engineering through the design, development, operation of a student small satellite mission.
 
-\subsubsection{\acl{SMO} 1}
+    \item[\acl{SMO} 1] Characterize thermal and vibration environment inside the launch vehicle from ignition to orbital insertion.
 
-Characterize thermal and vibration environment inside the launch vehicle from ignition to orbital insertion.
+    \item[\acl{SMO} 2] Validate a novel low power \ac{ACDS}.
 
-\subsubsection{\acl{SMO} 2}
+    \item[\acl{SMO} 3] Validate a high bandwidth communication system by obtaining images of changing snow/ice coverage in arctic regions.
+\end{description}
 
-Validate a novel low power \ac{ADCS}.
+\section{\acl{ACDS}}
 
-\subsubsection{\acl{SMO} 3}
+The \ac{ACDS} algorithm and torquers have been designed by Dr. Donald Mentch for his PhD thesis. The remaining work for this thesis is the design, implementation and testing of the hardware and software to realize the \ac{ACDS} on the \ac{ARC}.
 
-Validate a high bandwidth communication system by obtaining images of changing snow/ice coverage in arctic regions.
+\ChapterRef{ch:BG} outlines the previous work on \acp{LPMT} and the alignment algorithm that will be used on the \ac{ARC}.
 
-\section{\acl{ADCS}}
+\ChapterRef{ch:CubeSatHardware} describes how the \ac{ACDS} is implemented on the \ac{ARC}. This hardware was constructed based on the parameters outlined in \cite{Mentch11} but the bulk of the design was done by the author of this thesis.
 
-The \ac{ADCS} algorithm and torquers have been designed by Dr. Donald Mentch for his PhD thesis. The remaining work for this thesis is the design, implementation and testing of the hardware and software to realize the \ac{ADCS} on the \ac{ARC}.
-
-\ChapterRef{ch:BG} outlines the prevous work on \acp{LPMT} and the alignment algorithm that will be used on the \ac{ARC}.
-
-\ChapterRef{ch:CubeSat} describes how the \ac{ADCS} is implemented on the \ac{ARC}. 
-
-\ChapterRef{ch:Hardware} describes the hardware that is used to run the \ac{ADCS}. This hardware was constructed based on the parameters outlined in \cite{Mentch11} but the bulk of the design was done by the author of this thesis.
-
-\ChapterRef{ch:Software} describes the software for the \ac{ADCS}. The algorithm for \ac{ADCS} was written by Donald Mentch for his Doctoral work \cite{Mentch11}. For this thesis the algorithm was taken from the Matlab simulation and converted into C code so that it could be run on a msp430. Because of the change in platform many other support functionality had to be written. Some of this functionality will be documented here.
+\ChapterRef{ch:Software} describes the software for the \ac{ACDS}. The algorithm for \ac{ACDS} was written by Donald Mentch for his Doctoral work \cite{Mentch11}. For this thesis the algorithm was taken from the Matlab simulation and converted into C code so that it could be run on a msp430. Because of the change in platform many other support functionality had to be written. Some of this functionality will be documented here.
 
 \ChapterRef{ch:Verification} outlines the verification plan for flight hardware to make sure that it performs adequately on orbit. Some of the basic ideas of verification were outlined in \cite{Mentch11} as well as conversations with Donald Mentch. Most of the testing and verification has been performed by the author of this thesis and adjusted accordingly.
 

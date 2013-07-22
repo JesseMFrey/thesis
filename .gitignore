@@ -1,0 +1,57 @@
+*.aux
+*.pdf
+*.out
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.pdfsync
+*.tdo
+*.toc
+*.png
+*.swp
+
+# On branch master
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   Background_ch.tex
+#	modified:   CubeSat_ch.tex
+#	modified:   Hardware_ch.tex
+#	modified:   Software_ch.tex
+#	modified:   Verification_ch.tex
+#	modified:   abstract-output.tex
+#	modified:   algorythm_ch.tex
+#	modified:   intro_ch.tex
+#	modified:   references.bib
+#	modified:   thesis.tex
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	.Background_ch.tex.swp
+#	.CubeSatHardware_ch.tex.swp
+#	.Software_ch.tex.swp
+#	.gitignore
+#	.gitignore.swp
+#	.intro_ch.tex.swp
+#	.vimrc
+#	Background_ch.bbl
+#	CubeSatHardware_ch.tex
+#	Makefile
+#	cmr10.log
+#	missfont.log
+#	thesis.bbl
+#	thesis.blg
+#	thesis.fdb_latexmk
+#	thesis.fls
+#	thesis.loa
+#	thesis.lof
+#	thesis.log
+#	thesis.pdfsync
+#	thesis.tdo
+#	thesis.toc
+#	win_fig_export.png
+no changes added to commit (use "git add" and/or "git commit -a")

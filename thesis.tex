@@ -17,7 +17,7 @@
 \usepackage{tocloft}
 \usepackage{topsection}
 \usepackage{pdflscape}
-\synctex=1
+%\synctex=1
 \usepackage[square,numbers,comma,sort&compress]{natbib}
 
 \def\xcolorversion{2.00}
@@ -41,6 +41,7 @@
 %libraries for tikz
 \usetikzlibrary{chains}
 \usetikzlibrary{decorations.shapes}
+\usetikzlibrary{decorations.markings}
 \usetikzlibrary{shapes,arrows}
 
 %so I can try without hyperref
@@ -111,17 +112,30 @@
 }
 
 % Define block styles
-\tikzstyle{decision} = [diamond, draw, fill=blue!20, text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{decision} = [diamond, draw, fill=blue!20, text width=4.5em, text badly centered, inner sep=0pt]
 \tikzstyle{block} = [rectangle, draw, fill=blue!20, text width=5em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{bigblock} = [rectangle, draw, fill=blue!20,rounded corners, minimum height=4em]
 \tikzstyle{input} = [rectangle, draw, fill=green!20, text width=5em, text centered, rounded corners, minimum height=4em]
 %\tikzstyle{input} = [inshape, draw, fill=green!20, text width=5em, text centered, minimum height=4em]
+\tikzstyle{oppr} = [draw, circle,fill=blue!20,minimum height=2em]
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,minimum height=2em]
+%connections styles for flow charts
 \tikzstyle{line} = [draw]
 \tikzstyle{conn} = [draw,->]
-\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
-    minimum height=2em]
-%\tikzstyle{point} = [circle,inner sep=0pt,minimum size=2pt,fill=red,node distance = 1.5cm]
+\tikzstyle{phconn} = [draw,->,dashed]
+%connection styles for block diagrams
+\tikzstyle{bidr} = [draw,<->]
+%\tikzstyle{flow} = [draw,--,decorate,decoration=triangles]
+\tikzstyle{flow} = [draw,%
+          decoration={%
+            markings,%
+            mark=at position 0.65 with {\arrow[scale=2]{stealth}},
+          },postaction=decorate]
+
+%point used as a dummy node for complicated arrows
 \tikzstyle{point} = [circle,inner sep=0pt,minimum size=0pt,fill=none,node distance = 1.5cm]
-\tikzstyle{oppr} = [draw, circle,fill=blue!20, node distance=2.5cm,minimum height=2em]
+%\tikzstyle{point} = [circle,inner sep=0pt,minimum size=2pt,fill=red,node distance = 1.5cm]     %alternate point for debugging
+
 
 
 \begin{document}
@@ -132,6 +146,9 @@
 
 \listoftodos
 \clearpage
+
+%highlight overfull Hboxes
+\overfullrule=5pt
 
 \pagenumbering{Roman}
 \setcounter{page}{1}
@@ -182,17 +199,20 @@
 \begin{acronym}
     \acro{ACS}{Attitude Control System}
     \acro{ADC}{Analog to Digital Converter}
-    \acro{ADCS}{Attitude Determination and Control System}
+    \acro{ACDS}{Attitude Control and Determination System}
     \acro{ADS}{Attitude Determination System}
-    \acro{AMR}{Anisotropic magnetoresistance}
+    \acro{AMR}{Anisotropic MagnetoResistance}
     \acro{ARC}{Alaska Research CubeSat}
     \acro{ASGP}{Alaska Space Grant Program}
     \acro{CDS}{CubeSat Design Specification}
+    \acro{CDH}{Command and Data Handling}
     \acro{EMO}{Education Mission Objective}
     \acro{LEDL}{Launch Environment Data Logger}
+    \acro{I2C}{Inter-Integrated Circuit}
     \acro{LPMT}{Low Power Magnetic Torquer}
     \acro{MEMS}{Microelectromechanical systems}
     \acro{MOSFET}{Metal Oxide Semiconductor Field Effect Transistor}
+    \acro{PCB}{Printed Circuit Board}
     \acro{PPOD}[P-POD]{Poly-Picosatellite Orbital Deployer}
     \acro{SMO}{Science Mission Objective}
     \acro{SPB}{Solar Panel Board}
@@ -215,8 +235,9 @@
 
 \include{intro_ch}
 \include{Background_ch}
-\include{CubeSat_ch}
-\include{Hardware_ch}
+%\include{CubeSat_ch}
+\include{CubeSatHardware_ch}
+%\include{Hardware_ch}
 \include{Software_ch}
 \include{Verification_ch}
 \include{Conclusion}
