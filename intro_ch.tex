@@ -1,27 +1,27 @@
 % vim: set filetype=tex spell :
 
-%Indroduction: give background on ARC project
+%Introduction: give background on ARC project
 
 \chapter{Introduction}
 
 
 \section{CubeSats}
 
-Over the past few decades electronic devices have continued to get smaller, cheaper and more powerful. This has made many things possible that were not feasible before. Recently it has become posible for universities to build and launch their own small satellites.
+Over the past few decades electronic devices have continued to get smaller, cheaper and more powerful. This has made many things possible that were not feasible before. Recently it has become possible for universities to build and launch their own small satellites.
 
 The \acf{CDS} is a small satellite standard that many universities, private companies and NASA are building to. The \ac{CDS} defines, among other things, the size of the CubeSats, a 10 cm cube, and how they interface with the launching mechanism which puts them into orbit. Because CubeSats are small and launched from a standard launcher they are easy to integrate into the extra space leftover on larger missions making launches relatively cheap and easy to come by.
 
-In recent years the number of CubeSat launches has grown significantly. CubeSats are launched by universities as well as goverment institudions like NASA and the Air Force\todo{find references} and private companies. While CubeSats may have been concieved as primarly an educational tool\todo{find reference(s)} many CubeSats do real sience\todo{find reference(s)}. 
+In recent years the number of CubeSat launches has grown significantly. CubeSats are launched by universities as well as government institutions like NASA and the Air Force\todo{find references} and private companies. CubeSats were originally envisioned as an educational tool that would have the approximate capabilities of Sputnik. While CubeSats may have been conceived as primarily an educational tool\todo{find reference(s)} many CubeSats do real science\todo{find reference(s)}.
 
-Because CubeSats are small they have limited surface area for power generation. The limited space also makes deployable panels difficult. The result is that CubeSats have to run on a limited power budget. Many science missions require a fixed or at least stable orbit. Many of the usual attitude control methods, used on larger satellites, such as reaction wheels or thrusters use to much power mass and or volume to be feasible for a CubeSat.
+Because CubeSats are small they have limited surface area for power generation. Many CubeSats do not use deployable solar panels because of the increased complexity and weight. The result is that CubeSats have to run on a limited power budget. Many CubeSat science missions require at the very least a stable attitude or a nadir pointing attitude. With the limited power and mass budgets of CubeSats the usual attitude control methods, used on larger satellites, such as reaction wheels or thrusters use to much power mass and or volume to be feasible.
 
-Many CubeSats have magnetic attitude control systems that push against the earths magnetic field. Magnetic attitude control systems are generally capable of less force then mechanical methods but are smaller and lighter making them a popular choice for many CubeSats.
+One common CubeSat attitude control method is to use the earths magnetic field. Magnetic attitude control systems are generally capable of less torque then traditional methods but are smaller and lighter making them a popular choice for many CubeSats. Because magnetic torquers produce different torque based on the angle between the torquer and the magnetic field, a completely passive system can be built. This is a popular choice for systems with low attitude control requirements as it is small, light and simple. 
 
-If the attitude requirements are not very demanding a completely passive magnetic system can be built. In a passive system a permanent magnet on the space craft forces an axis to align with the local magnetic field. Because there is little friction in space hysteresis rods must be added to the spacecraft to dampen out oscillations. The main drawback for a passive system is that there is no face of the satellite that is continually facing the earth. Having a face that constantly points in the nadir direction is useful for communications and for earth observation.
+In a passive system a permanent magnet on the space craft forces an axis to align with the local magnetic field. Because there is little friction in space, hysteresis material must be added to the spacecraft to dampen out oscillations. The hysteresis material dissipates energy in a changing magnetic field, reducing the angular velocity. The main drawback for a passive system is that there is no face of the satellite that is continually facing the earth. Having a face that constantly points in the nadir direction is useful for communications and for earth observation.
 
-If more control of the attitude is desired then active control can be used. For magnetic control this usually means that coils of wire with a soft magnetic or air core are used to produce torque. These types of torquers only produce torque if current is flowing through the coil. This puts a strain on the typical CubeSat power budget.
+Active magnetic control allows for different attitude options such as nadir pointing. Many CubeSats use air core magnetic torquers built into the solar panel \ac{PCB}. The coils are made of spiral shaped traces in one or more layers of the \ac{PCB}. To increase efficiency some CubeSats use a magnetic material as a core. In both cases torque is generated only when current is flowing through the coil. 
 
-This thesis will describe a new type of torquer that uses a hard magnetic core. The hard magnetic core acts as a permanent magnet that can be switched by pulsing a current through the core. Using this setup torque can be generated without a constant expenditure of current. This has been called the \acf{LPMT}. The \ac{LPMT} is a good fit for CubeSats because of their low power usage.
+This thesis will describe a new type of torquer that uses a hard magnetic core. The hard magnetic core acts as a permanent magnet that can be switched by pulsing a current through the core. Using this setup torque can be generated without a constant expenditure of current. This has been called the \acf{LPMT} because it can be used for active control without using as much power as traditional designs. The \ac{LPMT} is a good fit for CubeSats because of their low power usage.
 
 \section{\acl{ARC}}
 
