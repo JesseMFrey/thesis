@@ -7,6 +7,8 @@
 
 \section{CubeSat Architecture}
 
+\todo[inline]{Float section to background?}
+
 The \ac{ARC} uses the same board geometry as the CubeSat Kit\cite{CSK} hardware making it compatible with other CubeSat hardware. The \ac{ACDS} board has a slightly different shape than the standard board shape to accommodate the torquers.
 
 \subsection{Stackup}
@@ -80,7 +82,7 @@ In the idle state all of the \acp{MOSFET} are off and the torquer coils are floa
 
 Comparators are used to detect in flight if the torquers and drivers are functioning properly. One comparator is used to determine if the capacitor is charged and another is used to detect if the capacitor is discharged. The comparators are checked both before and after a torquer flip to see if the capacitor was charged before an attempted flip and discharged after. If the capacitor did not discharge then the torquer did not flip probably because of a bad connection somewhere. This information is logged in flight and can be used on the ground to analize how well the torquers are working.
 
-\todo{Need some discussion of what is done with the info but also need to figure out what should be done}
+\todo[inline]{Need some discussion of what is done with the info but also need to figure out what should be done.}
 
 
 \section{Sensors}
@@ -93,6 +95,8 @@ The magnetometers on the satellite are Honeywell HMC1052 \ac{AMR} sensors. These
 
 \subsubsection{Magnetometer Amplifier}
 
+\todo[inline]{This is mostly for my reference. Should it be here?}
+
 The \ac{SPB} also contains an amplifier to amplify the magnetometer signal before it is read by the \ac{ADC}. This allows the output voltage of the magnetometer to fill the input range of the \ac{ADC}. The required range of the magnetometer will be largely dependent on the torquer geometry and could be more then the $\pm$600 mGuass or so of earths field. The amplifier can be used to trade range for resolution depending on what is needed.
 
 The gain for the amplifier can be calculated as follows: If the maximum output range of the sensor is restricted to $\pm$ 4 gauss. With a bridge voltage of 3.3 V and a sensitivity of 1 mV/V/gauss this results in a $\pm$ 13.2 mV voltage swing. The bridge offset is $\pm$ 1.25 mV/V or $\pm$ 4.125 mV. This results in a total possible swing of $\pm$ 17.325 mV. The input voltage range of the \ac{ADC} is $\pm$ 1.65 V. This results in a gain of about 95. 
@@ -102,6 +106,8 @@ The gain for the amplifier can be calculated as follows: If the maximum output r
 Each magnetometer has its own \ac{ADC} on each \ac{SPB}. The \ac{ADC} used is the LTC2487. The LTC2487 is a 16-bit delta sigma \ac{ADC} that has two differential analog input channels and an \ac{I2C} interface. For a bridge voltage of 3.3V the HMC1052 has a sensitivity 3.3mV/Gauss. If the amplifier gain is 95 this results in a sensitivity of 0.31V/gauss. For a 3.3V reference voltage the \ac{ADC} has a resolution of $25 \mu V$ this results in a resolution of 81 $\mu$Gauss / LSB.
 
 \subsubsection{Magnetometer Operation}
+
+\todo[inline]{Background or Appendix?}
 
 The \ac{AMR} sensors are primarily sensitive to magnetic fields in their sensitive direction but they are also slightly sensitive to magnetic fields in an axis normal to the sensitive direction. The sensor is only sensitive to magnetic fields that are in the film plane, which is the plane that the \ac{AMR} film is deposited in. For the 2-axis HMC1052 this means that both sensors show some sensitivity to fields in both the X and Y axes. The cross axis effect varies from sensor to sensor \todo{Test this} so calibration values must be calculated for each sensor \cite{AN215}.
 
@@ -126,12 +132,14 @@ Because C is small and is multiplied by miligauss squared to get a really small 
     \label{eq:magcal}
 \end{equation}
 
-Because $S_s$ and D from \autoref{eq:magcross} are experimentally determined, it is easier to solve \autoref{eq:magcross} for calibration instead. In this case $V_x$ and $V_y$ are the \ac{ADC} values for the x and y axis respectively. $C_1$ and $C_2$ are the sensitivity and $C_3$ is an offset that can come from offsets in the instrumentation or from external offsets such as torquers. This makes the values that the calibration solves for directly usable to calculate magnetic field from \ac{ADC} measurements.
+Because $S_s$ and D from \autoref{eq:magcross} are experimentally determined, it is easier to solve \autoref{eq:magcal} for calibration instead. In this case $V_x$ and $V_y$ are the \ac{ADC} values for the x and y axis respectively. $C_1$ and $C_2$ are the sensitivity and $C_3$ is an offset that can come from offsets in the instrumentation or from external offsets such as torquers. This makes the values that the calibration solves for directly usable to calculate magnetic field from \ac{ADC} measurements.
 
 \subsubsection{Magnetometer Calibration}
 
 Magnetometer Calibration consists of finding the coefficients in \autoref{eq:magcal}. To do this the magnetometer is first placed inside the Helmholtz Cage. This allows the field to be set to any value. Furthermore the field can be set under Matlab control so the entire calibration process can run automatically. The calibration program sweeps the field inside the Helmholtz Cage through a predefined sequence and reads the sensor output at each point. 
 
+\vspace{2em}
+\todo[inline]{Move to background/appendix?}
 \autoref{eq:magcal} can be rearranged into matrix form as shown in \autoref{eq:magmat}. Each line in the matrix represents a separate magnetic field measurement. H is the value set by the Helmholtz cage in the sensitive axis . 
 
 \begin{equation}
