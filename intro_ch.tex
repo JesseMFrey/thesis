@@ -4,25 +4,25 @@
 
 \chapter{Introduction}
 
-This thesis describes a CubeSat attitude control system. The system uses \acfp{LPMT} which are torquers with a hard magnetic core that can be flipped by pulsing current through a coil that wraps around the core. This allows the system to achieve a nadir facing alignment while using less power than current systems. 
+This thesis describes a CubeSat attitude control system. The system uses \acfp{LPMT}, which are torquers with a hard magnetic core that can be flipped by pulsing current through a coil that wraps around the core. This allows the system to achieve a nadir facing alignment while using less power than current systems. 
 
 \section{CubeSats}
 
 Over the past few decades electronic, devices have continued to get smaller, cheaper and more powerful. This has made many things possible that were not feasible before. Recently, it has become possible for a large number of universities to build and launch their own small satellites.
 
-The \acf{CDS} is a small satellite standard that many universities, private companies and NASA have used to help them put satellites into orbit cheaper and easier than before. The \ac{CDS} defines, among other things, the size of the CubeSats, a 10 cm cube, and how they interface with the launcher. Because CubeSats are small and launched from a standard launcher, they are easy to integrate into the extra space leftover on larger missions making launches relatively cheap and easy to obtain.
+The \acf{CDS} is a small satellite standard that many universities, private companies and NASA have used to help them put satellites into orbit cheaper and easier than before. The \ac{CDS} defines, among other things, the size of the CubeSats, a 10-cm cube, and how they interface with the launcher. Because CubeSats are small and launched from a standard launcher, they are easy to integrate into the extra space leftover on larger missions making launches relatively cheap and easy to obtain.
 
-In recent years, the number of CubeSat launches has grown significantly. CubeSats are launched by universities as well as government institutions like NASA and the Air Force \todo{find references} and private companies. CubeSats were originally envisioned as an educational tool that would have the approximate capabilities of Sputnik. While CubeSats may have been conceived as primarily an educational tool \todo{find reference(s)} CubeSats have been the subject of NSF grants \cite{RAXnsf}.
+In recent years, the number of CubeSat launches has grown significantly. CubeSats are launched by universities as well as government institutions like NASA and the Air Force \todo{find references} and private companies. CubeSats were originally envisioned as an educational tool that would have the approximate capabilities of Sputnik\todo{Saw this at a CubeSat conference, find a suitable reference.}. While CubeSats may have been conceived as primarily an educational tool \todo{find reference(s)} CubeSats have been the subject of NSF grants \cite{RAXnsf}.
 
 \section{CubeSat \acs{ACDS}}
 
 Because CubeSats are small, they have limited surface area for power generation. Many CubeSats do not use deployable solar panels because of their complexity, volume and weight. The result is that CubeSats have to run on a limited power budget. Many CubeSat science missions require at the very least a stable attitude or a nadir pointing attitude. On larger satellites, reaction wheels and thrusters are often used for attitude control. For many CubeSats, the added mass, power and volume of reaction wheels and thrusters makes them not a \todo{Wording seems odd} viable option.
 
-One common CubeSat attitude control method is to use the earths magnetic field. Magnetic attitude control systems are generally capable of less torque then traditional methods but are smaller and lighter making them a popular choice for many CubeSats. Because magnetic torquers produce different torque based on the angle between the torquer and the magnetic field, a completely passive system can be built. This is a popular choice for systems that mainly need to be detumbled as it is small, light and simple. 
+One common CubeSat attitude control method is to use the earth's magnetic field. Magnetic attitude control systems are generally capable of less torque than traditional methods, but are smaller and lighter making them a popular choice for many CubeSats. Because magnetic torquers produce different torque based on the angle between the torquer and the magnetic field, a completely passive system can be built. This is a popular choice for systems that mainly need to be detumbled as it is small, light and simple. 
 
 \subsection{Passive Control}
 
-In a passive system, a permanent magnet on the spacecraft forces an axis to align with the local magnetic field. Because there is little friction in space, hysteresis material must be added to the spacecraft to dampen out oscillations. The hysteresis material dissipates energy in a changing magnetic field, reducing the angular velocity. The main drawback for a passive system is that there is no face of the satellite that is continually facing the earth. Having a face that constantly points in the nadir direction is useful for communications and for earth observation.
+In a passive system, a permanent magnet on the spacecraft forces an axis to align with the local magnetic field. Because there is little friction in space, hysteresis material must be added to the spacecraft to dampen oscillations. The hysteresis material dissipates energy in a changing magnetic field, thereby reducing the angular velocity. The main drawback for a passive system is that there is no face of the satellite that is continually facing the earth. Having a face that constantly points in the nadir direction is useful for communications and for earth observation.
 
 \subsection{Active Control}
 
@@ -30,7 +30,7 @@ Active magnetic control allows for different attitude options such as nadir poin
 
 \subsection{\acl{LPMT} control}
 
-The system described in this thesis falls some where in between passive and active systems. The \acp{LPMT} used in the design allows more control of the attitude then a passive system, yet uses less power then current active systems \todo{Find some good numbers here}. The \ac{LPMT} is a good fit for CubeSats because of its power savings.
+The system described in this thesis falls some where in between passive and active systems. The \acp{LPMT} used in the design allows more control of the attitude than a passive system, yet uses less power then current active systems\todo{Find some good numbers here}. The \ac{LPMT} is a good fit for CubeSats because of its power savings.
 
 \section{\acl{ARC}}
 
