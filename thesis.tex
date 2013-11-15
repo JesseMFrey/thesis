@@ -1,5 +1,5 @@
 % vim: set spell:
-\documentclass{uafthesis}
+\documentclass{./uafthesis}
 \usepackage{amsmath, amssymb, amsfonts} % Thanks, AMS!
 \usepackage{xfrac}
 \usepackage{graphicx, float} % Graphics stuff
@@ -25,13 +25,13 @@
 \usepackage[version=latest]{pgf}
 \usepackage{xkeyval,calc,tikz,fp}
 \usepackage{listings}
-\usepackage[textwidth=5em]{todonotes}
+\usepackage[textwidth=5em,disable]{todonotes}
 
 %include hyperref last so that it can modify some commands
 \usepackage{hyperref}
 
 %blue links good for on screen
-\hypersetup{bookmarks,colorlinks,linkcolor=blue,pdfauthor={Jesse Frey},pdfusetitle,pdfstartview=FitH}
+\hypersetup{linktoc=all,colorlinks,linkcolor=blue,pdfauthor={Jesse Frey},pdfstartview=FitH}
 %Black links good for printing
 %\hypersetup{bookmarks,colorlinks,citecolor=black,urlcolor=black,filecolor=black,linkcolor=black,pdfauthor={Jesse Frey},pdfusetitle,pdfstartview=FitH}
 
@@ -49,16 +49,27 @@
 %\newcommand{\pdfbookmark}[1]{}
 %\newcommand{\ChapterRef}[1]{\ref{#1}}
 
+
 \author{Jesse Frey}
 \title{Hardware and Software Implementation of a CubeSat Attitude Determination and Control System}
 \degreeyear{2013}
 \degreemonth{May}
 \degree{Master of Science}
-\department{Department of Electrical and Computer Engineering}
+\department{Electrical and Computer Engineering}
+%\department{Department of Electrical and Computer Engineering}
 %\department{Dept. ECE}
 \numberofmembers{3}
 \prevdegrees{B.S.}
 \college{College of Engineering and Mines}
+
+\gsdean{Dr. John Eichelberger} % the grad school dean's name 
+\colldean{Dr. Douglas Goering} % the dean of the college's name 
+\depchair{Dr. Charlie Mayer} % the department chair's name
+\commchair{Dr. Joe Hawkins} % the committee chair's name
+
+\comone{Dr. Denise Thorsen}
+\comtwo{Dr. Dejan Raskovic}
+
 \date{\today}
 
 %make committie lines longer
@@ -156,7 +167,8 @@
 
 
 \phantomsection
-\makesig
+%\maksig
+\makenamedsig
 
 \phantomsection
 \maketitle
@@ -171,13 +183,13 @@
 %\clearpage
 
 %Table of Contents and such
-\pdfbookmark[1]{Table Of Contents}{toc}
+\phantomsection
+\pdfbookmark[0]{Table Of Contents}{toc}
 \tableofcontents
 
 \clearpage
 
 \phantomsection
-\addcontentsline{toc}{section}{List of Figures}
 \listoffigures
 
 \clearpage
@@ -187,13 +199,10 @@
 
 %\clearpage
 
-%\listofothermaterials
-%\listofappendices
-
 
 \phantomsection
-\topsection{List of Acronyms}
-\addcontentsline{toc}{section}{List of Acronyms}
+\frontchap*{List of Acronyms}
+\addcontentsline{toc}{frontchapter}{List of Acronyms}
 
 \newacro{CalPoly}[Cal Poly]{California Polytechnic University}
 \begin{acronym}[MOSFET]
@@ -221,14 +230,14 @@
 
     \newacro{UAF}{University of Alaska Fairbanks}
     \acused{UAF}
-\clearpage
 
-%\begin{acknowledgements}
+%\listofothermaterials
+%\listofappendices
+
+
+\begin{acknowledgements}
     %\input{acknowledgements}
-%\end{acknowledgements}
-
-\pagenumbering{arabic}
-\setcounter{page}{1}
+\end{acknowledgements}
 
 \acresetall 
 \acused{UAF}
