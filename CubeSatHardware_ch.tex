@@ -15,20 +15,48 @@ The \ac{ARC} uses the same board geometry as the CubeSat Kit\cite{CSK} hardware 
 
 \autoref{fig:arcMech} shows the mechanical design of the \ac{ARC}. The design has a central board stack with solar pannels and rails attached to rings that are on the top and bottom of the board stack. The \ac{ACDS} board is located 3rd from the bottom of the stack. This puts it in the center of the board stack. Because the solar cells cover all of the side faces except a small strip in the center this makes the \ac{ACDS} board the only place to put access port connections. The separation switch connections are also located on the \ac{ACDS} board as the separation switch is attached to one of the torquer standoff.
 
-\begin{figure}[H]
+\begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{Figures/CubeSat-Diagram}
-    \caption{Diagram of the \ac{ARC} showing the inner board stack and solar panel boards}
+    \begin{minipage}{0.41\linewidth}
+        \begin{tikzpicture}[remember picture] 
+            \def\sysx{1.8}
+            \pgftext{\includegraphics[width=\linewidth]{cubesat-core}}
+            % define destination coordinates
+            \path (\sysx,1.76) coordinate (LEDL)
+                  (\sysx,0.85) coordinate (EPS)
+                  (2.4,0.2) coordinate (Z1tq)
+                  (-2.5,0.39) coordinate (Z2tq)
+                  (-1.28,0.1) coordinate (Xtq)
+                  (\sysx,-0.27)  coordinate (ACDS)
+                  (\sysx,-0.96)  coordinate (COMM)
+                  (\sysx,-1.55)  coordinate (IMG);
+        \end{tikzpicture}
+    \end{minipage}\begin{minipage}{0.22\linewidth}
+        \begin{itemize}
+            \itemsep-0.3em
+            \item[\kern-2em] \tikz[na] \coordinate (LEDLi); LEDL
+            \item[\kern-2em] \tikz[na] \coordinate (EPSi); EPS
+            \item[\kern-2em] \tikz[na] \coordinate (Ztqi); Z Torquer
+            \item[\kern-2em] \tikz[na] \coordinate (Xtqi); X Torquer
+            \item[\kern-2em] \tikz[na] \coordinate (ACDSi); ACDS board
+            \item[\kern-2em] \tikz[na] \coordinate (COMMi); COMM
+            \item[\kern-2em] \tikz[na] \coordinate (IMGi); IMG
+        \end{itemize}
+    \end{minipage}
+
+    \begin{tikzpicture}[overlay,remember picture]
+            \path[->,red,very thick] (LEDLi) edge (LEDL);
+            \path[->,red,very thick] (EPSi) edge (EPS);
+            \path[->,red,very thick] (Ztqi) edge (Z1tq);
+            \path[->,red,very thick] (Ztqi) edge (Z2tq);
+            \path[->,red,very thick] (Xtqi) edge (Xtq);
+            \path[->,red,very thick] (ACDSi) edge (ACDS);
+            \path[->,red,very thick] (COMMi) edge (COMM);
+            \path[->,red,very thick] (IMGi) edge (IMG);
+    \end{tikzpicture}
+    \caption{The \acs{ARC} mechanical setup}
     \label{fig:arcMech}
 \end{figure}
-
-\begin{comment}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{Figures/cubesat-core}
-    \caption{Core Board Stack of the \ac{ARC}}
-\end{figure}
-\end{comment}
 
 \subsection{Mechanical Considerations}
 In addition to the \ac{ACDS} hardware the \ac{ACDS} board also contains the pull pin and USB connection. This is located on the \ac{ACDS} board because it is the only board that can connect to the access port. The pull pin and USB connection connect directly to the header and are not connected to the core \ac{ACDS} hardware. 
