@@ -13,7 +13,7 @@ The \ac{ARC} uses the same board geometry as the CubeSat Kit\cite{CSK} hardware 
 
 \subsection{Stackup}
 
-\autoref{fig:arcMech} shows the mechanical design of the \ac{ARC}. The design has a central board stack with solar pannels and rails attached to rings that are on the top and bottom of the board stack. The \ac{ACDS} board is located 3rd from the bottom of the stack. This puts it in the center of the board stack. Because the solar cells cover all of the side faces except a small strip in the center this makes the \ac{ACDS} board the only place to put access port connections. The separation switch connections are also located on the \ac{ACDS} board as the separation switch is attached to one of the torquer standoff.
+\Cref{fig:arcMech} shows the mechanical design of the \ac{ARC}. The design has a central board stack with solar pannels and rails attached to rings that are on the top and bottom of the board stack. The \ac{ACDS} board is located 3rd from the bottom of the stack. This puts it in the center of the board stack. Because the solar cells cover all of the side faces except a small strip in the center this makes the \ac{ACDS} board the only place to put access port connections. The separation switch connections are also located on the \ac{ACDS} board as the separation switch is attached to one of the torquer standoff.
 
 \begin{figure}[!ht]
     \centering
@@ -61,7 +61,7 @@ The \ac{ARC} uses the same board geometry as the CubeSat Kit\cite{CSK} hardware 
 \subsection{Mechanical Considerations}
 In addition to the \ac{ACDS} hardware the \ac{ACDS} board also contains the pull pin and USB connection. This is located on the \ac{ACDS} board because it is the only board that can connect to the access port. The pull pin and USB connection connect directly to the header and are not connected to the core \ac{ACDS} hardware. 
 
-The Z-axis torquers are housed inside the standoffs which are located on the four corners of the board. To accommodate the torquers notches are cut out of the \ac{ACDS} board. This is visible in \autoref{fig:layout}. The notches are designed to fit the torque standoffs and help keep them in the proper orientation. The torquers fit into a hole drilled into the standoffs and are healed in place with epoxy. 
+The Z-axis torquers are housed inside the standoffs which are located on the four corners of the board. To accommodate the torquers notches are cut out of the \ac{ACDS} board. This is visible in \cref{fig:layout}. The notches are designed to fit the torque standoffs and help keep them in the proper orientation. The torquers fit into a hole drilled into the standoffs and are healed in place with epoxy. 
 
 
 \subsection{Bus Communication}
@@ -95,7 +95,7 @@ The torque coils are the same for both the large and small torquers. The coils c
 
 \subsection{Drivers}
 
-The schematic to drive a pair of torquers is shown in \autoref{fig:drive}. Each pair of torquers is driven by three complimentary pairs of \acp{MOSFET}.  The \acp{MOSFET} are driven by three pairs of \ac{MOSFET} drivers which are controlled by the \ac{ACDS} microcontroller.
+The schematic to drive a pair of torquers is shown in \cref{fig:drive}. Each pair of torquers is driven by three complimentary pairs of \acp{MOSFET}.  The \acp{MOSFET} are driven by three pairs of \ac{MOSFET} drivers which are controlled by the \ac{ACDS} microcontroller.
 
 In the idle state all of the \acp{MOSFET} are off and the torquer coils are floating. This prevents changing magnetic fields in the torquers causing current to flow in them. To flip a torquer one end of the torquer is shorted to ground using one of the N-Channel \acp{MOSFET} and the other end is shorted to C1 using one of the P-Channel \acp{MOSFET}. After a short delay the \acp{MOSFET} are switched off and C1 begins to recharge.
 
@@ -139,36 +139,36 @@ Each magnetometer has its own \ac{ADC} on each \ac{SPB}. The \ac{ADC} used is th
 
 The \ac{AMR} sensors are primarily sensitive to magnetic fields in their sensitive direction but they are also slightly sensitive to magnetic fields in an axis normal to the sensitive direction. The sensor is only sensitive to magnetic fields that are in the film plane, which is the plane that the \ac{AMR} film is deposited in. For the 2-axis HMC1052 this means that both sensors show some sensitivity to fields in both the X and Y axes. The cross axis effect varies from sensor to sensor \todo{Test this} so calibration values must be calculated for each sensor \cite{AN215}.
 
-\autoref{eq:magfull} shows the full equation for the magnetometer. $V_b$ is the bridge voltage that is applied to the sensor. $S_s$ is the sensitivity in the sensitive direction. C and D are the cross field sensitivity and offset values \cite{AN215}.
+\Cref{eq:magfull} shows the full equation for the magnetometer. $V_b$ is the bridge voltage that is applied to the sensor. $S_s$ is the sensitivity in the sensitive direction. C and D are the cross field sensitivity and offset values \cite{AN215}.
 
 \begin{equation}
     V_o = V_b \left( \left( S_s \left( 1 + C \cdot H_c^2 \right) H_s \right) + D \cdot H_c \right)
     \label{eq:magfull}
 \end{equation}
 
-Because C is small and is multiplied by miligauss squared to get a really small number, it is ignored for the purposes of calibration which results in the simpler \autoref{eq:magcross}.
+Because C is small and is multiplied by miligauss squared to get a really small number, it is ignored for the purposes of calibration which results in the simpler \cref{eq:magcross}.
 
 \begin{equation}
     V_o = V_b \left( \left( S_s H_s \right) + D \cdot H_c \right)
     \label{eq:magcross}
 \end{equation}
 
-\autoref{eq:magcross} is useful to determine the voltage that would be produced for a given magnetic field condition, but not terribly useful if the sensor voltages are known but the fields are not. Furthermore the \ac{ADC} reference voltage will be the same as $V_b$ so knowing the bridge voltage is unnecessary\todo[prepend, caption={Elaborate Here?}]{Seems more or less obvious to me and somewhat cumbersome to fully explain}. 
+\Cref{eq:magcross} is useful to determine the voltage that would be produced for a given magnetic field condition, but not terribly useful if the sensor voltages are known but the fields are not. Furthermore the \ac{ADC} reference voltage will be the same as $V_b$ so knowing the bridge voltage is unnecessary\todo[prepend, caption={Elaborate Here?}]{Seems more or less obvious to me and somewhat cumbersome to fully explain}. 
  
 \begin{equation}
     H = C_1 \cdot V_x + C_2 \cdot V_y + C_3
     \label{eq:magcal}
 \end{equation}
 
-Because $S_s$ and D from \autoref{eq:magcross} are experimentally determined, it is easier to solve \autoref{eq:magcal} for calibration instead. In this case $V_x$ and $V_y$ are the \ac{ADC} values for the x and y axis respectively. $C_1$ and $C_2$ are the sensitivity and $C_3$ is an offset that can come from offsets in the instrumentation or from external offsets such as torquers. This makes the values that the calibration solves for directly usable to calculate magnetic field from \ac{ADC} measurements.
+Because $S_s$ and D from \cref{eq:magcross} are experimentally determined, it is easier to solve \cref{eq:magcal} for calibration instead. In this case $V_x$ and $V_y$ are the \ac{ADC} values for the x and y axis respectively. $C_1$ and $C_2$ are the sensitivity and $C_3$ is an offset that can come from offsets in the instrumentation or from external offsets such as torquers. This makes the values that the calibration solves for directly usable to calculate magnetic field from \ac{ADC} measurements.
 
 \subsubsection{Magnetometer Calibration}
 
-Magnetometer Calibration consists of finding the coefficients in \autoref{eq:magcal}. To do this the magnetometer is first placed inside the Helmholtz Cage. This allows the field to be set to any value. Furthermore the field can be set under Matlab control so the entire calibration process can run automatically. The calibration program sweeps the field inside the Helmholtz Cage through a predefined sequence and reads the sensor output at each point. 
+Magnetometer Calibration consists of finding the coefficients in \cref{eq:magcal}. To do this the magnetometer is first placed inside the Helmholtz Cage. This allows the field to be set to any value. Furthermore the field can be set under Matlab control so the entire calibration process can run automatically. The calibration program sweeps the field inside the Helmholtz Cage through a predefined sequence and reads the sensor output at each point. 
 
 \vspace{2em}
 \todo[inline]{Move to background/appendix?}
-\autoref{eq:magcal} can be rearranged into matrix form as shown in \autoref{eq:magmat}. Each line in the matrix represents a separate magnetic field measurement. H is the value set by the Helmholtz cage in the sensitive axis . 
+\Cref{eq:magcal} can be rearranged into matrix form as shown in \cref{eq:magmat}. Each line in the matrix represents a separate magnetic field measurement. H is the value set by the Helmholtz cage in the sensitive axis . 
 
 \begin{equation}
     \vect{b}=\matt{A} \vect{x} \quad
@@ -193,7 +193,7 @@ Magnetometer Calibration consists of finding the coefficients in \autoref{eq:mag
     \label{eq:magmat}
 \end{equation}
 
-To calculate the calibration values \autoref{eq:magmat} must be solved for $\vect{x}$. In order to get a better calibration value many measurements are taken resulting in an overdetermined system. To solve this system the least squares method is used as shown in \autoref{eq:maglstsq}.
+To calculate the calibration values \cref{eq:magmat} must be solved for $\vect{x}$. In order to get a better calibration value many measurements are taken resulting in an overdetermined system. To solve this system the least squares method is used as shown in \cref{eq:maglstsq}.
 
 \begin{equation}
     \hat{\vect{x}} = \left(\matt{A} \transpose \matt{A} \right) ^ {-1} \matt{A} \transpose \vect{b}
@@ -221,7 +221,7 @@ For flight data storage a SD card is used. This is necessary because of the need
 
 \section{Board Layout}
 
-\autoref{fig:3dview} shows the \ac{ACDS} system. The X and Y axis torquers are shown on the board as well as the pull pin and header. The header and pull pin locations are more or less fixed which doesn't leave much wiggle room for where to place the torquers.
+\Cref{fig:3dview} shows the \ac{ACDS} system. The X and Y axis torquers are shown on the board as well as the pull pin and header. The header and pull pin locations are more or less fixed which doesn't leave much wiggle room for where to place the torquers.
 
 \begin{figure}[H]
     \centering
@@ -239,7 +239,7 @@ For flight data storage a SD card is used. This is necessary because of the need
 \end{comment}
 
 
-The \ac{ACDS} board is a four layer board with the inner layers as power and ground planes. \autoref{fig:layout} shows the \ac{PCB} layout for the \ac{ACDS} board. The circuitry is very repetitive and this was used when the board was laid out. A quick switching time is desired and moderate currents are involved, the lines to and from the \acp{MOSFET} were kept as short as possible. The power plane is split so that there is a 3.3V plane underneath the MSP430 and a $V_{batt}$ plane elsewhere.
+The \ac{ACDS} board is a four layer board with the inner layers as power and ground planes. \Cref{fig:layout} shows the \ac{PCB} layout for the \ac{ACDS} board. The circuitry is very repetitive and this was used when the board was laid out. A quick switching time is desired and moderate currents are involved, the lines to and from the \acp{MOSFET} were kept as short as possible. The power plane is split so that there is a 3.3V plane underneath the MSP430 and a $V_{batt}$ plane elsewhere.
 
 \begin{figure}[H]
     \centering

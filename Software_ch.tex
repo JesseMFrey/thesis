@@ -77,7 +77,7 @@
 
 \section{System Operations Overview}
 
-\autoref{fig:sysopflow} shows the system operations flow. The code starts running after the separation switch is switched and the power system applies power to all systems. Before starting any operations the \ac{ACDS} waits for the on command from the \ac{CDH} board. After the \ac{ACDS} board receives the on command the \ac{ACDS} sends a command to the \ac{LEDL} board to tell it to start taking sensor data. Once sensor data is received the \ac{ACDS} starts to run the detumble algorithm. The Kalman filter needs to know the location of the satellite for it to operate properly so orbital elements must be uploaded before the Kalman filter can start running. Once the Kalman filter knows the location of the satellite it still needs some time to converge to a solution. During this time the \ac{ACDS} remains in detumble mode even if the rates have slowed enoughs to exit. Once the Kalman filter is locked and the rates have sufficiently slowed the \ac{ACDS} switches into mode 2. Mode two is run for a set number \todo{figure out how many and put the number here} of orbits (measured by timing). After mode 2 is complete Mode 3 starts. The \ac{ACDS} remains in mode 3 indefinably unless one of undesirable conditions is detected, see \cite{Mentch11} for details, which causes the \ac{ACDS} to attempt to kick the satellite out of the undesirable alignment and then re-stabilize by transitioning back to mode 2.
+\Cref{fig:sysopflow} shows the system operations flow. The code starts running after the separation switch is switched and the power system applies power to all systems. Before starting any operations the \ac{ACDS} waits for the on command from the \ac{CDH} board. After the \ac{ACDS} board receives the on command the \ac{ACDS} sends a command to the \ac{LEDL} board to tell it to start taking sensor data. Once sensor data is received the \ac{ACDS} starts to run the detumble algorithm. The Kalman filter needs to know the location of the satellite for it to operate properly so orbital elements must be uploaded before the Kalman filter can start running. Once the Kalman filter knows the location of the satellite it still needs some time to converge to a solution. During this time the \ac{ACDS} remains in detumble mode even if the rates have slowed enoughs to exit. Once the Kalman filter is locked and the rates have sufficiently slowed the \ac{ACDS} switches into mode 2. Mode two is run for a set number \todo{figure out how many and put the number here} of orbits (measured by timing). After mode 2 is complete Mode 3 starts. The \ac{ACDS} remains in mode 3 indefinably unless one of undesirable conditions is detected, see \cite{Mentch11} for details, which causes the \ac{ACDS} to attempt to kick the satellite out of the undesirable alignment and then re-stabilize by transitioning back to mode 2.
 
 \begin{figure}[H]
     \centering
@@ -128,7 +128,7 @@
 
 \subsection{Deviations From the flow}
 
-The flow case the flow from \autoref{fig:sysopflow} can be disrupted. This can happen due to commands from the ground station or if the gyros detect that the sattelite is rotating too fast. The ground station can force the \ac{ACDS} into any mode and ether let it go with the normal flow or stay in a particular mode. This allows for recovery in case the system does not function as expected.
+The flow case the flow from \cref{fig:sysopflow} can be disrupted. This can happen due to commands from the ground station or if the gyros detect that the sattelite is rotating too fast. The ground station can force the \ac{ACDS} into any mode and ether let it go with the normal flow or stay in a particular mode. This allows for recovery in case the system does not function as expected.
 
 If the gyros detect that the satellite is rotating too fast then they will automatically send the \ac{ACDS} into a safe mode where the \ac{ACDS} does not run. It is possible that the \ac{ACDS} could get into a situation where the algorithm speeds up the rotation instead of slowing it down. In this situation the best thing to do is for the \ac{ACDS} to stop and wait for further intervention from the ground.
 
@@ -150,7 +150,7 @@ If the gyros detect that the satellite is rotating too fast then they will autom
 
 \subsection{Data Logging}
 
-During \ac{ACDS} operations data is collected during flight. This data is stored in nonvolatile memory and can be recalled and transmitted to the ground in order to evaluate the \ac{ACDS} system performance. The data that is recorded is shown in \autoref{tab:logdat}
+During \ac{ACDS} operations data is collected during flight. This data is stored in nonvolatile memory and can be recalled and transmitted to the ground in order to evaluate the \ac{ACDS} system performance. The data that is recorded is shown in \cref{tab:logdat}
 
 \begin{comment}
 \begin{itemize}
@@ -204,7 +204,7 @@ Because the downlink data speed is limited, it is necessary to reduce the data t
 
 \subsection{Beacon Data}
 
-The beacon data is transmitted at a fixed rate and provides information about the present state of the satellite. The beacon data could be the only data that is available to diagnose the system. The beacon data must contain enough data to be useful but not so much data that the beacon packets are too big. The beacon data should include raw sensor information as well as information on torquer status. The beacon data from the \ac{ACDS} is shown in \autoref{tab:beacondat}
+The beacon data is transmitted at a fixed rate and provides information about the present state of the satellite. The beacon data could be the only data that is available to diagnose the system. The beacon data must contain enough data to be useful but not so much data that the beacon packets are too big. The beacon data should include raw sensor information as well as information on torquer status. The beacon data from the \ac{ACDS} is shown in \cref{tab:beacondat}
 
 \begin{comment}
 \begin{itemize}
@@ -250,7 +250,7 @@ The beacon data is transmitted at a fixed rate and provides information about th
 
 \section{Algorithm Software}
 
-\autoref{fig:swblock} shows the overall software block diagram for the \ac{ACDS} system. Field measurements from the magnetometer are calibrated using the current torquer state and a table of field measurements at different torquer states. The calibrated readings are used to calculate rotation rate and latitude which a long with the field readings are used to calculate the torque that should be applied to the satellite. The torque is then quantized based on \autoref{fig:lpmtq}. The torquers to flip are chosen based current knowledge of torquer stated as well as the desired torque.
+\Cref{fig:swblock} shows the overall software block diagram for the \ac{ACDS} system. Field measurements from the magnetometer are calibrated using the current torquer state and a table of field measurements at different torquer states. The calibrated readings are used to calculate rotation rate and latitude which a long with the field readings are used to calculate the torque that should be applied to the satellite. The torque is then quantized based on \cref{fig:lpmtq}. The torquers to flip are chosen based current knowledge of torquer stated as well as the desired torque.
 
 \begin{figure}[H]
     \centering
@@ -303,7 +303,7 @@ The beacon data is transmitted at a fixed rate and provides information about th
 \subsection{Mode 1}
 
 \begin{comment}
-\autoref{fig:mode1} shows the Mode 1 torque algorithm block diagram. In Mode 1 the required torque is simply calculated using rotation rates and field measurements with \autoref{eqn:crossl}. This is also sometimes referred to as the detumble phase because the tumbling motion of the satellite is slowed down to a rate that makes it easier to get into the proper alignment.
+\Cref{fig:mode1} shows the Mode 1 torque algorithm block diagram. In Mode 1 the required torque is simply calculated using rotation rates and field measurements with \cref{eqn:crossl}. This is also sometimes referred to as the detumble phase because the tumbling motion of the satellite is slowed down to a rate that makes it easier to get into the proper alignment.
 
 \begin{figure}[H]
     \centering
@@ -326,7 +326,7 @@ The beacon data is transmitted at a fixed rate and provides information about th
 \end{figure}
 \end{comment}
 
-\autoref{fig:mode1} shows the Mode 1 torque algorithm block diagram. In Mode 1 the required torque is calculated using the derivative of the magnetic field. This is a method that is widely used on other CubeSats \todo{Find some B-dot reference(s)} that have magnetic \ac{ACDS}. In this mode the magnetic dipole moment is simply set to a value that is proportional to the derivative of the magnetic field. Because the knowledge of the rotation rates is not needed for Mode 1, detumble can start before the Kalman filter has locked.
+\Cref{fig:mode1} shows the Mode 1 torque algorithm block diagram. In Mode 1 the required torque is calculated using the derivative of the magnetic field. This is a method that is widely used on other CubeSats \todo{Find some B-dot reference(s)} that have magnetic \ac{ACDS}. In this mode the magnetic dipole moment is simply set to a value that is proportional to the derivative of the magnetic field. Because the knowledge of the rotation rates is not needed for Mode 1, detumble can start before the Kalman filter has locked.
 
 \begin{figure}[H]
     \centering
@@ -347,7 +347,7 @@ The beacon data is transmitted at a fixed rate and provides information about th
 \end{figure}
 \subsection{Mode 2}
 
-\autoref{fig:mode2} shows the Mode 2 torque algorithm block diagram. Torque is calculated the same way as in Mode 1 but this time a bias is added depending on which region of the orbit the satellite is in. The bias tends to cause the satellite to rotate. This causes the algorithm to cancel out the bias. This is prevented by preventing the resulting dipole moment from being in the opposite direction as the bias. Outside of the bias regions the torquers are set to produce no torque.
+\Cref{fig:mode2} shows the Mode 2 torque algorithm block diagram. Torque is calculated the same way as in Mode 1 but this time a bias is added depending on which region of the orbit the satellite is in. The bias tends to cause the satellite to rotate. This causes the algorithm to cancel out the bias. This is prevented by preventing the resulting dipole moment from being in the opposite direction as the bias. Outside of the bias regions the torquers are set to produce no torque.
 
 \begin{figure}[H]
     \centering
@@ -381,7 +381,7 @@ The beacon data is transmitted at a fixed rate and provides information about th
 
 \subsection{Mode 3}
 
-\autoref{fig:mode3} shows the Mode 3 torque algorithm block diagram. This is similar to Mode 2 except only the north pole bias window is used and outside the bias window torque is generated to slow rotation rates.
+\Cref{fig:mode3} shows the Mode 3 torque algorithm block diagram. This is similar to Mode 2 except only the north pole bias window is used and outside the bias window torque is generated to slow rotation rates.
 
 \begin{figure}[H]
     \centering
@@ -418,7 +418,7 @@ Mode switching on \ac{ARC} will be time based. The original simulation used the 
 \begin{comment}
 \subsection{Bias Window Determination}
 
-\autoref{fig:biaswin} shows how the bias window determination will work. To determine where \ac{ARC} is within the orbit, peaks are found in the magnitude of the magnetic field. The field magnitude is used because it is independent of attitude. The magnitude of the field is greatest at the south pole but the magnetic north pole is located closer to the geographic north pole so it's peaks are more consistent. South pole peaks are filtered out first by eliminating peaks that are ether too high or too low to be a north pole peak. Peaks are further filtered by tracking the timing of past peaks and rejecting peaks that happen too soon. If a second peak is detected very soon after a north pole peak then it is assumed to be a double peak and the average peak time is taken. After the north poles are found the orbital period can be determined and orbital progress can be tracked. The current bias window is determined using the current orbital progress and a lookup table. In case the automatic orbit tracking does not work properly it is possible to upload timing parameters for the orbit tracking to use instead.
+\Cref{fig:biaswin} shows how the bias window determination will work. To determine where \ac{ARC} is within the orbit, peaks are found in the magnitude of the magnetic field. The field magnitude is used because it is independent of attitude. The magnitude of the field is greatest at the south pole but the magnetic north pole is located closer to the geographic north pole so it's peaks are more consistent. South pole peaks are filtered out first by eliminating peaks that are ether too high or too low to be a north pole peak. Peaks are further filtered by tracking the timing of past peaks and rejecting peaks that happen too soon. If a second peak is detected very soon after a north pole peak then it is assumed to be a double peak and the average peak time is taken. After the north poles are found the orbital period can be determined and orbital progress can be tracked. The current bias window is determined using the current orbital progress and a lookup table. In case the automatic orbit tracking does not work properly it is possible to upload timing parameters for the orbit tracking to use instead.
 
 \begin{figure}[H]
     \centering
@@ -456,7 +456,7 @@ Mode switching on \ac{ARC} will be time based. The original simulation used the 
 \begin{comment}
 \subsection{Rotation Rate Calculations}
 
-The rotation rate is calculated using the magnetic field measurements. \autoref{eqn:magrate} shows how to calculate the rotation rate using magnetic field measurements. In \autoref{eqn:magrate} $\dot{\vec{B}}$ is calculated using there magnetic field measurements and the central difference formula as suggested in \cite{Mentch11}.
+The rotation rate is calculated using the magnetic field measurements. \Cref{eqn:magrate} shows how to calculate the rotation rate using magnetic field measurements. In \cref{eqn:magrate} $\dot{\vec{B}}$ is calculated using there magnetic field measurements and the central difference formula as suggested in \cite{Mentch11}.
 
 \begin{equation}
     %TODO: add dot over B
@@ -504,7 +504,7 @@ Because the torquer offsets depend on the geometry of the torquers and magnetome
 
 \subsubsection{Calibration Testing}
 
-To test how well the calibration functions a testing script was written. \autoref{fig:tcalTst} shows a plot from the test script. To run the test script the fully integrated satellite is placed in the Helmholtz cage. The script sweeps the magnetic field of the Helmholtz cage through a predefined field sequence taking magnetic field readings at each step. At fixed intervals the satellite is told to flip a random torquer in each axis in a random direction. The previously defined correction data for the torquers is used to compute what the external field is. For comparison the readings are also plotted with just the scale factor correction. The difference in readings is very apparent as can be seen in \autoref{fig:tcalTst}.
+To test how well the calibration functions a testing script was written. \Cref{fig:tcalTst} shows a plot from the test script. To run the test script the fully integrated satellite is placed in the Helmholtz cage. The script sweeps the magnetic field of the Helmholtz cage through a predefined field sequence taking magnetic field readings at each step. At fixed intervals the satellite is told to flip a random torquer in each axis in a random direction. The previously defined correction data for the torquers is used to compute what the external field is. For comparison the readings are also plotted with just the scale factor correction. The difference in readings is very apparent as can be seen in \cref{fig:tcalTst}.
 
 
 \begin{figure}[H]
