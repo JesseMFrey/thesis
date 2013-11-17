@@ -134,33 +134,46 @@ The gain for the amplifier can be calculated as follows: If the maximum output r
 Each magnetometer has its own \ac{ADC} on each \ac{SPB}. The \ac{ADC} used is the LTC2487. The LTC2487 is a 16-bit delta sigma \ac{ADC} that has two differential analog input channels and an \ac{I2C} interface. For a bridge voltage of 3.3V the HMC1052 has a sensitivity 3.3mV/Gauss. If the amplifier gain is 95 this results in a sensitivity of 0.31V/gauss. For a 3.3V reference voltage the \ac{ADC} has a resolution of $25 \mu V$ this results in a resolution of 81 $\mu$Gauss / LSB.
 
 \subsubsection{Magnetometer Operation}
+%\subsection{\acs{AMR} Background}
 
-\todo[inline]{Background or Appendix?}
+The HMC1052 sensors used on the \ac{ACDS} are \ac{AMR} sensors. They work by having a bridge with 4 elements that all change resistance with the applied magnetic field. The \ac{AMR} sensors are primarily sensitive to magnetic fields in their sensitive direction, ($H_s$), but they are also slightly sensitive to magnetic fields in an axis normal to the sensitive direction, ($H_C$), called the cross axis. The sensor is only sensitive to magnetic fields that are in the film plane of the \ac{AMR} sensor. For the 2-axis HMC1052 this means that both sensors show some sensitivity to fields in both the X and Y axes. The cross axis effect varies from sensor to sensor \todo[disable]{Test this} so calibration values must be calculated for each sensor \cite{AN215}.
 
-The \ac{AMR} sensors are primarily sensitive to magnetic fields in their sensitive direction but they are also slightly sensitive to magnetic fields in an axis normal to the sensitive direction. The sensor is only sensitive to magnetic fields that are in the film plane, which is the plane that the \ac{AMR} film is deposited in. For the 2-axis HMC1052 this means that both sensors show some sensitivity to fields in both the X and Y axes. The cross axis effect varies from sensor to sensor \todo{Test this} so calibration values must be calculated for each sensor \cite{AN215}.
-
-\Cref{eq:magfull} shows the full equation for the magnetometer. $V_b$ is the bridge voltage that is applied to the sensor. $S_s$ is the sensitivity in the sensitive direction. C and D are the cross field sensitivity and offset values \cite{AN215}.
-
-\begin{equation}
-    V_o = V_b \left( \left( S_s \left( 1 + C \cdot H_c^2 \right) H_s \right) + D \cdot H_c \right)
-    \label{eq:magfull}
-\end{equation}
-
-Because C is small and is multiplied by miligauss squared to get a really small number, it is ignored for the purposes of calibration which results in the simpler \cref{eq:magcross}.
+\Cref{eq:magcross} shows the simplified equation for the magnetometer as described in \cite{AN215}. $V_b$ is the bridge voltage that is applied to the sensor. $S_s$ is the sensitivity in the sensitive direction. D is the cross field sensitivity offset. The HMC1052 datasheet\cite{HMC1052} mentions that the sensors have a bridge offset. The bridge offset is the sensor output when zero field is applied to the sensor and can be a large as \textpm1.25 Gauss. The bridge represented by $V_{os}$ in \cref{eq:magcross}.
 
 \begin{equation}
-    V_o = V_b \left( \left( S_s H_s \right) + D \cdot H_c \right)
+    V_s = V_b \left(S_s H_s + D \cdot H_c + V_{os} \right)
     \label{eq:magcross}
 \end{equation}
-
-\Cref{eq:magcross} is useful to determine the voltage that would be produced for a given magnetic field condition, but not terribly useful if the sensor voltages are known but the fields are not. Furthermore the \ac{ADC} reference voltage will be the same as $V_b$ so knowing the bridge voltage is unnecessary\todo[prepend, caption={Elaborate Here?}]{Seems more or less obvious to me and somewhat cumbersome to fully explain}. 
  
+The bridge voltages are measured using an \ac{ADC} that uses the bridge voltage as its reference. To take this into account and simplify the equations, the following substitution is made:
 \begin{equation}
-    H = C_1 \cdot V_x + C_2 \cdot V_y + C_3
-    \label{eq:magcal}
+    V_s'=\frac{V_s}{V_b}
+    \label{eq:adcsub}
 \end{equation}
 
-Because $S_s$ and D from \cref{eq:magcross} are experimentally determined, it is easier to solve \cref{eq:magcal} for calibration instead. In this case $V_x$ and $V_y$ are the \ac{ADC} values for the x and y axis respectively. $C_1$ and $C_2$ are the sensitivity and $C_3$ is an offset that can come from offsets in the instrumentation or from external offsets such as torquers. This makes the values that the calibration solves for directly usable to calculate magnetic field from \ac{ADC} measurements.
+\Cref{eq:magcross} is useful to determine the voltage that would be produced for a given magnetic field condition, but not if the sensor voltages are known but the fields are not.
+
+Because the calculated field in the sensitive direction also depends on the field in the cross axis direction, \cref{eq:magcross} was duplicated for the cross field sensor voltage and both equations were solved simultaneously. This resulted in twice as many constants as \cref{eq:magcross}. The voltages $V_s'$ and $V_c'$ are the normalized \ac{ADC} voltages in the sensitive and cross axis respectively. Each of the constants from \cref{eq:magcross} has similar duplicate forms that comes from the extra equation that was used to solve for $H_s$. To distinguish the constants additional subscripts have been added. \Cref{eq:magsolved} shows \cref{eq:magcross} solved for the unknown quantity, $H_s$.
+
+\begin{equation}
+    \begin{split}
+    H_s = & \frac{V'_s }{{S_s}_s - \frac{D_s \cdot D_c}{{S_s}_c}} - \frac{D_s \cdot  V'_c }{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c}\\
+    & {}- \frac{{S_s}_c \cdot {V_{os}}_s  -D_s \cdot {V_{os}}_c}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c}
+    \end{split}
+    \label{eq:magsolved} 
+\end{equation}
+
+\Cref{eq:magsolved} can be used to calculate the magnetic field from measured voltages, but the relationship between the constants is complex. To simplify \cref{eq:magsolved} the constants can be consolidated to get \cref{eq:magcal}.
+
+\begin{equation}
+    \label{eq:magcal}
+    \begin{split}
+        H_s &= C_1 \cdot V_s' + C_2 \cdot V_c' + C_3\\
+        H_c &= C_4 \cdot V_s' + C_5 \cdot V_c' + C_6
+    \end{split}
+\end{equation}
+
+In this case $V_s'$ and $V_c'$ are the \ac{ADC} values for the cross and sensitive axes, respectively. $C_1$, $C_2$, $C_4$, and $C_5$ are the sensitivity in the sensitive and cross directions and $C_3$ and $C_6$ correct for the bridge offset of the sensor and also compensates for external offsets. These offset values are used to correct for the torquer offsets.
 
 \subsubsection{Magnetometer Calibration}
 
