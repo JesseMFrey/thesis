@@ -24,21 +24,24 @@ The \ac{ARC} uses the same board geometry as the CubeSat Kit\cite{CSK} hardware 
             % define destination coordinates
             \path (\sysx,1.76) coordinate (LEDL)
                   (\sysx,0.85) coordinate (EPS)
-                  (2.4,0.2) coordinate (Z1tq)
+                  (2.5,0.4) coordinate (Z1tq)
                   (-2.5,0.39) coordinate (Z2tq)
                   (-1.28,0.1) coordinate (Xtq)
                   (\sysx,-0.27)  coordinate (ACDS)
+                  (2.7,-0.72)  coordinate (sep)
                   (\sysx,-0.96)  coordinate (COMM)
                   (\sysx,-1.55)  coordinate (IMG);
         \end{tikzpicture}
-    \end{minipage}\begin{minipage}{0.22\linewidth}
+    \end{minipage}\begin{minipage}{0.32\linewidth}
         \begin{itemize}
-            \itemsep-0.3em
+            \itemsep-0.7em
             \item[\kern-2em] \tikz[na] \coordinate (LEDLi); LEDL
             \item[\kern-2em] \tikz[na] \coordinate (EPSi); EPS
             \item[\kern-2em] \tikz[na] \coordinate (Ztqi); Z Torquer
             \item[\kern-2em] \tikz[na] \coordinate (Xtqi); X Torquer
             \item[\kern-2em] \tikz[na] \coordinate (ACDSi); ACDS board
+            \item[\kern-2em] \tikz[na] \coordinate (sepi); Separation switch
+            %\item[\kern-2em] \tikz[na] \coordinate (ppi); Pull Pin
             \item[\kern-2em] \tikz[na] \coordinate (COMMi); COMM
             \item[\kern-2em] \tikz[na] \coordinate (IMGi); IMG
         \end{itemize}
@@ -51,6 +54,7 @@ The \ac{ARC} uses the same board geometry as the CubeSat Kit\cite{CSK} hardware 
             \path[->,red,very thick] (Ztqi) edge (Z2tq);
             \path[->,red,very thick] (Xtqi) edge (Xtq);
             \path[->,red,very thick] (ACDSi) edge (ACDS);
+            \path[->,red,very thick] (sepi) edge (sep);
             \path[->,red,very thick] (COMMi) edge (COMM);
             \path[->,red,very thick] (IMGi) edge (IMG);
     \end{tikzpicture}
