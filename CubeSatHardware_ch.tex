@@ -121,6 +121,45 @@ The only sensor called out in \cite{Mentch11} was a magnetometer. The accuracy o
 
 The magnetometers on the satellite are Honeywell HMC1052 \ac{AMR} sensors. These sensors use \ac{AMR} elements in a bridge configuration to measure the field in each axis. The HMC1052 is a 2-axis sensor that measures the field in the axis that are parallel to the board that it is mounted on (X and Y). Each face of \ac{ARC} will have a single HMC1052 giving a total of 4 measurements in each axis.
 
+\begin{figure}[!ht]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \begin{tikzpicture}[remember picture] 
+            \def\sysx{1.8}
+            \pgftext{\includegraphics[width=\linewidth]{SPB}}
+            \path (1.30,1.62) coordinate (MAG)
+                  (-0.64,1.62) coordinate (ADC)
+                  (-0.65,1.12) coordinate (AMP)
+                  (1.48,0.18) coordinate (ACC)
+                  (00.68,0.58) coordinate (DAT);
+        \end{tikzpicture}
+    \end{minipage}\begin{minipage}{0.30\linewidth}
+        \vspace{1em}
+        \begin{itemize}
+            \itemsep-0.7em
+            \item[\kern-0.2em] \tikz[na] \coordinate (MAGi); Magnetometer
+            \item[\kern-0.2em] \tikz[na] \coordinate (ADCi); \acs{ADC}
+            \item[\kern-0.2em] \tikz[na] \coordinate (AMPi); Amplifier
+            \item[\kern-0.2em] \tikz[na] \coordinate (DATi); Data Connector
+            \item[\kern-0.2em] \tikz[na] \coordinate (ACCi); Accelerometer
+        \end{itemize}
+        \vspace{4em}
+    \end{minipage}
+
+    \begin{tikzpicture}[overlay,remember picture]
+            \path[->,red,very thick] (MAGi) edge (MAG);
+            \path[->,red,very thick] (ADCi) edge (ADC);
+            \path[->,red,very thick] (AMPi) edge (AMP);
+            \path[->,red,very thick] (ACCi) edge (ACC);
+            \path[->,red,very thick] (DATi) edge (DAT);
+    \end{tikzpicture}
+    
+    \caption{Reverse side of the Solar Panel Board showing magnetometer}
+    \label{fig:SPB}
+\end{figure}
+
+The magnetomitors are located on the back of the \acs{SPB}, shown in \cref{fig:SPB}. The magnetometer, with surrounding circuitry, is visible on the back of the board as are the ADC and amplifier. An accelerometer is also located on the back of the solar panel board and is used for a different mission objective. The data connector powers the sensors, including a temp sensor (not shown), and provides access to the sensor data.
+
 \subsubsection{Magnetometer Amplifier}
 
 \todo[inline]{This is mostly for my reference. Should it be here?}
@@ -177,43 +216,37 @@ In this case $V_s'$ and $V_c'$ are the \ac{ADC} values for the cross and sensiti
 
 \subsubsection{Magnetometer Calibration}
 
-Magnetometer Calibration consists of finding the coefficients in \cref{eq:magcal}. To do this the magnetometer is first placed inside the Helmholtz Cage. This allows the field to be set to any value. Furthermore the field can be set under Matlab control so the entire calibration process can run automatically. The calibration program sweeps the field inside the Helmholtz Cage through a predefined sequence and reads the sensor output at each point. 
+To calibrate the magnetometer, the coefficients in \cref{eq:magcal} must be calculated. The magnetometer is first placed inside the Helmholtz Cage. The field is set under MATLAB control so the entire calibration process can run automatically. The calibration program sweeps the field inside the Helmholtz Cage through a predefined sequence and reads the sensor output at each point. 
 
-\vspace{2em}
-\todo[inline]{Move to background/appendix?}
-\Cref{eq:magcal} can be rearranged into matrix form as shown in \cref{eq:magmat}. Each line in the matrix represents a separate magnetic field measurement. H is the value set by the Helmholtz cage in the sensitive axis . 
+The method of least squares is used to solve \cref{eq:magmat} for the coefficients in \cref{eq:magcal}. Each line in the $\matt{A}$ matrix represents a separate magnetic field measurement. $H_n$ is the $n^{\text{\tiny th}}$ value set by the Helmholtz cage in the sensitive axis. 
 
 \begin{equation}
-    \vect{b}=\matt{A} \vect{x} \quad
-    \matt{A} =
-    \begin{bmatrix}
-        {V_x}_1 & {V_y}_1 & 1 \\
-        \vdots & \vdots & \vdots\\
-        {V_x}_n & {V_y}_n & 1 \\
-    \end{bmatrix} \quad
-    \vect{x} = 
-    \begin{bmatrix}
-        C_1 \\
-        C_2 \\
-        C_3 \\
-    \end{bmatrix} \quad
-    \vect{b} = 
+    \label{eq:magmat}
+    \begin{split}
+    \vect{b}&=\matt{A} \vect{x} \\
+    {\text{\raggedright where}} \\
+    \vect{b}&= 
     \begin{bmatrix}
         H_1 \\
         \vdots \\
         H_n \\
-    \end{bmatrix} \quad
-    \label{eq:magmat}
+    \end{bmatrix} \\
+    \matt{A}&=
+    \begin{bmatrix}
+        {V_s}_1 & {V_c}_1 & 1 \\
+        \vdots & \vdots & \vdots\\
+        {V_s}_n & {V_c}_n & 1 \\
+    \end{bmatrix} \\
+    \vect{x}&= 
+    \begin{bmatrix}
+        C_1 \\
+        C_2 \\
+        C_3 \\
+    \end{bmatrix} 
+    \end{split}
 \end{equation}
 
-To calculate the calibration values \cref{eq:magmat} must be solved for $\vect{x}$. In order to get a better calibration value many measurements are taken resulting in an overdetermined system. To solve this system the least squares method is used as shown in \cref{eq:maglstsq}.
-
-\begin{equation}
-    \hat{\vect{x}} = \left(\matt{A} \transpose \matt{A} \right) ^ {-1} \matt{A} \transpose \vect{b}
-    \label{eq:maglstsq}
-\end{equation}
-
-The least squared solution minimizes the error across all data points. This results in calibration values that minimize error across the range of calibration points that were taken.
+The least squared solution minimizes the error across all data points. This results in calibration values that minimize error across the range of calibration points that were taken. This means that the points used to do the calibration should span the range of values that the magnetometer is expected to measure. 
 
 \subsection{\acs{MEMS} Gyros}
 
