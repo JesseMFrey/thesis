@@ -255,6 +255,7 @@ Because the calculated field in the sensitive direction also depends on the fiel
 In this case $V_s'$ and $V_c'$ are the \ac{ADC} values for the cross and sensitive axes, respectively. $C_1$, $C_2$, $C_4$, and $C_5$ are the sensitivity in the sensitive and cross directions and $C_3$ and $C_6$ correct for the bridge offset of the sensor and also compensates for external offsets. These offset values are used to correct for the torquer offsets.
 
 \subsubsection{Magnetometer Calibration}
+\label{sec:magcal}
 
 To calibrate the magnetometer, the coefficients in \cref{eq:magcal} must be calculated. The magnetometer is first placed inside the Helmholtz Cage. The field is set under MATLAB control so the entire calibration process can run automatically. The calibration program sweeps the field inside the Helmholtz Cage through a predefined sequence and reads the sensor output at each point. 
 
