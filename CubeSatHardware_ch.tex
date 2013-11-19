@@ -87,6 +87,42 @@ The block diagram for the CubeSat hardware used to implement the \ac{ACDS}. The 
 
 The torquers for the CubeSat consist of a hard magnetic core surrounded with a coil of wire. The torquers are flipped using the driving circuit which causes a current pulse to flow through the coil.
 
+\begin{figure}[!ht]
+    \centering
+    \begin{minipage}{0.25\linewidth}
+        \begin{itemize}
+            \itemsep-0.6em
+            \item[\kern-0.2em] Magnetometer \tikz[na] \coordinate (MAGi);
+            \item[\kern-0.2em] Y torquers \tikz[na] \coordinate (YTi);
+            \item[\kern-0.2em] X torquers \tikz[na] \coordinate (XTi);
+            \item[\kern-0.2em] Z torquers\tikz[na] \coordinate (ZTi);
+        \end{itemize}
+    \end{minipage}\begin{minipage}{0.35\linewidth}
+        \begin{tikzpicture}[remember picture] 
+            \pgftext{
+            \includegraphics[width=\linewidth]{torquers}
+            }
+            \fill[blue,fill opacity=0.3] (1.339,1.07) -- (1.45,1.05) -- (1.45,0.91) -- (1.345,0.93) -- cycle;
+            \path ( 1.335, 1.00) coordinate (MAG)
+                  (-1.930,-0.08) coordinate (XT)
+                  (-1.140, 0.00) coordinate (YT)
+                  (-2.430,-0.23) coordinate (ZT1)
+                  (-0.160,-0.52) coordinate (ZT2);
+        \end{tikzpicture}
+    \end{minipage}
+
+    \begin{tikzpicture}[overlay,remember picture]
+            \path[->,red,very thick] (MAGi) edge (MAG);
+            \path[->,red,very thick] (XTi) edge (XT);
+            \path[->,red,very thick] (YTi) edge (YT);
+            \path[->,red,very thick] (ZTi) edge (ZT1);
+            \path[->,red,very thick] (ZTi) edge (ZT2);
+    \end{tikzpicture}
+    
+    \caption{Torquer locations within the \ac{ARC}}
+    \label{fig:torquers}
+\end{figure}
+
 \subsection{Cores}
 
 The torquer cores from \cite{Mentch11} consisted of a large and a small pair in each axis. The torquers consist of a hard magnetic core an electromagnetic coil to flip the core. All torquer cores were the same size, one inch long $\sfrac{1}{16}$th inch diameter rod. The large pair was made of Alnico1 and produced a magnetic dipole moment of $0.022 \unit{A m^2}$. The small pair was proposed to have an inert core with a thin permalloy coating to give it a dipole moment of $0.00011 \unit{A m^2}$.
