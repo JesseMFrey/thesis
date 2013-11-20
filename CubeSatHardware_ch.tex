@@ -19,20 +19,22 @@ The \ac{ARC} uses the same board geometry as the CubeSat Kit\cite{CSK} hardware 
     \centering
     \begin{minipage}{0.41\linewidth}
         \begin{tikzpicture}[remember picture] 
-            \def\sysx{1.8}
-            \pgftext{\includegraphics[width=\linewidth]{cubesat-core}}
-            % define destination coordinates
-            \path (\sysx,1.76) coordinate (LEDL)
-                  (\sysx,0.85) coordinate (EPS)
-                  (2.5,0.4) coordinate (Z1tq)
-                  (-2.5,0.39) coordinate (Z2tq)
-                  (-1.28,0.1) coordinate (Xtq)
-                  (\sysx,-0.27)  coordinate (ACDS)
-                  (2.7,-0.72)  coordinate (sep)
-                  (\sysx,-0.96)  coordinate (COMM)
-                  (\sysx,-1.55)  coordinate (IMG);
+            \def\sysx{0.8}
+            \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\linewidth]{cubesat-core}};
+            \begin{scope}[x={(image.south east)},y={(image.north west)}]
+                % define destination coordinates
+                \path (\sysx,0.751) coordinate (LEDL)
+                      (\sysx,0.633) coordinate (EPS)
+                      (0.86,0.55) coordinate (Z1tq)
+                      (0.12,0.55) coordinate (Z2tq)
+                      (0.3,0.52) coordinate (Xtq)
+                      (\sysx,0.465)  coordinate (ACDS)
+                      (0.9,0.4)  coordinate (sep)
+                      (\sysx,0.366)  coordinate (COMM)
+                      (\sysx,0.281)  coordinate (IMG);
+              \end{scope}
         \end{tikzpicture}
-    \end{minipage}\begin{minipage}{0.32\linewidth}
+    \end{minipage}\begin{minipage}{0.42\linewidth}
         \begin{itemize}
             \itemsep-0.7em
             \item[\kern-2em] \tikz[na] \coordinate (LEDLi); LEDL
