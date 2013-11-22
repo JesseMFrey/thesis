@@ -192,6 +192,8 @@ During \ac{ACDS} operations data is collected during flight. This data is stored
         \hline
         Kalman filter internal variables&TBD&\\
         \hline
+        \multicolumn{1}{|r|}{\bfseries Total :}&TBD&\\
+        \hline
     \end{tabular}
     \todo[inline]{Resolve DBD's}
     \caption{\ac{ACDS} operations data format}
@@ -230,17 +232,19 @@ The beacon data is transmitted at a fixed rate and provides information about th
         \hline
         current torquer status&24&flags\\
         \hline
-        number of torquer flips so far &&\\
+        number of torquer flips so far & 48 & unsigned integers (one per axis)\\
         \hline
-        flags for errors&TBD&\\
+        flags for errors& 8 & flags\\
         \hline
         mode&2&unsigned integer\\
         \hline
-        Kalman filter status&TBD&states\\
+        Kalman filter status&6&flags\\
         \hline
         Kalman filter attitude&64&quaternion\\
         \hline
         Kalman filter rates&48&vector\\
+        \hline
+        \multicolumn{1}{|r|}{\bfseries Total :}&272&34 Bytes\\
         \hline
     \end{tabular}
     \todo[inline]{Resolve DBD's}
