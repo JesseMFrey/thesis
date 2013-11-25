@@ -500,15 +500,15 @@ The rotation rate is calculated using the magnetic field measurements. \Cref{eqn
 
 \section{Support Software}
 
-\section{Torquer Compensation}
+\subsection{Torquer Compensation}
 
 Because the geometry of the system should not change in flight, the field offset seen by each magnetometer depends on the combination of torquer states. By taking measurements in the Helmholtz cage these offsets can be calculated and eliminated during flight in order to measure Earth's magnetic field.
 
-\subsection{Compensation Data Set}
+\subsubsection{Compensation Data Set}
 
 There are a total of 12 \acp{LPMT} on the \ac{ACDS}. Each \ac{LPMT} has two states which results in a total of 4096 possible states. If the offset for each state uses two bytes this results in a data set that is 8kB. The field produced at each state however, is the sum of the field contributions of all of the torquers. The contribution of each torquer is only dependent on the state of that torquer and not the other torquers. With this in mind the required number of possible states is 2 per torquer for a total of 24. This greatly reduces the required data from 8kB to 48Bytes at the cost of more complicated compensation and runtime software.
 
-\subsection{Compensation Routine}
+\subsubsection{Compensation Routine}
 
 To calculate the compensation values for the torquers the calibration procedure described in \cref{sec:magcal} is run for each combination of torquer states. The results of the compensation is $C_1$, $C_2$, $C_4$ and $ C_5$ which are the same calibration constants computed with the magnetometer calibration routine. In addition two sets of 64 constants, one for each axis with each torquer state, are computed that take the place of $C_3$ and $C_6$.
 
