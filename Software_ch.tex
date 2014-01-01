@@ -244,11 +244,11 @@ The beacon data is transmitted at a fixed rate and provides information about th
         \hline
         Kalman filter status&6&flags\\
         \hline
-        Kalman filter attitude&64&quaternion\\
+        Kalman filter attitude&64&integer quaternion\\
         \hline
-        Kalman filter rates&48&vector\\
+        Kalman filter rates&96&vector\\
         \hline
-        \multicolumn{1}{|r|}{\bfseries Total :}&272&34 Bytes\\
+        \multicolumn{1}{|r|}{\bfseries Total :}&320&40 Bytes\\
         \hline
     \end{tabular}
     \todo[inline]{Resolve DBD's}

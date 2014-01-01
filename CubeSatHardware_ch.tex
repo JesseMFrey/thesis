@@ -309,6 +309,10 @@ The processor used for the \ac{ACDS} and all systems on \ac{ARC} is the MSP430f2
 
 For flight data storage a SD card is used. This is necessary because of the needed space and write times. The internal flash is limited and also needs to be used for program storage making it undesirable for data storage. Furthermore the internal flash can't be read while it is being written. Because the write times for the internal flash are fairly slow this would disrupt the operation of the program and is not desirable except for the occasional data writes.
 
+\subsection{\acs{ARC} Bus Communication}
+
+The sensor data is read by the \ac{LEDL} board and sent over the bus to the \ac{ACDS} board. The \ac{ACDS} board initiates the connection by 
+
 \section{Board Layout}
 
 \Cref{fig:3dview} shows the \ac{ACDS} system. The X and Y axis torquers are shown on the board as well as the pull pin and header. The header and pull pin locations are more or less fixed which doesn't leave much wiggle room for where to place the torquers.
