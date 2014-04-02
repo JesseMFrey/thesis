@@ -351,6 +351,11 @@ The beacon data is transmitted at a fixed rate and provides information about th
     \caption{Mode 1 Torque Algorithm Block Diagram}
     \label{fig:mode1}
 \end{figure}
+
+\subsubsection{MSP430 Implementation}
+
+\todo[inline]{Implement this and write about it}
+
 \subsection{Mode 2}
 
 \Cref{fig:mode2} shows the Mode 2 torque algorithm block diagram. Torque is calculated the same way as in Mode 1 but this time a bias is added depending on which region of the orbit the satellite is in. The bias tends to cause the satellite to rotate. This causes the algorithm to cancel out the bias. This is prevented by preventing the resulting dipole moment from being in the opposite direction as the bias. Outside of the bias regions the torquers are set to produce no torque.
@@ -513,4 +518,12 @@ There are a total of 12 \acp{LPMT} on the \ac{ACDS}. Each \ac{LPMT} has two stat
 \subsubsection{Compensation Routine}
 
 To calculate the compensation values for the torquers the calibration procedure described in \cref{sec:magcal} is run for each combination of torquer states. The results of the compensation is $C_1$, $C_2$, $C_4$ and $ C_5$ which are the same calibration constants computed with the magnetometer calibration routine. In addition two sets of 64 constants, one for each axis with each torquer state, are computed that take the place of $C_3$ and $C_6$.
+
+\subsection{Flight implementation}
+
+\subsubsection{More torquers}
+
+\subsubsection{MSP430 Implementation}
+
+\subsection{Saturation Problem?}
 
