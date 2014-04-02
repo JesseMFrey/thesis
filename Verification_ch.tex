@@ -11,7 +11,21 @@ The \ac{ACDS} consists of experimental hardware controlled by experimental softw
 \subsection{Magnetomitor Verification}
 
 The magnetomitor verification is done using the Hemholtz cage 
-jj
+
+\subsection{Torquer offsets}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\linewidth]{board-offsets}
+    \caption{Board offsets}
+    \label{fig:b-offset}
+\end{figure}
+
+Because of the nature of the dipole magnetic field, the offsets measured by each magnetometer are unique to each magnetometer and torquer combination. Some torquers have only a small effect on each magnetometer and some have a much larger effect. \Cref{fig:b-offset} shows the offsets when the torquers are stepped through all possible states. The offsets are calculated for each board by sweeping the Helmholtz cage through a field pattern in the plane of each board. The offsets are rotated from the \ac{SPB} frame into the satellite frame and plotted on the same axis for comparison.
+
+In \Cref{fig:b-offset} the largest offset appears to be both of the Y-axis torquers and one of the X-axis torquers cting on the X-axis \ac{SPB} in the Z-axis. When all three torquers are biased in a positive direction the offset is around 1.5 Gauss. When all three torquers are biased in the negative direction the offset is around -1.7 gauss.
+
+
 \subsection{Compensation Testing}
 
 The torquer compensation is tested by running the Helmholtz Cage through a field sequence and taking measurements at each point. During the process a random torquer flip is executed every 10 data points. The measurements are corrected using the compensation data set and compared to the expected field. A typical plot of the data is shown in \cref{fig:tqtst}. The RMS error is also calculated for the data set so the effectiveness of the torquer compensation can be compared to the calibration without torquers.
