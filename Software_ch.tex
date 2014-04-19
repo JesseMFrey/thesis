@@ -513,15 +513,16 @@ Because the geometry of the system should not change in flight, the field offset
 
 \subsubsection{Compensation Data Set}
 
-There are a total of 12 \acp{LPMT} on the \ac{ACDS}. Each \ac{LPMT} has two states which results in a total of 4096 possible states. If the offset for each state uses two bytes this results in a data set that is 8kB. The field produced at each state however, is the sum of the field contributions of all of the torquers. The contribution of each torquer is only dependent on the state of that torquer and not the other torquers. With this in mind the required number of possible states is 2 per torquer for a total of 24. This greatly reduces the required data from 8kB to 48Bytes at the cost of more complicated compensation and runtime software.
+There are a total of 12 \acp{LPMT} on the \ac{ACDS}. Each \ac{LPMT} has two states which results in a total of 4096 possible states. If the offset for each state uses two bytes this results in a data set that is 8kB. The field produced at each state however, is the sum of the field contributions of all of the torquers. The dataset can be reduced by doing three separate calibration, one for the set of torquers in each axis. The calibrations are then combined to get a calibration set where one offset is chosen for each axis and added together to get the full offset this reduces the number of states to $3*16 = 48$ which is only about 100 bytes of data, much reduced from using all possible states.
 
 \subsubsection{Compensation Routine}
 
-To calculate the compensation values for the torquers the calibration procedure described in \cref{sec:magcal} is run for each combination of torquer states. The results of the compensation is $C_1$, $C_2$, $C_4$ and $ C_5$ which are the same calibration constants computed with the magnetometer calibration routine. In addition two sets of 64 constants, one for each axis with each torquer state, are computed that take the place of $C_3$ and $C_6$.
+To calculate the compensation values for the torquers the calibration procedure described in \cref{sec:magcal} is run for each combination of torquer states. The results of the compensation is $C_1$, $C_2$, $C_4$ and $ C_5$ which are the same calibration constants computed with the magnetometer calibration routine. In addition there is one common pair of offsets and then 3 sets of 16 offsets for each set of torquers.
 
 \subsection{Flight implementation}
 
 \subsubsection{More torquers}
+
 
 \subsubsection{MSP430 Implementation}
 
