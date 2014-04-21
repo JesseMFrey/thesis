@@ -78,80 +78,9 @@
 %make committie lines longer
 \committeewidth{4in}
 
-%define some math commands
-\newcommand{\vect}[1]{\overrightarrow{#1}}
-\newcommand{\cross}[0]{\times}
-\newcommand{\matt}[1]{\boldsymbol{#1}}
-\newcommand{\transpose}{^T}
-\newcommand{\unit}[1]{\, \mathrm{#1}}
 
-%command to indicate things to be done
-%\newcommand{\todo}[1]{\typeout{TODO : #1}(\textbf{TODO : }#1)}
-%\newcommand{\todo}[1]{(\textbf{TODO : }#1)}
-
-
-%define block shapes
-
-
-\pgfdeclareshape{inshape}
-{%
-  % All anchors are taken from the 'rectangle' shape:
-  \inheritsavedanchors[from={rectangle}]%
-  \inheritanchor[from={rectangle}]{center}%
-  \inheritanchor[from={rectangle}]{north}%
-  \inheritanchor[from={rectangle}]{south}%
-  \inheritanchor[from={rectangle}]{west}%
-  \inheritanchor[from={rectangle}]{east}%
-  \inheritanchorborder[from={rectangle}]%
-  %
-  % Only the background path is different
-  %
-  \backgroundpath{%
-    % First the existing 'circle' code:
-    \pgfmathsetlength{\pgf@xb}{\pgfkeysvalueof{/pgf/outer xsep}}%
-    \pgfmathsetlength{\pgf@yb}{\pgfkeysvalueof{/pgf/outer ysep}}%
-    \ifdim\pgf@xb<\pgf@yb%
-      \advance\pgfutil@tempdima by-\pgf@yb%
-    \else%
-      \advance\pgfutil@tempdima  by-\pgf@xb%
-    \fi%
-    \pgfpathcircle{\centerpoint}{\pgfutil@tempdima}%
-    %
-    % Now the | and -- lines:
-    \pgfmoveto{\pgfpointadd{\centerpoint}{\pgfpoint{0pt}{\pgfutil@tempdima}}}%
-    \pgflineto{\pgfpointadd{\centerpoint}{\pgfpoint{0pt}{-\pgfutil@tempdima}}}%
-    \pgfmoveto{\pgfpointadd{\centerpoint}{\pgfpoint{\pgfutil@tempdima}{0pt}}}%
-    \pgflineto{\pgfpointadd{\centerpoint}{\pgfpoint{-\pgfutil@tempdima}{0pt}}}%
-  }%
-}
-
-% Define block styles
-\tikzstyle{decision} = [diamond, draw, fill=blue!20, text width=4.5em, text badly centered, inner sep=0pt]
-\tikzstyle{block} = [rectangle, draw, fill=blue!20, text width=5em, text centered, rounded corners, minimum height=4em]
-\tikzstyle{bigblock} = [rectangle, draw, fill=blue!20,rounded corners, minimum height=4em]
-\tikzstyle{input} = [rectangle, draw, fill=green!20, text width=5em, text centered, rounded corners, minimum height=4em]
-%\tikzstyle{input} = [inshape, draw, fill=green!20, text width=5em, text centered, minimum height=4em]
-\tikzstyle{oppr} = [draw, circle,fill=blue!20,minimum height=2em]
-\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,minimum height=2em]
-%connections styles for flow charts
-\tikzstyle{line} = [draw]
-\tikzstyle{conn} = [draw,->]
-\tikzstyle{phconn} = [draw,->,dashed]
-%connection styles for block diagrams
-\tikzstyle{bidr} = [draw,<->]
-%\tikzstyle{flow} = [draw,--,decorate,decoration=triangles]
-\tikzstyle{flow} = [draw,%
-          decoration={%
-            markings,%
-            mark=at position 0.65 with {\arrow[scale=2]{stealth}},
-          },postaction=decorate]
-
-%point used as a dummy node for complicated arrows
-\tikzstyle{point} = [circle,inner sep=0pt,minimum size=0pt,fill=none,node distance = 1.5cm]
-%\tikzstyle{point} = [circle,inner sep=0pt,minimum size=2pt,fill=red,node distance = 1.5cm]     %alternate point for debugging
-
-%style for annotating fiugres
-\tikzstyle{na} = [baseline=-.5ex,remember picture]
+%include defines
+\include{defines}
 
 \begin{document}
 
