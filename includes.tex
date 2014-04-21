@@ -1,0 +1,48 @@
+% vim: set filetype=tex spell :
+
+\usepackage{amsmath, amssymb, amsfonts} % Thanks, AMS!
+\usepackage{xfrac}
+\usepackage{graphicx, float} % Graphics stuff
+\usepackage{textcomp}
+\usepackage{array}
+\usepackage{fixltx2e} % Allows \(\) in captions, amongst other things.
+\usepackage{pxfonts} % The Paladino font
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{amssymb,amsfonts,textcomp}
+\usepackage{array}
+\usepackage{float}
+\usepackage[printonlyused,withpage]{acronym}
+\usepackage{tocloft}
+\usepackage{topsection}
+\usepackage{pdflscape}
+%\synctex=1
+\usepackage[square,numbers,comma,sort&compress]{natbib}
+
+\def\xcolorversion{2.00}
+
+\usepackage[version=latest]{pgf}
+\usepackage{xkeyval,calc,tikz,fp}
+\usepackage{listings}
+\usepackage[textwidth=5em,disable]{todonotes}
+
+%include hyperref last so that it can modify some commands
+\usepackage{hyperref}
+%add hypcap after hyperref
+\usepackage[all]{hypcap}
+%include cleverref after hyperref because it says to
+\usepackage[noabbrev]{cleveref}
+
+%blue links good for on screen
+\hypersetup{linktoc=all,colorlinks,linkcolor=blue,pdfauthor={Jesse Frey},pdfstartview=FitH}
+%Black links good for printing
+%\hypersetup{bookmarks,colorlinks,citecolor=black,urlcolor=black,filecolor=black,linkcolor=black,pdfauthor={Jesse Frey},pdfusetitle,pdfstartview=FitH}
+
+%add figures folder to graphics path
+\graphicspath{{./Figures/}}
+
+%libraries for tikz
+\usetikzlibrary{chains}
+\usetikzlibrary{decorations.shapes}
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{shapes,arrows}
