@@ -67,8 +67,15 @@ The \ac{ARC} uses the same board geometry as the CubeSat Kit\cite{CSK} hardware 
 \subsection{Mechanical Considerations}
 In addition to the \ac{ACDS} hardware the \ac{ACDS} board also contains the pull pin and USB connection. This is located on the \ac{ACDS} board because it is the only board that can connect to the access port. The pull pin and USB connection connect directly to the header and are not connected to the core \ac{ACDS} hardware. 
 
-The Z-axis torquers are housed inside the standoffs which are located on the four corners of the board. To accommodate the torquers notches are cut out of the \ac{ACDS} board. This is visible in \cref{fig:layout}. The notches are designed to fit the torque standoffs and help keep them in the proper orientation. The torquers fit into a hole drilled into the standoffs and are healed in place with epoxy. 
+The Z-axis torquers are housed inside the standoffs which are located on the four corners of the board. To accommodate the standard board shape has been modified to accommodate the torquers. This is visible in \cref{fig:boardPhoto}. The notches are designed to fit the torque standoffs and help keep them in the proper orientation. The torquers fit into a hole drilled into the standoffs and are held in place with epoxy. 
 
+\begin{figure}[!ht]
+    \includegraphics[width=\linewidth]{ACDS-board-photo}
+    \caption{The \ac{ARC} \ac{ACDS} board}
+    \label{fig:boardPhoto}
+\end{figure}
+
+The standard board shape has also been modified to allow the USB connector to be placed closer to the access port so that the USB cable can be easily plugged in. This is also visible in \cref{fig:boardPhoto}.
 
 \subsection{Bus Communication}
 
@@ -87,7 +94,7 @@ The block diagram for the CubeSat hardware used to implement the \ac{ACDS}. The 
 
 \section{Torquers}
 
-The torquers for the CubeSat consist of a hard magnetic core surrounded with a coil of wire. The torquers are flipped using the driving circuit which causes a current pulse to flow through the coil.
+\Cref{fig:torquers} shows the torquer locations within the \ac{ARC}. The torquers consist of a hard magnetic core surrounded with a coil of wire. There are a total of twelve torquers on the \ac{ARC}, four in each axis. The torquers are flipped using the driving circuit which causes a current pulse to flow through the coil. The driving hardware for the torquers is designed to flip one torquer in each axis every second.
 
 \begin{figure}[!ht]
     \centering
@@ -133,13 +140,13 @@ The torque that the alnico torquers produce is quite small and is already not ea
 
 \subsection{Coils}
 
-The torque coils are the same for both the large and small torquers. The coils consist of four layers of 26 AWG wire.
+The coils used to drive the torquers are made from four layers of 26 AWG wire. The current spike to flip the torquer peaks around 7A which is significantly higher than 26 AWG can handle with continuous current however, because the pulse duration is short it is not a problem.
 
 \subsection{Drivers}
 
 The schematic to drive a pair of torquers is shown in \cref{fig:drive}. Each pair of torquers is driven by three complimentary pairs of \acp{MOSFET}.  The \acp{MOSFET} are driven by three pairs of \ac{MOSFET} drivers which are controlled by the \ac{ACDS} microcontroller.
 
-In the idle state all of the \acp{MOSFET} are off and the torquer coils are floating. This prevents changing magnetic fields in the torquers causing current to flow in them. To flip a torquer one end of the torquer is shorted to ground using one of the N-Channel \acp{MOSFET} and the other end is shorted to C1 using one of the P-Channel \acp{MOSFET}. After a short delay the \acp{MOSFET} are switched off and C1 begins to recharge.
+In the idle state all of the \acp{MOSFET} are off and the torquer coils are floating. This prevents changing magnetic fields in the torquers causing current to flow in them. To flip a torquer one end of the torquer is shorted to ground using one of the N-Channel \acp{MOSFET} and the other end is shorted to C1 using one of the P-Channel \acp{MOSFET}. After a 2ms delay the \acp{MOSFET} are switched off and C1 begins to recharge.
 
 \begin{figure}[H]
     \centering
@@ -150,7 +157,7 @@ In the idle state all of the \acp{MOSFET} are off and the torquer coils are floa
 
 \subsection{Torquer Diagnostics}
 
-Comparators are used to detect in flight if the torquers and drivers are functioning properly. One comparator is used to determine if the capacitor is charged and another is used to detect if the capacitor is discharged. The comparators are checked both before and after a torquer flip to see if the capacitor was charged before an attempted flip and discharged after. If the capacitor did not discharge then the torquer did not flip probably because of a bad connection somewhere. This information is logged in flight and can be used on the ground to analize how well the torquers are working.
+Comparators are used to detect in flight if the torquers and drivers are functioning properly. One comparator is used to determine if the capacitor is charged and another is used to detect if the capacitor is discharged. The comparators are checked both before and after a torquer flip to see if the capacitor was charged before an attempted flip and discharged after. If the capacitor did not discharge then the torquer did not flip probably because of a bad connection somewhere. This information is logged in flight and can be used on the ground to analyze how well the torquers are working.
 
 \todo[inline]{Need some discussion of what is done with the info but also need to figure out what should be done.}
 
@@ -201,7 +208,7 @@ The magnetometers on the satellite are Honeywell HMC1052 \ac{AMR} sensors. These
     \label{fig:SPB}
 \end{figure}
 
-The magnetomitors are located on the back of the \acs{SPB}, shown in \cref{fig:SPB}. The magnetometer, with surrounding circuitry, is visible on the back of the board as are the ADC and amplifier. An accelerometer is also located on the back of the solar panel board and is used for a different mission objective. The data connector powers the sensors, including a temp sensor (not shown), and provides access to the sensor data.
+The magnetometers are located on the back of the \acs{SPB}, shown in \cref{fig:SPB}. The magnetometer, with surrounding circuitry, is visible on the back of the board as are the ADC and amplifier. An accelerometer is also located on the back of the solar panel board and is used for a different mission objective. The data connector powers the sensors, including a temp sensor (not shown), and provides access to the sensor data.
 
 \subsubsection{Magnetometer Amplifier}
 
@@ -311,7 +318,7 @@ For flight data storage a SD card is used. This is necessary because of the need
 
 \subsection{\acs{ARC} Bus Communication}
 
-The sensor data is read by the \ac{LEDL} board and sent over the bus to the \ac{ACDS} board. The \ac{ACDS} board initiates the connection by 
+The sensor data is read by the \ac{LEDL} board and sent over the bus to the \ac{ACDS} board. The \ac{ACDS} board initiates the connection by sending a command to tell how often measurements should be sent. The \ac{LEDL} then takes sensor data and sends it at the requested interval.
 
 \section{Board Layout}
 
