@@ -2,38 +2,16 @@
 \documentclass{article}
 \usepackage{fullpage}
 
+\usepackage[nolist,printonlyused,withpage]{acronym}
+
 \input{includes}
 
 \input{defines}
 
-\newacro{CalPoly}[Cal Poly]{California Polytechnic University}
-\newacro{ACS}{Attitude Control System}
-\newacro{ADC}{Analog to Digital Converter}
-\newacro{ACDS}{Attitude Control and Determination System}
-\newacro{ADS}{Attitude Determination System}
-\newacro{AMR}{Anisotropic MagnetoResistance}
-\newacro{ARC}{Alaska Research CubeSat}
-\newacro{ASGP}{Alaska Space Grant Program}
-\newacro{CDS}{CubeSat Design Specification}
-\newacro{CDH}{Command and Data Handling}
-\newacro{EMO}{Education Mission Objective}
-\newacro{LEDL}{Launch Environment Data Logger}
-\newacro{I2C}{Inter-Integrated Circuit}
-\newacro{LPMT}{Low Power Magnetic Torquer}
-\newacro{MEMS}{Microelectromechanical systems}
-\newacro{MOSFET}{Metal Oxide Semiconductor Field Effect Transistor}
-\newacro{PCB}{Printed Circuit Board}
-\newacro{PPOD}[P-POD]{Poly-Picosatellite Orbital Deployer}
-\newacro{SMO}{Science Mission Objective}
-\newacro{SPB}{Solar Panel Board}
-\newacro{SSEP}{Space Systems Engineering Program}
-\newacro{UAF}{University of Alaska Fairbanks}
-\newacro{IMG}{Imaging System}
-\newacro{COMM}{Communication System}
-\newacro{EPS}{Electrical Power System}
-\acused{UAF}
-
 \begin{document}
+
+%include acronyms
+\input{acronyms}
 
 \input{CubeSatHardware_ch}
 
