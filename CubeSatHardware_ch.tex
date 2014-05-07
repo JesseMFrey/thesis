@@ -1,24 +1,20 @@
 % vim: set filetype=tex spell :
 
 %CubeSat Chapter 
-\chapter{CubeSat Hardware Implementation}
+\chapter{Hardware Implementation of the \acf{ACDS}}
 
 \label{ch:CubeSatHardware}
 
-\section{CubeSat Architecture}
+\section{Mechanical Configuration of the \acf{ARC}}
 
-\todo[inline]{Float section to background?}
+The \ac{ARC} uses the same board geometry as the CubeSat Kit\cite{CSK} hardware making it compatible with other CubeSat hardware. The \ac{ACDS} board has the same overall outline and hole pattern but it has 4 notches cut out to accommodate the Z-axis torquers and torquer standoffs. Additionally, there is a bump-out for the \ac{USB} connector so that it can be closer to the access port to allow a \ac{USB} cable to be easily plugged in.
 
-The \ac{ARC} uses the same board geometry as the CubeSat Kit\cite{CSK} hardware making it compatible with other CubeSat hardware. The \ac{ACDS} board has a slightly different shape than the standard board shape to accommodate the torquers.
-
-\subsection{Stackup}
-
-\Cref{fig:arcMech} shows the mechanical design of the \ac{ARC}. The design has a central board stack with solar pannels and rails attached to rings that are on the top and bottom of the board stack. The \ac{ACDS} board is located 3rd from the bottom of the stack. This puts it in the center of the board stack. Because the solar cells cover all of the side faces except a small strip in the center this makes the \ac{ACDS} board the only place to put access port connections. The separation switch connections are also located on the \ac{ACDS} board as the separation switch is attached to one of the torquer standoff.
+\Cref{fig:arcMech} shows the mechanical design of the \ac{ARC}. The design has a central board stack with solar panels and rails attached to rings that are on the top and bottom of the board stack. The \ac{ACDS} board is located 3rd from the bottom of the stack. This puts it in the center of the board stack. Because the solar cells cover all of the side faces except a small strip in the center this makes the \ac{ACDS} board the only place to put access port connections. The separation switch connections are also located on the \ac{ACDS} board as the separation switch is attached to one of the torquer standoff.
 
 \begin{figure}[!ht]
     \centering
-    \begin{minipage}{0.41\linewidth}
-        \begin{tikzpicture}[remember picture] 
+    \begin{minipage}{0.31\linewidth}
+        \begin{tikzpicture}[remember picture,node distance=1em]
             \def\sysx{0.8}
             \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\linewidth]{cubesat-core}};
             \begin{scope}[x={(image.south east)},y={(image.north west)}]
@@ -32,54 +28,165 @@ The \ac{ARC} uses the same board geometry as the CubeSat Kit\cite{CSK} hardware 
                       (0.9,0.4)  coordinate (sep)
                       (\sysx,0.366)  coordinate (COMM)
                       (\sysx,0.281)  coordinate (IMG);
+              %draw axis
+                \path (0.1,0.12) coordinate (axOrig);
+                \draw[->,blue,very thick] (axOrig) to +(-21:0.1) coordinate (X);
+                \node[blue,right of=X] (Xl) {X};
+                \draw[->,magenta,very thick] (axOrig) to +(196:0.1) coordinate (Y);
+                \node[magenta,left of=Y] (Yl) {Y};
+                \draw[->,red,very thick] (axOrig) to +(-90:0.1) coordinate (Z);
+                \node[red,below of=Z] (Zl) {Z};
               \end{scope}
         \end{tikzpicture}
-    \end{minipage}\begin{minipage}{0.42\linewidth}
-        \begin{itemize}
-            \itemsep-0.7em
-            \item[\kern-2em] \tikz[na] \coordinate (LEDLi); LEDL
-            \item[\kern-2em] \tikz[na] \coordinate (EPSi); EPS
-            \item[\kern-2em] \tikz[na] \coordinate (Ztqi); Z Torquer
-            \item[\kern-2em] \tikz[na] \coordinate (Xtqi); X Torquer
-            \item[\kern-2em] \tikz[na] \coordinate (ACDSi); ACDS board
+    \end{minipage}\begin{minipage}{0.65\linewidth}
+        \begin{itemize}\setlength{\parskip}{0pt}
+            \item[\kern-2em] \tikz[na] \coordinate (LEDLi); \acf{LEDL}
+            \item[\kern-2em] \tikz[na] \coordinate (EPSi); \acf{EPS}
+            \item[\kern-2em] \tikz[na] \coordinate (ACDSi); \acf{ACDS}
             \item[\kern-2em] \tikz[na] \coordinate (sepi); Separation switch
             %\item[\kern-2em] \tikz[na] \coordinate (ppi); Pull Pin
-            \item[\kern-2em] \tikz[na] \coordinate (COMMi); COMM
-            \item[\kern-2em] \tikz[na] \coordinate (IMGi); IMG
+            \item[\kern-2em] \tikz[na] \coordinate (COMMi); \acf{COMM}
+            \item[\kern-2em] \tikz[na] \coordinate (IMGi); \acf{IMG}
         \end{itemize}
     \end{minipage}
 
     \begin{tikzpicture}[overlay,remember picture]
             \path[->,red,very thick] (LEDLi) edge (LEDL);
             \path[->,red,very thick] (EPSi) edge (EPS);
-            \path[->,red,very thick] (Ztqi) edge (Z1tq);
-            \path[->,red,very thick] (Ztqi) edge (Z2tq);
-            \path[->,red,very thick] (Xtqi) edge (Xtq);
             \path[->,red,very thick] (ACDSi) edge (ACDS);
             \path[->,red,very thick] (sepi) edge (sep);
             \path[->,red,very thick] (COMMi) edge (COMM);
             \path[->,red,very thick] (IMGi) edge (IMG);
+            %draw axis
     \end{tikzpicture}
     \caption{The \acs{ARC} mechanical setup}
     \label{fig:arcMech}
 \end{figure}
 
-\subsection{Mechanical Considerations}
-In addition to the \ac{ACDS} hardware the \ac{ACDS} board also contains the pull pin and USB connection. This is located on the \ac{ACDS} board because it is the only board that can connect to the access port. The pull pin and USB connection connect directly to the header and are not connected to the core \ac{ACDS} hardware. 
+The components shown in \cref{fig:arcMech} are as follows:
 
-The Z-axis torquers are housed inside the standoffs which are located on the four corners of the board. To accommodate the standard board shape has been modified to accommodate the torquers. This is visible in \cref{fig:boardPhoto}. The notches are designed to fit the torque standoffs and help keep them in the proper orientation. The torquers fit into a hole drilled into the standoffs and are held in place with epoxy. 
+\begin{description}
+    \item[\acs{LEDL}] one of the \acp{SMO} on \ac{ARC} is to ``Characterize the thermal and vibration environment inside the launch vehicle from ignition to orbit insertion.''\cite{ARCweb} The \ac{LEDL} does this by using a separate battery to operate during the launch phase and log data from accelerometers and temperature sensors.
+    \item[\acs{EPS}] The solar cells provide power for the \ac{ARC} which is stored and regulated by the \ac{EPS}
+    \item[\acs{ACDS}] one of the \acp{SMO} on \ac{ARC} is to ``Validate a novel low power \acf{ACDS}.'' \cite{ARCweb}
+    \item[Separation Switch] is screwed into one of the torquer standoffs and cuts off power to the CubeSat when it is in the \ac{PPOD}.
+    \item[\acs{COMM}] allows for two way communication with the ground. A 9600bps command/beacon up/down link and a 38400bps data down link are used.
+    \item[\acs{IMG}] one of the \acp{SMO} on \ac{ARC} is to ``Validate a high bandwidth communication system by obtaining images of changing snow/ice coverage in arctic regions.''\cite{ARCweb}
+\end{description}
+
+For clarity the \acp{SPB} are not shown in\cref{fig:arcMech}. The \acp{SPB} are attached to mounting holes in the rails and are the outer faces of the \ac{ARC}. In addition to the solar cells the \acp{SPB} also contain sensors that are used by the \ac{LEDL} and \ac{ACDS}. \Cref{fig:SPB} shows the back side of a side \ac{SPB} with the sensors labeled. The top and bottom \acp{SPB} are similar to the side \acp{SPB} except they lack accelerometers and have parts for the antennas and antenna deployment.
 
 \begin{figure}[!ht]
-    \includegraphics[width=\linewidth]{ACDS-board-photo}
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \begin{tikzpicture}[remember picture] 
+            \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\linewidth]{SPB}};
+            \begin{scope}[x={(image.south east)},y={(image.north west)}]
+                \path (0.715,0.74) coordinate (MAG)
+                      (0.395,0.72) coordinate (ADC)
+                      (0.395,0.65) coordinate (AMP)
+                      (0.745,0.525) coordinate (ACC)
+                      (0.615,0.58) coordinate (DAT);
+              \end{scope}
+        \end{tikzpicture}
+    \end{minipage}\begin{minipage}{0.30\linewidth}
+        \vspace{1em}
+        \begin{itemize}\setlength{\parskip}{0pt}
+            \item[\kern-0.2em] \tikz[na] \coordinate (MAGi); Magnetometer
+            \item[\kern-0.2em] \tikz[na] \coordinate (ADCi); \acs{ADC}
+            \item[\kern-0.2em] \tikz[na] \coordinate (AMPi); Amplifier
+            \item[\kern-0.2em] \tikz[na] \coordinate (DATi); Data Connector
+            \item[\kern-0.2em] \tikz[na] \coordinate (ACCi); Accelerometer
+        \end{itemize}
+        \vspace{4em}
+    \end{minipage}
+
+    \begin{tikzpicture}[overlay,remember picture]
+            \path[->,red,very thick] (MAGi) edge (MAG);
+            \path[->,red,very thick] (ADCi) edge (ADC);
+            \path[->,red,very thick] (AMPi) edge (AMP);
+            \path[->,red,very thick] (ACCi) edge (ACC);
+            \path[->,red,very thick] (DATi) edge (DAT);
+    \end{tikzpicture}
+    
+    \caption{Reverse side of the Solar Panel Board showing magnetometer}
+    \label{fig:SPB}
+\end{figure}
+
+\subsection{\acl{ARC} Hardware}
+
+\begin{figure}[!ht]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \begin{tikzpicture}[remember picture,node distance=0.5em] 
+            \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\linewidth]{ACDS-board-photo}};
+            \begin{scope}[x={(image.south east)},y={(image.north west)}]
+                \path (0.30,0.27) coordinate (PP)
+                      (0.38,0.07) coordinate (USB)
+                      (0.46,0.70) coordinate (TqX1)
+                      (0.41,0.70) coordinate (TqX2)
+                      (0.22,0.70) coordinate (TqX3)
+                      (0.25,0.70) coordinate (TqX4)
+                      (0.45,0.90) coordinate (TqY1)
+                      %(0.45,0.89) coordinate (TqY1)
+                      (0.45,0.93) coordinate (TqY2)
+                      (0.50,0.40) coordinate (TqY3)
+                      (0.50,0.49) coordinate (TqY4)
+                      (0.15,0.14) coordinate (TqZ1)
+                      (0.14,0.88) coordinate (TqZ2)
+                      (0.85,0.92) coordinate (TqZ3)
+                      (0.87,0.14) coordinate (TqZ4);
+              %draw axis
+                %\path (0.15,0.72) coordinate (axOrig);
+                %\draw[->,red,very thick] (axOrig) to +(-88.3:0.1) coordinate (X);
+                %\node[red,below of=X] (Xl) {X};
+                %\draw[->,magenta,very thick] (axOrig) to +(180.5:0.1) coordinate (Y);
+                %\node[magenta,left of=Y] (Yl) {Y};
+                %\draw[->,red,very thick] (axOrig) to +(-90:0.1) coordinate (Z);
+                %\node[red,below of=Z] (Zl) {Z};
+              \end{scope}
+        \end{tikzpicture}
+    \end{minipage}\begin{minipage}{0.50\linewidth}
+        \vspace{1em}
+        \begin{itemize}\setlength{\parskip}{0pt}
+            \item[\kern-0.2em] \tikz[na] \coordinate (TqXi); X torquers
+            \item[\kern-0.2em] \tikz[na] \coordinate (TqYi); Y torquers
+            \item[\kern-0.2em] \tikz[na] \coordinate (TqZi); Z torquers
+            \item[\kern-0.2em] \tikz[na] \coordinate (PPi); Pull Pin
+            \item[\kern-0.2em] \tikz[na] \coordinate (USBi); \acf{USB} connection
+        \end{itemize}
+        \vspace{4em}
+    \end{minipage}
+
+    \begin{tikzpicture}[overlay,remember picture]
+            \path[->,blue,very thick] (PPi) edge (PP);
+            \path[->,blue,very thick] (USBi) edge (USB);
+            \path[->,red,very thick] (TqXi) edge (TqX1);
+            %\path[->,red,very thick] (TqXi) edge (TqX2);
+            \path[->,red,very thick] (TqXi) edge (TqX3);
+            %\path[->,red,very thick] (TqXi) edge (TqX4);
+            \path[->,magenta,very thick] (TqYi) edge (TqY1);
+            %\path[->,magenta,very thick] (TqYi) edge (TqY2);
+            \path[->,magenta,very thick] (TqYi) edge (TqY3);
+            %\path[->,magenta,very thick] (TqYi) edge (TqY4);
+            \path[->,black,very thick] (TqZi) edge (TqZ1);
+            \path[->,black,very thick] (TqZi) edge (TqZ2);
+            \path[->,black,very thick] (TqZi) edge (TqZ3);
+            \path[->,black,very thick] (TqZi) edge (TqZ4);
+    \end{tikzpicture}
     \caption{The \ac{ARC} \ac{ACDS} board}
     \label{fig:boardPhoto}
 \end{figure}
 
-The standard board shape has also been modified to allow the USB connector to be placed closer to the access port so that the USB cable can be easily plugged in. This is also visible in \cref{fig:boardPhoto}.
+In addition to the \ac{ACDS} hardware the \ac{ACDS} board also contains the pull pin and \ac{USB} connection. This is located on the \ac{ACDS} board because it is the only board that can connect to the access port. The pull pin and \ac{USB} connection connect directly to the header and are not connected to the core \ac{ACDS} hardware. 
+
+The Z-axis torquers are housed inside the standoffs which are located on the four corners of the board. To accommodate the standard board shape has been modified to accommodate the torquers. This is visible in \cref{fig:boardPhoto}. The notches are designed to fit the torque standoffs and help keep them in the proper orientation. The torquers fit into a hole drilled into the standoffs and are held in place with epoxy. 
+
+The standard board shape has also been modified to allow the \ac{USB} connector to be placed closer to the access port so that the \ac{USB} cable can be easily plugged in. This is also visible in \cref{fig:boardPhoto}.
 
 \subsection{Bus Communication}
 
-The subsystems of the \ac{ARC} will communicate with each other using the ARCBus. The ARCBus consists of shared connections between the subsystems to transmit commands and data. The ARCBus will primary used by the \ac{ACDS} to get sensor data from the \ac{LEDL} and send and receive data to the ground station through the COMM system. Commands are transmited using an \ac{I2C} bus and large blocks of data are sent using a SPI bus which is negotiated using the \ac{I2C} bus.
+The subsystems of the \ac{ARC} will communicate with each other using the ARCBus. The ARCBus consists of shared connections between the subsystems to transmit commands and data. The ARCBus will primary used by the \ac{ACDS} to get sensor data from the \ac{LEDL} and send and receive data to the ground station through the COMM system. Commands are transmited using an \ac{I2C} bus and large blocks of data are sent using a \ac{SPI} bus which is negotiated using the \ac{I2C} bus.
 
 \section{\acl{ACDS} System Block Diagram}
 
@@ -99,8 +206,7 @@ The block diagram for the CubeSat hardware used to implement the \ac{ACDS}. The 
 \begin{figure}[!ht]
     \centering
     \begin{minipage}{0.25\linewidth}
-        \begin{itemize}
-            \itemsep-0.6em
+        \begin{itemize}\setlength{\parskip}{0pt}
             \item[\kern-0.2em] Magnetometer \tikz[na] \coordinate (MAGi);
             \item[\kern-0.2em] Y torquers \tikz[na] \coordinate (YTi);
             \item[\kern-0.2em] X torquers \tikz[na] \coordinate (XTi);
@@ -134,9 +240,19 @@ The block diagram for the CubeSat hardware used to implement the \ac{ACDS}. The 
 
 \subsection{Cores}
 
-The torquer cores from \cite{Mentch11} consisted of a large and a small pair in each axis. The torquers consist of a hard magnetic core an electromagnetic coil to flip the core. All torquer cores were the same size, one inch long $\sfrac{1}{16}$th inch diameter rod. The large pair was made of Alnico1 and produced a magnetic dipole moment of $0.022 \unit{A m^2}$. The small pair was proposed to have an inert core with a thin permalloy coating to give it a dipole moment of $0.00011 \unit{A m^2}$.
+The torquer cores are made of Alnico1 which is a hard magnetic material. Most magnetic torquers use either an air core or a soft magnetic core. Ideally both an air or a soft core only produce torque while a current is running through the coil. A soft core will produce more torque for the same geometry and current, however soft magnetic materials have some hysteresis that will continue to produce undesired torque after current stops flowing. Hard magnetic materials are chosen to have a large amount of hysteresis so that after the current stops flowing in the coil torque is produced. 
 
-The torque that the alnico torquers produce is quite small and is already not easy to measure. Because the small torquers are $\sfrac{1}{200}$th the size of the alnico torquers it was determined that these are not feasible to fabricate. To fix this the small torquers was enlarged to 10\% of the size of the large torquers. The switching interval was also reduced to one second. It was also necessary to relax the desired attitude tolerances to accommodate the new setup.
+\subsubsection{Core Sizing}
+
+The torquer cores from \cite{Mentch11} consisted of a large and a small pair in each axis. All torquer cores were the same size, one inch long $\sfrac{1}{16}$th inch diameter rod. The large pair was made of Alnico1 and produced a magnetic dipole moment of $0.022 \unit{A m^2}$. The small pair was proposed to have an inert core with a thin permalloy coating to give it a dipole moment of $0.00011 \unit{A m^2}$.
+
+As discussed in \cite{Mentch11} the large cores were sized by first determining the desired torque then calculating the necessary dipole moment. Simulation was used to refine the required dipole moment. Alnico5 was the core material that had been used in prevous expariments for much larger cores. The minimum manufacturable size of alnico rods is $\sfrac{1}{16}$. It is desirable to have a length to diameter ratio greater than 10 which fixes the minimum torque that can be achieved. The torque using Alnico5 was larger then the desired torque so Alnico1 was used instead which has a lower residual induction. 
+
+The proposed size of the small torquers was $\sfrac{1}{200}$th the torque of the alnico torquers. The fabrication of the proposed torquer was not completed and even if it had it is not clear that testing could have been done to quantify the dipole moment. In addition to fabrication and testing issues there is the problem of balancing the alnico cores. Because of theses difficulties the original design for the small torquers was dropped and an extra set of Alnico torquers was added in their place. The charge time was also shortened from 10 seconds to 1 second.
+
+\subsubsection{Measuring Dipole Moment}
+
+Determining the dipole moment is not an easy task as the dipole moments are quite small. I should probably do some dipole measurements and write it up.
 
 \subsection{Coils}
 
@@ -155,6 +271,17 @@ In the idle state all of the \acp{MOSFET} are off and the torquer coils are floa
     \label{fig:drive}
 \end{figure}
 
+\subsubsection{Driving Waveform}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{driveWaveform}
+    \caption{Torquer driving waveform}
+    \label{fig:driveWV}
+\end{figure}
+
+\Cref{fig:driveWV} shows the driving waveform for the torquers. As the current spikes the torquer flip can be seen in the jump in the magnetic field. After the initial spike, the current decays as the capacitor discharges until the driver is switched off. The magnetic field intensity decays as the current decays but does not drop back to its previous value.
+
 \subsection{Torquer Diagnostics}
 
 Comparators are used to detect in flight if the torquers and drivers are functioning properly. One comparator is used to determine if the capacitor is charged and another is used to detect if the capacitor is discharged. The comparators are checked both before and after a torquer flip to see if the capacitor was charged before an attempted flip and discharged after. If the capacitor did not discharge then the torquer did not flip probably because of a bad connection somewhere. This information is logged in flight and can be used on the ground to analyze how well the torquers are working.
@@ -169,44 +296,6 @@ The only sensor called out in \cite{Mentch11} was a magnetometer. The accuracy o
 \subsection{Magnetometer}
 
 The magnetometers on the satellite are Honeywell HMC1052 \ac{AMR} sensors. These sensors use \ac{AMR} elements in a bridge configuration to measure the field in each axis. The HMC1052 is a 2-axis sensor that measures the field in the axis that are parallel to the board that it is mounted on (X and Y). Each face of \ac{ARC} will have a single HMC1052 giving a total of 4 measurements in each axis.
-
-\begin{figure}[!ht]
-    \centering
-    \begin{minipage}{0.35\linewidth}
-        \begin{tikzpicture}[remember picture] 
-            \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\linewidth]{SPB}};
-            \begin{scope}[x={(image.south east)},y={(image.north west)}]
-                \path (0.715,0.74) coordinate (MAG)
-                      (0.395,0.72) coordinate (ADC)
-                      (0.395,0.65) coordinate (AMP)
-                      (0.745,0.525) coordinate (ACC)
-                      (0.615,0.58) coordinate (DAT);
-              \end{scope}
-        \end{tikzpicture}
-    \end{minipage}\begin{minipage}{0.30\linewidth}
-        \vspace{1em}
-        \begin{itemize}
-            \itemsep-0.7em
-            \item[\kern-0.2em] \tikz[na] \coordinate (MAGi); Magnetometer
-            \item[\kern-0.2em] \tikz[na] \coordinate (ADCi); \acs{ADC}
-            \item[\kern-0.2em] \tikz[na] \coordinate (AMPi); Amplifier
-            \item[\kern-0.2em] \tikz[na] \coordinate (DATi); Data Connector
-            \item[\kern-0.2em] \tikz[na] \coordinate (ACCi); Accelerometer
-        \end{itemize}
-        \vspace{4em}
-    \end{minipage}
-
-    \begin{tikzpicture}[overlay,remember picture]
-            \path[->,red,very thick] (MAGi) edge (MAG);
-            \path[->,red,very thick] (ADCi) edge (ADC);
-            \path[->,red,very thick] (AMPi) edge (AMP);
-            \path[->,red,very thick] (ACCi) edge (ACC);
-            \path[->,red,very thick] (DATi) edge (DAT);
-    \end{tikzpicture}
-    
-    \caption{Reverse side of the Solar Panel Board showing magnetometer}
-    \label{fig:SPB}
-\end{figure}
 
 The magnetometers are located on the back of the \acs{SPB}, shown in \cref{fig:SPB}. The magnetometer, with surrounding circuitry, is visible on the back of the board as are the ADC and amplifier. An accelerometer is also located on the back of the solar panel board and is used for a different mission objective. The data connector powers the sensors, including a temp sensor (not shown), and provides access to the sensor data.
 
