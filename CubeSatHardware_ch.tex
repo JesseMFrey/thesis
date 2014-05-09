@@ -275,12 +275,32 @@ In the idle state all of the \acp{MOSFET} are off and the torquer coils are floa
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{driveWaveform}
-    \caption{Torquer driving waveform}
+    \includegraphics[width=0.7\textwidth]{torquer-waveforms}
+    \caption{Torquer driving waveform showing multiple torquer flips}
     \label{fig:driveWV}
 \end{figure}
 
-\Cref{fig:driveWV} shows the driving waveform for the torquers. As the current spikes the torquer flip can be seen in the jump in the magnetic field. After the initial spike, the current decays as the capacitor discharges until the driver is switched off. The magnetic field intensity decays as the current decays but does not drop back to its previous value.
+\Cref{fig:driveWV} shows the driving waveform when driving a torquer multiple times in the same direction. The first flip is shown in blue and it starts at about +125 Gauss. The reset of the waveforms start at about -125 Gauss. This is because the first flip drives the torquer into saturation flipping the direction that the torquer is magnetized in.
+
+The Current waveforms also show changes due to torquer saturation. For the first flip the current initially increases at a slower rate. This because, on the Alnico1 B-H curve, the slope is steaper closer to the B-axis resulting in a higher inductance. As the torquer reaches saturation the inductance of the torquer goes down and the rate of change of current increases. For the subsaquent torquer flips the torquer is already saturated so the inductance is high and the driving current reaches its peak much faster.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{torquer-waveform-setup}
+    \caption{Setup for measuring \cref{fig:driveWV,fig:satWV}}
+    \label{fig:WVsetup}
+\end{figure}
+
+\Cref{fig:WVsetup} shows the hardware used to take the data for \cref{fig:driveWV,fig:satWV}. The \ac{ACDS} board was used to drive the torquers. To communicate with the \ac{ACDS} a development board was used which is plugged into the \ac{USB} cable. The torquer connects to the \ac{ACDS} board through a current sensor which is read by the oscilloscope. The torquer is placed inside a plastic housing with an attached Hall effect sensor. The hall effect sensor is located against the end of the torquer and is read by the oscilloscope. A pin on the \ac{ACDS} microcontroller is  used to trigger the scope which is automatically configured by a Matlab script which communicates with the \ac{ACDS} board and the oscilloscope.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{torquer-multiflip}
+    \caption{Torquer saturation}
+    \label{fig:satWV}
+\end{figure}
+
+\Cref{fig:satWV} shows how the torquer field changes as the number of flips increases. Both graphs show the same data, the graph on the bottom has been zoomed in to show the points after the first flip better. The 0\% point is found by averaging 20 samples from the beginning of the first magnetic field waveform in \cref{fig:driveWV}. The rest of the points are found by averaging the last 20 samples of the magnetic field waveforms from \cref{fig:driveWV}. The first flip gets the torquer field to within 97\% of the final value and after two flips it has reached the final value. 
 
 \subsection{Torquer Diagnostics}
 
@@ -305,11 +325,11 @@ The magnetometers are located on the back of the \acs{SPB}, shown in \cref{fig:S
 
 The \ac{SPB} also contains an amplifier to amplify the magnetometer signal before it is read by the \ac{ADC}. This allows the output voltage of the magnetometer to fill the input range of the \ac{ADC}. The required range of the magnetometer will be largely dependent on the torquer geometry and could be more then the $\pm$600 mGuass or so of earths field. The amplifier can be used to trade range for resolution depending on what is needed.
 
-The gain for the amplifier can be calculated as follows: If the maximum output range of the sensor is restricted to $\pm$ 4 gauss. With a bridge voltage of 3.3 V and a sensitivity of 1 mV/V/gauss this results in a $\pm$ 13.2 mV voltage swing. The bridge offset is $\pm$ 1.25 mV/V or $\pm$ 4.125 mV. This results in a total possible swing of $\pm$ 17.325 mV. The input voltage range of the \ac{ADC} is $\pm$ 1.65 V. This results in a gain of about 95. 
+The gain for the amplifier can be calculated as follows: If the maximum output range of the sensor is restricted to $\pm$ 4 Gauss. With a bridge voltage of 3.3 V and a sensitivity of 1 mV/V/Gauss this results in a $\pm$ 13.2 mV voltage swing. The bridge offset is $\pm$ 1.25 mV/V or $\pm$ 4.125 mV. This results in a total possible swing of $\pm$ 17.325 mV. The input voltage range of the \ac{ADC} is $\pm$ 1.65 V. This results in a gain of about 95. 
 
 \subsubsection{Magnetometer \acl{ADC}}
 
-Each magnetometer has its own \ac{ADC} on each \ac{SPB}. The \ac{ADC} used is the LTC2487. The LTC2487 is a 16-bit delta sigma \ac{ADC} that has two differential analog input channels and an \ac{I2C} interface. For a bridge voltage of 3.3V the HMC1052 has a sensitivity 3.3mV/Gauss. If the amplifier gain is 95 this results in a sensitivity of 0.31V/gauss. For a 3.3V reference voltage the \ac{ADC} has a resolution of $25 \mu V$ this results in a resolution of 81 $\mu$Gauss / LSB.
+Each magnetometer has its own \ac{ADC} on each \ac{SPB}. The \ac{ADC} used is the LTC2487. The LTC2487 is a 16-bit delta sigma \ac{ADC} that has two differential analog input channels and an \ac{I2C} interface. For a bridge voltage of 3.3V the HMC1052 has a sensitivity 3.3mV/Gauss. If the amplifier gain is 95 this results in a sensitivity of 0.31V/Gauss. For a 3.3V reference voltage the \ac{ADC} has a resolution of $25 \mu V$ this results in a resolution of 81 $\mu$Gauss / LSB.
 
 \subsubsection{Magnetometer Operation}
 %\subsection{\acs{AMR} Background}
