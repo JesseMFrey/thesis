@@ -282,7 +282,7 @@ In the idle state all of the \acp{MOSFET} are off and the torquer coils are floa
 
 \Cref{fig:driveWV} shows the driving waveform when driving a torquer multiple times in the same direction. The first flip is shown in blue and it starts at about +125 Gauss. The reset of the waveforms start at about -125 Gauss. This is because the first flip drives the torquer into saturation flipping the direction that the torquer is magnetized in.
 
-The Current waveforms also show changes due to torquer saturation. For the first flip the current initially increases at a slower rate. This because, on the Alnico1 B-H curve, the slope is steaper closer to the B-axis resulting in a higher inductance. As the torquer reaches saturation the inductance of the torquer goes down and the rate of change of current increases. For the subsaquent torquer flips the torquer is already saturated so the inductance is high and the driving current reaches its peak much faster.
+The Current waveforms also show changes due to torquer saturation. For the first flip the current initially increases at a slower rate. This because, on the Alnico1 B-H curve, the slope is steeper closer to the B-axis resulting in a higher inductance. As the torquer reaches saturation the inductance of the torquer goes down and the rate of change of current increases. For the subsequent torquer flips the torquer is already saturated so the inductance is low and the driving current reaches its peak much faster.
 
 \begin{figure}[H]
     \centering
@@ -292,6 +292,8 @@ The Current waveforms also show changes due to torquer saturation. For the first
 \end{figure}
 
 \Cref{fig:WVsetup} shows the hardware used to take the data for \cref{fig:driveWV,fig:satWV}. The \ac{ACDS} board was used to drive the torquers. To communicate with the \ac{ACDS} a development board was used which is plugged into the \ac{USB} cable. The torquer connects to the \ac{ACDS} board through a current sensor which is read by the oscilloscope. The torquer is placed inside a plastic housing with an attached Hall effect sensor. The hall effect sensor is located against the end of the torquer and is read by the oscilloscope. A pin on the \ac{ACDS} microcontroller is  used to trigger the scope which is automatically configured by a Matlab script which communicates with the \ac{ACDS} board and the oscilloscope.
+
+The measured field 
 
 \begin{figure}[H]
     \centering
