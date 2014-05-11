@@ -3,7 +3,11 @@
 \chapter{Software}
 \label{ch:Software}
 
+The main responsibility of the \ac{ACDS} software is to determine which torquer to flip each time step. The \ac{ACDS} also needs to keep track of ``house keeping'' information, sensor readings, torquer states and internal control system states so that the performance of the algorithm can be tracked on the ground.
+
 \section{Overview}
+
+In order to determine which torquer to flip the \ac{ACDS} needs sensor inputs. The sensors are read by the \ac{LEDL} board and forwarded to the \ac{ACDS} using the \ac{ARC}bus. The \ac{ACDS} needs to communicate with the \ac{COMM} board to receive uplinked orbital elements and respond to ground station commands.
 
 \begin{comment}
 \begin{figure}[H]
@@ -47,7 +51,7 @@
 
         \node [block,left of=AB,node distance=6cm]  (LEDL) {\acs{LEDL}};
         \node [block,left of=AB,yshift=-3cm]        (CDH) {\acs{CDH}};
-        \node [block,left of=CDH]                   (COM) {COM};
+        \node [block,left of=CDH]                   (COM) {\acs{COMM}};
 
         \node [bigblock,right of=AB,node distance=7cm,minimum height=5cm,yshift=1.5cm] (core) {\acs{ACDS} software};
         \node [bigblock,below of=core,node distance=4.5cm,minimum height=2cm] (HC) {House Keeping};
