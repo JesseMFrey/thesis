@@ -260,16 +260,16 @@ The coils used to drive the torquers are made from four layers of 26 AWG wire. T
 
 \subsection{Drivers}
 
-The schematic to drive a pair of torquers is shown in \cref{fig:drive}. Each pair of torquers is driven by three complimentary pairs of \acp{MOSFET}.  The \acp{MOSFET} are driven by three pairs of \ac{MOSFET} drivers which are controlled by the \ac{ACDS} microcontroller.
-
-In the idle state all of the \acp{MOSFET} are off and the torquer coils are floating. This prevents changing magnetic fields in the torquers causing current to flow in them. To flip a torquer one end of the torquer is shorted to ground using one of the N-Channel \acp{MOSFET} and the other end is shorted to C1 using one of the P-Channel \acp{MOSFET}. After a 2ms delay the \acp{MOSFET} are switched off and C1 begins to recharge.
-
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{Figures/driverSchematic}
+    \includegraphics[height=0.5\textheight]{Figures/driverSchematic}
     \caption{Torquer Driver schematic}
     \label{fig:drive}
 \end{figure}
+
+The schematic to drive a pair of torquers is shown in \cref{fig:drive}. Each pair of torquers is driven by three complimentary pairs of \acp{MOSFET}.  The \acp{MOSFET} are driven by three pairs of \ac{MOSFET} drivers which are controlled by the \ac{ACDS} microcontroller.
+
+In the idle state all of the \acp{MOSFET} are off and the torquer coils are floating. This prevents changing magnetic fields in the torquers causing current to flow in them. To flip a torquer one end of the torquer is shorted to ground using one of the N-Channel \acp{MOSFET} and the other end is shorted to C1 using one of the P-Channel \acp{MOSFET}. After a 2ms delay the \acp{MOSFET} are switched off and C1 begins to recharge.
 
 \subsubsection{Driving Waveform}
 
