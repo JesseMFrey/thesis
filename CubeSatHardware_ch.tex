@@ -286,8 +286,33 @@ The Current waveforms also show changes due to torquer saturation. For the first
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{torquer-waveform-setup}
-    \caption{Setup for measuring \cref{fig:driveWV,fig:satWV}}
+    \begin{tikzpicture}[remember picture,node distance=1em]
+        \def\sysx{0.8}
+        \begin{pgfonlayer}{background}
+            \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\linewidth]{torquer-waveform-setup}};
+        \end{pgfonlayer}
+        %insert detail image
+        \begin{scope}[x={(image.south east)},y={(image.north west)}]
+            \node[inner sep=0] (detail) at (0.13,0.19) {\includegraphics[width=1in,angle=-90]{testing-sensor}};
+            %declare coordinates for box around sensor
+            \path   (0.31,0.17) coordinate (box1)
+                    (0.31,0.22) coordinate (box2)
+                    (0.28,0.22) coordinate (box3)
+                    (0.28,0.17) coordinate (box4);
+            %draw box around sensor detail
+            \draw[magenta,very thick] (detail.south east) -- (detail.south west) -- (detail.north west) -- (detail.north east) -- cycle;
+            %draw box around sensor
+            \draw[red,very thick] (box1) -- (box2) -- (box3) -- (box4) -- cycle;
+            %draw ``expanding lines'' to detail
+            \begin{pgfonlayer}{background}
+                \draw[red,very thick] (box1) -- (detail.south east);
+                \draw[red,very thick] (box2) -- (detail.north east);
+                \draw[red,very thick] (box3) -- (detail.north west);
+                \draw[red,very thick] (box4) -- (detail.south west);
+            \end{pgfonlayer}
+        \end{scope}
+    \end{tikzpicture}
+    \caption{Setup for measuring \cref{fig:driveWV,fig:satWV}. The Hall effect sensor on the end of the torquer is shown in detail}
     \label{fig:WVsetup}
 \end{figure}
 
