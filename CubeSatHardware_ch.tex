@@ -293,7 +293,7 @@ The Current waveforms also show changes due to torquer saturation. For the first
 
 \Cref{fig:WVsetup} shows the hardware used to take the data for \cref{fig:driveWV,fig:satWV}. The \ac{ACDS} board was used to drive the torquers. To communicate with the \ac{ACDS} a development board was used which is plugged into the \ac{USB} cable. The torquer connects to the \ac{ACDS} board through a current sensor which is read by the oscilloscope. The torquer is placed inside a plastic housing with an attached Hall effect sensor. The hall effect sensor is located against the end of the torquer and is read by the oscilloscope. A pin on the \ac{ACDS} microcontroller is  used to trigger the scope which is automatically configured by a Matlab script which communicates with the \ac{ACDS} board and the oscilloscope.
 
-The measured field 
+The measured field that the Hall effect sensor reads is highly dependant on the distance from the torquer. Using the residual induction of Alnico1, 7200 Gauss \cite{AlnicoProp}, and \cite{DexterField} the magnetic field from the torquers should be 153 Gauss at 0.1 in form the face of the torquer. This is close to what is shown in \cref{fig:driveWV}. As the distance from the face increases to 0.2 and 0.3 in the field decreases to 44 and 20 Gauss respectively.
 
 \begin{figure}[H]
     \centering
