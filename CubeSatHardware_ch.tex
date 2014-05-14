@@ -1,15 +1,13 @@
 % vim: set filetype=tex spell :
 
 %CubeSat Chapter 
-\chapter{Hardware Implementation of the \acf{ACDS}}
+\chapter{Hardware Implementation of the \acf{ACDS}}\label{ch:CubeSatHardware}
 
-\label{ch:CubeSatHardware}
+
 
 \section{Mechanical Configuration of the \acf{ARC}}
 
-The \ac{ARC} uses the same board geometry as the CubeSat Kit\cite{CSK} hardware making it compatible with other CubeSat hardware. The \ac{ACDS} board has the same overall outline and hole pattern but it has 4 notches cut out to accommodate the Z-axis torquers and torquer standoffs. Additionally, there is a bump-out for the \ac{USB} connector so that it can be closer to the access port to allow a \ac{USB} cable to be easily plugged in.
-
-\Cref{fig:arcMech} shows the mechanical design of the \ac{ARC}. The design has a central board stack with solar panels and rails attached to rings that are on the top and bottom of the board stack. The \ac{ACDS} board is located 3rd from the bottom of the stack. This puts it in the center of the board stack. Because the solar cells cover all of the side faces except a small strip in the center this makes the \ac{ACDS} board the only place to put access port connections. The separation switch connections are also located on the \ac{ACDS} board as the separation switch is attached to one of the torquer standoff.
+\Cref{fig:arcMech} shows the mechanical design of the \ac{ARC}. The design has a central board stack with solar panels and rails attached to rings that are on the top and bottom of the board stack. The \ac{ACDS} board is located 3rd from the bottom of the stack. This puts it in the center of the board stack. Because the solar cells cover all of the side faces except a small strip in the center this makes the \ac{ACDS} board the only place to put anything that needs to be accessed while \ac{ARC} is in the \ac{PPOD}. The separation switch connections are also located on the \ac{ACDS} board as the separation switch is attached to one of the torquer standoff.
 
 \begin{figure}[!ht]
     \centering
@@ -66,21 +64,21 @@ The \ac{ARC} uses the same board geometry as the CubeSat Kit\cite{CSK} hardware 
 The components shown in \cref{fig:arcMech} are as follows:
 
 \begin{description}
-    \item[\acs{LEDL}] one of the \acp{SMO} on \ac{ARC} is to ``Characterize the thermal and vibration environment inside the launch vehicle from ignition to orbit insertion.''\cite{ARCweb} The \ac{LEDL} does this by using a separate battery to operate during the launch phase and log data from accelerometers and temperature sensors.
-    \item[\acs{EPS}] The solar cells provide power for the \ac{ARC} which is stored and regulated by the \ac{EPS}
-    \item[\acs{ACDS}] one of the \acp{SMO} on \ac{ARC} is to ``Validate a novel low power \acf{ACDS}.'' \cite{ARCweb}
-    \item[Separation Switch] is screwed into one of the torquer standoffs and cuts off power to the CubeSat when it is in the \ac{PPOD}.
-    \item[\acs{COMM}] allows for two way communication with the ground. A 9600bps command/beacon up/down link and a 38400bps data down link are used.
-    \item[\acs{IMG}] one of the \acp{SMO} on \ac{ARC} is to ``Validate a high bandwidth communication system by obtaining images of changing snow/ice coverage in arctic regions.''\cite{ARCweb}
+    \item[\acs{LEDL} :] one of the \acp{SMO} on \ac{ARC} is to ``Characterize the thermal and vibration environment inside the launch vehicle from ignition to orbit insertion.''\cite{ARCweb} The \ac{LEDL} does this by using a separate battery to operate during the launch phase and log data from accelerometers and temperature sensors.
+    \item[\acs{EPS} :] manages electrical power on \ac{ARC}. The solar cells connect to \acp{BCR} which have peak power point tracking and output the proper voltage to charge the batteries. The voltage from the batteries is regulated down to 5V and 3.3V. The \ac{EPS} supplies the unregulated battery voltage along with the 5V and 3.3V rails to the rest of the satellite.
+    \item[\acs{ACDS} :] one of the \acp{SMO} on \ac{ARC} is to ``Validate a novel low power \acf{ACDS}.'' \cite{ARCweb} This is the system discussed in this thesis.
+    \item[Separation Switch :] is screwed into one of the torquer standoffs and cuts off power to the CubeSat when it is in the \ac{PPOD}.
+    \item[\acs{COMM} :] allows for two way communication with the ground. A 9600bps command/beacon up/down link and a 38400bps data down link are used. The 9600bps link operates on the 436MHz band and uses a tape measure monopole. The 38400bps link operates on the 2.4GHz and uses a ceramic patch antenna mounted on the bottom of the \ac{ARC}.
+    \item[\acs{IMG} :] one of the \acp{SMO} on \ac{ARC} is to ``Validate a high bandwidth communication system by obtaining images of changing snow/ice coverage in arctic regions.''\cite{ARCweb}
 \end{description}
 
 For clarity the \acp{SPB} are not shown in\cref{fig:arcMech}. The \acp{SPB} are attached to mounting holes in the rails and are the outer faces of the \ac{ARC}. In addition to the solar cells the \acp{SPB} also contain sensors that are used by the \ac{LEDL} and \ac{ACDS}. \Cref{fig:SPB} shows the back side of a side \ac{SPB} with the sensors labeled. The top and bottom \acp{SPB} are similar to the side \acp{SPB} except they lack accelerometers and have parts for the antennas and antenna deployment.
 
 \begin{figure}[!ht]
     \centering
-    \begin{minipage}{0.35\linewidth}
+    \begin{minipage}{0.30\linewidth}
         \begin{tikzpicture}[remember picture] 
-            \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\linewidth]{SPB}};
+            \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\linewidth]{SPB-back}};
             \begin{scope}[x={(image.south east)},y={(image.north west)}]
                 \path (0.715,0.74) coordinate (MAG)
                       (0.395,0.72) coordinate (ADC)
@@ -90,15 +88,26 @@ For clarity the \acp{SPB} are not shown in\cref{fig:arcMech}. The \acp{SPB} are 
               \end{scope}
         \end{tikzpicture}
     \end{minipage}\begin{minipage}{0.30\linewidth}
-        \vspace{1em}
+        \vspace{2em}
         \begin{itemize}\setlength{\parskip}{0pt}
+            \item[\kern-0.2em] Temperature Sensor \tikz[na] \coordinate (TEMPi);
             \item[\kern-0.2em] \tikz[na] \coordinate (MAGi); Magnetometer
             \item[\kern-0.2em] \tikz[na] \coordinate (ADCi); \acs{ADC}
             \item[\kern-0.2em] \tikz[na] \coordinate (AMPi); Amplifier
             \item[\kern-0.2em] \tikz[na] \coordinate (DATi); Data Connector
             \item[\kern-0.2em] \tikz[na] \coordinate (ACCi); Accelerometer
+            \item[\kern-0.2em] Solar Cells \tikz[na] \coordinate (SCi);
         \end{itemize}
         \vspace{4em}
+    \end{minipage} \begin{minipage}{0.30\linewidth}
+        \begin{tikzpicture}[remember picture] 
+            \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\linewidth]{SPB-front}};
+            \begin{scope}[x={(image.south east)},y={(image.north west)}]
+                \path (0.39,0.49) coordinate (TEMP)
+                      (0.094,0.60) coordinate (SC1)
+                      (0.082,0.35) coordinate (SC2);
+              \end{scope}
+        \end{tikzpicture}
     \end{minipage}
 
     \begin{tikzpicture}[overlay,remember picture]
@@ -107,21 +116,35 @@ For clarity the \acp{SPB} are not shown in\cref{fig:arcMech}. The \acp{SPB} are 
             \path[->,red,very thick] (AMPi) edge (AMP);
             \path[->,red,very thick] (ACCi) edge (ACC);
             \path[->,red,very thick] (DATi) edge (DAT);
+            \path[->,red,very thick] (TEMPi) edge (TEMP);
+            \path[->,red,very thick] (SCi) edge (SC1);
+            \path[->,red,very thick] (SCi) edge (SC2);
     \end{tikzpicture}
     
     \caption{Reverse side of the Solar Panel Board showing magnetometer}
     \label{fig:SPB}
 \end{figure}
 
-\subsection{\acl{ARC} Hardware}
+\subsection{\acl{ARC} \acl{ACDS} Hardware}
+
+The \ac{ARC} uses the same board geometry as the CubeSat Kit\cite{CSK} hardware making it compatible with other CubeSat hardware. The \ac{ACDS} board has the same overall outline and hole pattern but it has 4 notches cut out to accommodate the Z-axis torquers and torquer standoffs. Additionally, there is a bump-out for the \ac{USB} connector so that it can be closer to the access port to allow a \ac{USB} cable to be easily plugged in.
 
 \begin{figure}[!ht]
     \centering
-    \begin{minipage}{0.35\linewidth}
-        \begin{tikzpicture}[remember picture,node distance=0.5em] 
+    \begin{minipage}{0.40\linewidth}
+        \raggedleft
+        \vspace{4em}
+        \begin{itemize}\setlength{\parskip}{0pt}
+            \item[\kern-0.2em] X torquers \tikz[na] \coordinate (TqXi);
+            \item[\kern-0.2em] Pull Pin Housing \tikz[na] \coordinate (PPi);
+            \item[\kern-0.2em] \acf{USB} connection \tikz[na] \coordinate (USBi);
+        \end{itemize}
+    \end{minipage}\begin{minipage}{0.35\linewidth}
+        \begin{tikzpicture}[remember picture] 
             \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\linewidth]{ACDS-board-photo}};
             \begin{scope}[x={(image.south east)},y={(image.north west)}]
-                \path (0.30,0.27) coordinate (PP)
+                \path (0.25,0.37) coordinate (PP)
+                      %(0.30,0.27) coordinate (PP)
                       (0.38,0.07) coordinate (USB)
                       (0.46,0.70) coordinate (TqX1)
                       (0.41,0.70) coordinate (TqX2)
@@ -146,16 +169,14 @@ For clarity the \acp{SPB} are not shown in\cref{fig:arcMech}. The \acp{SPB} are 
                 %\node[red,below of=Z] (Zl) {Z};
               \end{scope}
         \end{tikzpicture}
-    \end{minipage}\begin{minipage}{0.50\linewidth}
-        \vspace{1em}
+    \end{minipage}\begin{minipage}{0.20\linewidth}
         \begin{itemize}\setlength{\parskip}{0pt}
-            \item[\kern-0.2em] \tikz[na] \coordinate (TqXi); X torquers
+            %\item[\kern-0.2em] \tikz[na] \coordinate (TqXi); X torquers
             \item[\kern-0.2em] \tikz[na] \coordinate (TqYi); Y torquers
             \item[\kern-0.2em] \tikz[na] \coordinate (TqZi); Z torquers
-            \item[\kern-0.2em] \tikz[na] \coordinate (PPi); Pull Pin
-            \item[\kern-0.2em] \tikz[na] \coordinate (USBi); \acf{USB} connection
+            %\item[\kern-0.2em] \tikz[na] \coordinate (PPi); Pull Pin
+            %\item[\kern-0.2em] \tikz[na] \coordinate (USBi); \acf{USB} connection
         \end{itemize}
-        \vspace{4em}
     \end{minipage}
 
     \begin{tikzpicture}[overlay,remember picture]
@@ -188,7 +209,7 @@ The standard board shape has also been modified to allow the \ac{USB} connector 
 
 The subsystems of the \ac{ARC} will communicate with each other using the ARCBus. The ARCBus consists of shared connections between the subsystems to transmit commands and data. The ARCBus will primary used by the \ac{ACDS} to get sensor data from the \ac{LEDL} and send and receive data to the ground station through the COMM system. Commands are transmited using an \ac{I2C} bus and large blocks of data are sent using a \ac{SPI} bus which is negotiated using the \ac{I2C} bus.
 
-\section{\acl{ACDS} System Block Diagram}
+\section{\acl{ACDS} Block Diagram}
 
 The block diagram for the CubeSat hardware used to implement the \ac{ACDS}. The hardware necessary for the \ac{ACDS} is spread over multiple subsystems of the \ac{ARC}. The \ac{ACDS} board contains the torquers, driving hardware along with the microcontroller which will run the attitude control algorithm. There is one two axis magnetometer located on each of the six of the \acp{SPB}. These are used by the \ac{ACDS} to calculate rotation rates and calculate the magnetic dipole moment required to generate the necessary torque. Spreading the magnetometers across all six faces should give some degree of noise immunity and redundancy. The \ac{LEDL} board also contains \ac{MEMS} angular rate sensors as a redundant reading of the rotation rate of the \ac{ARC}. The sensors on the \acp{SPB} are read by the \ac{LEDL} which then forwards the magnetometer and angular rate measurements to the \ac{ACDS}.
 
@@ -240,13 +261,13 @@ The block diagram for the CubeSat hardware used to implement the \ac{ACDS}. The 
 
 \subsection{Cores}
 
-The torquer cores are made of Alnico1 which is a hard magnetic material. Most magnetic torquers use either an air core or a soft magnetic core. Ideally both an air or a soft core only produce torque while a current is running through the coil. A soft core will produce more torque for the same geometry and current, however soft magnetic materials have some hysteresis that will continue to produce undesired torque after current stops flowing. Hard magnetic materials are chosen to have a large amount of hysteresis so that after the current stops flowing in the coil torque is produced. 
+Most magnetic torquers use either an air core or a soft magnetic core. Ideally both an air or a soft core only produce torque while a current is running through the coil. A soft core will produce more torque for the same geometry and current compared to an air core. However soft magnetic materials have some hysteresis that will continue to produce undesired torque after current stops flowing. Hard magnetic materials are chosen to have a large amount of hysteresis so that after the current stops flowing in the coil torque is produced. The torquer cores are made of Alnico1 which is a hard magnetic material.
 
 \subsubsection{Core Sizing}
 
-The torquer cores from \cite{Mentch11} consisted of a large and a small pair in each axis. All torquer cores were the same size, one inch long $\sfrac{1}{16}$th inch diameter rod. The large pair was made of Alnico1 and produced a magnetic dipole moment of $0.022 \unit{A m^2}$. The small pair was proposed to have an inert core with a thin permalloy coating to give it a dipole moment of $0.00011 \unit{A m^2}$.
+The torquer cores proposed \cite{Mentch11} consisted of a large and a small pair in each axis. The large pair was made of Alnico1 and produced a magnetic dipole moment of $0.022 \unit{A m^2}$. The small pair was proposed to have an inert core with a thin permalloy coating to give it a dipole moment of $0.00011 \unit{A m^2}$. All torquer cores were the same size, one inch long $\sfrac{1}{16}$th inch diameter rod.
 
-As discussed in \cite{Mentch11} the large cores were sized by first determining the desired torque then calculating the necessary dipole moment. Simulation was used to refine the required dipole moment. Alnico5 was the core material that had been used in prevous expariments for much larger cores. The minimum manufacturable size of alnico rods is $\sfrac{1}{16}$. It is desirable to have a length to diameter ratio greater than 10 which fixes the minimum torque that can be achieved. The torque using Alnico5 was larger then the desired torque so Alnico1 was used instead which has a lower residual induction. 
+As discussed in \cite{Mentch11} the large cores were sized by first determining the desired torque then calculating the necessary dipole moment. Simulation was used to refine the required dipole moment. Alnico5 was the core material that had been used in previous experiments for much larger cores\cite{Mentch11}\todo{Look for other reference?}. The minimum manufacturable size of alnico rods is $\sfrac{1}{16}$. It is desirable to have a length to diameter ratio greater than 10 which fixes the minimum torque that can be achieved. The torque using Alnico5 was larger than the desired torque so Alnico1 was used instead which has a lower residual induction. 
 
 The proposed size of the small torquers was $\sfrac{1}{200}$th the torque of the alnico torquers. The fabrication of the proposed torquer was not completed and even if it had it is not clear that testing could have been done to quantify the dipole moment. In addition to fabrication and testing issues there is the problem of balancing the alnico cores. Because of theses difficulties the original design for the small torquers was dropped and an extra set of Alnico torquers was added in their place. The charge time was also shortened from 10 seconds to 1 second.
 
@@ -269,7 +290,7 @@ The coils used to drive the torquers are made from four layers of 26 AWG wire. T
 
 The schematic to drive a pair of torquers is shown in \cref{fig:drive}. Each pair of torquers is driven by three complimentary pairs of \acp{MOSFET}.  The \acp{MOSFET} are driven by three pairs of \ac{MOSFET} drivers which are controlled by the \ac{ACDS} microcontroller.
 
-In the idle state all of the \acp{MOSFET} are off and the torquer coils are floating. This prevents changing magnetic fields in the torquers causing current to flow in them. To flip a torquer one end of the torquer is shorted to ground using one of the N-Channel \acp{MOSFET} and the other end is shorted to C1 using one of the P-Channel \acp{MOSFET}. After a 2ms delay the \acp{MOSFET} are switched off and C1 begins to recharge.
+In the idle state all of the \acp{MOSFET} are off and the torquer coils are floating. This prevents unwanted currents from flowing in the torquers. Currents can be induced in the coils as the satellite turns and the magnetic field in the torquers changes. To flip a torquer one end of the torquer is shorted to ground using one of the N-Channel \acp{MOSFET} and the other end is shorted to capacitor C1 using one of the P-Channel \acp{MOSFET}. After a 2 ms delay the \acp{MOSFET} are switched off and C1 begins to recharge.
 
 \subsubsection{Driving Waveform}
 
@@ -280,7 +301,9 @@ In the idle state all of the \acp{MOSFET} are off and the torquer coils are floa
     \label{fig:driveWV}
 \end{figure}
 
-\Cref{fig:driveWV} shows the driving waveform when driving a torquer multiple times in the same direction. The first flip is shown in blue and it starts at about +125 Gauss. The reset of the waveforms start at about -125 Gauss. This is because the first flip drives the torquer into saturation flipping the direction that the torquer is magnetized in.
+\Cref{fig:driveWV} shows the driving waveform when driving a torquer multiple times in the same direction. The first torquer flip is shown in blue and the last flip is shown in red. The first waveform is the only waveform that differs significantly from the subsequent waveforms because the torquer is fully saturated in the first flip.
+
+The magnetic field waveform for the fist flip starts at about +125 Gauss, this is because the torquer was flipped in the opposite direction before the test started. The reset of the waveforms start at about -125 Gauss. This is because the first flip drives the torquer into saturation flipping the direction that the torquer is magnetized in. For all the flips after the first flip  the change in magnetic field is only due to the torquer coil and not to an actual torquer flip.
 
 The Current waveforms also show changes due to torquer saturation. For the first flip the current initially increases at a slower rate. This because, on the Alnico1 B-H curve, the slope is steeper closer to the B-axis resulting in a higher inductance. As the torquer reaches saturation the inductance of the torquer goes down and the rate of change of current increases. For the subsequent torquer flips the torquer is already saturated so the inductance is low and the driving current reaches its peak much faster.
 
@@ -316,7 +339,7 @@ The Current waveforms also show changes due to torquer saturation. For the first
     \label{fig:WVsetup}
 \end{figure}
 
-\Cref{fig:WVsetup} shows the hardware used to take the data for \cref{fig:driveWV,fig:satWV}. The \ac{ACDS} board was used to drive the torquers. To communicate with the \ac{ACDS} a development board was used which is plugged into the \ac{USB} cable. The torquer connects to the \ac{ACDS} board through a current sensor which is read by the oscilloscope. The torquer is placed inside a plastic housing with an attached Hall effect sensor. The hall effect sensor is located against the end of the torquer and is read by the oscilloscope. A pin on the \ac{ACDS} microcontroller is  used to trigger the scope which is automatically configured by a Matlab script which communicates with the \ac{ACDS} board and the oscilloscope.
+\Cref{fig:WVsetup} shows the hardware used to take the data for \cref{fig:driveWV,fig:satWV}. The \ac{ACDS} board was used to drive the torquers. To communicate with the \ac{ACDS} another microcontroller board was used along with a \ac{USB} to serial converter. The torquer connects to the \ac{ACDS} board through a current sensor which is read by the oscilloscope. The torquer is placed inside a plastic housing with an attached Hall effect sensor. The hall effect sensor is located against the end of the torquer and is read by the oscilloscope. A pin on the \ac{ACDS} microcontroller is  used to trigger the scope which is automatically configured by a Matlab script which communicates with the \ac{ACDS} board and the oscilloscope.
 
 The measured field that the Hall effect sensor reads is highly dependant on the distance from the torquer. Using the residual induction of Alnico1, 7200 Gauss \cite{AlnicoProp}, and \cite{DexterField} the magnetic field from the torquers should be 153 Gauss at 0.1 in form the face of the torquer. This is close to what is shown in \cref{fig:driveWV}. As the distance from the face increases to 0.2 and 0.3 in the field decreases to 44 and 20 Gauss respectively.
 
@@ -331,14 +354,14 @@ The measured field that the Hall effect sensor reads is highly dependant on the 
 
 \subsection{Torquer Diagnostics}
 
-Comparators are used to detect in flight if the torquers and drivers are functioning properly. One comparator is used to determine if the capacitor is charged and another is used to detect if the capacitor is discharged. The comparators are checked both before and after a torquer flip to see if the capacitor was charged before an attempted flip and discharged after. If the capacitor did not discharge then the torquer did not flip probably because of a bad connection somewhere. This information is logged in flight and can be used on the ground to analyze how well the torquers are working.
+Comparators are used to detect if the torquers and drivers are functioning properly in flight. One comparator is used to determine if the capacitor is charged and another is used to detect if the capacitor is discharged. The comparators are checked both before and after a torquer flip to see if the capacitor was charged before an attempted flip and discharged after. If the capacitor did not discharge then the torquer did not flip probably because of a bad connection somewhere. This information is logged in flight and can be downlinked to analyze if the torquers are firing correctly.
 
 \todo[inline]{Need some discussion of what is done with the info but also need to figure out what should be done.}
 
 
 \section{Sensors}
 
-The only sensor called out in \cite{Mentch11} was a magnetometer. The accuracy of the magnetometer was not specified but it needs to be able to determine rotation rates accurately enough for the \ac{ACDS} to work.
+The only sensor called out in \cite{Mentch11} was a magnetometer. The magnetometer was proposed to be used to determine the angular rates of the \ac{ARC} as well as part of the torque equation. Because the torque produced by the torquers depends on the earths magnetic field, in order for the algorithm to compute the necessary dipole moment the earths magnetic field must be known. The accuracy of the magnetometer was not specified but it needs to be able to determine rotation rates accurately enough for the \ac{ACDS} to work.
 
 \subsection{Magnetometer}
 
