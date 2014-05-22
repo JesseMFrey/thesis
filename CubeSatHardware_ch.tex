@@ -152,24 +152,24 @@ The \ac{ACDS} board has the same overall outline and hole pattern as the rest of
         \end{itemize}
     \end{minipage}\begin{minipage}{0.35\linewidth}
         \begin{tikzpicture}[remember picture] 
-            \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\linewidth]{ACDS-board-photo}};
+            \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\linewidth]{ACDS-board-render}};
             \begin{scope}[x={(image.south east)},y={(image.north west)}]
-                \path (0.25,0.37) coordinate (PP)
+                \path (0.19,0.35) coordinate (PP)
                       %(0.30,0.27) coordinate (PP)
-                      (0.38,0.07) coordinate (USB)
-                      (0.46,0.70) coordinate (TqX1)
-                      (0.41,0.70) coordinate (TqX2)
-                      (0.22,0.70) coordinate (TqX3)
+                      (0.39,0.09) coordinate (USB)
+                      (0.45,0.70) coordinate (TqX1)
+                      (0.36,0.70) coordinate (TqX2)
+                      (0.18,0.70) coordinate (TqX3)
                       (0.25,0.70) coordinate (TqX4)
-                      (0.45,0.90) coordinate (TqY1)
+                      (0.45,0.895) coordinate (TqY1)
                       %(0.45,0.89) coordinate (TqY1)
                       (0.45,0.93) coordinate (TqY2)
-                      (0.50,0.40) coordinate (TqY3)
+                      (0.50,0.37) coordinate (TqY3)
                       (0.50,0.49) coordinate (TqY4)
-                      (0.15,0.14) coordinate (TqZ1)
-                      (0.14,0.88) coordinate (TqZ2)
-                      (0.85,0.92) coordinate (TqZ3)
-                      (0.87,0.14) coordinate (TqZ4);
+                      (0.14,0.13) coordinate (TqZ1)
+                      (0.05,0.87) coordinate (TqZ2)
+                      (0.88,0.90) coordinate (TqZ3)
+                      (0.89,0.15) coordinate (TqZ4);
               %draw axis
                 %\path (0.15,0.72) coordinate (axOrig);
                 %\draw[->,red,very thick] (axOrig) to +(-88.3:0.1) coordinate (X);
@@ -197,14 +197,14 @@ The \ac{ACDS} board has the same overall outline and hole pattern as the rest of
             %\path[->,red,very thick] (TqXi) edge (TqX2);
             \path[->,red,very thick] (TqXi) edge (TqX3);
             %\path[->,red,very thick] (TqXi) edge (TqX4);
-            \path[->,magenta,very thick] (TqYi) edge (TqY1);
-            %\path[->,magenta,very thick] (TqYi) edge (TqY2);
-            \path[->,magenta,very thick] (TqYi) edge (TqY3);
-            %\path[->,magenta,very thick] (TqYi) edge (TqY4);
-            \path[->,black,very thick] (TqZi) edge (TqZ1);
-            \path[->,black,very thick] (TqZi) edge (TqZ2);
-            \path[->,black,very thick] (TqZi) edge (TqZ3);
-            \path[->,black,very thick] (TqZi) edge (TqZ4);
+            \path[->,black,very thick] (TqYi) edge (TqY1);
+            %\path[->,black,very thick] (TqYi) edge (TqY2);
+            \path[->,black,very thick] (TqYi) edge (TqY3);
+            %\path[->,black,very thick] (TqYi) edge (TqY4);
+            \path[->,magenta,very thick] (TqZi) edge (TqZ1);
+            \path[->,magenta,very thick] (TqZi) edge (TqZ2);
+            \path[->,magenta,very thick] (TqZi) edge (TqZ3);
+            \path[->,magenta,very thick] (TqZi) edge (TqZ4);
     \end{tikzpicture}
     \caption{The \ac{ARC} \ac{ACDS} board}
     \label{fig:boardPhoto}
