@@ -3,11 +3,17 @@
 %CubeSat Chapter 
 \chapter{Hardware Implementation of the \acf{ACDS}}\label{ch:CubeSatHardware}
 
+The hardware in \cite{Mentch11} is quite simple. All that is called for besides processing power is a way to drive torquers and a magnetometer. The \ac{LPMT} has no space flight heratage. The \ac{ACDS} on the \ac{ARC} is planned to be the first time that the \ac{LPMT} will fly.
 
+The \ac{ACDS} board for the \ac{ARC} only contains the processor, torquers and drivers. The sensors are located off board and managed by the \ac{LEDL}. The sensor data is sent over the bus to the \ac{ACDS} processor. 
+
+%Both the  \ac{LPMT} and the biasing algorithm have never been flight tested. To test the \ac{LPMT} and bias algorithm the \ac{ARC} will fly an \ac{ACDS} that uses \acp{LPMT}. The central \ac{ACDS} processor and the hardware required to flip the torquers are located on the \ac{ACDS} board while the sensors are located on the \acp{SPB}.
 
 \section{Mechanical Configuration of the \acf{ARC}}
 
-\Cref{fig:arcMech} shows the mechanical design of the \ac{ARC}. The design has a central board stack with solar panels and rails attached to rings that are on the top and bottom of the board stack. The \ac{ACDS} board is located 3rd from the bottom of the stack. This puts it in the center of the board stack. Because the solar cells cover all of the side faces except a small strip in the center this makes the \ac{ACDS} board the only place to put anything that needs to be accessed while \ac{ARC} is in the \ac{PPOD}. The separation switch connections are also located on the \ac{ACDS} board as the separation switch is attached to one of the torquer standoff.
+\Cref{fig:arcMech} shows the mechanical design of the \ac{ARC}. The design has a central board stack with solar panels and rails attached to rings that are on the top and bottom of the board stack. The boards in the stack are connected by a 104 pin stack through header that is located on the -Y edge of each board. The header distributes power and allows for communication between boards. 
+
+The \ac{ACDS} board is located 3rd from the bottom of the stack. This puts it in the center of the board stack. Because the solar cells cover all of the side faces except a small strip in the center this makes the \ac{ACDS} board the only place to put anything that needs to be accessed while \ac{ARC} is in the \ac{PPOD}. The separation switch connections are also located on the \ac{ACDS} board as the separation switch is attached to one of the torquer standoff.
 
 \begin{figure}[!ht]
     \centering
@@ -61,22 +67,10 @@
     \label{fig:arcMech}
 \end{figure}
 
-The components shown in \cref{fig:arcMech} are as follows:
-
-\begin{description}
-    \item[\acs{LEDL} :] one of the \acp{SMO} on \ac{ARC} is to ``Characterize the thermal and vibration environment inside the launch vehicle from ignition to orbit insertion.''\cite{ARCweb} The \ac{LEDL} does this by using a separate battery to operate during the launch phase and log data from accelerometers and temperature sensors.
-    \item[\acs{EPS} :] manages electrical power on \ac{ARC}. The solar cells connect to \acp{BCR} which have peak power point tracking and output the proper voltage to charge the batteries. The voltage from the batteries is regulated down to 5V and 3.3V. The \ac{EPS} supplies the unregulated battery voltage along with the 5V and 3.3V rails to the rest of the satellite.
-    \item[\acs{ACDS} :] one of the \acp{SMO} on \ac{ARC} is to ``Validate a novel low power \acf{ACDS}.'' \cite{ARCweb} This is the system discussed in this thesis.
-    \item[Separation Switch :] is screwed into one of the torquer standoffs and cuts off power to the CubeSat when it is in the \ac{PPOD}.
-    \item[\acs{COMM} :] allows for two way communication with the ground. A 9600bps command/beacon up/down link and a 38400bps data down link are used. The 9600bps link operates on the 436MHz band and uses a tape measure monopole. The 38400bps link operates on the 2.4GHz and uses a ceramic patch antenna mounted on the bottom of the \ac{ARC}.
-    \item[\acs{IMG} :] one of the \acp{SMO} on \ac{ARC} is to ``Validate a high bandwidth communication system by obtaining images of changing snow/ice coverage in arctic regions.''\cite{ARCweb}
-\end{description}
-
-For clarity the \acp{SPB} are not shown in\cref{fig:arcMech}. The \acp{SPB} are attached to mounting holes in the rails and are the outer faces of the \ac{ARC}. In addition to the solar cells the \acp{SPB} also contain sensors that are used by the \ac{LEDL} and \ac{ACDS}. \Cref{fig:SPB} shows the back side of a side \ac{SPB} with the sensors labeled. The top and bottom \acp{SPB} are similar to the side \acp{SPB} except they lack accelerometers and have parts for the antennas and antenna deployment.
-
 \begin{figure}[!ht]
     \centering
     \begin{minipage}{0.30\linewidth}
+        \centering\large{Back}
         \begin{tikzpicture}[remember picture] 
             \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\linewidth]{SPB-back}};
             \begin{scope}[x={(image.south east)},y={(image.north west)}]
@@ -88,18 +82,20 @@ For clarity the \acp{SPB} are not shown in\cref{fig:arcMech}. The \acp{SPB} are 
               \end{scope}
         \end{tikzpicture}
     \end{minipage}\begin{minipage}{0.30\linewidth}
-        \vspace{2em}
+        {\large\vspace{1.5em}}
+        \vspace*{\fill}
         \begin{itemize}\setlength{\parskip}{0pt}
             \item[\kern-0.2em] Temperature Sensor \tikz[na] \coordinate (TEMPi);
             \item[\kern-0.2em] \tikz[na] \coordinate (MAGi); Magnetometer
             \item[\kern-0.2em] \tikz[na] \coordinate (ADCi); \acs{ADC}
             \item[\kern-0.2em] \tikz[na] \coordinate (AMPi); Amplifier
-            \item[\kern-0.2em] \tikz[na] \coordinate (DATi); Data Connector
-            \item[\kern-0.2em] \tikz[na] \coordinate (ACCi); Accelerometer
             \item[\kern-0.2em] Solar Cells \tikz[na] \coordinate (SCi);
+            \item[\kern-0.2em] \tikz[na] \coordinate (ACCi); Accelerometer
+            \item[\kern-0.2em] \tikz[na] \coordinate (DATi); Data Connector
         \end{itemize}
-        \vspace{4em}
+        \vspace*{\fill}
     \end{minipage} \begin{minipage}{0.30\linewidth}
+        \centering\large{Front}
         \begin{tikzpicture}[remember picture] 
             \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\linewidth]{SPB-front}};
             \begin{scope}[x={(image.south east)},y={(image.north west)}]
@@ -121,17 +117,32 @@ For clarity the \acp{SPB} are not shown in\cref{fig:arcMech}. The \acp{SPB} are 
             \path[->,red,very thick] (SCi) edge (SC2);
     \end{tikzpicture}
     
-    \caption{Reverse side of the Solar Panel Board showing magnetometer}
+    \caption{Front and back sides of the Solar Panel Board showing magnetometer}
     \label{fig:SPB}
 \end{figure}
 
+For clarity the \acp{SPB} are not shown in\cref{fig:arcMech}. The \acp{SPB} are attached to mounting holes in the rails and are the outer faces of the \ac{ARC}. In addition to the solar cells the \acp{SPB} also contain sensors that are used by the \ac{LEDL} and \ac{ACDS}. \Cref{fig:SPB} shows the back side of a side \ac{SPB} with the sensors labeled. The top and bottom \acp{SPB} are similar to the side \acp{SPB} except they lack accelerometers and have parts for the antennas and antenna deployment.
+
+The core board stack contains the major subsystems for the \ac{ARC}. Some of these subsystems are designed to carry out a spesific \ac{SMO} while others provide a general support role. The subsystems are as follows:
+
+\begin{description}
+    \item[\acs{LEDL} :] one of the \acp{SMO} on \ac{ARC} is to ``Characterize the thermal and vibration environment inside the launch vehicle from ignition to orbit insertion.''\cite{ARCweb} The \ac{LEDL} does this by using a separate battery to operate during the launch phase and log data from accelerometers and temperature sensors.
+    \item[\acs{EPS} :] manages electrical power on \ac{ARC}. The solar cells connect to \acp{BCR} which have peak power point tracking and output the proper voltage to charge the batteries. The voltage from the batteries is regulated down to 5V and 3.3V. The \ac{EPS} supplies the unregulated battery voltage along with the 5V and 3.3V rails to the rest of the satellite.
+    \item[\acs{ACDS} :] one of the \acp{SMO} on \ac{ARC} is to ``Validate a novel low power \acf{ACDS}.'' \cite{ARCweb} This is the system discussed in this thesis.
+    \item[Separation Switch :] is screwed into one of the torquer standoffs and cuts off power to the CubeSat when it is in the \ac{PPOD}.
+    \item[\acs{COMM} :] allows for two way communication with the ground. A 9600bps command/beacon up/down link and a 38400bps data down link are used. The 9600bps link operates on the 436MHz band and uses a tape measure monopole. The 38400bps link operates on the 2.4GHz and uses a ceramic patch antenna mounted on the bottom of the \ac{ARC}.
+    \item[\acs{IMG} :] one of the \acp{SMO} on \ac{ARC} is to ``Validate a high bandwidth communication system by obtaining images of changing snow/ice coverage in arctic regions.''\cite{ARCweb}
+\end{description}
+
+The \ac{EPS} is designed and manufactured by Clyde Space as a generic CubeSat \ac{EPS}. The \ac{EPS} is compatible with CubeSat Kit\cite{KSC} hardware which seems to be the main standard for off the shelf CubeSat hardware. Because of this the rest of the \ac{ARC} subsystems must be compatible with the CubeSat Kit hardware. All boards have the same header and mounting hole locations and similar outlines so that they all fit together in the CubeSat.
+
 \subsection{\acl{ARC} \acl{ACDS} Hardware}
 
-The \ac{ARC} uses the same board geometry as the CubeSat Kit\cite{CSK} hardware making it compatible with other CubeSat hardware. The \ac{ACDS} board has the same overall outline and hole pattern but it has 4 notches cut out to accommodate the Z-axis torquers and torquer standoffs. Additionally, there is a bump-out for the \ac{USB} connector so that it can be closer to the access port to allow a \ac{USB} cable to be easily plugged in.
+The \ac{ACDS} board has the same overall outline and hole pattern as the rest of the \ac{ARC} subsystems, but it has 4 notches cut out to accommodate the Z-axis torquers and torquer standoffs. Additionally, there is a bump-out for the \ac{USB} connector so that it can be closer to the access port to allow a \ac{USB} cable to be easily plugged in.
 
 \begin{figure}[!ht]
     \centering
-    \begin{minipage}{0.40\linewidth}
+    \begin{minipage}{0.38\linewidth}
         \raggedleft
         \vspace{4em}
         \begin{itemize}\setlength{\parskip}{0pt}
@@ -199,7 +210,7 @@ The \ac{ARC} uses the same board geometry as the CubeSat Kit\cite{CSK} hardware 
     \label{fig:boardPhoto}
 \end{figure}
 
-In addition to the \ac{ACDS} hardware the \ac{ACDS} board also contains the pull pin and \ac{USB} connection. This is located on the \ac{ACDS} board because it is the only board that can connect to the access port. The pull pin and \ac{USB} connection connect directly to the header and are not connected to the core \ac{ACDS} hardware. 
+In addition to the \ac{ACDS} hardware the \ac{ACDS} board also contains the pull pin and \ac{USB} connection. This is located on the \ac{ACDS} board because it is the only board that can be connected to from the access port. The pull pin and \ac{USB} connection connect directly to the header and are not connected to the core \ac{ACDS} hardware. 
 
 The Z-axis torquers are housed inside the standoffs which are located on the four corners of the board. To accommodate the standard board shape has been modified to accommodate the torquers. This is visible in \cref{fig:boardPhoto}. The notches are designed to fit the torque standoffs and help keep them in the proper orientation. The torquers fit into a hole drilled into the standoffs and are held in place with epoxy. 
 
@@ -209,16 +220,15 @@ The standard board shape has also been modified to allow the \ac{USB} connector 
 
 The subsystems of the \ac{ARC} will communicate with each other using the ARCBus. The ARCBus consists of shared connections between the subsystems to transmit commands and data. The ARCBus will primary used by the \ac{ACDS} to get sensor data from the \ac{LEDL} and send and receive data to the ground station through the COMM system. Commands are transmited using an \ac{I2C} bus and large blocks of data are sent using a \ac{SPI} bus which is negotiated using the \ac{I2C} bus.
 
-\section{\acl{ACDS} Block Diagram}
+\section{Components of the \acl{ACDS}}
 
-The block diagram for the CubeSat hardware used to implement the \ac{ACDS}. The hardware necessary for the \ac{ACDS} is spread over multiple subsystems of the \ac{ARC}. The \ac{ACDS} board contains the torquers, driving hardware along with the microcontroller which will run the attitude control algorithm. There is one two axis magnetometer located on each of the six of the \acp{SPB}. These are used by the \ac{ACDS} to calculate rotation rates and calculate the magnetic dipole moment required to generate the necessary torque. Spreading the magnetometers across all six faces should give some degree of noise immunity and redundancy. The \ac{LEDL} board also contains \ac{MEMS} angular rate sensors as a redundant reading of the rotation rate of the \ac{ARC}. The sensors on the \acp{SPB} are read by the \ac{LEDL} which then forwards the magnetometer and angular rate measurements to the \ac{ACDS}.
-
-\begin{figure}[H]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{Figures/Block}
     \caption{Block Diagram of the CubeSat \acs{ACDS} system}
 \end{figure}
 
+The block diagram for the CubeSat hardware used to implement the \ac{ACDS}. The hardware necessary for the \ac{ACDS} is spread over multiple subsystems of the \ac{ARC}. The \ac{ACDS} board contains the torquers, driving hardware along with the microcontroller which will run the attitude control algorithm. There is one two axis magnetometer located on each of the six of the \acp{SPB}. These are used by the \ac{ACDS} to calculate rotation rates and calculate the magnetic dipole moment required to generate the necessary torque. Spreading the magnetometers across all six faces should give some degree of noise immunity and redundancy. The \ac{LEDL} board also contains \ac{MEMS} angular rate sensors as a redundant reading of the rotation rate of the \ac{ARC}. The sensors on the \acp{SPB} are read by the \ac{LEDL} which then forwards the magnetometer and angular rate measurements to the \ac{ACDS}.
 
 \section{Torquers}
 
@@ -261,7 +271,9 @@ The block diagram for the CubeSat hardware used to implement the \ac{ACDS}. The 
 
 \subsection{Cores}
 
-Most magnetic torquers use either an air core or a soft magnetic core. Ideally both an air or a soft core only produce torque while a current is running through the coil. A soft core will produce more torque for the same geometry and current compared to an air core. However soft magnetic materials have some hysteresis that will continue to produce undesired torque after current stops flowing. Hard magnetic materials are chosen to have a large amount of hysteresis so that after the current stops flowing in the coil torque is produced. The torquer cores are made of Alnico1 which is a hard magnetic material.
+Most magnetic torquers use either an air core or a soft magnetic core. Ideally both an air or a soft core only produce torque while a current is running through the coil. A soft core will produce more torque for the same geometry and current compared to an air core. However soft magnetic materials have some hysteresis that will continue to produce undesired torque after current stops flowing. Hard magnetic materials are chosen to have a large amount of hysteresis so that after the current stops flowing in the coil torque is produced.
+
+The torquer cores for the \ac{ARC} are made of Alnico1 which is a hard magnetic material. Core materials are chosen for their residual induction ($B_r$) and their coercive force ($H_c$). The torque produced for a given torquer geometry is proportional to $B_r$. This means that $B_r$ dictates the range of torques that are feasible. If $B_r$ is too small then the torquers will have to be too big to fit in the satellite. If $B_r$ is too large then it may not be possible to manufacture torquers that are small enough to give the desired torque. The current required to flip the torquer for a given coil and core geometry is determined by $H_c$. It is desirable to have a low $H_c$ so less energy is used for each flip however, if $H_c$ is too low then the torquer can be flipped inadvertently.
 
 \subsubsection{Core Sizing}
 
@@ -288,7 +300,7 @@ The coils used to drive the torquers are made from four layers of 26 AWG wire. T
     \label{fig:drive}
 \end{figure}
 
-The schematic to drive a pair of torquers is shown in \cref{fig:drive}. Each pair of torquers is driven by three complimentary pairs of \acp{MOSFET}.  The \acp{MOSFET} are driven by three pairs of \ac{MOSFET} drivers which are controlled by the \ac{ACDS} microcontroller.
+The schematic to drive a pair of torquers is shown in \cref{fig:drive}. Each pair of torquers is driven by three complimentary pairs of \acp{MOSFET}.  The \acp{MOSFET} are driven by three pairs of \ac{MOSFET} drivers which are controlled by the \ac{ACDS} microcontroller. The capacitor C1 is shared between both pairs of torquers in each axis giving a total of three capacitors on the \ac{ACDS} board. This means that only one torquer in each axis can be flipped each second. 
 
 In the idle state all of the \acp{MOSFET} are off and the torquer coils are floating. This prevents unwanted currents from flowing in the torquers. Currents can be induced in the coils as the satellite turns and the magnetic field in the torquers changes. To flip a torquer one end of the torquer is shorted to ground using one of the N-Channel \acp{MOSFET} and the other end is shorted to capacitor C1 using one of the P-Channel \acp{MOSFET}. After a 2 ms delay the \acp{MOSFET} are switched off and C1 begins to recharge.
 
@@ -367,7 +379,7 @@ The only sensor called out in \cite{Mentch11} was a magnetometer. The magnetomet
 
 The magnetometers on the satellite are Honeywell HMC1052 \ac{AMR} sensors. These sensors use \ac{AMR} elements in a bridge configuration to measure the field in each axis. The HMC1052 is a 2-axis sensor that measures the field in the axis that are parallel to the board that it is mounted on (X and Y). Each face of \ac{ARC} will have a single HMC1052 giving a total of 4 measurements in each axis.
 
-The magnetometers are located on the back of the \acs{SPB}, shown in \cref{fig:SPB}. The magnetometer, with surrounding circuitry, is visible on the back of the board as are the ADC and amplifier. An accelerometer is also located on the back of the solar panel board and is used for a different mission objective. The data connector powers the sensors, including a temp sensor (not shown), and provides access to the sensor data.
+The magnetometers are located on the back of the \acs{SPB}, shown in \cref{fig:SPB}. The magnetometer, with surrounding circuitry, is visible on the back of the board as are the ADC and amplifier. An accelerometer is also located on the back of the solar panel board and is used for a different mission objective. The data connector powers the sensors and provides access to the sensor data.
 
 \subsubsection{Magnetometer Amplifier}
 
@@ -384,7 +396,22 @@ Each magnetometer has its own \ac{ADC} on each \ac{SPB}. The \ac{ADC} used is th
 \subsubsection{Magnetometer Operation}
 %\subsection{\acs{AMR} Background}
 
-The HMC1052 sensors used on the \ac{ACDS} are \ac{AMR} sensors. They work by having a bridge with 4 elements that all change resistance with the applied magnetic field. The \ac{AMR} sensors are primarily sensitive to magnetic fields in their sensitive direction, ($H_s$), but they are also slightly sensitive to magnetic fields in an axis normal to the sensitive direction, ($H_C$), called the cross axis. The sensor is only sensitive to magnetic fields that are in the film plane of the \ac{AMR} sensor. For the 2-axis HMC1052 this means that both sensors show some sensitivity to fields in both the X and Y axes. The cross axis effect varies from sensor to sensor \todo[disable]{Test this} so calibration values must be calculated for each sensor \cite{AN215}.
+The HMC1052 sensors used on the \ac{ACDS} are \ac{AMR} sensors. They work by having a bridge with 4 elements that all change resistance with the applied magnetic field. The \ac{AMR} sensors are primarily sensitive to magnetic fields in their sensitive direction, ($H_s$), but they are also slightly sensitive to magnetic fields in an axis normal to the sensitive direction, ($H_C$), called the cross axis. The sensor is only sensitive to magnetic fields that are in the film plane of the \ac{AMR} sensor. For the 2-axis HMC1052 this means that both sensors show some sensitivity to fields in both the X and Y axes as shown in \cref{fig:magAxisCross}. The cross axis effect varies from sensor to sensor \todo[disable]{Test this} so calibration values must be calculated for each sensor \cite{AN215}.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=2]
+        \def\L{0.5}     %define arrow length
+        \def\W{0.3}     %define arrow length
+        \draw[fill=black] (\W,\W) rectangle (-\W,-\W);
+        \draw[->,red,>=stealth,thick] (0  , 0) -- (\L,0);
+        \draw (\L,0) node[anchor=west] {$H_c$};
+        \draw[->,red,>=stealth,thick] (0, 0) -- (0,\L);
+        \draw (0,\L) node[anchor=south] {$H_s$};
+    \end{tikzpicture}
+    \caption{Magnetomitor showing $H_s$ and $H_c$}
+    \label{fig:magAxisCross}
+\end{figure}
 
 \Cref{eq:magcross} shows the simplified equation for the magnetometer as described in \cite{AN215}. $V_b$ is the bridge voltage that is applied to the sensor. $S_s$ is the sensitivity in the sensitive direction. D is the cross field sensitivity offset. The HMC1052 datasheet\cite{HMC1052} mentions that the sensors have a bridge offset. The bridge offset is the sensor output when zero field is applied to the sensor and can be a large as \textpm1.25 Gauss. The bridge represented by $V_{os}$ in \cref{eq:magcross}.
 
@@ -473,12 +500,13 @@ The processor used for the \ac{ACDS} and all systems on \ac{ARC} is the MSP430f2
 
 \subsection{SD card}
 
-For flight data storage a SD card is used. This is necessary because of the needed space and write times. The internal flash is limited and also needs to be used for program storage making it undesirable for data storage. Furthermore the internal flash can't be read while it is being written. Because the write times for the internal flash are fairly slow this would disrupt the operation of the program and is not desirable except for the occasional data writes.
+For flight data storage a SD card is used. This is necessary because of the needed space and write times. The internal flash is limited and also needs to be used for program storage making it undesirable for data storage. Furthermore the internal flash can't be read while it is being written. Write times for the internal flash are fairly slow and require that the processor disable interrupts, making normal operation difficult. The flash shares the same address space as the \ac{RAM} and has the same access time. This makes the internal flash an attractive place to put settings and calibration data that are written few times but accessed often as any data on the SD card must be copied into \ac{RAM} before being used.
 
 \subsection{\acs{ARC} Bus Communication}
 
 The sensor data is read by the \ac{LEDL} board and sent over the bus to the \ac{ACDS} board. The \ac{ACDS} board initiates the connection by sending a command to tell how often measurements should be sent. The \ac{LEDL} then takes sensor data and sends it at the requested interval.
 
+\begin{comment}
 \section{Board Layout}
 
 \Cref{fig:3dview} shows the \ac{ACDS} system. The X and Y axis torquers are shown on the board as well as the pull pin and header. The header and pull pin locations are more or less fixed which doesn't leave much wiggle room for where to place the torquers.
@@ -489,6 +517,8 @@ The sensor data is read by the \ac{LEDL} board and sent over the bus to the \ac{
     \caption{3D view of the CubeSat \acs{ACDS} system}
     \label{fig:3dview}
 \end{figure}
+
+\end{comment}
 
 \begin{comment}
 \begin{figure}[H]
