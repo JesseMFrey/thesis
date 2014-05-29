@@ -8,9 +8,11 @@ The \ac{ACDS} consists of experimental hardware controlled by experimental softw
 
 \section{Sensor Verification}
 
-\subsection{Magnetomitor Verification}
+\subsection{Magnetometer Verification}
 
-The magnetomitor verification is done using the Hemholtz cage 
+The magnetometer verification is done using the Helmholtz cage
+
+\future{Expand on how this is done: calibration then compare to datasheet values}
 
 \subsection{Torquer offsets}
 
@@ -28,8 +30,6 @@ In \Cref{fig:b-offset} the largest offset appears to be both of the Y-axis torqu
 
 \subsection{Compensation Testing}
 
-The torquer compensation is tested by running the Helmholtz Cage through a field sequence and taking measurements at each point. During the process a random torquer flip is executed every 10 data points. The measurements are corrected using the compensation data set and compared to the expected field. A typical plot of the data is shown in \cref{fig:tqtst}. The RMS error is also calculated for the data set so the effectiveness of the torquer compensation can be compared to the calibration without torquers.
-
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.8\linewidth]{torqueCalTst}
@@ -37,8 +37,7 @@ The torquer compensation is tested by running the Helmholtz Cage through a field
     \label{fig:tqtst}
 \end{figure}
 
-\Cref{fig:tqerr} shows the error for the torquer compensation test. The RMS error for the compensated data is 9 mGauss. The maximum error is 24 mGauss. On a 300 mGauss field a 24 mGauss error will cause an angular error of \textpm5\textdegree. The addition of the torquers causes an increase in the RMS and maximum error.
-%This can be seen by comparing \cref{fig:tqerr} with \cref{fig:magerr}. In \cref{fig:tqerr} steps in the error are seen as torquers are flipped whereas in \cref{fig:magerr} the error is more consistent across the entire run.
+The torquer compensation is tested by running the Helmholtz Cage through a field sequence and taking measurements at each point. During the process a random torquer flip is executed every 10 data points. The measurements are corrected using the compensation data set and compared to the expected field. A typical plot of the data is shown in \cref{fig:tqtst}. The RMS error is also calculated for the data set so the effectiveness of the torquer compensation can be compared to the calibration without torquers.
 
 \begin{figure}[!ht]
     \centering
@@ -47,11 +46,12 @@ The torquer compensation is tested by running the Helmholtz Cage through a field
     \label{fig:tqerr}
 \end{figure}
 
+\Cref{fig:tqerr} shows the error for the torquer compensation test. The RMS error for the compensated data is 9 mGauss. The maximum error is 24 mGauss. On a 300 mGauss field a 24 mGauss error will cause an angular error of \textpm5\textdegree. The addition of the torquers causes an increase in the RMS and maximum error.
+%This can be seen by comparing \cref{fig:tqerr} with \cref{fig:magerr}. In \cref{fig:tqerr} steps in the error are seen as torquers are flipped whereas in \cref{fig:magerr} the error is more consistent across the entire run.
+
 \subsection{Torquer Repeatability}
 
 The torquer compensation method depends on the torquer offsets being repeatable. If the offsets are not very repeatable then the offsets will induce errors in the measured field. \Cref{fig:tqoff} shows a plot of the torquer offsets. The plot shows the offsets of the torquers when they are polarized in each direction. The offset for both of the magnetometer axes are shown. To create the plot each torquer was flipped 20 times in each direction. After each flip a magnetometer calibration was done to get the offset values. The offset values are normalized to show deviation from the median for better comparison. The maximum offset variation in \cref{fig:tqoff} is 20 mGauss.
-
-The offset variations shown in \cref{fig:tqoff} are all less than the maximum error from \cref{fig:tqerr}. This is likely because the maximum offsets did not occur all at the same time.
 
 \begin{figure}[!ht]
     \centering
@@ -60,7 +60,7 @@ The offset variations shown in \cref{fig:tqoff} are all less than the maximum er
     \label{fig:tqoff}
 \end{figure}
 
-
+The offset variations shown in \cref{fig:tqoff} are all less than the maximum error from \cref{fig:tqerr}. This is likely because the maximum offsets did not occur all at the same time.
 
 \subsection{Gyro Verification}
 
@@ -68,20 +68,25 @@ The offset variations shown in \cref{fig:tqoff} are all less than the maximum er
 
 To test the torquer feedback 
 
+\future{I can un-plug a torquer and see that the software notices. Not sure how else a torquer would fail or how to test for it. I should probably also look at how the software responds and figure out what is the appropriate response}
+
 \section{\acl{ADS} Verification}
 
-\section{Torquer Verification}
+\future{There won't be much of an \ac{ADS} so perhaps this will just be verification of B-dot calculation}
 
-\subsection{Driver Verification}
+\section{Torquer Driver Verification}
 
-To test the torquer drivers 
-
+\future{Test the torquer drivers with a variety of loads to see what the V and I waveforms are and when (if at all) they break.}
 
 \section{Software Verification}
+
+\future{Verify the software is working correctly. This would probably be testing the ground station commands as most of the rest of the software will be tested with the other tests.}
 
 \section{System Verification}
 
 Testing of torquer calibration
+
+\future{Test the torquer calibration with a fully integrated sattelite to see if it still functions correctly. This probably won't be done before the thesis is complete but speculate}
 
 Magnetic interference from currents
 

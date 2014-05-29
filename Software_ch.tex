@@ -77,8 +77,6 @@ In order to determine which torquer to flip the \ac{ACDS} needs sensor inputs. T
     \caption{\acs{ACDS} software overview}
 \end{figure}
 
-
-
 \section{System Operations Overview}
 
 \Cref{fig:sysopflow} shows the system operations flow. The code starts running after the separation switch is switched and the power system applies power to all systems. Before starting any operations the \ac{ACDS} waits for the on command from the \ac{CDH} board. After the \ac{ACDS} board receives the on command the \ac{ACDS} sends a command to the \ac{LEDL} board to tell it to start taking sensor data. Once sensor data is received the \ac{ACDS} starts to run the detumble algorithm. The Kalman filter needs to know the location of the satellite for it to operate properly so orbital elements must be uploaded before the Kalman filter can start running. Once the Kalman filter knows the location of the satellite it still needs some time to converge to a solution. During this time the \ac{ACDS} remains in detumble mode even if the rates have slowed enoughs to exit. Once the Kalman filter is locked and the rates have sufficiently slowed the \ac{ACDS} switches into mode 2. Mode two is run for a set number \todo{figure out how many and put the number here} of orbits (measured by timing). After mode 2 is complete Mode 3 starts. The \ac{ACDS} remains in mode 3 indefinably unless one of undesirable conditions is detected, see \cite{Mentch11} for details, which causes the \ac{ACDS} to attempt to kick the satellite out of the undesirable alignment and then re-stabilize by transitioning back to mode 2.
@@ -134,9 +132,11 @@ In order to determine which torquer to flip the \ac{ACDS} needs sensor inputs. T
 
 The flow case the flow from \cref{fig:sysopflow} can be disrupted. This can happen due to commands from the ground station or if the gyros detect that the sattelite is rotating too fast. The ground station can force the \ac{ACDS} into any mode and ether let it go with the normal flow or stay in a particular mode. This allows for recovery in case the system does not function as expected.
 
-If the gyros detect that the satellite is rotating too fast then they will automatically send the \ac{ACDS} into a safe mode where the \ac{ACDS} does not run. It is possible that the \ac{ACDS} could get into a situation where the algorithm speeds up the rotation instead of slowing it down. In this situation the best thing to do is for the \ac{ACDS} to stop and wait for further intervention from the ground.
+If the gyros detect that the satellite is rotating too fast then they will automatically send the \ac{ACDS} into a safe mode where the \ac{ACDS} does not run. It is possible that the \ac{ACDS} could get into a situation where the algorithm speeds up the rotation instead of slowing it down. In this situation the best thing to do is for the \ac{ACDS} to stop and wait for further intervention froutside of X11om the ground.
 
 \section{Incoming Commands\textbackslash Info}
+
+\future{write some code for these commands. It is still not 100\% clear how commands will be sent so I'll just have to make that up then write about how the command works.}
 
 \begin{itemize}
     \item Ground Station Commands
@@ -150,26 +150,16 @@ If the gyros detect that the satellite is rotating too fast then they will autom
 
 \section{Software Functions}
 
+
 \subsection{Torquer Flipping Logic}
+
+The output of the control algorithm will be the desired dipole moment for the torquers to produce. The torquer flipping logic is responsible for setting the torquers so that they produce a dipole moment that is as close as possible to the desired dipole moment. Because only one torquer in each axis can be flipped each time step there are a limited number of possible dipole moments that can be generated for a given torquer state.
+
+The torquer flipping logic also tries to spread the torquer flips across the torquers in a given axis. This is to minimize any wear effects and to be able to more quickly correct in case of a bad torquer flip. This is achieved by keeping track of the last 4 torquer flips and choosing the torquer that was flipped the least recently and results in the desired torque.
 
 \subsection{Data Logging}
 
 During \ac{ACDS} operations data is collected during flight. This data is stored in nonvolatile memory and can be recalled and transmitted to the ground in order to evaluate the \ac{ACDS} system performance. The data that is recorded is shown in \cref{tab:logdat}
-
-\begin{comment}
-\begin{itemize}
-    \item magnetometer and gyro readings
-    \item torquer status
-    \item mode
-    \item algorithm intermediate results
-    \item torquers flipped
-    \item torquer feedback
-    \item Kalman filter status
-    \item Kalman filter internal variables
-    \item Kalman filter state
-    \item \todo[inline]{More?}
-\end{itemize}
-\end{comment}
 
 \begin{table}[H]
     \centering
@@ -209,22 +199,11 @@ During \ac{ACDS} operations data is collected during flight. This data is stored
 
 Because the downlink data speed is limited, it is necessary to reduce the data that needs to be downlinked. One way to do this is to do some level of on board processing to reduce the data before it is downlinked. For the \ac{ACDS} system this will most likely take the form of returning only the desired data from the recorded data set or returning min/max values from within a data set. 
 
+\future{Perhaps impliment this and write about how it went or add some more vague words.}
+
 \subsection{Beacon Data}
 
 The beacon data is transmitted at a fixed rate and provides information about the present state of the satellite. The beacon data could be the only data that is available to diagnose the system. The beacon data must contain enough data to be useful but not so much data that the beacon packets are too big. The beacon data should include raw sensor information as well as information on torquer status. The beacon data from the \ac{ACDS} is shown in \cref{tab:beacondat}
-
-\begin{comment}
-\begin{itemize}
-    \item current magnetometer and gyro readings
-    \item current torquer status
-    \item number of torquer flips so far \todo[inline]{in each axis?}
-    \item flags for errors
-    \item mode
-    \item Kalman filter status
-    \item Kalman filter attitude
-    \item \todo[inline]{More?}
-\end{itemize}
-\end{comment}
 
 \begin{table}[H]
     \centering
@@ -358,7 +337,9 @@ The beacon data is transmitted at a fixed rate and provides information about th
 
 \subsubsection{MSP430 Implementation}
 
-\todo[inline]{Implement this and write about it}
+\subsection{Mode 1 (B-dot)}
+
+\future{Implement this and write about it}
 
 \subsection{Mode 2}
 
@@ -482,6 +463,8 @@ The rotation rate is calculated using the magnetic field measurements. \Cref{eqn
 
 \subsection{Kalman Filter}
 
+\future{This will almost certainly not exist by the end of the summer. Add more speculative words?}
+
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}[node distance = 3cm, auto]
@@ -523,12 +506,12 @@ There are a total of 12 \acp{LPMT} on the \ac{ACDS}. Each \ac{LPMT} has two stat
 
 To calculate the compensation values for the torquers the calibration procedure described in \cref{sec:magcal} is run for each combination of torquer states. The results of the compensation is $C_1$, $C_2$, $C_4$ and $ C_5$ which are the same calibration constants computed with the magnetometer calibration routine. In addition there is one common pair of offsets and then 3 sets of 16 offsets for each set of torquers.
 
-\subsection{Flight implementation}
 
-\subsubsection{More torquers}
+\subsection{MSP430 Implementation}
 
+\future{Talk about MSP430 specific implementation details and transferring calibration to MSP (I think this will be done strait from Matlab).}
 
-\subsubsection{MSP430 Implementation}
+\subsection{Torquer saturation}
 
-\subsection{Saturation Problem?}
+As shown in \cref{fig:satWV} the torquer reaches 97\% of the final value after one flip. For the torquer compensation to work the offsets must be known to miliGauss accuracy. Depending on how close the torquers are to the magnetometer a variation in the torquer field offset of 3\% can be significant.
 
