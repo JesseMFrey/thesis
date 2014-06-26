@@ -367,7 +367,14 @@ The measured field that the Hall effect sensor reads is highly dependant on the 
 
 \subsection{Torquer Diagnostics}
 
-Comparators are used to detect if the torquers and drivers are functioning properly in flight. One comparator is used to determine if the capacitor is charged and another is used to detect if the capacitor is discharged. The comparators are checked both before and after a torquer flip to see if the capacitor was charged before an attempted flip and discharged after. If the capacitor did not discharge, then the torquer did not flip, probably because of a bad connection somewhere. This information is logged in flight and can be downlinked to analyze if the torquers are firing correctly.
+\begin{figure}[H]
+    \centering
+    \includegraphics{fb-comp}
+    \caption{Torquer feedback comparitors}
+    \label{fig:fb-comp}
+\end{figure}
+
+\Cref{fig:fb-comp} shows the torquer feedback comparators that are used to detect if the torquers and drivers are functioning properly in flight. Vcap is the voltage from capacitor C1 in \cref{fig:drive}. The comparator outputs, FB0 and FB1, have open drain outputs that are pulled to logic levels and read by the MSP430. U12A  is used to determine if the capacitor is charged and U12B is used to detect if the capacitor is discharged. The comparators are checked both before and after a torquer flip to see if the capacitor was charged before an attempted flip and discharged after. If the capacitor did not discharge, then the torquer did not flip, probably because of a bad connection somewhere. This information is logged in flight and can be downlinked to analyze if the torquers are firing correctly.
 
 \todo[inline]{Need some discussion of what is done with the info but also need to figure out what should be done.}
 
