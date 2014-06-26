@@ -15,3 +15,5 @@
 *.lom
 *.swo
 *.RW2
+!Figures/*.pdf
+Figures/*converted-to.pdf
