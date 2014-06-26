@@ -1,9 +1,9 @@
-% vim: set filetype=tex spell :
+ vim: set filetype=tex spell :
 
 \chapter{Software}
 \label{ch:Software}
 
-The main responsibility of the \ac{ACDS} software is to determine which torquer to flip each time step. The \ac{ACDS} also needs to keep track of ``house keeping'' information, sensor readings, torquer states and internal control system states so that the performance of the algorithm can be tracked on the ground.
+The main responsibility of the \ac{ACDS} software is to determine which torquer to flip each time step. The \ac{ACDS} also needs to keep track of ``house keeping'' information, sensor readings, torquer states and internal control system states so that the performance of the algorithm can be tracked on the ground. 
 
 \section{Overview}
 
@@ -138,6 +138,11 @@ If the gyros detect that the satellite is rotating too fast then they will autom
 
 \section{Incoming Commands\textbackslash Info}
 
+The \ac{ACDS} must respond to incoming commands that change its operation mode or uplink data. Because the \ac{ACDS} is an experimental system, it may run into unexpected problems. By uplinking commands some of the possible problems can be fixed in flight. 
+
+In order for the Kalman filter to work it needs the orbital elements for the satellite. These must be uplinked from the ground because they change as the orbit decays. In addition gains for the control algorithm and Kalman filter may need to be changed in flight to account for unexpected conditions. 
+
+\begin{comment}
 \begin{itemize}
     \item Ground Station Commands
         \begin{itemize}
@@ -147,116 +152,7 @@ If the gyros detect that the satellite is rotating too fast then they will autom
         \end{itemize}
     \item Sensor Data
 \end{itemize}
-
-\section{Software Functions}
-
-\subsection{Torquer Flipping Logic}
-
-\subsection{Data Logging}
-
-During \ac{ACDS} operations data is collected during flight. This data is stored in nonvolatile memory and can be recalled and transmitted to the ground in order to evaluate the \ac{ACDS} system performance. The data that is recorded is shown in \cref{tab:logdat}
-
-\begin{comment}
-\begin{itemize}
-    \item magnetometer and gyro readings
-    \item torquer status
-    \item mode
-    \item algorithm intermediate results
-    \item torquers flipped
-    \item torquer feedback
-    \item Kalman filter status
-    \item Kalman filter internal variables
-    \item Kalman filter state
-    \item \todo[inline]{More?}
-\end{itemize}
 \end{comment}
-
-\begin{table}[H]
-    \centering
-    \caption{\ac{ACDS} operations data format}
-    \label{tab:logdat}
-    \begin{tabular}{|l|c|c|}
-        \hline
-        Data&size (bits)&Format\\
-        \hline
-        mode&2&unsigned integer\\
-        \hline
-        Time Stamp&32&unsigned integer\\
-        \hline
-        torquer status&48&flags\\
-        \hline
-        magnetometer readings&48&unsigned integer (one per axis)\\
-        \hline
-        gyro readings&36&unsigned integers (one per axis)\\
-        \hline
-        algorithm intermediate results&TBD&\\
-        \hline
-        torquers flipped&48&unsigned integer (one per axis)\\
-        \hline
-        torquer feedback&12&flags\\
-        \hline
-        Kalman filter status&TBD&\\
-        \hline
-        Kalman filter internal variables&TBD&\\
-        \hline
-        \multicolumn{1}{|r|}{\bfseries Total :}&TBD&\\
-        \hline
-    \end{tabular}
-    \todo[inline]{Resolve DBD's}
-\end{table}
-
-\subsection{On Board data processing}
-
-Because the downlink data speed is limited, it is necessary to reduce the data that needs to be downlinked. One way to do this is to do some level of on board processing to reduce the data before it is downlinked. For the \ac{ACDS} system this will most likely take the form of returning only the desired data from the recorded data set or returning min/max values from within a data set. 
-
-\subsection{Beacon Data}
-
-The beacon data is transmitted at a fixed rate and provides information about the present state of the satellite. The beacon data could be the only data that is available to diagnose the system. The beacon data must contain enough data to be useful but not so much data that the beacon packets are too big. The beacon data should include raw sensor information as well as information on torquer status. The beacon data from the \ac{ACDS} is shown in \cref{tab:beacondat}
-
-\begin{comment}
-\begin{itemize}
-    \item current magnetometer and gyro readings
-    \item current torquer status
-    \item number of torquer flips so far \todo[inline]{in each axis?}
-    \item flags for errors
-    \item mode
-    \item Kalman filter status
-    \item Kalman filter attitude
-    \item \todo[inline]{More?}
-\end{itemize}
-\end{comment}
-
-\begin{table}[H]
-    \centering
-    \caption{Beacon Data format}
-    \label{tab:beacondat}
-    \begin{tabular}{|l|c|c|}
-        \hline
-        Data&size (bits)&Format\\
-        \hline
-        current gyro readings&24&signed integers (one per axis)\\
-        \hline
-        current magnetometer readings&48&signed integers (one per axis)\\
-        \hline
-        current torquer status&24&flags\\
-        \hline
-        number of torquer flips so far & 48 & unsigned integers (one per axis)\\
-        \hline
-        flags for errors& 8 & flags\\
-        \hline
-        mode&2&unsigned integer\\
-        \hline
-        Kalman filter status&6&flags\\
-        \hline
-        Kalman filter attitude&64&integer quaternion\\
-        \hline
-        Kalman filter rates&96&vector\\
-        \hline
-        \multicolumn{1}{|r|}{\bfseries Total :}&320&40 Bytes\\
-        \hline
-    \end{tabular}
-    \todo[inline]{Resolve DBD's}
-\end{table}
 
 \section{Algorithm Software}
 
@@ -509,7 +405,23 @@ The rotation rate is calculated using the magnetic field measurements. \Cref{eqn
     \label{fig:eKalman}
 \end{figure}
 
-\section{Support Software}
+\section{Auxiliary Software Functions}
+
+In addition to the algorithm software the \ac{ACDS} also requires some auxiliary software to function. In order to generate the proper dipole moment the status of the torquers must be tracked in software so that the right torquer can be flipped. The torquer status also needs to be tracked so that the torquer offsets can be subtracted from the magnetometer measurements. 
+
+\subsection{Torquer Flipping Logic}
+
+The torquer flipping logic keeps track of the torquer status and sets the torquers to the dipole moment that is closest to the dipole moment requested by the control algorithm. The torquer flipping logic also attempts to distribute the flips somewhat evenly across the torquers in any given axis. This way if there are any degradation effects, in the torquer field or the hardware, they will be minimized. 
+
+\subsubsection{Status Tracking}
+
+The status of each torquer is tracked by the flipping logic. This includes flags to indicate if each torquer has been flipped and has had errors being flipped. The last four torquers that were flipped are also tracked. This is used to chose which torquer to flip.
+
+When it is time to flip a torquer the software looks at the current torquer status to figure out which direction a torquer needs to be flipped in. Next the software looks for the torquer that can be flipped in that direction that was flipped the least recently and flips it. This way the torquer flips are distributed across the torquers in a given axis. If torquers are marked as uninitialized then they are flipped first before other torquers so that all torquers are in a known state as quickly as possible.
+
+\subsubsection{torquer feedback}
+
+Before and after each torquer flip the torquer feedback comparators are read. After the torquer flip is complete the feedback values are examined to determine if the torquer flipped. If the capacitor voltage was below the upper threshold before the flip then an error is flagged in the torquer status indicating that there is a problem with the capacitor. If the capacitor voltage after a flip is not below the lower threshold then there is likely a bad connection to the torquer windings. Torquers that failed to flip are flagged and not flipped in the future. It is possible that the comparator could malfunction and indicate that it is both above the upper threshold and below the lower threshold in this case a flag is set to indicate the error and the torquer is assumed to have flipped as normal.
 
 \subsection{Torquer Compensation}
 
@@ -523,12 +435,110 @@ There are a total of 12 \acp{LPMT} on the \ac{ACDS}. Each \ac{LPMT} has two stat
 
 To calculate the compensation values for the torquers the calibration procedure described in \cref{sec:magcal} is run for each combination of torquer states. The results of the compensation is $C_1$, $C_2$, $C_4$ and $ C_5$ which are the same calibration constants computed with the magnetometer calibration routine. In addition there is one common pair of offsets and then 3 sets of 16 offsets for each set of torquers.
 
-\subsection{Flight implementation}
 
-\subsubsection{More torquers}
+\subsection{Data Logging}
 
+During \ac{ACDS} operations data is collected during flight. This data is stored in nonvolatile memory and can be recalled and transmitted to the ground in order to evaluate the \ac{ACDS} system performance. The data that is recorded is shown in \cref{tab:logdat}
 
-\subsubsection{MSP430 Implementation}
+\begin{comment}
+\begin{itemize}
+    \item magnetometer and gyro readings
+    \item torquer status
+    \item mode
+    \item algorithm intermediate results
+    \item torquers flipped
+    \item torquer feedback
+    \item Kalman filter status
+    \item Kalman filter internal variables
+    \item Kalman filter state
+    \item \todo[inline]{More?}
+\end{itemize}
+\end{comment}
 
-\subsection{Saturation Problem?}
+\begin{table}[H]
+    \centering
+    \caption{\ac{ACDS} operations data format}
+    \label{tab:logdat}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        Data&size (bits)&Format\\
+        \hline
+        mode&2&unsigned integer\\
+        \hline
+        Time Stamp&32&unsigned integer\\
+        \hline
+        torquer status&48&flags\\
+        \hline
+        magnetometer readings&48&unsigned integer (one per axis)\\
+        \hline
+        gyro readings&36&unsigned integers (one per axis)\\
+        \hline
+        algorithm intermediate results&TBD&\\
+        \hline
+        torquers flipped&48&unsigned integer (one per axis)\\
+        \hline
+        torquer feedback&12&flags\\
+        \hline
+        Kalman filter status&TBD&\\
+        \hline
+        Kalman filter internal variables&TBD&\\
+        \hline
+        \multicolumn{1}{|r|}{\bfseries Total :}&TBD&\\
+        \hline
+    \end{tabular}
+    \todo[inline]{Resolve DBD's}
+\end{table}
+
+\subsection{On Board data processing}
+
+Because the downlink data speed is limited, it is necessary to reduce the data that needs to be downlinked. One way to do this is to do some level of on board processing to reduce the data before it is downlinked. For the \ac{ACDS} system this will most likely take the form of returning only the desired data from the recorded data set or returning min/max values from within a data set. 
+
+\subsection{Beacon Data}
+
+The beacon data is transmitted at a fixed rate and provides information about the present state of the satellite. The beacon data could be the only data that is available to diagnose the system. The beacon data must contain enough data to be useful but not so much data that the beacon packets are too big. The beacon data should include raw sensor information as well as information on torquer status. The beacon data from the \ac{ACDS} is shown in \cref{tab:beacondat}
+
+\begin{comment}
+\begin{itemize}
+    \item current magnetometer and gyro readings
+    \item current torquer status
+    \item number of torquer flips so far \todo[inline]{in each axis?}
+    \item flags for errors
+    \item mode
+    \item Kalman filter status
+    \item Kalman filter attitude
+    \item \todo[inline]{More?}
+\end{itemize}
+\end{comment}
+
+\begin{table}[H]
+    \centering
+    \caption{Beacon Data format}
+    \label{tab:beacondat}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        Data&size (bits)&Format\\
+        \hline
+        current gyro readings&24&signed integers (one per axis)\\
+        \hline
+        current magnetometer readings&48&signed integers (one per axis)\\
+        \hline
+        current torquer status&24&flags\\
+        \hline
+        number of torquer flips so far & 48 & unsigned integers (one per axis)\\
+        \hline
+        flags for errors& 8 & flags\\
+        \hline
+        mode&2&unsigned integer\\
+        \hline
+        Kalman filter status&6&flags\\
+        \hline
+        Kalman filter attitude&64&integer quaternion\\
+        \hline
+        Kalman filter rates&96&vector\\
+        \hline
+        \multicolumn{1}{|r|}{\bfseries Total :}&320&40 Bytes\\
+        \hline
+    \end{tabular}
+    \todo[inline]{Resolve DBD's}
+\end{table}
 
