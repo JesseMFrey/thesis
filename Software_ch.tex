@@ -429,7 +429,7 @@ Because the geometry of the system should not change in flight, the field offset
 
 \subsubsection{Compensation Data Set}
 
-There are a total of 12 \acp{LPMT} on the \ac{ACDS}. Each \ac{LPMT} has two states which results in a total of 4096 possible states. If the offset for each state uses two bytes this results in a data set that is 8kB. The field produced at each state however, is the sum of the field contributions of all of the torquers. The dataset can be reduced by doing three separate calibration, one for the set of torquers in each axis. The calibrations are then combined to get a calibration set where one offset is chosen for each axis and added together to get the full offset this reduces the number of states to $3*16 = 48$ which is only about 100 bytes of data, much reduced from using all possible states.
+There are a total of 12 \acp{LPMT} on the \ac{ACDS}. Each \ac{LPMT} has two states which results in a total of 4096 possible states. If the offset for each state uses four bytes this results in a data set that is 16kB. The field produced at each state however, is the sum of the field contributions of all of the torquers. The dataset can be reduced by doing three separate calibration, one for the set of torquers in each axis. The calibrations are then combined to get a calibration set where one offset is chosen for each axis and added together to get the full offset this reduces the number of states to $3*16 + 1 = 49$ which is only about 200 bytes of data, much reduced from using all possible states.
 
 \subsubsection{Compensation Routine}
 
