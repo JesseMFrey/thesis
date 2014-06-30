@@ -12,7 +12,7 @@ The \ac{ACDS} consists of experimental hardware controlled by experimental softw
 
 The magnetometer verification is done using the Helmholtz cage. A calibration is run on a board separate from the CubeSat. The calculations are done on the calibration coefficients so that they can be compared to the datasheet values to check if the magnetometers are preforming as they should. Problems are often caused by bad solder joints which can cause one or more axis to be unresponsive.
 
-\subsection{Torquer offsets}
+\subsubsection{Torquer offsets}
 
 \begin{figure}[!ht]
     \centering
@@ -26,7 +26,7 @@ Because of the nature of the dipole magnetic field, the offsets measured by each
 In \Cref{fig:b-offset} the largest offset appears to be both of the Y-axis torquers and one of the X-axis torquers cting on the X-axis \ac{SPB} in the Z-axis. When all three torquers are biased in a positive direction the offset is around 1.5 Gauss. When all three torquers are biased in the negative direction the offset is around -1.7 gauss.
 
 
-\subsection{Compensation Testing}
+\subsubsection{Compensation Testing}
 
 \begin{figure}[!ht]
     \centering
@@ -47,7 +47,7 @@ The torquer compensation is tested by running the Helmholtz Cage through a field
 \Cref{fig:tqerr} shows the error for the torquer compensation test. The RMS error for the compensated data is 9 mGauss. The maximum error is 24 mGauss. On a 300 mGauss field a 24 mGauss error will cause an angular error of \textpm5\textdegree. The addition of the torquers causes an increase in the RMS and maximum error.
 %This can be seen by comparing \cref{fig:tqerr} with \cref{fig:magerr}. In \cref{fig:tqerr} steps in the error are seen as torquers are flipped whereas in \cref{fig:magerr} the error is more consistent across the entire run.
 
-\subsection{Torquer Repeatability}
+\subsubsection{Torquer Repeatability}
 
 The torquer compensation method depends on the torquer offsets being repeatable. If the offsets are not very repeatable then the offsets will induce errors in the measured field. \Cref{fig:tqoff} shows a plot of the torquer offsets. The plot shows the offsets of the torquers when they are polarized in each direction. The offset for both of the magnetometer axes are shown. To create the plot each torquer was flipped 20 times in each direction. After each flip a magnetometer calibration was done to get the offset values. The offset values are normalized to show deviation from the median for better comparison. The maximum offset variation in \cref{fig:tqoff} is 20 mGauss.
 
@@ -61,6 +61,8 @@ The torquer compensation method depends on the torquer offsets being repeatable.
 The offset variations shown in \cref{fig:tqoff} are all less than the maximum error from \cref{fig:tqerr}. This is likely because the maximum offsets did not occur all at the same time.
 
 \subsection{Gyro Verification}
+
+\future{Perhaps call this a \ac{LEDL} thing and not mention it here}
 
 \subsection{Feedback Verification}
 
