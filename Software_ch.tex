@@ -284,6 +284,7 @@ In order for the Kalman filter to work it needs the orbital elements for the sat
     \path [conn] (fix) -- (coast);
     \path [conn] (win) |- (coast);
     \path [conn] (coast) -- (out);
+    \path [conn] (bias) |- (fix);
 
     \end{tikzpicture}
     \caption{Mode 2 Torque Algorithm Block Diagram}
@@ -315,6 +316,7 @@ In order for the Kalman filter to work it needs the orbital elements for the sat
     \path [conn] (bias) -- (sum);
     \path [conn] (sum) -- (fix);
     \path [conn] (fix) -- (out);
+    \path [conn] (bias) |- (fix);
 
 
     \end{tikzpicture}
