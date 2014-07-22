@@ -82,6 +82,42 @@ To test the torquer feedback
 
 \future{Verify the software is working correctly. This would probably be testing the ground station commands as most of the rest of the software will be tested with the other tests.}
 
+To verify the B-dot algorithm the \ac{ACDS} is placed in the helmholtz cage and a rotating field is generated. The minimum rotation rate of the magnetic field that will cause a rotation rate is calculated by starting with \cref{eq:bdot-cross}
+
+\begin{equation}
+    \dot{\vec{B}} = \vec{B} \cross \omega
+    \label{eq:bdot-cross}
+\end{equation}
+
+If the axis of rotation is perpendicular to the field rotation then \cref{eq:bdot-cross} becomes \cref{eq:bdot-mul}
+
+\begin{equation}
+    \dot{\vec{B}} = \left| \vec{B} \right| \cdot \left| \omega \right|
+    \label{eq:bdot-mul}
+\end{equation}
+
+The B-dot algorithm equation is shown in \cref{eq:bdot-alg}.
+
+\begin{equation}
+    M_{cmd} = C \dot{\vec{B}} 
+    \label{eq:bdot-alg}
+\end{equation}
+
+Substituting \cref{eq:bdot-mul} into \cref{eq:bdot-alg} and solving for $\omega$ gives \cref{eq:omega-th}. Where $M_{th}$ is the torque switching threshold for the torquers and $\omega_{th}$ is the minimum rotation rate required to flip a torquer.
+
+\begin{equation}
+    \omega _ {th} = {M _ {th} \over{ {C \left| \vec{B} \right|}}}
+    \label{eq:omega-th}
+\end{equation}
+
+If a 0.5 gauss field is used and $C$ is 200 and the torquer switching threshold is $0.022 \unit{A \cdot m} ^2$ then $\omega_{th}$ is calculated as follows
+
+\begin{equation}
+    \omega _ {th} = { 0.022 \over{ {200 \cdot 0.5}}} = 0.00022 ~ \unit{rad / sec}
+\end{equation}
+
+With the field set to $\omega_{th}$ a torquer should flip as $\dot{\vec{B}}$ becomes aligned with a torquer axis as the field continues to sweep the torquer will switch off.
+
 \section{System Verification}
 
 Testing of torquer calibration
