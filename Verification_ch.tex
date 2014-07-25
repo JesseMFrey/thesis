@@ -116,7 +116,16 @@ If a 0.5 gauss field is used and $C$ is 200 and the torquer switching threshold 
     \omega _ {th} = { 0.022 \over{ {200 \cdot 0.5}}} = 0.00022 ~ \unit{rad / sec}
 \end{equation}
 
-With the field set to $\omega_{th}$ a torquer should flip as $\dot{\vec{B}}$ becomes aligned with a torquer axis as the field continues to sweep the torquer will switch off.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\linewidth]{detumble-sim}
+  \caption{Simulation of torquer output with spinning magnetic field}
+    \label{fig:detumble-sim}
+\end{figure}
+
+%With the field set to $\omega_{th}$ a torquer should flip as $\dot{\vec{B}}$ becomes aligned with a torquer axis as the field continues to sweep the torquer will switch off.
+
+\Cref{fig:detumble-sim} shows a simulation of the detumble algorithm in a spinning magnetic field. The field has a magnitude of 0.3~Gauss spins around the Z-axis. The plots show the magnetic dipole moment that the algorithm wants to drive and is able to drive as the magnetic field spins around.
 
 \section{System Verification}
 
