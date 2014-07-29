@@ -47,6 +47,74 @@ The torquer compensation is tested by running the Helmholtz Cage through a field
 \Cref{fig:tqerr} shows the error for the torquer compensation test. The RMS error for the compensated data is 9 mGauss. The maximum error is 24 mGauss. On a 300 mGauss field a 24 mGauss error will cause an angular error of \textpm5\textdegree. The addition of the torquers causes an increase in the RMS and maximum error.
 %This can be seen by comparing \cref{fig:tqerr} with \cref{fig:magerr}. In \cref{fig:tqerr} steps in the error are seen as torquers are flipped whereas in \cref{fig:magerr} the error is more consistent across the entire run.
 
+
+\subsubsection{Embedded Compensation Testing}
+
+The test in \cref{fig:tqtst,fig:tqerr} only used the \ac{ACDS} embedded system to flip torquers and take measurements. Matlab was used to do all of the calculations for the calibration. During the flight the calibration must be done on-board with the embedded system on the \ac{ACDS} board.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=1\linewidth]{torqueCalTstMSP}
+    \caption{Test of the calibration as performed by the \ac{ACDS} board}
+    \label{fig:tcalMSP}
+\end{figure}
+
+\Cref{fig:tcalMSP} shows the torquer calibration test using the Y+, Y- and Z+ \acp{SPB} with the calibration performed using the embedded system on the \ac{ACDS} board. The RMS error was 14.637793~mGauss. The maximum error was 39.054539~mGauss.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=1\linewidth]{torqueCalTstMSP-err-flips}
+    \caption{Error plot for \cref{fig:tcalMSP} showing torquer states}
+    \label{fig:tcalMSPerr}
+\end{figure}
+
+\Cref{fig:tcalMSPerr} shows the errors for each sample as well as the torquer states during the samples. The large jumps in the errors all correspond with torquer flips.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=1\linewidth]{torqueCalTstMSP-err-axes}
+    \caption{Plot of magnetic field errors for each axis}
+    \label{fig:tcalMSPerr-axis}
+\end{figure}
+
+\Cref{fig:tcalMSPerr-axis} shows the errors from each board in each axis. \Cref{tab:tcalMSPerr} shows the RMS errors in table form.
+
+\begin{table}[!ht]
+    \centering
+    \caption{Errors for \ac{ACDS} system calibration test}
+    \label{tab:tcalMSPerr}
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        &X-axis&Y-axis&Z-axis\\
+        \hline
+        Y+&0.018473&N/A&0.011453\\
+        \hline
+        Y-&0.007671&N/A&0.009875\\
+        \hline
+        Z+&0.013049&0.010704&N/A\\
+        \hline
+        Total&0.007594&0.010704&0.006483\\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{comment}
+X-axis errors:
+    Y+ RMS error = 0.018473
+    Y- RMS error = 0.007671
+    Z+ RMS error = 0.013049
+Total X-axis error = 0.007594
+
+Y-axis errors:
+    Z+ RMS error = 0.010704
+Total Y-axis error = 0.010704
+
+Z-axis errors:
+    Y+ RMS error = 0.011453
+    Y- RMS error = 0.009875
+Total Z-axis error = 0.006483
+\end{comment}
+
 \subsubsection{Torquer Repeatability}
 
 The torquer compensation method depends on the torquer offsets being repeatable. If the offsets are not very repeatable then the offsets will induce errors in the measured field. \Cref{fig:tqoff} shows a plot of the torquer offsets. The plot shows the offsets of the torquers when they are polarized in each direction. The offset for both of the magnetometer axes are shown. To create the plot each torquer was flipped 20 times in each direction. After each flip a magnetometer calibration was done to get the offset values. The offset values are normalized to show deviation from the median for better comparison. The maximum offset variation in \cref{fig:tqoff} is 20 mGauss.
@@ -118,7 +186,7 @@ If a 0.5 gauss field is used and $C$ is 200 and the torquer switching threshold 
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.8\linewidth]{detumble-sim}
+    \includegraphics[width=1\linewidth]{detumble-sim}
   \caption{Simulation of torquer output with spinning magnetic field}
     \label{fig:detumble-sim}
 \end{figure}
@@ -129,9 +197,21 @@ If a 0.5 gauss field is used and $C$ is 200 and the torquer switching threshold 
 
 \section{System Verification}
 
-Testing of torquer calibration
+The \ac{ACDS} operates as part of the \ac{ARC} and must work with other systems to perform its mission. The \ac{ACDS} must interact with other systems in three key ways, sensor data collection, operational status reporting, and mission control. All of these interactions must be tested to make sure that they will function properly in flight.
 
-\future{Test the torquer calibration with a fully integrated sattelite to see if it still functions correctly. This probably won't be done before the thesis is complete but speculate}
+The \ac{ACDS} system does not directly connect to any sensors. To get sensor data in flight the \ac{ACDS} communicates with the \ac{LEDL} board. 
 
-Magnetic interference from currents
+
+\subsubsection{Detumble Flip Test}
+
+\Cref{fig:detumble-test} shows the results of the detumble test. This is the same as the detumble simulation in \cref{fig:detumble-sim} except the field has been programed into the Helmholtz cage, measured by the \acp{SPB}, calculations done by the \ac{ACDS} and torquers flipped in an attempt to stop the motion.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=1\linewidth]{detumble-test}
+  \caption{Simulation of torquer output with spinning magnetic field}
+    \label{fig:detumble-test}
+\end{figure}
+
+
 
