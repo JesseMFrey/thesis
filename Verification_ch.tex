@@ -6,13 +6,11 @@
 
 The \ac{ACDS} consists of experimental hardware controlled by experimental software and as such requires a significant amount of verification to make sure everything functions on orbit.
 
-\section{Sensor Verification}
-
-\subsection{Magnetometer Verification}
+\section{Magnetometer Verification}
 
 The magnetometer verification is done using the Helmholtz cage. A calibration is run on a board separate from the CubeSat. The calculations are done on the calibration coefficients so that they can be compared to the datasheet values to check if the magnetometers are preforming as they should. Problems are often caused by bad solder joints which can cause one or more axis to be unresponsive.
 
-\subsubsection{Torquer offsets}
+\subsection{Torquer offsets}
 
 \begin{figure}[!ht]
     \centering
@@ -26,7 +24,7 @@ Because of the nature of the dipole magnetic field, the offsets measured by each
 In \Cref{fig:b-offset} the largest offset appears to be both of the Y-axis torquers and one of the X-axis torquers cting on the X-axis \ac{SPB} in the Z-axis. When all three torquers are biased in a positive direction the offset is around 1.5 Gauss. When all three torquers are biased in the negative direction the offset is around -1.7 gauss.
 
 
-\subsubsection{Compensation Testing}
+\subsection{Compensation Testing}
 
 \begin{figure}[!ht]
     \centering
@@ -128,27 +126,17 @@ The torquer compensation method depends on the torquer offsets being repeatable.
 
 The offset variations shown in \cref{fig:tqoff} are all less than the maximum error from \cref{fig:tqerr}. This is likely because the maximum offsets did not occur all at the same time.
 
-\subsection{Gyro Verification}
-
-\future{Perhaps call this a \ac{LEDL} thing and not mention it here}
-
-\subsection{Feedback Verification}
+\section{Feedback Verification}
 
 To test the torquer feedback 
 
 \future{I can un-plug a torquer and see that the software notices. Not sure how else a torquer would fail or how to test for it. I should probably also look at how the software responds and figure out what is the appropriate response}
 
-\section{\acl{ADS} Verification}
-
-\future{There won't be much of an \ac{ADS} so perhaps this will just be verification of B-dot calculation}
-
 \section{Torquer Driver Verification}
 
 \future{Test the torquer drivers with a variety of loads to see what the V and I waveforms are and when (if at all) they break.}
 
-\section{Software Verification}
-
-\future{Verify the software is working correctly. This would probably be testing the ground station commands as most of the rest of the software will be tested with the other tests.}
+\section{B-dot controller simulations}
 
 To verify the B-dot algorithm the \ac{ACDS} is placed in the helmholtz cage and a rotating field is generated. The minimum rotation rate of the magnetic field that will cause a rotation rate is calculated by starting with \cref{eq:bdot-cross}
 
@@ -195,21 +183,15 @@ If a 0.5 gauss field is used and $C$ is 200 and the torquer switching threshold 
 
 \Cref{fig:detumble-sim} shows a simulation of the detumble algorithm in a spinning magnetic field. The field has a magnitude of 0.3~Gauss spins around the Z-axis. The plots show the magnetic dipole moment that the algorithm wants to drive and is able to drive as the magnetic field spins around.
 
-\section{System Verification}
 
-The \ac{ACDS} operates as part of the \ac{ARC} and must work with other systems to perform its mission. The \ac{ACDS} must interact with other systems in three key ways, sensor data collection, operational status reporting, and mission control. All of these interactions must be tested to make sure that they will function properly in flight.
-
-The \ac{ACDS} system does not directly connect to any sensors. To get sensor data in flight the \ac{ACDS} communicates with the \ac{LEDL} board. 
-
-
-\subsubsection{Detumble Flip Test}
+\section{Detumble Flip Test}
 
 \Cref{fig:detumble-test} shows the results of the detumble test. This is the same as the detumble simulation in \cref{fig:detumble-sim} except the field has been programed into the Helmholtz cage, measured by the \acp{SPB}, calculations done by the \ac{ACDS} and torquers flipped in an attempt to stop the motion.
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=1\linewidth]{detumble-test}
-  \caption{Simulation of torquer output with spinning magnetic field}
+  \caption{Test of the B-dot controller}
     \label{fig:detumble-test}
 \end{figure}
 
