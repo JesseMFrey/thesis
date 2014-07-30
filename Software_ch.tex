@@ -499,48 +499,28 @@ Because the downlink data speed is limited, it is necessary to reduce the data t
 
 The beacon data is transmitted at a fixed rate and provides information about the present state of the satellite. The beacon data could be the only data that is available to diagnose the system. The beacon data must contain enough data to be useful but not so much data that the beacon packets are too big. The beacon data should include raw sensor information as well as information on torquer status. The beacon data from the \ac{ACDS} is shown in \cref{tab:beacondat}
 
-\begin{comment}
-\begin{itemize}
-    \item current magnetometer and gyro readings
-    \item current torquer status
-    \item number of torquer flips so far \todo[inline]{in each axis?}
-    \item flags for errors
-    \item mode
-    \item Kalman filter status
-    \item Kalman filter attitude
-    \item \todo[inline]{More?}
-\end{itemize}
-\end{comment}
-
 \begin{table}[H]
     \centering
     \caption{Beacon Data format}
     \label{tab:beacondat}
     \begin{tabular}{|l|c|c|}
         \hline
-        Data&size (bits)&Format\\
+        Data&size (bytes)&Format\\
         \hline
-        current gyro readings&24&signed integers (one per axis)\\
+        current magnetometer readings&6&signed integers (one per axis)\\
         \hline
-        current magnetometer readings&48&signed integers (one per axis)\\
+        Mode&1&unsigned integer\\
         \hline
-        current torquer status&24&flags\\
+        current torquer status&3&flags\\
         \hline
-        number of torquer flips so far & 48 & unsigned integers (one per axis)\\
+        number of torquer flips so far & 6 & unsigned integers (one per axis)\\
         \hline
-        flags for errors& 8 & flags\\
+        Kalman filter attitude&8&integer quaternion\\
         \hline
-        mode&2&unsigned integer\\
+        Kalman filter rates&6&integer vector\\
         \hline
-        Kalman filter status&6&flags\\
-        \hline
-        Kalman filter attitude&64&integer quaternion\\
-        \hline
-        Kalman filter rates&96&vector\\
-        \hline
-        \multicolumn{1}{|r|}{\bfseries Total :}&320&40 Bytes\\
+        \multicolumn{1}{|r|}{\bfseries Total :}&30&\\
         \hline
     \end{tabular}
-    \todo[inline]{Resolve DBD's}
 \end{table}
 
