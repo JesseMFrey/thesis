@@ -41,6 +41,12 @@ In \Cref{fig:b-offset} the largest offset appears to be both of the Y-axis torqu
 
 The torquer compensation is tested using the tCalTstFull function. The function runs the Helmholtz Cage through a field sequence and takes measurements at each point. During the process a random torquer is flipped every 10 data points. The measurements are corrected, in Matlab, using the compensation data set and compared to the expected field. A typical plot of the data is shown in \cref{fig:tqtst}. The RMS error is also calculated for the data set so the effectiveness of the torquer compensation can be compared to the calibration without torquers.
 
+\begin{lstlisting}[caption={Running torquer compensation test for the X+ \ac{SPB}},label={lst:tCalTst},language=Matlab]
+a = [0 0 1;-1 0 0;0 1 0];
+tCalTstFull('X+',cor,'COM3',57600,-95.3,1,a);
+\end{lstlisting}
+
+\Cref{lst:tCalTst} shows how to run the tCalTstFull function. The first argument to the tCalTstFull function is the address of the \ac{SPB} to use. The address can be specified as a number or, more continently, as a symbolic name that resolves to the correct address. The seccond argument is the correction that was previously calculated using the calall function. The third and fourth arguments are the serial port and buad rate to use to talk to the CubeSat. The fifth argument is the gain of the amplifier on the \ac{SPB} this is not really used for the calibration test because the gain is factored into the correction data. The 6th argument is the \ac{ADC} gain, this gain has already been factored into the calibration but it must be set correctly in the \ac{ADC} for the test to work properly. The last argument is the rotation matrix  The function needs a rotation matrix to transform from \ac{SPB} coordinates to Helmholtz cage coordinates. The code generates the magnetic field and plots the results in the \ac{SPB} plane.
 
 \begin{figure}[!ht]
     \centering

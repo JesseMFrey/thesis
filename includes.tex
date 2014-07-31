@@ -17,6 +17,7 @@
 \usepackage{topsection}
 \usepackage{pdflscape}
 \usepackage{enumitem}
+\usepackage[usenames,dvipsnames]{color}
 %\synctex=1
 \usepackage[square,numbers,comma,sort&compress]{natbib}
 
@@ -48,3 +49,33 @@
 \usetikzlibrary{decorations.markings}
 \usetikzlibrary{shapes,arrows}
 \usetikzlibrary{backgrounds}
+
+
+%define colors for matlab listings
+\definecolor{commentcolor}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{stringcolor}{RGB}{170,55,241}
+
+%indent all listings
+\lstset{
+    xleftmargin=.5in,
+    xrightmargin=.5in} 
+
+%setup listings for Matlab for listings
+\lstset{language=Matlab,%
+    basicstyle=\ttfamily,
+    breaklines=true,%
+    morekeywords={matlab2tikz},
+    keywordstyle=\color{blue},%
+    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+    identifierstyle=\color{black},%
+    stringstyle=\color{stringcolor},
+    commentstyle=\color{comentcolor},%
+    showstringspaces=false,%without this there will be a symbol in the places where there is a space
+    numbers=left,%
+    numberstyle={\color{BurntOrange}},% size of the numbers
+    numbersep=9pt, % this defines how far the numbers are from the text
+    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+    %emph=[2]{word1,word2}, emphstyle=[2]{style},    
+}
+
+
