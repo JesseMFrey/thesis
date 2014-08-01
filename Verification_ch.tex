@@ -140,16 +140,6 @@ The torquer compensation method depends on the torquer offsets being repeatable.
 
 The offset variations shown in \cref{fig:tqoff} are all less than the maximum error from \cref{fig:tqerr}. This is likely because the maximum offsets did not occur all at the same time.
 
-\section{Feedback Verification}
-
-To test the torquer feedback 
-
-\future{I can un-plug a torquer and see that the software notices. Not sure how else a torquer would fail or how to test for it. I should probably also look at how the software responds and figure out what is the appropriate response}
-
-\section{Torquer Driver Verification}
-
-\future{Test the torquer drivers with a variety of loads to see what the V and I waveforms are and when (if at all) they break.}
-
 \section{B-dot controller simulations}
 
 To verify the B-dot algorithm the \ac{ACDS} is placed in the helmholtz cage and a rotating field is generated. The minimum rotation rate of the magnetic field that will cause a rotation rate is calculated by starting with \cref{eq:bdot-cross}
