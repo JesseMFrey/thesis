@@ -41,7 +41,7 @@ In \Cref{fig:b-offset} the largest offset appears to be both of the Y-axis torqu
 
 The torquer compensation is tested using the tCalTstFull function. The function runs the Helmholtz Cage through a field sequence and takes measurements at each point. During the process a random torquer is flipped every 10 data points. The measurements are corrected, in Matlab, using the compensation data set and compared to the expected field. A typical plot of the data is shown in \cref{fig:tqtst}. The RMS error is also calculated for the data set so the effectiveness of the torquer compensation can be compared to the calibration without torquers.
 
-\begin{lstlisting}[caption={Running torquer compensation test for the X+ \ac{SPB}},label={lst:tCalTst},language=Matlab]
+\begin{lstlisting}[style=code,caption={Running torquer compensation test for the X+ \ac{SPB}},label={lst:tCalTst},language=Matlab]
 a = [0 0 1;-1 0 0;0 1 0];
 tCalTstFull('X+',cor,'COM3',57600,-95.3,1,a);
 \end{lstlisting}

@@ -52,7 +52,7 @@
 
 
 %define colors for matlab listings
-\definecolor{commentcolor}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{comentcolor}{RGB}{28,172,0} % color values Red, Green, Blue
 \definecolor{stringcolor}{RGB}{170,55,241}
 
 %indent all listings
@@ -61,7 +61,7 @@
     xrightmargin=.5in} 
 
 %setup listings for Matlab for listings
-\lstset{language=Matlab,%
+\lstdefinestyle{code}{
     basicstyle=\ttfamily,
     breaklines=true,%
     morekeywords={matlab2tikz},
@@ -78,4 +78,15 @@
     %emph=[2]{word1,word2}, emphstyle=[2]{style},    
 }
 
+%setup listings for Matlab for listings
+\lstdefinelanguage{verbatim}{
+    sensitive=false,
+}
+
+\lstdefinestyle{verbatim}{
+    numbers=none,
+    basicstyle=\ttfamily,
+    columns=fullflexible,
+    keepspaces=true,
+}
 
