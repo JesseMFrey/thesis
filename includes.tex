@@ -60,6 +60,17 @@
     xleftmargin=.5in,
     xrightmargin=.5in} 
 
+\newcommand\digitstyle{\color{BrickRed}}
+\makeatletter
+\newcommand{\ProcessDigit}[1]
+{%
+  \ifnum\lst@mode=\lst@Pmode\relax%
+   {\digitstyle #1}%
+  \else
+    #1%
+  \fi
+}
+
 %setup listings for Matlab for listings
 \lstdefinestyle{code}{
     basicstyle=\ttfamily,
@@ -76,6 +87,37 @@
     numbersep=9pt, % this defines how far the numbers are from the text
     emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
     %emph=[2]{word1,word2}, emphstyle=[2]{style},    
+    literate=
+        {0}{{{\ProcessDigit{0}}}}1
+        {1}{{{\ProcessDigit{1}}}}1
+        {2}{{{\ProcessDigit{2}}}}1
+        {3}{{{\ProcessDigit{3}}}}1
+        {4}{{{\ProcessDigit{4}}}}1
+        {5}{{{\ProcessDigit{5}}}}1
+        {6}{{{\ProcessDigit{6}}}}1
+        {7}{{{\ProcessDigit{7}}}}1
+        {8}{{{\ProcessDigit{8}}}}1
+        {9}{{{\ProcessDigit{9}}}}1
+        {.0}{{{\ProcessDigit{.0}}}}2
+        {.1}{{{\ProcessDigit{.1}}}}2
+        {.2}{{{\ProcessDigit{.2}}}}2
+        {.3}{{{\ProcessDigit{.3}}}}2
+        {.4}{{{\ProcessDigit{.4}}}}2
+        {.5}{{{\ProcessDigit{.5}}}}2
+        {.6}{{{\ProcessDigit{.6}}}}2
+        {.7}{{{\ProcessDigit{.7}}}}2
+        {.8}{{{\ProcessDigit{.8}}}}2
+        {.9}{{{\ProcessDigit{.9}}}}2
+        {-0}{{{\ProcessDigit{-0}}}}2
+        {-1}{{{\ProcessDigit{-1}}}}2
+        {-2}{{{\ProcessDigit{-2}}}}2
+        {-3}{{{\ProcessDigit{-3}}}}2
+        {-4}{{{\ProcessDigit{-4}}}}2
+        {-5}{{{\ProcessDigit{-5}}}}2
+        {-6}{{{\ProcessDigit{-6}}}}2
+        {-7}{{{\ProcessDigit{-7}}}}2
+        {-8}{{{\ProcessDigit{-8}}}}2
+        {-9}{{{\ProcessDigit{-9}}}}2
 }
 
 %setup listings for Matlab for listings
