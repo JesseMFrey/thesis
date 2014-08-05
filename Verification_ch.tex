@@ -212,6 +212,13 @@ The B-dot algorithm equation is shown in \cref{eq:bdot-alg}.
 
 Substituting \cref{eq:bdot-mul} into \cref{eq:bdot-alg} and solving for $\omega$ gives \cref{eq:omega-th}. Where $M_{th}$ is the torque switching threshold for the torquers and $\omega_{th}$ is the minimum rotation rate required to flip a torquer.
 
+\begin{sidewaysfigure}
+    \centering
+    \includegraphics[width=\linewidth]{detumble-sim}
+  \caption{Simulation of torquer output with spinning magnetic field}
+    \label{fig:detumble-sim}
+\end{sidewaysfigure}
+
 \begin{equation}
     \omega _ {th} = {M _ {th} \over{ {C \left| \vec{B} \right|}}}
     \label{eq:omega-th}
@@ -224,13 +231,6 @@ If a 0.3 gauss field is used and $C$ is 10 and the torquer switching threshold i
 \end{equation}
 
 To understand what the response of the \ac{ACDS} to a rotating magnetic field should be, a simulation was written. The simulation simply generates a magnetic field sequence and uses the B-dot algorithm to determine what the magnetic torque should be. The simulation quantizes the output torque but does not enforce the one flip per time step requirement.
-
-\begin{sidewaysfigure}
-    \centering
-    \includegraphics[width=\linewidth]{detumble-sim}
-  \caption{Simulation of torquer output with spinning magnetic field}
-    \label{fig:detumble-sim}
-\end{sidewaysfigure}
 
 %With the field set to $\omega_{th}$ a torquer should flip as $\dot{\vec{B}}$ becomes aligned with a torquer axis as the field continues to sweep the torquer will switch off.
 
