@@ -223,7 +223,7 @@ If a 0.3 gauss field is used and $C$ is 10 and the torquer switching threshold i
     \omega _ {th} = { 0.022 \over{ {10 \cdot 0.3}}} = 0.00733 ~ \unit{rad / sec}
 \end{equation}
 
-
+To understand what the response of the \ac{ACDS} to a rotating magnetic field should be, a simulation was written. The simulation simply generates a magnetic field sequence and uses the B-dot algorithm to determine what the magnetic torque should be. The simulation quantizes the output torque but does not enforce the one flip per time step requirement.
 
 \begin{sidewaysfigure}
     \centering
@@ -239,7 +239,13 @@ If a 0.3 gauss field is used and $C$ is 10 and the torquer switching threshold i
 
 \section{Detumble Flip Test}
 
-\Cref{fig:detumble-test} shows the results of the detumble test. This is the same as the detumble simulation in \cref{fig:detumble-sim} except the field has been programed into the Helmholtz cage, measured by the \acp{SPB}, calculations done by the \ac{ACDS} and torquers flipped in an attempt to stop the motion.
+To test the detumble algorithm on the \ac{ACDS} hardware the \lstinline[style=code,language=Matlab]$bdot_test$ function is used. A timer is used to update the magnetic field in the Helmholtz cage every half second. The field is set to a field that by default rotates around the Z-axis at 2~rpm. The \ac{ACDS} is set to operate in detumble mode and the data that the \ac{ACDS} outputs is captured.
+
+\begin{lstlisting}[style=code,caption={Testing B-dot},label={lst:MSP-bdot},language=Matlab]
+bdot_test('COM3',57600);
+\end{lstlisting}
+
+\Cref{lst:MSP-bdot} shows how to run the \lstinline[style=code,language=Matlab]$bdot_test$ function. The arguments are the same as for the \lstinline[style=code,language=Matlab]$tCalTstMSP_all$ function.
 
 \begin{sidewaysfigure}
     \centering
@@ -247,6 +253,8 @@ If a 0.3 gauss field is used and $C$ is 10 and the torquer switching threshold i
   \caption{Test of the B-dot controller}
     \label{fig:detumble-test}
 \end{sidewaysfigure}
+
+\Cref{fig:detumble-test} shows the results of the detumble test. This is the same as the detumble simulation in \cref{fig:detumble-sim} except the field has been programed into the Helmholtz cage, measured by the \acp{SPB}, calculations done by the \ac{ACDS} and torquers flipped in an attempt to stop the motion.
 
 The results in \cref{fig:detumble-test} are similar to the results in the simulation in \cref{fig:detumble-sim}. The main difference is that there are some unexpected flips in the Z-axis. This is due to noise in the magnetic field causing torquers to be flipped. It is unclear if the noise is caused by the enviornment in the Helmholtz cage or by torquer flips and imperfect torquer calibration.
 
