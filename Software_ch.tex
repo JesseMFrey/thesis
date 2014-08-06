@@ -232,7 +232,7 @@ In order for the Kalman filter to work it needs the orbital elements for the sat
 \end{figure}
 \end{comment}
 
-\Cref{fig:mode1} shows the Mode 1 torque algorithm block diagram. In Mode 1 the required torque is calculated using the derivative of the magnetic field. This is a method that is widely used on other CubeSats \todo{Find some B-dot reference(s)} that have magnetic \ac{ACDS}. In this mode the magnetic dipole moment is simply set to a value that is proportional to the derivative of the magnetic field. Because the knowledge of the rotation rates is not needed for Mode 1, detumble can start before the Kalman filter has locked.
+\Cref{fig:mode1} shows the Mode 1 torque algorithm block diagram. In Mode 1 the required torque is calculated using the derivative of the magnetic field. This is a method that is widely used on other CubeSats \todo{Find some B-dot reference(s)} that have magnetic \ac{ACDS}. In this mode the magnetic dipole moment is simply set to a value that is proportional to the derivative of the magnetic field. Because the knowledge of the rotation rates is not needed for Mode 1, detumble can start before the Kalman filter has locked. The gain for the B-dot controller needs to be negative in order to stop the motion of the magnetic field. This could be done by adding a negative sign to the torque expression but, in code, it is simpler to have a negative gain.
 
 \begin{figure}[H]
     \centering
