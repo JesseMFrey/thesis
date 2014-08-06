@@ -222,12 +222,12 @@ The subsystems of the \ac{ARC} will communicate with each other using the ARCBus
 
 \section{Components of the \acl{ACDS}}
 
-\begin{figure}[ht]
+\begin{sidewaysfigure}
     \centering
     \includegraphics[width=\textwidth]{Figures/Block}
     \caption{Block Diagram of the CubeSat \acs{ACDS} system}
     \label{fig:ACDS-block}
-\end{figure}
+\end{sidewaysfigure}
 
 The block diagram for the CubeSat hardware used to implement the \ac{ACDS} is shown in \cref{fig:ACDS-block}. The hardware necessary for the \ac{ACDS} is spread over multiple subsystems of the \ac{ARC}. The \ac{ACDS} board contains the torquers, driving hardware along with the microcontroller which will run the attitude control algorithm. There is one two-axis magnetometer located on each of the six of the \acp{SPB}. These are used by the \ac{ACDS} to calculate rotation rates and calculate the magnetic dipole moment required to generate the necessary torque. Spreading the magnetometers across all six faces should give some degree of noise immunity and redundancy. The \ac{LEDL} board also contains \ac{MEMS} angular rate sensors as a redundant measurement of the rotation rate of the \ac{ARC}. The sensors on the \acp{SPB} are read by the \ac{LEDL}, which then forwards the magnetometer and angular rate measurements to the \ac{ACDS}.
 
