@@ -224,10 +224,10 @@ Substituting \cref{eq:bdot-mul} into \cref{eq:bdot-alg} and solving for $\omega$
     \label{eq:omega-th}
 \end{equation}
 
-If a 0.3 gauss field is used and $C$ is 10 and the torquer switching threshold is $0.022 \unit{A \cdot m} ^2$ then $\omega_{th}$ is calculated as follows
+If a 0.3 gauss field is used and $C$ is 4 and the torquer switching threshold is $0.022 \unit{A \cdot m} ^2$ then $\omega_{th}$ is calculated as follows
 
 \begin{equation}
-    \omega _ {th} = { 0.022 \over{ {10 \cdot 0.3}}} = 0.00733 ~ \unit{rad / sec}
+    \omega _ {th} = { 0.022 \over{ {4 \cdot 0.3}}} = 0.0183 ~ \unit{rad / sec}
 \end{equation}
 
 To understand what the response of the \ac{ACDS} to a rotating magnetic field should be, a simulation was written. The simulation simply generates a magnetic field sequence and uses the B-dot algorithm to determine what the magnetic torque should be. The simulation quantizes the output torque but does not enforce the one flip per time step requirement.
@@ -256,6 +256,6 @@ bdot_test('COM3',57600);
 
 \Cref{fig:detumble-test} shows the results of the detumble test. This is the same as the detumble simulation in \cref{fig:detumble-sim} except the field has been programed into the Helmholtz cage, measured by the \acp{SPB}, calculations done by the \ac{ACDS} and torquers flipped in an attempt to stop the motion.
 
-The results in \cref{fig:detumble-test} are similar to the results in the simulation in \cref{fig:detumble-sim}. The main difference is that there are some unexpected flips in the Z-axis. This is due to noise in the magnetic field causing torquers to be flipped. It is unclear if the noise is caused by the enviornment in the Helmholtz cage or by torquer flips and imperfect torquer calibration.
+The results in \cref{fig:detumble-test} are similar to the results in the simulation in \cref{fig:detumble-sim}. The main difference is that there are some unexpected flips in the Z-axis. This is due to noise in the magnetic field causing torquers to be flipped. It is unclear if the noise is caused by the environment in the Helmholtz cage or by torquer flips and imperfect torquer calibration.
 
 
