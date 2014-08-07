@@ -20,12 +20,53 @@ The \acp{LPMT} used for the \ac{ACDS} pose a unique challenge when compared to o
 \end{sidewaysfigure}
 
 
+
 The magnetic field of the earth ranges from 0.3 to 0.6 Gauss\cite[pp.~114]{Wertz}. In order to measure the attitude of the \ac{ARC} to within {\textpm5\textdegree} the Earth's magnetic field must be measured with an error of less than 26~mGauss. This means that the offsets from the torquers must be known with an accuracy of at least 26~mGauss. 
 
 Because of the nature of the dipole magnetic field, the offsets measured by each magnetometer are unique to each magnetometer and torquer combination. Some torquers have only a small effect on each magnetometer and some have a much larger effect. \Cref{fig:b-offset} shows the magnetic field offsets with the torquers in various states. 
 
-\Cref{fig:b-offset} shows the necessity of torquer compensation. There are large variations in the measured magnetic field due to the torquers changing state some are greater than 1~Gauss. Without torquer compensation the magnetic field from the torquers would completely overwhelm the torquers and make attitude determination impossible. What \Cref{fig:b-offset} does not show is how repeatable the offsets are which determines if compensation is possible.
+To visualize the torquer offsets the torquer compensation data, explained in \cref{sec:tq-comp}, is used. The \lstinline[style=code,language=Matlab]$offsetplot$ function is used to plot the changes in torquer offset. The offset part of the compensation data is plotted with respect to torquer state.
 
+\begin{lstlisting}[style=code,caption={Plotting torquer offsets from compensation data},label={lst:off-plot},language=Matlab]
+offsetplot(cors,cor_spb);
+\end{lstlisting}
+
+\Cref{lst:off-plot} shows how to generate the offset plot. The first argument to \lstinline[style=code,language=Matlab]$offsetplot$ is a cell array containing the compensation data to plot. This is the same as is returned by the \lstinline[style=code,language=Matlab]$store_all_cal$ function shown in \cref{lst:st-cal}. The seccond argument is a cell array of the names of the \acp{SPB} for witch the calibration was done. In addition to generating a plot of the compensation data the information in \cref{tab:off-stat} is printed.
+
+\begin{table}[!ht]
+    \centering
+    \caption{Information from \lstinline[style=code,language=Matlab]$offsetplot$}
+    \label{tab:off-stat}
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \acs{SPB}&Max Offset&Min Offset&Deviation\\
+        &(mGauss)&(mGauss)&(mGauss)\\
+        \hline
+        \multicolumn{4}{|c|}{\bfseries X-axis}\\
+        \hline
+        Y-&236.6&-1123.26&1359.86\\
+        \hline
+        Y+&2106.79&-3142.88&5249.66\\
+        \hline
+        Z+&874.67&-352.60&1227.26\\
+        \hline
+        \multicolumn{4}{|c|}{\bfseries Y-axis}\\
+        \hline
+        Z+&2448.90&1450.44&998.46\\
+        \hline
+        \multicolumn{4}{|c|}{\bfseries Z-axis}\\
+        \hline
+        Y-&1248.44&143.34&1105.10\\
+        \hline
+        Y+&606.78&-2364.76&2971.54\\
+        \hline
+    \end{tabular}
+\end{table}
+
+\Cref{tab:off-stat} shows the offset max and min's. The deviation is the diffrence between the max and min and is an indication of how much of an affect the torquers have on the magnetometers. The greatest deviation is just over 5~Gauss for the Y+ \ac{SPB} measuring the X-axis. The Y+ \ac{SPB} also has the second highest deviation of almost 3~Gauss. The Y- and Z+ \acp{SPB} have deviations that are closer to 1~Gauss. Looking back at \cref{fig:torquers} it makes sense that the Y+ \ac{SPB} has the largest torquer offset as it is located close to a pair of X torquers and a pair of Z-torquers. The Y- \ac{SPB} is located next to the header so the torquers are located a bit farther away. The Z+ board is located farthest away from the torquers so one would expect that the offsets for it might be significantly smaller.
+
+
+\Cref{fig:b-offset,tab:off-stat} show the necessity of torquer compensation. There are large variations in the measured magnetic field due to the torquers changing state the largest is over 5~gauss. Without torquer compensation the magnetic field from the torquers would completely overwhelm the torquers and make attitude determination impossible. What \Cref{fig:b-offset} does not show is how repeatable the offsets are which determines if compensation is possible.
 
 \subsection{Torquer Repeatability}
 
@@ -71,6 +112,8 @@ TODO: run command and collect ouput
 
 
 \subsection{Torquer Compensation}
+
+\label{sec:tq-comp}
 
 The torquer compensation for the X+ \ac{SPB} is shown in \cref{lst:tq-comp-gen}. The arguments to \lstinline[style=code,language=Matlab]$calall$ are the same as those for \lstinline[style=code,language=Matlab]$spbMag$ except this time a rotation matrix is passed that rotates from the Helmholtz cage axis to the \ac{SPB} axis.
 
