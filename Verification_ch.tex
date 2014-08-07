@@ -31,10 +31,11 @@ Because of the nature of the dipole magnetic field, the offsets measured by each
 To visualize the torquer offsets the torquer compensation data, explained in \cref{sec:tq-comp}, is used. The \lstinline[style=code,language=Matlab]$offsetplot$ function is used to plot the changes in torquer offset. The offset part of the compensation data is plotted with respect to torquer state.
 
 \begin{lstlisting}[style=code,caption={Plotting torquer offsets from compensation data},label={lst:off-plot},language=Matlab]
+cor_spb={'Y-','Y+','Z+'};
 offsetplot(cors,cor_spb);
 \end{lstlisting}
 
-\Cref{lst:off-plot} shows how to generate the offset plot. The first argument to \lstinline[style=code,language=Matlab]$offsetplot$ is a cell array containing the compensation data to plot. This is the same as is returned by the \lstinline[style=code,language=Matlab]$store_all_cal$ function shown in \cref{lst:st-cal}. The seccond argument is a cell array of the names of the \acp{SPB} for witch the calibration was done. In addition to generating a plot of the compensation data the information in \cref{tab:off-stat} is printed.
+\Cref{lst:off-plot} shows how to generate the offset plot. The first argument to \lstinline[style=code,language=Matlab]$offsetplot$ is a cell array containing the compensation data to plot. This is the same as is returned by the \lstinline[style=code,language=Matlab]$store_all_cal$ function shown in \cref{lst:st-cal}. The second argument is a cell array of the names of the \acp{SPB} for witch the calibration was done. This should be the same cell array that was passed \lstinline[style=code,language=Matlab]$store_all_cal$. In addition to generating a plot of the compensation data the information in \cref{tab:off-stat} is printed.
 
 \begin{table}[!ht]
     \centering
@@ -174,10 +175,11 @@ The data generated with \lstinline[style=code,language=Matlab]$make_cor_dat$ is 
 To simplify the process of generating a calibration set the \lstinline[style=code,language=Matlab]$store_all_cal$ function was written. The \lstinline[style=code,language=Matlab]$store_all_cal$ function generates correction data for all \ac{SPB} boards, sends the data to the \ac{ACDS} and tells the \ac{ACDS} to store the data in flash. 
 
 \begin{lstlisting}[style=code,caption={Generating and sending compensation data to the \ac{ACDS}},label={lst:st-cal},language=Matlab]
-cors=store_all_cal('COM3',57600,-95.3,1);
+cor_spb={'Y-','Y+','Z+'};
+cors=store_all_cal('COM3',57600,-95.3,1,cor_spb);
 \end{lstlisting}
 
-\Cref{lst:st-cal} shows how \lstinline[style=code,language=Matlab]$store_all_cal$ is called. The arguments are COM port, baud rate, amplifier gain, and \ac{ADC} gain which are the same as previously discussed. The compensation data for each \ac{SPB} is returned in a cell array so that compensation testing can be done in Matlab if desired.
+\Cref{lst:st-cal} shows how \lstinline[style=code,language=Matlab]$store_all_cal$ is called. The first four arguments: COM port, baud rate, amplhfier gain, and \ac{ADC} gain are the same as previously discussed. The last argument is a cell array of the names of the \acp{SPB} to calibrate. The function returns a cell array that contains the calibration for each \ac{SPB} that was specified.
 
 \subsection{Embedded Compensation Testing}
 
