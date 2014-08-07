@@ -12,12 +12,15 @@ The \acp{LPMT} used for the \ac{ACDS} pose a unique challenge when compared to o
 
 \subsection{Torquer offsets}
 
-\begin{sidewaysfigure}
+
+\afterpage{\begin{landscape}
+\begin{figure}[p]
     \centering
     \includegraphics[width=\linewidth]{board-offsets}
     \caption{Board offsets}
     \label{fig:b-offset}
-\end{sidewaysfigure}
+\end{figure}
+\end{landscape}}
 
 
 
@@ -70,12 +73,14 @@ offsetplot(cors,cor_spb);
 
 \subsection{Torquer Repeatability}
 
-\begin{sidewaysfigure}
+\afterpage{\begin{landscape}
+\begin{figure}[p]
     \centering
     \includegraphics[width=\linewidth]{torqueOffsets}
     \caption{Box Plot from torquer offset test}
     \label{fig:tqoff}
-\end{sidewaysfigure}
+\end{figure}
+\end{landscape}}
 
 The torquer compensation method depends on the torquer offsets being repeatable. If the offsets are not very repeatable then the offsets will induce errors in the measured field. \Cref{fig:tqoff} shows a plot of the torquer offsets. The plot shows the offsets of the torquers when they are polarized in each direction. The offset for both of the magnetometer axes are shown. The offset values are normalized to show deviation from the median for better comparison. The maximum offset variation in \cref{fig:tqoff} is 20 mGauss.
 
@@ -142,12 +147,14 @@ tCalTstFull('X+',cor,'COM3',57600,-95.3,1,a);
 
 \Cref{lst:tCalTst} shows how to run the \lstinline[style=code,language=Matlab]$tCalTstFull$ function. The first argument to the \lstinline[style=code,language=Matlab]$tCalTstFull$ function is the address of the \ac{SPB} to use. The address can be specified as a number or, more continently, as a symbolic name that resolves to the correct address. The seccond argument is the correction that was previously calculated using the calall function. The third and fourth arguments are the serial port and buad rate to use to talk to the CubeSat. The fifth argument is the gain of the amplifier on the \ac{SPB} this is not really used for the calibration test because the gain is factored into the correction data. The 6th argument is the \ac{ADC} gain, this gain has already been factored into the calibration but it must be set correctly in the \ac{ADC} for the test to work properly. The last argument is the rotation matrix  The function needs a rotation matrix to transform from \ac{SPB} coordinates to Helmholtz cage coordinates. The code generates the magnetic field and plots the results in the \ac{SPB} plane.
 
-\begin{sidewaysfigure}
+\afterpage{\begin{landscape}
+\begin{figure}[p]
     \centering
     \includegraphics[width=\linewidth]{torqueCalTst-err}
     \caption{Graph showing Y+ torquer compensation error plot}
     \label{fig:tqerr}
-\end{sidewaysfigure}
+\end{figure}
+\end{landscape}}
 
 \Cref{fig:tqerr} shows the error for the torquer compensation test. The RMS error for the compensated data is 20 mGauss. The maximum error is 38 mGauss. The RMS error is less than the 20~mGauss to get {\textpm5\textdegree} error but the maximum error of 38~mGauss is much higher. This is likely due to, in part, to the Y+ \ac{SPB} being in a location that gives it an offset swing of almost 3~Gauss.
 
@@ -193,21 +200,25 @@ tCalTstMSP_all('COM3',57600);
 
 \Cref{fig:tcalMSP} shows the torquer calibration test using the Y+, Y- and Z+ \acp{SPB} with the calibration performed using the embedded system on the \ac{ACDS} board. The RMS error was 14.637793~mGauss. The maximum error was 39.054539~mGauss.
 
-\begin{sidewaysfigure}
+\afterpage{\begin{landscape}
+\begin{figure}[p]
     \centering
     \includegraphics[width=\linewidth]{torqueCalTstMSP-err-flips}
     \caption{Error plot for \cref{fig:tcalMSP} showing torquer states}
     \label{fig:tcalMSPerr}
-\end{sidewaysfigure}
+\end{figure}
+\end{landscape}}
 
 \Cref{fig:tcalMSPerr} shows the errors for each sample as well as the torquer states during the samples. The large jumps in the errors all correspond with torquer flips.
 
-\begin{sidewaysfigure}
+\afterpage{\begin{landscape}
+\begin{figure}[p]
     \centering
     \includegraphics[width=\linewidth]{torqueCalTstMSP-err-axes}
     \caption{Plot of magnetic field errors for each axis}
     \label{fig:tcalMSPerr-axis}
-\end{sidewaysfigure}
+\end{figure}
+\end{landscape}}
 
 \Cref{fig:tcalMSPerr-axis} shows the errors from each board in each axis.
 
@@ -257,12 +268,14 @@ The B-dot algorithm equation is shown in \cref{eq:bdot-alg}.
 
 Substituting \cref{eq:bdot-mul} into \cref{eq:bdot-alg} and solving for $\omega$ gives \cref{eq:omega-th}. Where $M_{th}$ is the torque switching threshold for the torquers and $\omega_{th}$ is the minimum rotation rate required to flip a torquer.
 
-\begin{sidewaysfigure}
+\afterpage{\begin{landscape}
+\begin{figure}[p]
     \centering
     \includegraphics[width=\linewidth]{detumble-sim}
   \caption{Simulation of torquer output with spinning magnetic field}
     \label{fig:detumble-sim}
-\end{sidewaysfigure}
+\end{figure}
+\end{landscape}}
 
 \begin{equation}
     \omega _ {th} = {M _ {th} \over{ {C \left| \vec{B} \right|}}}
@@ -292,12 +305,14 @@ bdot_test('COM3',57600);
 
 \Cref{lst:MSP-bdot} shows how to run the \lstinline[style=code,language=Matlab]$bdot_test$ function. The arguments are the same as for the \lstinline[style=code,language=Matlab]$tCalTstMSP_all$ function.
 
-\begin{sidewaysfigure}
+\afterpage{\begin{landscape}
+\begin{figure}[p]
     \centering
     \includegraphics[width=\linewidth]{detumble-test}
   \caption{Test of the B-dot controller}
     \label{fig:detumble-test}
-\end{sidewaysfigure}
+\end{figure}
+\end{landscape}}
 
 \Cref{fig:detumble-test} shows the results of the detumble test. This is the same as the detumble simulation in \cref{fig:detumble-sim} except the field has been programed into the Helmholtz cage, measured by the \acp{SPB}, calculations done by the \ac{ACDS} and torquers flipped in an attempt to stop the motion.
 
