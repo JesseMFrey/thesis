@@ -167,7 +167,7 @@ tCalTstFull('X+',cor,'COM3',57600,-95.3,1,a);
 
 \subsection{Compensation Data Transfer}
 
-The compensation data set is generated in Matlab but to be used in flight it must be stored on the \ac{ACDS} board. The calibration data is stored in the flash memory on the \ac{ACDS} microcontroller. The on-board flash has the benefit of reading the same as \ac{RAM} and is also more abundant but is a bit disruptive to write. This works well in the case of the \ac{ACDS} because the data is expected to be written once but read often. The other option would be to store the data on the \ac{SD} that is used to log data. In this case the calibration data would need to be buffered in \ac{RAM} which is much more limited than the flash. 
+The compensation data set is generated in Matlab but to be used in flight it must be stored on the \ac{ACDS} board. The calibration data is stored in the flash memory on the \ac{ACDS} microcontroller. The on-board flash has the benefit of reading the same as \ac{RAM} and is also more abundant but is a bit disruptive to write. This works well in the case of the compensation data because the values are expected to be written once but read often. The other option would be to store the data on the \ac{SD} that is used to log data. In this case the calibration data would need to be buffered in \ac{RAM} which is much more limited than the flash. 
 
 The main flash memory is divided into sectors that are 512 bytes long. Erasing is done on a full sector so the corection data for each \ac{SPB} is stored in its own sector. The correction data is 408 bytes long the header and \ac{CRC} that are stored with the correction data take up 4 bytes leaving 100 bytes wasted. This is not a big deal as there is an abundance of flash.
 
