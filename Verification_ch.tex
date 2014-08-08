@@ -186,7 +186,7 @@ cors=store_all_cal('COM3',57600,-95.3,1,cor_spb);
 
 \subsection{Embedded Compensation Testing}
 
-The test in \cref{fig:tqtst,fig:tqerr} only used the \ac{ACDS} embedded system to flip torquers and take measurements. To Matlab was used to do all of the calculations for the calibration. During the flight the calibration must be done on-board with the embedded system on the \ac{ACDS} board.
+The test in \cref{fig:tqtst,fig:tqerr} only used the \ac{ACDS} embedded system to flip torquers and take measurements. To Matlab was used to do all of the calculations for the calibration. During the flight the calibration must be done with the embedded system on the \ac{ACDS} board.
 
 To test the embedded calibration the \lstinline[style=code,language=Matlab]$tCalTstMSP_all$ function is used. To run the test the completed CubeSat (or representation), with compensation data stored on the \ac{ACDS} processor, is placed in the Helmholtz cage. The magnetic field is swept through a field sequence. At every point in the sequence the magnetic field is measured by and after every 10 points a random torquer is flipped in each axis. The calibrated total magnetic field values as well as the calibrated values from each \ac{SPB} are read by Matlab and the results are plotted as shown in \cref{fig:tcalMSP,fig:tcalMSPerr,fig:tcalMSPerr-axis}.
 
