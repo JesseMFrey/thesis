@@ -263,12 +263,6 @@ To understand what the response of the \ac{ACDS} to a rotating magnetic field sh
 
 To test the detumble algorithm on the \ac{ACDS} hardware the \lstinline[style=code,language=Matlab]$bdot_test$ function is used. A timer is used to update the magnetic field in the Helmholtz cage every half second. The field is set to a field that by default rotates around the Z-axis at 2~rpm. The \ac{ACDS} is set to operate in detumble mode and the data that the \ac{ACDS} outputs is captured.
 
-\begin{lstlisting}[style=code,caption={Testing B-dot},label={lst:MSP-bdot},language=Matlab]
-bdot_test('COM3',57600);
-\end{lstlisting}
-
-\Cref{lst:MSP-bdot} shows how to run the \lstinline[style=code,language=Matlab]$bdot_test$ function. The arguments are the same as for the \lstinline[style=code,language=Matlab]$tCalTstMSP_all$ function.
-
 \afterpage{\begin{landscape}
 \begin{figure}[p]
     \centering
