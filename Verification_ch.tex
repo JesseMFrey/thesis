@@ -105,13 +105,7 @@ There are several steps verify and calibrate the magnetometers on the \acp{SPB}.
 
 \subsection{Initial Verification}
 
-The magnetometer verification is done using the Helmholtz cage. A calibration is run on a board separate from the CubeSat. The calculations are done on the calibration coefficients so that they can be compared to the datasheet values to check if the magnetometers are preforming as they should. Problems are often caused by bad solder joints which can cause one or more axis to be unresponsive.
-
-\begin{lstlisting}[style=code,caption={\ac{SPB} verification},label={lst:vspb},language=Matlab]
-spbMag('X+','COM3',9600,-95.3,1);
-\end{lstlisting}
-
-\Cref{lst:vspb} shows how to verify the X+ \ac{SPB}. This will run a calibration on the magnetometer and compare the calibration values to datasheet parameters. The first argument is the address of the \ac{SPB} board this can be a symbolic address, as shown, or a numeric address (still in string form). The second and third arguments define the COM port and baud rate respectively of the serial port to use to connect to the microcontroller attached to the \ac{SPB}. The fourth and fifth parameters are the gains for the amplifier and \ac{ADC}. The amplifier gain is only used to get the expected scale factor for the magnetometer but the \ac{ADC} gain also sets the gain of the \ac{ADC} while the measurements are being taken.
+The magnetometer verification is done using the Helmholtz cage. The verification is used to test a \ac{SPB} to see if the magnetometer is performing as it should. The \lstinline[style=code,language=Matlab]$spbMag$ function is used for verification. A calibration (see \cref{sec:magcal}) is run on a board separate from the CubeSat. The calibration coefficients are used to calculated parameters found on the datasheed to verify that the magnetometer is performing within specifications. Problems are often caused by bad solder joints which can cause one or more axis to be unresponsive. 
 
 \begin{lstlisting}[caption={\ac{SPB} verification results},label={lst:vspb-res},language=verbatim]
 TODO: run command and collect ouput
@@ -124,32 +118,23 @@ TODO: run command and collect ouput
 
 \label{sec:tq-comp}
 
-The torquer compensation for the X+ \ac{SPB} is shown in \cref{lst:tq-comp-gen}. The arguments to \lstinline[style=code,language=Matlab]$calall$ are the same as those for \lstinline[style=code,language=Matlab]$spbMag$ except this time a rotation matrix is passed that rotates from the Helmholtz cage axis to the \ac{SPB} axis.
+The \lstinline[style=code,language=Matlab]$calall$ function is used to calculate the torquer compensation data for a \ac{SPB} and the full set of torquers. The \lstinline[style=code,language=Matlab]$callall$ function calls the \lstinline[style=code,language=Matlab]$tCal$ function three times, once for the X, Y and Z axis. The \lstinline[style=code,language=Matlab]$tCal$ function works similarly to the magnetometer calibration, but the field is swept through the sequence 16 times, once for each torquer state. The data from each sweep is used to calculate the scaling factors for the compensation, $C_1$ $C_2$ $C_4$ and $C_5$ from \cref{eq:magcal}, for all torquer states as well as offset values, $C_3$ and $C_6$ from \cref{eq:magcal}, for each torquer state.
 
-\begin{lstlisting}[style=code,caption={Torquer compensation for the X+ \ac{SPB}},label={lst:tq-comp-gen},language=Matlab]
-a = [0 0 1;-1 0 0;0 1 0];
-cor=calall('X+','COM3',9600,-95.3,1,a);
-\end{lstlisting}
-
-The \lstinline[style=code,language=Matlab]$calall$ function internally calls \lstinline[style=code,language=Matlab]$tCal$ three times. Each time the X, Y or Z torquers are flipped to generate a partial calibration. Once the calibrations are complete the calibrations are combined to get one data set for all torquers.
+Once calibration values have been calculated for each set of torquers, the values must be combined into a single compensation data set. The scaling factors should be close to the same for the three data sets the scaling factors from each axis are averaged together. The offsets, as described in \cref{sec:tq-comp}, consist of a set of offsets for each set of torquers as well as a common offset. There is one torquer state, ``++-- ++-- ++--'', that is common to the calibrations in each axis. The static offset is calculated by averaging the values from each axis for the ``++-- ++-- ++--'' state. The static offset is then subtracted from the offsets for each axis. The scaling factors, common offsets and axis offsets are combined together into a single data set for the magnetometer on each \ac{SPB} which is the compensation data set.
 
 \subsection{Compensation Testing}
+\label{sec:tq-comp-tst}
 
-The torquer compensation is tested using the \lstinline[style=code,language=Matlab]$tCalTstFull$ function. The function runs the Helmholtz Cage through a field sequence and takes measurements at each point. During the process a random torquer is flipped every 10 data points. The measurements are corrected, in Matlab, using the compensation data set and compared to the expected field. A plot of the Y+ test data is shown in \cref{fig:tqtst}. The RMS error is also calculated for the data set so the effectiveness of the torquer compensation can be compared to the calibration without torquers.
-
-\begin{lstlisting}[style=code,caption={Running torquer compensation test for the X+ \ac{SPB}},label={lst:tCalTst},language=Matlab]
-a = [0 0 1;-1 0 0;0 1 0];
-tCalTstFull('X+',cor,'COM3',57600,-95.3,1,a);
-\end{lstlisting}
+The torquer compensation is tested using the \lstinline[style=code,language=Matlab]$tCalTstFull$ function. The function runs the Helmholtz Cage through a field sequence and takes a magnetometer measurement at each point in the field sequence. During the process a random torquer is flipped every 10 field sequence points. The measurements are corrected, in \matlab, using the compensation data set and compared to the expected field. A plot of the Y+ test data is shown in \cref{fig:tqtst}. The RMS error is also calculated for the data set so the effectiveness of the torquer compensation can be compared to the calibration without torquers.
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\linewidth]{torqueCalTst}
-  \caption{Y+ torquer compensation test showing that the correction provides a large amount of improvement over the uncorrected values}
+    \caption{Y+ torquer compensation test showing that the correction provides a large amount of improvement over the uncorrected values}
     \label{fig:tqtst}
 \end{figure}
 
-\Cref{lst:tCalTst} shows how to run the \lstinline[style=code,language=Matlab]$tCalTstFull$ function. The first argument to the \lstinline[style=code,language=Matlab]$tCalTstFull$ function is the address of the \ac{SPB} to use. The address can be specified as a number or, more continently, as a symbolic name that resolves to the correct address. The seccond argument is the correction that was previously calculated using the calall function. The third and fourth arguments are the serial port and buad rate to use to talk to the CubeSat. The fifth argument is the gain of the amplifier on the \ac{SPB} this is not really used for the calibration test because the gain is factored into the correction data. The 6th argument is the \ac{ADC} gain, this gain has already been factored into the calibration but it must be set correctly in the \ac{ADC} for the test to work properly. The last argument is the rotation matrix  The function needs a rotation matrix to transform from \ac{SPB} coordinates to Helmholtz cage coordinates. The code generates the magnetic field and plots the results in the \ac{SPB} plane.
+\Cref{fig:tqtst} shows a plot of the Y+ compensation test data. The commanded are the magnetic field values that were programed into the Helmholtz cage. The scale only corrected values are the measurements from the magnetometer corrected using the scaling values from the correction but not the offset values. The corrected values are the measurements from the magnetometer corrected using the full correction data set. The scale only corrected values show that the torquers have corrupted the magnetometer measurements so that, with out the correction values, they can't be used to measure the Earth's magnetic field. The corrected values, however, follow the commanded values much more closely and, while there is a small amount of error visible, appear to be usable for measuring the Earth's magnetic field.
 
 \afterpage{\begin{landscape}
 \begin{figure}[p]
@@ -160,33 +145,28 @@ tCalTstFull('X+',cor,'COM3',57600,-95.3,1,a);
 \end{figure}
 \end{landscape}}
 
-\Cref{fig:tqerr} shows the error for the torquer compensation test. The RMS error for the compensated data is 20~mGauss. The maximum error is 38~mGauss. The RMS error is less than the 26~mGauss to get {\textpm5\textdegree} error but the maximum error of 38~mGauss is much higher. This is likely due to, in part, to the Y+ \ac{SPB} being in a location that gives the highest swing of any other board.
+\Cref{fig:tqerr} shows the error for the torquer compensation test. The RMS error for the compensated data is 20~mGauss. The maximum error is 38~mGauss. The RMS error is less than the 26~mGauss to get {\textpm5\textdegree} error but the maximum error of 38~mGauss is much higher. This is likely due to, in part, to the Y+ \ac{SPB} being in a location that gives the highest swing of any other board as shown in \cref{tab:off-stat}.
 
 %\Cref{fig:tqerr} shows the error for the torquer compensation test. The RMS error for the compensated data is 9 mGauss. The maximum error is 24 mGauss. On a 300 mGauss field a 24 mGauss error will cause an angular error of \textpm5\textdegree. The addition of the torquers causes an increase in the RMS and maximum error.
 %This can be seen by comparing \cref{fig:tqerr} with \cref{fig:magerr}. In \cref{fig:tqerr} steps in the error are seen as torquers are flipped whereas in \cref{fig:magerr} the error is more consistent across the entire run.
 
 \subsection{Compensation Data Transfer}
 
-The compensation data set is generated in Matlab but to be used in flight it must be stored on the \ac{ACDS} board. The calibration data is stored in the flash memory on the \ac{ACDS} microcontroller. The on-board flash has the benefit of reading the same as \ac{RAM} and is also more abundant but is a bit disruptive to write. This works well in the case of the compensation data because the values are expected to be written once but read often. The other option would be to store the data on the \ac{SD} that is used to log data. In this case the calibration data would need to be buffered in \ac{RAM} which is much more limited than the flash. 
+The compensation data set is generated in \matlab but to be used in flight it must be stored on the \ac{ACDS} board. The calibration data is stored in the flash memory on the \ac{ACDS} microcontroller. The on-board flash has the benefit of reading the same as \ac{RAM} and is also more abundant but is a bit disruptive to write. This works well in the case of the compensation data because the values are expected to be written once but read often. The other option would be to store the data on the \ac{SD} that is used to log data. In this case the calibration data would need to be buffered in \ac{RAM} which is much more limited than the flash. 
 
-The main flash memory is divided into sectors that are 512 bytes long. Erasing is done on a full sector so the corection data for each \ac{SPB} is stored in its own sector. The correction data is 408 bytes long the header and \ac{CRC} that are stored with the correction data take up 4 bytes leaving 100 bytes wasted. This is not a big deal as there is an abundance of flash.
+The main flash memory is divided into sectors that are 512 bytes long. Erasing is done on a full sector so the corection data for each \ac{SPB} is stored in its own sector. The correction data is 408 bytes long the header and \ac{CRC} that are stored with the correction data take up 4 bytes leaving 100 bytes wasted. This is not a big deal as there is an abundance of flash memory.
 
-Before the correction data is sent to the \ac{ACDS} it must be repackaged this is done using the \lstinline[style=code,language=Matlab]$make_cor_dat$ function. Correction data is transfered as single precision IEEE~754 floating point numbers. Because both the \ac{ACDS} processor and most of the machines commonly used to run Matlab are little endian machines, the byte order for the transfered data is little endian. It is important to note that in both ends of the transfer no effort is made to make sure that the data order is correct so this needs to be taken into account if the endianness of one of the machines changes.
+Before the correction data is sent to the \ac{ACDS} it must be repackaged. This is done using the \lstinline[style=code,language=Matlab]$make_cor_dat$ function. Correction data is transfered as single precision IEEE~754 floating point numbers. Because both the \ac{ACDS} processor and most of the machines commonly used to run \matlab are little endian machines, the byte order for the transfered data is little endian. It is important to note that in both ends of the transfer no effort is made to make sure that the data order is correct so this needs to be taken into account if the endianness of one of the machines changes.
 
 The data generated with \lstinline[style=code,language=Matlab]$make_cor_dat$ is temporally stored in the \ac{SD} on the \ac{ACDS} board. The data is stored with an identifier that includes which \ac{SPB} the data is for. On the \ac{ACDS} board the data is unpacked from the \ac{SD}, reformatted slightly, and stored in the on-board flash. 
 
 To simplify the process of generating a calibration set the \lstinline[style=code,language=Matlab]$store_all_cal$ function was written. The \lstinline[style=code,language=Matlab]$store_all_cal$ function generates correction data for all \ac{SPB} boards, sends the data to the \ac{ACDS} and tells the \ac{ACDS} to store the data in flash. 
 
-\begin{lstlisting}[style=code,caption={Generating and sending compensation data to the \ac{ACDS}},label={lst:st-cal},language=Matlab]
-cor_spb={'Y-','Y+','Z+'};
-cors=store_all_cal('COM3',57600,-95.3,1,cor_spb);
-\end{lstlisting}
-
-\Cref{lst:st-cal} shows how \lstinline[style=code,language=Matlab]$store_all_cal$ is called. The first four arguments: COM port, baud rate, amplhfier gain, and \ac{ADC} gain are the same as previously discussed. The last argument is a cell array of the names of the \acp{SPB} to calibrate. The function returns a cell array that contains the calibration for each \ac{SPB} that was specified.
-
 \subsection{Embedded Compensation Testing}
 
-The test in \cref{fig:tqtst,fig:tqerr} only used the \ac{ACDS} embedded system to flip torquers and take measurements. To Matlab was used to do all of the calculations for the calibration. During the flight the calibration must be done with the embedded system on the \ac{ACDS} board.
+The test in \cref{fig:tqtst,fig:tqerr} only used the \ac{ACDS} embedded system to flip torquers and take measurements. \matlab was used to do all of the calculations for the calibration. During the flight the calibration must be done with the embedded system on the \ac{ACDS} board. Furthermore the previous tests were for a single \ac{SPB} and could only measure two axes. In flight the measurements from all \acp{SPB} will be combined to get a 3-axis measurement of the magnetic field.
+
+To test the embedded calibration the \lstinline[style=code,language=Matlab]$tCalTstMSP_all$ function is used. To run the test the engineering development prototype of the \ac{ARC}, with compensation data stored on the \ac{ACDS} processor, is placed in the Helmholtz cage. The \lstinline[style=code,language=Matlab]$tCalTstMSP_all$ function operates in much the same way that the \lstinline[style=code,language=Matlab]$tCalTstFull$, explained in \cref{sec:tq-comp-tst}, does. The magnetic field is swept through a field sequence. At every point in the sequence the magnetic field is measured and after every 10 points a random torquer is flipped in each axis. The calibrated total magnetic field values as well as the calibrated values from each \ac{SPB} are read by \matlab and the results are plotted as shown in \cref{fig:tcalMSP,fig:tcalMSPerr,fig:tcalMSPerr-axis}.
 
 \begin{figure}[!ht]
     \centering
@@ -195,15 +175,7 @@ The test in \cref{fig:tqtst,fig:tqerr} only used the \ac{ACDS} embedded system t
     \label{fig:tcalMSP}
 \end{figure}
 
-To test the embedded calibration the \lstinline[style=code,language=Matlab]$tCalTstMSP_all$ function is used. To run the test the completed CubeSat (or representation), with compensation data stored on the \ac{ACDS} processor, is placed in the Helmholtz cage. The magnetic field is swept through a field sequence. At every point in the sequence the magnetic field is measured by and after every 10 points a random torquer is flipped in each axis. The calibrated total magnetic field values as well as the calibrated values from each \ac{SPB} are read by Matlab and the results are plotted as shown in \cref{fig:tcalMSP,fig:tcalMSPerr,fig:tcalMSPerr-axis}.
-
-\begin{lstlisting}[style=code,caption={Testing the on-board calibration},label={lst:st-MSPcal},language=Matlab]
-tCalTstMSP_all('COM3',57600);
-\end{lstlisting}
-
-\Cref{lst:st-MSPcal} shows an example of the \lstinline[style=code,language=Matlab]$tCalTstMSP_all$ function being used. The two arguments shown are the COM port and baud rate as discussed before. A rotation matrix can be supplied as a \nth{3} argument. The rotation matrix only rotates the field generated by the Helmholtz cage as it is assumed that the CubeSat axes are aligned with the Helmholtz cage axes.
-
-\Cref{fig:tcalMSP} shows the torquer calibration test using the Y+, Y- and Z+ \acp{SPB} with the calibration performed using the embedded system on the \ac{ACDS} board. The RMS error was 14.637793~mGauss. The maximum error was 39.054539~mGauss.
+\Cref{fig:tcalMSP} shows the torquer calibration test using the Y+, Y- and Z+ \acp{SPB} with the calibration performed using the embedded system on the \ac{ACDS} board. The RMS error was 14.6~mGauss. The maximum error was 39.1~mGauss.
 
 \afterpage{\begin{landscape}
 \begin{figure}[p]
@@ -215,19 +187,6 @@ tCalTstMSP_all('COM3',57600);
 \end{landscape}}
 
 \Cref{fig:tcalMSPerr} shows the errors for each sample as well as the torquer states during the samples. The large jumps in the errors all correspond with torquer flips.
-
-\afterpage{\begin{landscape}
-\begin{figure}[p]
-    \centering
-    \includegraphics[height=\textwidth]{torqueCalTstMSP-err-axes}
-    \caption{Plot of magnetic field errors for each axis}
-    \label{fig:tcalMSPerr-axis}
-\end{figure}
-\end{landscape}}
-
-\Cref{fig:tcalMSPerr-axis} shows the errors from each board in each axis.
-
-\Cref{tab:tcalMSPerr} shows the RMS errors in table form. The N/As in the table are because each \ac{SPB} only measures in two axes. For each axis the total error is less than the lowest error from a single axis. This indicates that having multiple measurements of the magnetic field reduces the overall error.
 
 \begin{table}[!ht]
     \centering
@@ -247,6 +206,19 @@ tCalTstMSP_all('COM3',57600);
         \hline
     \end{tabular}
 \end{table}
+
+\Cref{tab:tcalMSPerr} shows the RMS errors in table form. The N/As in the table are because each \ac{SPB} only measures in two axes. For each axis the total error is less than the lowest error from a single axis. This indicates that having multiple measurements of the magnetic field reduces the overall error.
+
+\afterpage{\begin{landscape}
+\begin{figure}[p]
+    \centering
+    \includegraphics[height=\textwidth]{torqueCalTstMSP-err-axes}
+    \caption{Plot of magnetic field errors for each axis}
+    \label{fig:tcalMSPerr-axis}
+\end{figure}
+\end{landscape}}
+
+\Cref{fig:tcalMSPerr-axis} shows the errors from each board in each axis.
 
 \section{B-dot controller simulations}
 
