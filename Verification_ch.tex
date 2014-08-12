@@ -30,13 +30,6 @@ Because of the nature of the dipole magnetic field, the offsets measured by each
 
 To visualize the torquer offsets the torquer compensation data, explained in \cref{sec:tq-comp}, is used. The \lstinline[style=code,language=Matlab]$offsetplot$ function is used to plot the changes in torquer offset. The offset part of the compensation data is plotted with respect to torquer state.
 
-\begin{lstlisting}[style=code,caption={Plotting torquer offsets from compensation data},label={lst:off-plot},language=Matlab]
-cor_spb={'Y-','Y+','Z+'};
-offsetplot(cors,cor_spb);
-\end{lstlisting}
-
-\Cref{lst:off-plot} shows how to generate the offset plot. The first argument to \lstinline[style=code,language=Matlab]$offsetplot$ is a cell array containing the compensation data to plot. This is the same as is returned by the \lstinline[style=code,language=Matlab]$store_all_cal$ function shown in \cref{lst:st-cal}. The second argument is a cell array of the names of the \acp{SPB} for witch the calibration was done. This should be the same cell array that was passed \lstinline[style=code,language=Matlab]$store_all_cal$. In addition to generating a plot of the compensation data the information in \cref{tab:off-stat} is printed.
-
 \Cref{fig:b-offset} shows the plot from \lstinline[style=code,language=Matlab]$offsetplot$. The plot only shows the 48 torquer states used for calibration out of the 4096 possible states. The state of each torquer is indicated with a ``+'' if the torquer was flipped in the positive direction and a ``-'' if the torquer was flipped in the negative direction. The torquers are separated into groups of four torquers by axis. For the locations of torquers on the \ac{ACDS} board refer back to \cref{fig:boardRender}. The first group is for the X-axis and the last is for the Z-axis. In the first 16 states the X-axis torquers are flipped in all possible states, for the next 16 the Y-axis torquers are flipped through all possible states and for the last 16 states the Z-axis torquers are flipped through all possible states.
 
  
@@ -77,6 +70,10 @@ offsetplot(cors,cor_spb);
 
 \subsection{Torquer Repeatability}
 
+The torquer compensation method depends on the torquer offsets being repeatable. If the offsets are not very repeatable then the offsets will induce errors in the measured field. \Cref{fig:tqoff} shows a plot of the torquer offsets. The plot shows the offsets of the torquers when they are polarized in each direction. The offset for both of the magnetometer axes are shown. The offset values are normalized to show deviation from the median for better comparison. The maximum offset variation in \cref{fig:tqoff} is 20 mGauss.
+
+The plot in \cref{fig:tqoff} was generated using the \lstinline[style=code,language=Matlab]$alltorquetest$ function. To create the plot each torquer was flipped 20 times in each direction. After each flip a magnetometer calibration was done to get the offset values. The variation in the offset is then plotted as a box plot.
+
 \afterpage{\begin{landscape}
 \begin{figure}[p]
     \centering
@@ -86,17 +83,7 @@ offsetplot(cors,cor_spb);
 \end{figure}
 \end{landscape}}
 
-The torquer compensation method depends on the torquer offsets being repeatable. If the offsets are not very repeatable then the offsets will induce errors in the measured field. \Cref{fig:tqoff} shows a plot of the torquer offsets. The plot shows the offsets of the torquers when they are polarized in each direction. The offset for both of the magnetometer axes are shown. The offset values are normalized to show deviation from the median for better comparison. The maximum offset variation in \cref{fig:tqoff} is 20 mGauss.
-
-
-%The offset variations shown in \cref{fig:tqoff} are all less than the maximum error from \cref{fig:tqerr}. This is likely because the maximum offsets did not occur all at the same time.
-
-The plot in \cref{fig:tqoff} was generated using the code in \cref{lst:tqoff}. To create the plot each torquer was flipped 20 times in each direction. After each flip a magnetometer calibration was done to get the offset values. (more description to follow when I find the code again)
-
-\begin{lstlisting}[style=code,caption={Code to measure torquer repeatibility for the Y+ axis},label={lst:tqoff},language=Matlab]
-%TODO: find the code that I used to make the plot...
-\end{lstlisting}
-
+\Cref{fig:tqoff} shows that there is some variation in the torquer offsets. 
 
 \section{Magnetometer Verification}
 
