@@ -354,7 +354,7 @@ The current waveforms also show changes due to torquer saturation. For the first
     \label{fig:WVsetup}
 \end{figure}
 
-\Cref{fig:WVsetup} shows the hardware used to take the data for \cref{fig:driveWV,fig:satWV}. The \ac{ACDS} board was used to drive the torquers. To communicate with the \ac{ACDS}, another microcontroller board was used along with a \ac{USB}-to-serial converter. The torquer connects to the \ac{ACDS} board through a current sensor which is read by the oscilloscope. The torquer is placed inside a plastic housing with an attached Hall effect sensor. The hall effect sensor is located against the end of the torquer and is read by the oscilloscope. A pin on the \ac{ACDS} microcontroller is  used to trigger the scope which is automatically configured by a Matlab script that communicates with the \ac{ACDS} board and the oscilloscope.
+\Cref{fig:WVsetup} shows the hardware used to take the data for \cref{fig:driveWV,fig:satWV}. The \ac{ACDS} board was used to drive the torquers. To communicate with the \ac{ACDS}, another microcontroller board was used along with a \ac{USB}-to-serial converter. The torquer connects to the \ac{ACDS} board through a current sensor which is read by the oscilloscope. The torquer is placed inside a plastic housing with an attached Hall effect sensor. The hall effect sensor is located against the end of the torquer and is read by the oscilloscope. A pin on the \ac{ACDS} microcontroller is  used to trigger the scope which is automatically configured by a \matlab script that communicates with the \ac{ACDS} board and the oscilloscope.
 
 The measured field that the Hall effect sensor reads is highly dependant on the distance from the torquer. Using the residual induction of Alnico1, 7200 Gauss \cite{AlnicoProp}, and \cite{DexterField} the magnetic field from the torquers should be 155~Gauss at 0.05~in from the face of the torquer. This is close to what is shown in \cref{fig:driveWV}. As the distance from the face increases to 0.1,~0.2~and~0.3~in the field decreases to 46,~12~and~5~Gauss, respectively.
 
@@ -463,7 +463,7 @@ In this case $V_s'$ and $V_c'$ are the \ac{ADC} values for the cross and sensiti
 \subsubsection{Magnetometer Calibration}
 \label{sec:magcal}
 
-To calibrate the magnetometer, the coefficients in \cref{eq:magcal} must be calculated. The magnetometer is first placed inside the Helmholtz Cage. The field is set under MATLAB control so the entire calibration process can run automatically. The calibration program sweeps the field inside the Helmholtz Cage through a predefined sequence and reads the sensor output at each point. 
+To calibrate the magnetometer, the coefficients in \cref{eq:magcal} must be calculated. The magnetometer is first placed inside the Helmholtz Cage. The field is set under \matlab control so the entire calibration process can run automatically. The calibration program sweeps the field inside the Helmholtz Cage through a predefined sequence and reads the sensor output at each point. 
 
 The method of least squares is used to solve \cref{eq:magmat} for the coefficients in \cref{eq:magcal}. Each line in the $\matt{A}$ matrix represents a separate magnetic field measurement. $H_n$ is the $n^{\text{\tiny th}}$ value set by the Helmholtz cage in the sensitive axis. 
 
