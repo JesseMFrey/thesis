@@ -10,27 +10,27 @@ This thesis describes a CubeSat attitude control system. The system uses \acfp{L
 
 Over the past few decades electronic, devices have continued to get smaller, cheaper and more powerful. This has made many things possible that were not feasible before. Recently, it has become possible for a large number of universities to build and launch their own small satellites.
 
-The \acf{CDS} is a small satellite standard that many universities, private companies and NASA have used to help them put satellites into orbit cheaper and easier than before. The \ac{CDS} defines, among other things, the size of the CubeSats, a 10-cm cube, and how they interface with the launcher. Because CubeSats are small and launched from a standard launcher, they are easy to integrate into the extra space leftover on larger missions making launches relatively cheap and easy to obtain.
+The \acf{CDS}\cite{CDS} is a small satellite standard that many universities, private companies and NASA have used to help them put satellites into orbit cheaper and easier than before. The \ac{CDS} defines, among other things, the size of the CubeSats, a 10-cm cube, and how they interface with the launcher. Because CubeSats are small and launched from a standard launcher, they are easy to integrate into the extra space leftover on larger missions making launches relatively cheap and easy to obtain.
 
 In recent years, the number of CubeSat launches has grown significantly. CubeSats are launched by universities as well as government institutions like NASA and the Air Force \todo{find references} and private companies. CubeSats were originally envisioned as an educational tool that would have the approximate capabilities of Sputnik\todo{Saw this at a CubeSat conference, find a suitable reference.}. While CubeSats may have been conceived as primarily an educational tool, \todo{find reference(s)} CubeSats have been the subject of NSF grants \cite{RAXnsf}.
 
 \section{CubeSat \acs{ACDS}}
 
-Because CubeSats are small, they have limited surface area for power generation. Many CubeSats do not use deployable solar panels because of their complexity, volume and weight. The result is that CubeSats have to run on a limited power budget. Many CubeSat science missions require at the very least a stable attitude or a nadir pointing attitude. On larger satellites, reaction wheels and thrusters are often used for attitude control. For many CubeSats, the added mass, power and volume of reaction wheels and thrusters makes them not a \todo{Wording seems odd} viable option.
+Because CubeSats are small, they have limited surface area for power generation. Many CubeSats do not use deployable solar panels because of their complexity, volume and weight. The result is that CubeSats have to run on a limited power budget. Many CubeSat science missions require at the very least a stable attitude or a nadir pointing attitude. On larger satellites, reaction wheels and thrusters are often used for attitude control. For many CubeSats, the added mass, power and volume of reaction wheels and thrusters is not a viable option.
 
-One common CubeSat attitude control method is to use the Earth's magnetic field. Magnetic attitude control systems are generally capable of less torque than traditional methods, but are smaller and lighter making them a popular choice for many CubeSats. Because magnetic torquers produce different torque based on the angle between the torquer and the magnetic field, a completely passive system can be built. This is a popular choice for systems that mainly need to be detumbled as it is small, light and simple. 
+One common CubeSat attitude control method is to use the Earth's magnetic field. Magnetic attitude control systems are generally capable of less torque than thrusters and reaction wheels, but are smaller and lighter making them a popular choice for many CubeSats. Because magnetic torquers produce different torque based on the angle between the torquer and the magnetic field, a completely passive system can be built. This is a popular choice for systems that mainly need to be detumbled as it is small, light and simple. 
 
 \subsection{Passive Control}
 
-In a passive system, a permanent magnet on the spacecraft forces an axis to align with the local magnetic field. Because there is little friction in space, hysteresis material must be added to the spacecraft to dampen oscillations. The hysteresis material dissipates energy in a changing magnetic field, thereby reducing the angular velocity. The main drawback for a passive system is that there is no face of the satellite that is continually facing the Earth. Having a face that constantly points in the nadir direction is useful for communications and for Earth observation.
+In a passive system, a permanent magnet on the spacecraft forces an axis to align with the local magnetic field. Because there is little friction in space, additional hysteresis material must be added to the spacecraft to dampen oscillations. The hysteresis material dissipates energy in a changing magnetic field, thereby reducing the angular velocity. The main drawback for a passive system is that there is no face of the satellite that is continually facing the Earth. Having a face that constantly points in the nadir direction is useful for communications and for Earth observation.
 
 \subsection{Active Control}
 
-Active magnetic control allows for different attitude options such as nadir pointing. Many CubeSats use air core magnetic torquers built into the solar panel \ac{PCB}. The coils are made of spiral shaped traces in one or more layers of the \ac{PCB}. To increase efficiency some CubeSats use wire wound torquers with a magnetic core. In both cases however, torque is generated only when current is flowing through the coil. 
+Active magnetic control allows for different attitude options such as nadir pointing. Many CubeSats use air core magnetic torquers built into the solar panel \ac{PCB}. The coils are made of spiral shaped traces in one or more layers of the \ac{PCB}. To increase efficiency some CubeSats use wire wound torquers with a magnetic core. In both cases, however, torque is generated only when current is flowing through the coil. 
 
-\subsection{\acl{LPMT} control}
+\subsection{\acl{LPMT} Control}
 
-The system described in this thesis falls some where in between passive and active systems. The \acp{LPMT} used in the design allows more control of the attitude than a passive system, yet uses less power then current active systems\todo{Find some good numbers here}. The \ac{LPMT} is a good fit for CubeSats because of its power savings.
+The system described in this thesis falls somewhere in between passive and active systems. The \acp{LPMT} used in the design allows more control of the attitude than a passive system, yet uses less power than current active systems\todo{Find some good numbers here}. The \ac{LPMT} is a good fit for CubeSats because of its power savings.
 
 \section{\acl{ARC}}
 
@@ -38,13 +38,13 @@ The system described in this thesis falls some where in between passive and acti
 
 \section{\acl{ACDS}}
 
-The basic \ac{ACDS} algorithm and torquers have been designed by Dr. Donald Mentch for his doctoral thesis. The remaining work for this thesis is the design, implementation and testing of the hardware and software to realize the \ac{ACDS} on the \ac{ARC}. In addition some parts of the system have been change from the way the system was originally proposed due to practical considerations.
+The basic \ac{ACDS} algorithm and torquer specifications have been designed by Dr. Donald Mentch for his doctoral thesis\cite{Mentch11}. The remaining work for this thesis is the design, implementation and testing of the hardware and software to realize the \ac{ACDS} on the \ac{ARC}. In addition some parts of the system have been changed from the way the system was originally proposed due to practical considerations.
 
 \Cref{ch:BG} outlines the previous work on \acp{LPMT} and the alignment algorithm that will be used on the \ac{ARC}.
 
-\Cref{ch:CubeSatHardware} describes how the \ac{ACDS} is implemented on the \ac{ARC}. This hardware was constructed based on the parameters outlined in \cite{Mentch11} but the bulk of the design was done by the author of this thesis.
+\Cref{ch:CubeSatHardware} describes how the \ac{ACDS} hardware is implemented on the \ac{ARC}. This hardware was constructed based on the parameters outlined in \cite{Mentch11} but the bulk of the design, implementation and testing, was done by the author of this thesis.
 
-\Cref{ch:Software} describes the software for the \ac{ACDS}. The algorithm for \ac{ACDS} was written by Donald Mentch for his Doctoral work \cite{Mentch11}. For this thesis the algorithm was taken from the \matlab simulation and converted into C code so that it could be run on a msp430. Because of the change in platform many other support functionality had to be written. Some of this functionality will be documented here.
+\Cref{ch:Software} describes the software for the \ac{ACDS}. The algorithm for \ac{ACDS} was written by Donald Mentch for his doctoral work \cite{Mentch11}. For this thesis, the algorithm was converted from a \matlab simulation into C code so in order to run on the \ac{ARC} \ac{ACDS} embedded system. Because of the change in platform, many support functions had to be written.
 
-\Cref{ch:Verification} outlines the verification plan for flight hardware to make sure that it performs adequately on orbit. Some of the basic ideas of verification were outlined in \cite{Mentch11} as well as conversations with Donald Mentch. Most of the testing and verification has been performed by the author of this thesis and adjusted accordingly.
+\Cref{ch:Verification} describes the test used to validate the performance of the ACDS hardware and software. Some of the basic ideas of verification were outlined in \cite{Mentch11} as well as conversations with Donald Mentch. Most of the testing and verification has been performed by the author of this thesis and adjusted accordingly.
 
