@@ -13,7 +13,7 @@ The \ac{ACDS} board for the \ac{ARC} only contains the processor, torquers and d
 
 \Cref{fig:arcMech} shows the mechanical design of the \ac{ARC}. The design has a central board stack with solar panels and rails attached to rings that are on the top and bottom of the board stack. The boards in the stack are connected by a 104-pin stack through header that is located on the -Y edge of each board. The header distributes power and allows for communication between boards. 
 
-The \ac{ACDS} board is located 3rd from the bottom of the stack. This puts it in the center of the board stack. Because the solar cells cover all of the side faces except a small strip in the center this makes the \ac{ACDS} board the only place to put the pull pin and \ac{USB} connector, that need to be accessed while \ac{ARC} is in the \ac{PPOD}. The separation switch connections are also located on the \ac{ACDS} board, as the separation switch is attached to one of the torquer standoff.
+The \ac{ACDS} board is located 3rd from the bottom of the stack. This puts it in the center of the board stack. Because the solar cells cover all of the side faces except a small strip in the center this makes the \ac{ACDS} board the only place to put the pull pin and \ac{USB} connector, that need to be accessed while \ac{ARC} is in the \ac{PPOD}. The separation switch connections are also located on the \ac{ACDS} board, as the separation switch is attached to one of the torquer standoffs.
 
 \begin{figure}[!ht]
     \centering
@@ -117,24 +117,24 @@ The \ac{ACDS} board is located 3rd from the bottom of the stack. This puts it in
             \path[->,red,very thick] (SCi) edge (SC2);
     \end{tikzpicture}
     
-    \caption{Front and back sides of the Solar Panel Board showing magnetometer.}
+    \caption{Back and front sides of the Solar Panel Board showing magnetometer.}
     \label{fig:SPB}
 \end{figure}
 
-For clarity the \acp{SPB} are not shown in \cref{fig:arcMech}. The \acp{SPB} are attached to mounting holes in the rails and are the outer faces of the \ac{ARC}. In addition to the solar cells the \acp{SPB} also contain sensors that are used by the \ac{LEDL} and \ac{ACDS}. \Cref{fig:SPB} shows the front and back side of a side \ac{SPB} with the sensors labeled. The top and bottom \acp{SPB} are similar to the side \acp{SPB} except they lack accelerometers and include parts for the antennas and antenna deployment.
+For clarity the \acp{SPB} are not shown in \cref{fig:arcMech}. The \acp{SPB} are attached to mounting holes in the rails and are the outer faces of the \ac{ARC}. In addition to the solar cells the \acp{SPB} also contain sensors that are used by the \ac{LEDL} and \ac{ACDS}. \Cref{fig:SPB} shows the back side of a side \ac{SPB} with the sensors labeled, and the back side showing the temperature sensor and the pads where the solar cells will mount. The top and bottom \acp{SPB} are similar to the side \acp{SPB} except they lack accelerometers and include parts for the antennas and antenna deployment.
 
-The core board stack contains the major subsystems for the \ac{ARC}. Some of these subsystems are designed to carry out a spesific \ac{SMO} while others provide a general support role. The subsystems are as follows:
+The core board stack contains the major subsystems for the \ac{ARC}. Some of these subsystems are designed to carry out a specific \ac{SMO} while others provide a general support role. The subsystems are as follows:
 
 \begin{description}
     \item[\acs{LEDL} :] One of the \acp{SMO} on \ac{ARC} is to ``Characterize the thermal and vibration environment inside the launch vehicle from ignition to orbit insertion.''\cite{ARCweb} The \ac{LEDL} does this by using a separate battery to operate during the launch phase and log data from accelerometers and temperature sensors.
     \item[\acs{EPS} :] The \ac{EPS} manages electrical power on \ac{ARC}. The solar cells connect to \acp{BCR} which have peak power point tracking and output the proper voltage to charge the batteries. The voltage from the batteries is regulated down to 5~V and 3.3~V. The \ac{EPS} supplies the unregulated battery voltage along with the 5~V and 3.3~V rails to the rest of the satellite. The \ac{EPS} is the only system on the \ac{ARC} not built at UAF. The \ac{EPS} is designed and built by Clyde Space.
     \item[\acs{ACDS} :] One of the \acp{SMO} on \ac{ARC} is to ``Validate a novel low power \acf{ACDS}.'' \cite{ARCweb} This is the system discussed in this thesis.
-    \item[Separation Switch :] is screwed into one of the torquer standoffs and cuts off power to the CubeSat when it is in the \ac{PPOD}.
-    \item[\acs{COMM} :] The \ac{COMM} allows for two way communication with the ground. A 9600~bps command/beacon up/down link and a 38400~bps data down link are used. The 9600~bps link operates on the 436~MHz band and uses a tape measure monopole. The 38400~bps link operates on the 2.4~GHz and uses a ceramic patch antenna mounted on the bottom of the \ac{ARC}.
+    \item[Separation Switch :] This switch is screwed into one of the torquer standoffs and cuts off power to the CubeSat when it is in the \ac{PPOD}.
+    \item[\acs{COMM} :] The \ac{COMM} allows for two-way communication with the ground. A 9600~bps command/beacon up/down link and a 38400~bps data down link are used. The 9600~bps link operates on the 436~MHz band and uses a tape measure monopole. The 38400~bps link operates on the 2.4~GHz and uses a ceramic patch antenna mounted on the bottom of the \ac{ARC}.
     \item[\acs{IMG} :] One of the \acp{SMO} on \ac{ARC} is to ``Validate a high bandwidth communication system by obtaining images of changing snow/ice coverage in arctic regions.''\cite{ARCweb} The imager has a camera and an SD card. The camera is used to take pictures and store them on the SD card.
 \end{description}
 
-The \ac{EPS} is designed and manufactured by Clyde Space as a generic CubeSat \ac{EPS}. The \ac{EPS} is compatible with CubeSat Kit\cite{CSK} hardware which seems to be the main standard for off-the-shelf CubeSat hardware. Because of this the rest of the \ac{ARC} subsystems must be compatible with the CubeSat Kit hardware. All boards have the same header and mounting hole locations and similar outlines so that they all fit together in the CubeSat.
+The \ac{EPS} is designed and manufactured by Clyde Space as a generic CubeSat \ac{EPS}. The \ac{EPS} is compatible with CubeSat Kit\cite{CSK} hardware which is one of the main standards for off-the-shelf CubeSat hardware. Because of this the rest of the \ac{ARC} subsystems must be compatible with the CubeSat Kit hardware. All boards have the same header and mounting hole locations and similar outlines so that they all fit together in the CubeSat.
 
 \subsection{\acl{ARC} \acl{ACDS} Hardware}
 
@@ -169,7 +169,8 @@ The \ac{ACDS} board has the same overall outline and hole pattern as the rest of
                       (0.14,0.13) coordinate (TqZ1)
                       (0.05,0.87) coordinate (TqZ2)
                       (0.88,0.90) coordinate (TqZ3)
-                      (0.89,0.15) coordinate (TqZ4);
+                      (0.89,0.15) coordinate (TqZ4)
+                      (0.96,0.095) coordinate (SS);
               %draw axis
                 %\path (0.15,0.72) coordinate (axOrig);
                 %\draw[->,red,very thick] (axOrig) to +(-88.3:0.1) coordinate (X);
@@ -180,11 +181,12 @@ The \ac{ACDS} board has the same overall outline and hole pattern as the rest of
                 %\node[red,below of=Z] (Zl) {Z};
               \end{scope}
         \end{tikzpicture}
-    \end{minipage}\begin{minipage}{0.20\linewidth}
+    \end{minipage}\begin{minipage}{0.30\linewidth}
         \begin{itemize}\setlength{\parskip}{0pt}
             %\item[\kern-0.2em] \tikz[na] \coordinate (TqXi); X torquers
             \item[\kern-0.2em] \tikz[na] \coordinate (TqYi); Y torquers
             \item[\kern-0.2em] \tikz[na] \coordinate (TqZi); Z torquers
+            \item[\kern-0.2em] \tikz[na] \coordinate (SSi); Separation switch
             %\item[\kern-0.2em] \tikz[na] \coordinate (PPi); Pull Pin
             %\item[\kern-0.2em] \tikz[na] \coordinate (USBi); \acf{USB} connection
         \end{itemize}
@@ -205,6 +207,7 @@ The \ac{ACDS} board has the same overall outline and hole pattern as the rest of
             \path[->,magenta,very thick] (TqZi) edge (TqZ2);
             \path[->,magenta,very thick] (TqZi) edge (TqZ3);
             \path[->,magenta,very thick] (TqZi) edge (TqZ4);
+            \path[->,blue,very thick] (SSi) edge (SS);
     \end{tikzpicture}
     \caption{The \ac{ARC} \ac{ACDS} board.}
     \label{fig:boardRender}
