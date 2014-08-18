@@ -215,7 +215,7 @@ The \ac{ACDS} board has the same overall outline and hole pattern as the rest of
 
 In addition to the \ac{ACDS} hardware, the \ac{ACDS} board also contains the pull pin and \ac{USB} connection port. This is located on the \ac{ACDS} board because it is the only board that is accessible through the \ac{SPB}. The pull pin and \ac{USB} connection connect directly to the header and are not connected to the core \ac{ACDS} hardware. 
 
-The Z-axis torquers are housed inside the standoffs which are located on the four corners of the board. The \ac{ACDS} board shape has been modified from the standard board shape to accommodate the torquers and standoffs. This is visible in \cref{fig:boardRender}. The notches are designed to fit the torque standoffs and help keep them in the proper orientation. The torquers fit into a hole drilled into the standoffs and are held in place with epoxy. 
+The Z-axis torquers are housed inside the standoffs which are located on the four corners of the board. The \ac{ACDS} board shape has been modified from the standard board shape to accommodate the torquers and standoffs. This is visible in \cref{fig:boardRender}. The notches are designed to fit the z-axis torquer standoffs and keep them aligned in the proper orientation. The torquers fit into a hole drilled into the standoffs and are held in place with epoxy. 
 
 The standard board shape has also been modified to allow the \ac{USB} connector to be placed closer to the access port so that the \ac{USB} cable can be easily plugged in. This is also visible in \cref{fig:boardRender}.
 
@@ -238,7 +238,7 @@ The block diagram for the CubeSat hardware used to implement the \ac{ACDS} is sh
 
 \section{Torquers}
 
-\Cref{fig:torquers} shows the torquer locations within the \ac{ARC}. The torquers consist of a hard magnetic core surrounded with a coil of wire. There are a total of twelve torquers on the \ac{ARC}, four in each axis. The torquers are flipped using a driving circuit that causes a current pulse to flow through the coil. The driving hardware for the torquers is designed to flip one torquer in each axis every second.
+\Cref{fig:torquers} illustrates the torquer locations within the \ac{ARC}. The torquers consist of a hard magnetic core surrounded with a coil of wire. There are a total of twelve torquers on the \ac{ARC}, with four in each axis. The torquers are flipped using a driving circuit that causes a current pulse to flow through the coil. The driving hardware for the torquers is designed to flip one torquer in each axis every second.
 
 \begin{figure}[!ht]
     \centering
@@ -283,9 +283,9 @@ The torquer cores for the \ac{ARC} are made of Alnico1, which is a hard magnetic
 
 \subsubsection{Core Sizing}
 
-The torquer cores proposed \cite{Mentch11} consisted of a large and a small pair in each axis. The large pair were to be made of Alnico1 and produce a magnetic dipole moment of $0.022 \unit{A \cdot m^2}$. The small pair was proposed to have an inert core with a thin permalloy coating to give it a dipole moment of $0.00011 \unit{A \cdot m^2}$. All torquer cores were to be the same size, one inch long of $\sfrac{1}{16}$th inch diameter rod.
+The torquer cores proposed \cite{Mentch11} consisted of a large and a small pair in each axis. The large pair were to be made of Alnico1 and produce a magnetic dipole moment of $0.022 \unit{A \cdot m^2}$. The small pair was proposed to have an inert core with a thin permalloy coating to give it a dipole moment of $0.00011 \unit{A \cdot m^2}$. All torquer cores were to be the same size, one inch long of $\sfrac{1}{16}$-inch diameter rod.
 
-As discussed in \cite{Mentch11} the large cores were sized by first determining the desired torque for each torquer to produce then calculating the necessary dipole moment. Simulation was used to refine the required dipole moment. Alnico5 was the core material that had been used in previous experiments for much larger cores\cite{Mentch11}\todo{Look for other reference?}. The minimum manufactured size of alnico rods is $\sfrac{1}{16}$. It is desirable to have a length to diameter ratio greater than 10, which fixes the minimum torque that can be achieved. The torque using Alnico5 was larger than the desired torque so Alnico1 was used instead, which has a lower residual induction. 
+As discussed in \cite{Mentch11} the large cores were sized by first determining the desired torque for each torquer to produce then calculating the necessary dipole moment. Simulation was used to refine the required dipole moment. Alnico5 was the core material that had been used in previous experiments for much larger cores\cite{Mentch11}\todo{Look for other reference?}. The minimum manufactured size of alnico rods is $\sfrac{1}{16}$-inch. It is desirable to have a length to diameter ratio greater than 10, which fixes the minimum torque that can be achieved. The torque using Alnico5 was larger than the desired torque so Alnico1 was used instead, which has a lower residual induction. 
 
 The proposed size of the small torquers was $\sfrac{1}{200}$th the torque of the alnico torquers. The fabrication of the proposed torquer was not completed and even if it had it is not clear that testing could have been done to quantify the dipole moment. In addition to fabrication and testing issues there is the problem of balancing the alnico cores. Because of theses difficulties the original design for the small torquers was dropped and an extra set of Alnico torquers was added in their place. The charge time was also shortened from 10 seconds to 1 second.
 
@@ -301,33 +301,33 @@ The coils used to drive the torquers are made from four layers of 26~AWG wire. T
 
 \subsection{Drivers}
 
-\begin{figure}[H]
+\begin{figure}[htb!]
     \centering
     \includegraphics[height=0.5\textheight]{Figures/driverSchematic}
     \caption{Torquer Driver schematic}
     \label{fig:drive}
 \end{figure}
 
-The schematic to drive a pair of torquers is shown in \cref{fig:drive}. Each pair of torquers is driven by three complimentary pairs of \acp{MOSFET}.  The \acp{MOSFET} are driven by three pairs of \ac{MOSFET} drivers that are controlled by the \ac{ACDS} microcontroller. The capacitor C1 is shared between both pairs of torquers in each axis giving a total of three capacitors on the \ac{ACDS} board. This means that only one torquer in each axis can be flipped each second. 
+The schematic of the circuit used to drive a pair of torquers is shown in \cref{fig:drive}. Each pair of torquers is driven by three complimentary pairs of \acp{MOSFET}.  The \acp{MOSFET} are driven by three pairs of \ac{MOSFET} drivers that are controlled by the \ac{ACDS} microcontroller. The capacitor C1 is shared between both pairs of torquers in each axis giving a total of three capacitors on the \ac{ACDS} board. This means that only one torquer in each axis can be flipped each second. 
 
 In the idle state, all of the \acp{MOSFET} are off and the torquer coils are floating. This prevents unwanted currents from flowing in the torquers. If \acp{MOSFET} are left on, providing a current path between the coil terminals, currents can be induced in the coils as the satellite turns and the magnetic field in the torquers changes. To flip a torquer, one end of the torquer is shorted to ground using one of the N-Channel \acp{MOSFET} and the other end is shorted to capacitor C1 using one of the P-Channel \acp{MOSFET}. After a 2 ms delay, the \acp{MOSFET} are switched off and C1 begins to recharge.
 
 \subsubsection{Driving Waveform}
 
-\begin{figure}[H]
+\begin{figure}[htb!]
     \centering
     \includegraphics[width=\textwidth]{torquer-waveforms}
     \caption{Torquer driving waveform showing multiple torquer flips.}
     \label{fig:driveWV}
 \end{figure}
 
-\Cref{fig:driveWV} shows the driving waveform when driving a torquer multiple times in the same direction. The first torquer flip is shown in blue and the last flip is shown in red. The first waveform is the only waveform that differs significantly from the subsequent waveforms because the torquer is fully saturated in the first flip.
+\Cref{fig:driveWV} shows the driving waveform when driving a torquer multiple times in the same direction. The first torquer flip is shown in blue and the last flip is shown in red. The first waveform is the only waveform that differs significantly from the subsequent waveforms because the torquer is fully saturated in the first flip, thus demonstrating that the driving circuit is adequate to completely flip the torquers using a single 1~ms pulse.
 
-The magnetic field waveform for the fist flip starts at about +125~Gauss. This is because the torquer was flipped in the opposite direction before the test started. The reset of the waveforms start at about -125~Gauss. This is because the first flip drives the torquer into saturation flipping the direction that the torquer is magnetized in. For all the flips after the first flip, the change in magnetic field is only due to the torquer coil and not to an actual torquer flip.
+The magnetic field waveform for the fist flip starts at about +125~Gauss. This is because the torquer was flipped in the opposite direction before the test started. The reset of the waveforms start at about -125~Gauss. This is because the first flip drives the torquer into saturation flipping the torquers direction of magnetization. For all of the flips after the first flip, the change in magnetic field waveform is only due to the torquer coil and not to an actual torquer flip.
 
 The current waveforms also show changes due to torquer saturation. For the first flip the current initially increases at a slower rate. This is because, on the Alnico1 B-H curve, the slope is steeper closer to the B-axis resulting in a higher inductance. As the torquer reaches saturation, the inductance of the torquer goes down and the rate of change of current increases. For the subsequent torquer flips, the torquer is already saturated so the inductance is low and the driving current reaches its peak much faster.
 
-\begin{figure}[H]
+\begin{figure}[htb!]
     \centering
     \begin{tikzpicture}[remember picture,node distance=1em]
         \def\sysx{0.8}
@@ -361,27 +361,27 @@ The current waveforms also show changes due to torquer saturation. For the first
 
 \Cref{fig:WVsetup} shows the hardware used to take the data for \cref{fig:driveWV,fig:satWV}. The \ac{ACDS} board was used to drive the torquers. To communicate with the \ac{ACDS}, another microcontroller board was used along with a \ac{USB}-to-serial converter. The torquer connects to the \ac{ACDS} board through a current sensor which is read by the oscilloscope. The torquer is placed inside a plastic housing with an attached Hall effect sensor. The hall effect sensor is located against the end of the torquer and is read by the oscilloscope. A pin on the \ac{ACDS} microcontroller is  used to trigger the scope which is automatically configured by a \matlab script that communicates with the \ac{ACDS} board and the oscilloscope.
 
-The measured field that the Hall effect sensor reads is highly dependant on the distance from the torquer. Using the residual induction of Alnico1, 7200 Gauss \cite{AlnicoProp}, and \cite{DexterField} the magnetic field from the torquers should be 155~Gauss at 0.05~in from the face of the torquer. This is close to what is shown in \cref{fig:driveWV}. As the distance from the face increases to 0.1,~0.2~and~0.3~in the field decreases to 46,~12~and~5~Gauss, respectively.
-
-\begin{figure}[H]
+\begin{figure}[htb!]
     \centering
     \includegraphics[width=\textwidth]{torquer-multiflip}
     \caption{Torquer saturation}
     \label{fig:satWV}
 \end{figure}
 
-\Cref{fig:satWV} shows how the torquer field changes as the number of flips increases. Both graphs show the same data, with the lower graph on the zoomed in to better show the points after the first flip. The 0\% point is found by averaging 20 samples from the beginning of the first magnetic field waveform in \cref{fig:driveWV}. The rest of the points are found by averaging the last 20 samples of the magnetic field waveforms from \cref{fig:driveWV}. The first flip gets the torquer field to within 97\% of the final value and after two flips it has reached the final value. 
+The measured field that the Hall effect sensor reads is highly dependant on the distance from the torquer. Using the residual induction of Alnico1, 7200 Gauss from \cite{AlnicoProp} and the calculator from \cite{DexterField} the calculated magnetic field from the torquers is 155~Gauss at 0.05~in from the face of the torquer. This is close to what is shown in \cref{fig:driveWV}. As the distance from the face increases to 0.1,~0.2~and~0.3~in the field decreases to 46,~12~and~5~Gauss, respectively.
+
+\Cref{fig:satWV} shows how the torquer field changes as the number of flips increases. Both graphs show the same data, with the lower graph zoomed in to better show the points after the first flip. The 0\% point is found by averaging 20 samples from the beginning of the first magnetic field waveform in \cref{fig:driveWV}. The rest of the points are found by averaging the last 20 samples of the magnetic field waveforms from \cref{fig:driveWV}. The first flip gets the torquer field to within 97\% of the final value and after two flips it has reached the final value. 
 
 \subsection{Torquer Diagnostics}
 
-\begin{figure}[H]
+\begin{figure}[htb!]
     \centering
     \includegraphics{fb-comp}
-    \caption{Torquer feedback comparitors}
+    \caption{Torquer feedback comparators}
     \label{fig:fb-comp}
 \end{figure}
 
-\Cref{fig:fb-comp} shows the torquer feedback comparators that are used to detect if the torquers and drivers are functioning properly in flight. Vcap is the voltage from capacitor C1 in \cref{fig:drive}. The comparator outputs, FB0 and FB1, have open drain outputs that are pulled to logic levels and read by the MSP430. U12A  is used to determine if the capacitor is charged and U12B is used to detect if the capacitor is discharged. The comparators are checked both before and after a torquer flip to see if the capacitor was charged before an attempted flip and discharged after. If the capacitor did not discharge, then the torquer did not flip, probably because of a bad connection somewhere. This information is logged in flight and can be downlinked to analyze if the torquers are firing correctly.
+\Cref{fig:fb-comp} shows the torquer feedback comparators that are used to detect if the torquers and drivers are functioning properly in flight. Vcap is the voltage from capacitor C1 in \cref{fig:drive}. The comparator outputs, FB0 and FB1, have open drain outputs that are pulled up to logic hi by internal resistors on the MSP430 inputs. U12A  is used to determine if the capacitor is charged and U12B is used to detect if the capacitor is discharged. The comparators are checked both before and after a torquer flip to see if the capacitor was charged before an attempted flip and discharged after. If the capacitor did not discharge, then the torquer did not flip, probably because of a bad connection somewhere. This information is logged in flight and can be downlinked to analyze if the torquers are firing correctly.
 
 \todo[inline]{Need some discussion of what is done with the info but also need to figure out what should be done.}
 
@@ -394,15 +394,32 @@ The only sensor specified in \cite{Mentch11} was a magnetometer. The magnetomete
 
 The magnetometers on the satellite are Honeywell HMC1052 \ac{AMR} sensors. These sensors use \ac{AMR} elements in a bridge configuration to measure the field in each axis. The HMC1052 is a 2-axis sensor that measures the field in the axis that are parallel to the board that it is mounted on (X and Y). Each face of \ac{ARC} will have a single HMC1052 giving a total of 4 measurements in each axis.
 
-The magnetometers are located on the back of the \acs{SPB}, shown in \cref{fig:SPB}. The magnetometer, with surrounding circuitry, is visible on the back of the board as are the ADC and amplifier. An accelerometer is also located on the back of the solar panel board and is used for a different mission objective. The data connector powers the sensors and provides access to the sensor data.
+The magnetometers are located on the back of the \acs{SPB}, shown in \cref{fig:SPB}. The magnetometer, with surrounding circuitry, is visible on the back of the board as are the \ac{ADC} and amplifier. An accelerometer is also located on the back of the solar panel board and is used for a different mission objective. The data connector powers the sensors and provides access to the sensor data.
 
 \subsubsection{Magnetometer Amplifier}
 
-\todo[inline]{This is mostly for my reference. Should it be here?}
+The \ac{SPB} also contains an amplifier to amplify the magnetometer signal before it is read by the \ac{ADC}. This allows the output voltage of the magnetometer to fill the input range of the \ac{ADC}. The required range of the magnetometer will be largely dependent on the torquer geometry and could be more then the \textpm 600~mGauss or so of Earth's field. The amplifier can be used to trade range for resolution depending on what is needed.
 
-The \ac{SPB} also contains an amplifier to amplify the magnetometer signal before it is read by the \ac{ADC}. This allows the output voltage of the magnetometer to fill the input range of the \ac{ADC}. The required range of the magnetometer will be largely dependent on the torquer geometry and could be more then the $\pm$600~mGauss or so of Earth's field. The amplifier can be used to trade range for resolution depending on what is needed.
+\begin{equation}
+    \label{eq:amp-gain}
+    A = \frac{V_{adc}}{B_{max} \cdot V_{bridge} \cdot S_s + V_{os} \cdot V_{bridge}}
+\end{equation}
 
-The gain for the amplifier can be calculated as follows: If the maximum output range of the sensor is restricted to $\pm$ 4 Gauss. With a bridge voltage of 3.3 V and a sensitivity of 1~mV/V/Gauss, this results in a $\pm$13.2~mV voltage swing. The bridge offset is $\pm$1.25~mV/V or $\pm$4.125~mV. This results in a total possible swing of $\pm$17.325~mV. The input voltage range of the \ac{ADC} is $\pm$1.65~V. This results in a gain of about 95. 
+\Cref{eq:amp-gain} shows the equation used to calculate the amplifier gain. The maximum voltage readable by the \ac{ADC}, $V_{adc}$, is divided by the maximum expected output from the magnetometer. The maximum output from the magnetometer is found by adding the output due to the desired full scale field and the maximum possible bridge offset.
+
+%The gain for the amplifier can be calculated as follows: If the maximum output range of the sensor is restricted to \textpm 4 Gauss. With a bridge voltage of 3.3 V and a sensitivity of 1~mV/V/Gauss, this results in a \textpm 13.2~mV voltage swing. The bridge offset is \textpm 1.25~mV/V or \textpm 4.125~mV. This results in a total possible swing of \textpm 17.325~mV. The input voltage range of the \ac{ADC} is \textpm 1.65~V. This results in a gain of about 95. 
+
+\begin{equation}
+    \label{eq:amp-gain-calc}
+    \begin{split}
+        A &= \frac{1.65~\unit{V}}{4~\unit{Gauss} \cdot 3.3~\unit{V} \cdot 1~\unit{mV/V/Gauss} + 1.25~\unit{mV/V} \cdot 3.3~\unit{V}}\\ 
+          &= \frac{1.65~\unit{V}}{13.2~\unit{mV} + 4.125~\unit{mV}} \\
+          &= \frac{1.65~\unit{V}}{17.325~\unit{mV}} \\
+          &= 95.24
+    \end{split}
+\end{equation}
+
+\Cref{eq:amp-gain-calc} shows the gain calculations for the magnetometer amplifier to measure a \textpm 4~Gauss field. The bridge and \ac{ADC} reference voltages are 3.3~V. This gives an input voltage range for the \ac{ADC} of \textpm 1.65~V.
 
 \subsubsection{Magnetometer \acl{ADC}}
 
@@ -424,11 +441,11 @@ The HMC1052 sensors used on the \ac{ACDS} are \ac{AMR} sensors. They work by hav
         \draw[->,red,>=stealth,thick] (0, 0) -- (0,\L);
         \draw (0,\L) node[anchor=south] {$H_s$};
     \end{tikzpicture}
-    \caption{Magnetomitor showing $H_s$ and $H_c$}
+    \caption{Magnetometer showing $H_s$ and $H_c$}
     \label{fig:magAxisCross}
 \end{figure}
 
-\Cref{eq:magcross} shows the simplified equation for the magnetometer as described in \cite{AN215}. $V_b$ is the bridge voltage that is applied to the sensor. $S_s$ is the sensitivity in the sensitive direction. D is the cross field sensitivity offset. The HMC1052 datasheet\cite{HMC1052} mentions that the sensors have a bridge offset. The bridge offset is the sensor output when zero field is applied to the sensor and can be a large as \textpm1.25 Gauss. The bridge represented by $V_{os}$ in \cref{eq:magcross}.
+\Cref{eq:magcross} shows the simplified equation for the magnetometer as described in \cite{AN215}. $V_b$ is the bridge voltage that is applied to the sensor. $S_s$ is the sensitivity in the sensitive direction. D is the cross field sensitivity offset. The HMC1052 datasheet\cite{HMC1052} mentions that the sensors have a bridge offset. The bridge offset is the sensor output when zero field is applied to the sensor and can be as large as \textpm1.25 Gauss. The bridge represented by $V_{os}$ in \cref{eq:magcross}.
 
 \begin{equation}
     V_s = V_b \left(S_s H_s + D \cdot H_c + V_{os} \right)
@@ -441,7 +458,7 @@ The bridge voltages are measured using an \ac{ADC} that uses the bridge voltage 
     \label{eq:adcsub}
 \end{equation}
 
-\Cref{eq:magcross} is useful to determine the voltage that would be produced for a given magnetic field condition, but not if the sensor voltages are known but the fields are not.
+\Cref{eq:magcross} is useful to determine the voltage that would be produced for a given magnetic field condition, but not the reverse when the sensor voltages are known but the fields are not.
 
 Because the calculated field in the sensitive direction also depends on the field in the cross axis direction, \cref{eq:magcross} was duplicated for the cross field sensor voltage and both equations were solved simultaneously. This resulted in twice as many constants as \cref{eq:magcross}. The voltages $V_s'$ and $V_c'$ are the normalized \ac{ADC} voltages in the sensitive and cross axis respectively. Each of the constants from \cref{eq:magcross} has similar duplicate forms that comes from the extra equation that was used to solve for $H_s$. To distinguish the constants additional subscripts have been added. \Cref{eq:magsolved} shows \cref{eq:magcross} solved for the unknown quantity, $H_s$.
 
@@ -469,7 +486,7 @@ In this case $V_s'$ and $V_c'$ are the \ac{ADC} values for the cross and sensiti
 \label{sec:magcal}
 
 To calibrate the magnetometer, the coefficients in \cref{eq:magcal} must be calculated. The magnetometer is first placed inside the Helmholtz Cage. The field is set under \matlab control so the entire calibration process can run automatically. The calibration program sweeps the field inside the Helmholtz Cage through a predefined sequence and reads the sensor output at each point. 
-
+http://feeds.thisamericanlife.org/~r/talpodcast/~5/7S0vlAUUcfQ/532.mp3
 The method of least squares is used to solve \cref{eq:magmat} for the coefficients in \cref{eq:magcal}. Each line in the $\matt{A}$ matrix represents a separate magnetic field measurement. $H_n$ is the $n^{\text{\tiny th}}$ value set by the Helmholtz cage in the sensitive axis. 
 
 \begin{equation}
@@ -511,7 +528,7 @@ At the heart of the \ac{ACDS} is an embedded system. This system is responsible 
 
 \subsection{Processor}
 
-The processor used for the \ac{ACDS} and all systems on \ac{ARC} is the MSP430f2618. The MSP430 is a microcontroller aimed at low power applications. The MSP430f2618 runs at a maximum speed of 16~MHz and has 8~kB of RAM and 116~kB of flash~memory. The MSP430 microcontrollers do not have an external memory bus so there is no good way to add extra memory or program storage. 
+The processor used for the \ac{ACDS} and all systems on \ac{ARC} is the Texas Instruments MSP430F2618. The MSP430 is a microcontroller aimed at low power applications. The MSP430f2618 runs at a maximum speed of 16~MHz and has 8~kB of \ac{RAM} and 116~kB of flash~memory. The MSP430 microcontrollers do not have an external memory bus so there is no way to add extra \ac{RAM} or flash~memory to the address space of the MSP430.
 
 \subsection{SD card}
 
