@@ -198,14 +198,98 @@ Mode 3 is initiated after mode 2 is complete. In mode 3 only the north pole bias
 
 \section{Concept of Operations for the \acl{ARC}}
 
-%\subsection{Orbital Insertion}
+The initial concept was proposed by Mentch in \cite{Mentch11}. The concept was largely based on what was possible in simulation. The simulation allowed the satellite perfect knowledge of the rotation rates which are not trivial to calculate from the magnetic field as suggested. The rotation rates can be calculated from the magnetic field using a Kalman filter as suggested in \cite{Sturm05} but this is beyond the scope of this thesis.
 
-%\ac{ARC} will be ejected from the \ac{PPOD} into orbit. Because CubeSat regulations it will not be posible for \ac{ARC} to have a clock running which could be used to calculate where \ac{ARC} is. Additionally the orbit for \ac{ARC} could change after it has been loaded onto the launch vehicle. For this reason it is not possible for the \ac{ARC} to compute its position without ground station uplink. It is also not within the scope of this thesis to determine the orbit using magnetic field data although it may be possible. Good knowledge of \acs{ARC} location is necessary to calculate the geomagnetic field for use by the Kalman filter. 
+Difficulties were also encountered with the torquers. The vernier torquers were proposed to be $\sfrac{1}{200}$ the size of the primary torquers. This presented two problems: manufacturing and balancing. Finding a suitable material for the torquers proved difficult as Mench said ``There isn't much of a marked for crappy magnets.'' The solution that was proposed was to coat a non magnetic rod with a very thin layer of magnetic material using a vacuum deposition process. There were difficulties getting torquers and later tests showed that there is enough variation in the dipole moment of the primary torquers to overwhelm the vernier torquers. 
 
-%\subsection{Kalman filter lockup}
+Because of these difficulties the \ac{ACDS} was re-scoped to focus on detumble. Instead of one pair of primary torquers and one pair of virnir torquers two pairs of primary torquers are used. This gives four possible states as shown in \cref{fig:lpmtq-flt}.
 
-%The Kalman filter will take some time to converge to a solution. During this time the state estimates of the filter should not be used for attitude control. Because \ac{ARC} will initially have no idea where it is the geomagnetic field will not be known. To allow for filter lockup a static field will be assumed \todo{figure out what field to chose}. This will cause some error in the calculated rotation rates but this should be acceptable for the beginning part of the detumble phase.
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \def\L{1.5}     %define arrow length
+    \draw[->,red,very thick] ( 0.25, 0) -- ( 0.25,\L);
+    \draw[->,red,very thick] ( 0.75, 0) -- ( 0.75,\L);
+    \draw[->,red,very thick] ( 1.25, 0) -- ( 1.25,\L);
+    \draw[->,red,very thick] ( 1.75, 0) -- ( 1.75,\L);
+    \draw (1 ,-0.5) node {+4M};
 
+    \draw[->,red,very thick] (3.25,\L) -- ( 3.25, 0);
+    \draw[->,red,very thick] (3.75, 0) -- ( 3.75,\L);
+    \draw[->,red,very thick] (4.25, 0) -- ( 4.25,\L);
+    \draw[->,red,very thick] (4.75, 0) -- ( 4.75,\L);
+    \draw (4 ,-0.5) node {+2M};
+
+    \draw[->,red,very thick] ( 6.25,\L) -- ( 6.25, 0);
+    \draw[->,red,very thick] ( 6.75,\L) -- ( 6.75, 0);
+    \draw[->,red,very thick] ( 7.25, 0) -- ( 7.25,\L);
+    \draw[->,red,very thick] ( 7.75, 0) -- ( 7.75,\L);
+    \draw (7 ,-0.5) node {0M};
+
+    \draw[->,red,very thick] ( 9.25,\L) -- ( 9.25, 0);
+    \draw[->,red,very thick] ( 9.75,\L) -- ( 9.75, 0);
+    \draw[->,red,very thick] (10.25,\L) -- (10.25, 0);
+    \draw[->,red,very thick] (10.75, 0) -- (10.75,\L);
+    \draw (10,-0.5) node {-2M};
+
+    \draw[->,red,very thick] (12.25,\L) -- (12.25, 0);
+    \draw[->,red,very thick] (12.75,\L) -- (12.75, 0);
+    \draw[->,red,very thick] (13.25,\L) -- (13.25, 0);
+    \draw[->,red,very thick] (13.75,\L) -- (13.75, 0);
+    \draw (13,-0.5) node {-4M};
+    \end{tikzpicture}
+    \caption{Possible dipole moments for two torquer pairs}
+    \label{fig:moments-flt}
+\end{figure}
+
+Because there are more torquer states the quantization function shown in \cref{fig:lpmtq} is changed to \cref{fig:lpmtq-flt}. The increased number of torquers increases the maximum torque but doesn't change the minimum possible torque.
+
+\begin{figure}[htb!]
+    \centering
+    \begin{tikzpicture}
+
+ 
+    \draw[<->,green,very thick] (4,4) -- (3,4) -- (3,2) -- (1,2) -- (1,0) -- (-1,0) -- (-1,-2) -- (-3,-2) -- (-3,-4) -- (-4,-4);
+ 
+    %draw axis
+    \draw[<->] (-5,0) -- (5,0);
+    \draw[<->] (0,-5) -- (0,5);
+ 
+    %draw axis labels
+    \draw (0,5) node[anchor=south] {$m_{command_q}$};
+    \draw (5,0) node[anchor=west] {$m_{command}$};
+
+    \draw (4,0)  node[anchor=north] {$+4M$};
+    \draw (3,0)  node[anchor=north] {$+3M$};
+    \draw (2,0)  node[anchor=north] {$+2M$};
+    \draw (1,0)  node[anchor=north] {$+1M$};
+    \draw (-1,0) node[anchor=south] {$-1M$};
+    \draw (-2,0) node[anchor=south] {$-2M$};
+    \draw (-3,0) node[anchor=south] {$-3M$};
+    \draw (-4,0) node[anchor=south] {$-4M$};
+
+    \draw (0,4)  node[anchor=east] {$+4M$};
+    \draw (0,2)  node[anchor=east] {$+2M$};
+    \draw (0,-2) node[anchor=west] {$-2M$};
+    \draw (0,-4) node[anchor=west] {$-4M$};
+
+    \end{tikzpicture}
+    \caption{Quantization function for flight \acsp{LPMT}}
+    \label{fig:lpmtq-flt}
+\end{figure}
+
+Adding a second set of primary torquers allows a larger dipole moment during the detumble phase but does not help during the alignment phase when smaller torques need to be generated. The original design used a 10~second charge time which meant that once a torquer was flipped it would be torquing the satellite for a minimum 10~seconds. To help mitigate the use of more powerful torquers the charge time was changed to 1~second. This means that the minimum time that the torquers can be torquing is reduced, reducing the overall change in angular velocity of the satellite. The reduction in charge time is only by a factor of 10 but the minimum torque was increased by a factor of 200 so the pointing accuracy of the satellite will suffer.
+
+
+Rotation rate determination also proved a challenge for the on orbit implementation. The satellite in simulation had full knowledge of the rotation rates. In \cite{Mentch11} it was proposed that rotation rates could be directly calculated using the magnetic field. 
+
+Using the magnetic field to determine rotation rates does not give the full rotation rate vector. Instead the rotation rate vector is in effect projected onto the magnetic field, eliminating any rotation rate around the magnetic field. Originally it was believed that this would not be a problem because the torquers can't be used to stop rotation around the magnetic field. Simulations showed, however, that when the rotation rate vector was projected onto the magnetic field then the attitude control did not work.
+
+The other problem with rate determination is that the desired rotation of the satellite is to rotate once every orbit in one axis an no rotation in the other axes. The expected orbital period is about 90~minutes so this gives a rotation rate of 0.011~rpm or 1.16~mrad/sec. In 10~seconds a satellite rotating at this rate will rotate about 20~\textmu\textdegree. For a satellite rotating in a 300~mGauss magnetic field this results in a 60~\textmu Gauss field change every 10 seconds. Thus in order to measure the rotation rates of the satellite the magnetic field of the earth must be measured with an accuracy that is on the order of 10s of \textmu Gauss. 
+
+In \cite{Sturm05} a Kalman filter is used to calculate rotation rates from magnetic field measurements. This solution solves both problems. By taking into account the spacecraft dynamics, the full rotation rate vector can be estimated. Because the rates come from the estimated system state they are less noisy than those from a single set of magnetic field measurements. The problem is that Kalman filters are not trivial to get working and must correctly model the system to function correctly. This is beyond the scope of this thesis so the alignment phase of the attitude control system is not implemented.
+
+\begin{comment}
 \subsection{Detumble}
 
 The goal of the detumble mode is to reduce the rotation rates down to an acceptable level \todo{possibly call out such a level}.
@@ -227,8 +311,6 @@ The proposed rate determination algorithm also falls short because it does not e
 To solve both of these problems a Kalman filter is used to estimate both the attitude and the rotation rates using the magnetic field data. The Kalman filter estimates the rates by using the assumed satellite dynamics along with a magnetic field model. The Kalman filter uses the knowledge of the system dynamics to smooth the rate estimates and reduce noise. 
 
 
-
-\begin{comment}
 
 \begin{equation}
     F_k = 
@@ -267,9 +349,7 @@ To solve both of these problems a Kalman filter is used to estimate both the att
     \matt{Q}_k = Q \int _0 ^ {T_s} \matt{\Phi} \left( \tau \right) \matt{\Phi} \transpose \left( \tau \right) d\tau
 \end{equation}
 
-\end{comment}
-
-\subsection{operations mode}
+\subsection{Operations Mode}
 
 Once alignment is complete the \ac{ACDS} transitions into operations mode. In operations mode the \ac{ACDS} maintains alignment with the desired attitude.
 
@@ -281,5 +361,5 @@ In operations mode the \ac{ACDS} will check to see if \ac{ARC} has settled into 
 
 Because the \ac{ACDS} is an experimental system there is a high likelihood that things will go wrong. To account for this the software is written in a way that allows the operation to be changed in case of poor performance. All the Kalman filter parameters and attitude control parameters will be changeable via ground station command.
 
-
+\end{comment}
 
