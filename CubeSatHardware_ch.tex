@@ -234,6 +234,23 @@ The subsystems of the \ac{ARC} will communicate with each other using the ARCBus
 \end{figure}
 \end{landscape}}
 
+\afterpage{\begin{landscape}
+\begin{figure}[p]
+    \centering
+    \begin{tikzpicture}
+        %\fill[color=blue] (4,4) rectangle (-4,-4);
+        \node [power] (capchg) {Capacitor\\charging\\circuit};
+        \node [power,right of=capchg] (cap) {Capacitors\\(one per axis)};
+        \node [prog,right of=cap] (housk) {Housekeeping};
+        \node [perif,right of=housk] (gpio) {GPIO};
+        \node [hardware,right of=gpio] (ledl) {\acs{LEDL} \textmu{}C};
+        \path [Bus,powerL] (-3,-1.5) edge (3,-1.5);
+    \end{tikzpicture}
+    \caption{Block Diagram of the CubeSat \acs{ACDS} system}
+    \label{fig:ACDS-block2}
+\end{figure}
+\end{landscape}}
+
 The block diagram for the CubeSat hardware used to implement the \ac{ACDS} is shown in \cref{fig:ACDS-block}. The hardware necessary for the \ac{ACDS} is spread over multiple subsystems of the \ac{ARC}. The \ac{ACDS} board contains the torquers, driving hardware along with the microcontroller which will run the attitude control algorithm. There is one two-axis magnetometer located on each of the six of the \acp{SPB}. These are used by the \ac{ACDS} to calculate rotation rates and calculate the magnetic dipole moment required to generate the necessary torque. Spreading the magnetometers across all six faces should give some degree of noise immunity and redundancy. The \ac{LEDL} board also contains \ac{MEMS} angular rate sensors as a redundant measurement of the rotation rate of the \ac{ARC}. The sensors on the \acp{SPB} are read by the \ac{LEDL}, which then forwards the magnetometer and angular rate measurements to the \ac{ACDS}.
 
 \section{Torquers}

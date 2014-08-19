@@ -48,6 +48,7 @@
 \tikzstyle{bigblock} = [rectangle, draw, fill=blue!20,rounded corners, minimum height=4em]
 \tikzstyle{input} = [rectangle, draw, fill=green!20, text width=5em, text centered, rounded corners, minimum height=4em]
 %\tikzstyle{input} = [inshape, draw, fill=green!20, text width=5em, text centered, minimum height=4em]
+
 \tikzstyle{oppr} = [draw, circle,fill=blue!20,minimum height=2em]
 \tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,minimum height=2em]
 %connections styles for flow charts
@@ -62,6 +63,17 @@
             markings,%
             mark=at position 0.65 with {\arrow[scale=2]{stealth}},
           },postaction=decorate]
+%hardware block diagram styles
+\tikzstyle{power} = [rectangle, draw, fill=red!80, text width=5em, text centered, minimum height=4em,node distance=2cm]
+\tikzstyle{prog} = [rectangle, draw, fill=red!20, text width=5em, text centered, minimum height=4em,node distance=2cm]
+\tikzstyle{perif} = [rectangle, draw, fill=green!40, text width=5em, text centered, minimum height=4em,node distance=2cm]
+\tikzstyle{hardware} = [rectangle, draw, fill=blue!80, text width=5em, text centered, minimum height=4em,node distance=2cm]
+\tikzstyle{powerL} = [draw,color=red!80]
+\tikzstyle{dataL} = [draw,color=blue]
+\tikzstyle{commandL} = [draw,color=green]
+\tikzstyle{Bus} = [very thick,<->]
+
+
 
 %point used as a dummy node for complicated arrows
 \tikzstyle{point} = [circle,inner sep=0pt,minimum size=0pt,fill=none,node distance = 1.5cm]
