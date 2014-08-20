@@ -292,6 +292,17 @@ The other problem with rate determination is that the desired rotation of the sa
 
 In \cite{Sturm05} a Kalman filter is used to calculate rotation rates from magnetic field measurements. This solution solves both problems. By taking into account the spacecraft dynamics, the full rotation rate vector can be estimated. Because the rates come from the estimated system state they are less noisy than those from a single set of magnetic field measurements. The problem is that Kalman filters are not trivial to get working and must correctly model the system to function correctly. This is beyond the scope of this thesis so the alignment phase of the attitude control system is not implemented.
 
+\subsection{B-dot control}
+
+Because of the lack of a Kalman filter for the flight implementation the algorithm in \cref{eq:crossl} can not be used. To detumble the satellite without rotation rates the B-dot algorithm is used. This uses the time derivative of of the magnetic field instead of calculating the rotation rates.
+
+\begin{equation}
+    \vec{m}_{command}= C \dot{\vec{B}}
+    \label{eq:bg-bdot}
+\end{equation}
+
+\Cref{eq:bg-bdot} shows the B-dot control law. Because $\dot{\vec{B}}$ results largely from the spacecraft rotation, it is largely perpendicular to $\vec{B}$. This results in a dipole moment that is perpendicular to the magnetic field which is desirable for efficiency reasons. The gain $C$ is a scalar value less than zero that is used to tune the algorithm. Large values of $C$ increase the sensitivity of the algorithm and allow it to detumble to a lower rotation rate. Lower values of $C$ are less sensitive to noise.
+
 \begin{comment}
 \subsection{Detumble}
 
