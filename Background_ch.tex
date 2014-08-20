@@ -157,14 +157,54 @@ The job of the alignment algorithm is to align the \ac{ARC} in the proper attitu
 
 \Cref{fig:windows} shows that the bias windows are offset so that they occur just before the equator or pole. The reason for this is shown in \cref{fig:winplace}. If the torquers are biased before the satellite passes over the vertical (or horizontal) field lines then the tendency is to rotate in the desired direction. If the torquers are biased afterwards then the tendency is to rotate the satellite in the opposite direction than is desired.
 
-\begin{figure}[H]
+\begin{figure}[htb!]
     \centering
-    \includegraphics[width=0.5\textwidth]{Windows}
-    \caption{Bias window offset\protect\cite{Mentch11}}
-    \todo[inline]{Figure taken from Crank}
+    \newcommand{\cubesat}[2]{
+        \draw (#1:#2) node{\pgftext[rotate=#1]{\includegraphics[height=15mm]{cube-icon}}};
+        \draw[->,cyan,axis] (#1:\winR) -- +(#1+90:\axlen);
+        \draw (#1:\winR) ++(#1+90:\axlen) node[rotate=#1-90,anchor=south west] {\tiny +Y};
+        \draw[->,red,axis] (#1:\winR) -- +(#1:\axlen);
+        \draw (#1:\winR) ++(#1:\axlen) node[rotate=#1-90,anchor=north west] {\tiny -Z};
+    }
+
+    \tikzstyle field=[color=blue,thick,postaction={decorate,decoration={markings,
+        mark=at position .35 with {\arrowreversed[thin]{Latex[length=8mm,width=3mm,fill=red]}}}}]
+    \tikzstyle axis=[thick]
+    \tikzstyle motion=[very thick]
+    
+    \begin{tikzpicture}[>=stealth]
+        \def\winR{4.5cm}                                %window radius for drawing
+        \def\earthR{3.2cm}                              %earth radius for drawing
+        \def\axlen{1.5cm}                               %axis length for drawing
+        \def\favang{65}                                 %angle for favorable orientation
+        \def\unfavang{115}                              %angle for unfavorable orientation
+        \def\bias{35}                                   %half angle for bias arrows
+        \begin{scope}
+            %\clip (0,0) ellipse (6.3 and 3.5);
+            \clip (-\winR,2cm) rectangle (\winR,\winR+\axlen);
+
+            %draw vertical field line
+            \draw[color=blue,field] (0,\earthR) -- (0,\winR+\axlen);
+            %draw "earth"
+            \draw[color=green!60!black,very thick] (0,0) circle (\earthR);
+
+            %draw favorable cubesat
+            \cubesat{\favang}{\winR}
+            \draw[<->,YellowOrange,motion] (\favang:\winR+0.5cm) ++(\favang-\bias:0.5cm) arc (\favang-\bias:\favang+\bias:0.5cm);
+            \draw[->,Plum,motion] (\favang:\winR+1cm) ++(\favang-90:0.7cm) arc (\favang-90:\favang+90:0.7cm);
+
+            %draw unfavorable cubesat
+            \cubesat{\unfavang}{\winR}
+            \draw[<->,YellowOrange,motion] (\unfavang:\winR+0.5cm) ++(\unfavang-\bias:0.5cm) arc (\unfavang-\bias:\unfavang+\bias:0.5cm);
+            \draw[<-,Plum,motion] (\unfavang:\winR+1cm) ++(\unfavang-90:0.7cm) arc (\unfavang-90:\unfavang+90:0.7cm);
+
+        \end{scope}
+        \draw (\unfavang:\winR) ++(\unfavang:\axlen+0.2cm) node[rotate=\unfavang-90,anchor=south] {\tiny Unfavorable};
+        \draw (\favang:\winR) ++(\favang:\axlen+0.2cm) node[rotate=\favang-90,anchor=south] {\tiny Favorable};
+    \end{tikzpicture}
+    \caption{Bias window offset}
     \label{fig:winplace}
 \end{figure}
-
 
 \subsection{Mode 2}
 
