@@ -521,7 +521,9 @@ The least squared solution minimizes the error across all data points. This resu
 
 \subsection{\acs{MEMS} Gyros}
 
-For flight, a \ac{MEMS} gyro will also be used to sense rotation rates. The \ac{MEMS} gyro has limited resolution compared to what can be achieved with the magnetometer\todo{Perhaps should have some sort of evidence for this}. The gyro does, however, directly read the rotation rate so it is good for quickly giving a rough idea of the rotation rates of the satellite. If the satellite is rotating fast enough, the magnetometer readings will alias and it can appear that the satellite is rotating at a speed that is much less than the actual speed. If the rotation rates are too high for the \ac{MEMS} gyro, the output will saturate and while the rotation rates are not measurable a direction and lower bound can be determined.
+For flight, a LPY410AL \ac{MEMS} gyro will also be used to sense rotation rates. \ac{MEMS} gyros have limited resolution compared to what can be achieved with the magnetometer. The LPY410AL has a maximum range of \textpm 400\textdegree /sec. The LPY410AL has a zero-rate sensitivity drift of 0.03~dps/\textdegree C. The desired rotation rate of the satellite is about 500~\textmu dps. This means that for a 1\textdegree C temperature change the rotation rate could change by 58 times the desired rotation rate. The LPY410AL also has a rate noise density of 0.014~$\unit{dps}{/}\sqrt{\unit{Hz}}$ so even at a slow sample rate of 1~Hz, the noise is 27,000 times larger than the desired rotation rate.
+
+\ac{MEMS} gyros do, however, give good results if the rotation rates are large, such as after the sattelite is ejected from the \ac{PPOD}. If the satellite is rotating fast enough, the magnetometer readings will alias and it can appear that the satellite is rotating at a speed that is much less than the actual speed. If the rotation rates are too high for the \ac{MEMS} gyro, the output will saturate and while the rotation rates are not measurable a direction and lower bound can be determined.
 
 
 \section{Embedded System}
