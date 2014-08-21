@@ -96,7 +96,7 @@ The cores of the \acp{LPMT} are driven to saturation in the direction of the rod
     \label{fig:moments}
 \end{figure}
 
-Because each \ac{LPMT} pair can only produce three distinct values of dipole moment, the output of a \ac{LPMT} algorithm must be quantized.
+Because each \ac{LPMT} pair can only produce three distinct values of dipole moment, the output of a \ac{LPMT} algorithm must be quantized. \Cref{fig:lpmtq} shows the quantization function for two torquers.
 
 \begin{figure}[H]
     \centering
@@ -129,7 +129,7 @@ Because each \ac{LPMT} pair can only produce three distinct values of dipole mom
 
 \subsection{Torquer Sets}
 
-For the design in \cite{Mentch11} it was proposed to use a 10 second torquer flipping interval and two pairs of different torquers be used in each axis. One pair, called the primary torquers, was made of Alnico1 and had a dipole moment of $0.022~\unit{A}\cdot\unit{m^2}$. This pair was to be used for the detumble phase where a larger dipole moment allows for more torque to slow the satellite faster. For the alignment phase the second set of torquers, the vernier torquers, were proposed. The vernier torquers had a dipole moment of $0.00011~\unit{A}\cdot\unit{m^2}$.
+For the design in \cite{Mentch11} it was proposed to use a 10 second torquer flipping interval and two pairs of different torquers be used in each axis. One pair, called the primary torquers, was made of Alnico1 and had a dipole moment of $0.022~\unit{A}{\cdot}\unit{m^2}$. This pair was to be used for the detumble phase where a larger dipole moment allows for more torque to slow the satellite faster. For the alignment phase the second set of torquers, the vernier torquers, were proposed. The vernier torquers had a dipole moment of $0.00011~\unit{A}{\cdot}\unit{m^2}$.
 
 \section{Detumble Algorithm (Mode 1)}
 
@@ -155,7 +155,7 @@ The job of the alignment algorithm is to align the \ac{ARC} in the proper attitu
     \label{fig:windows}
 \end{figure}
 
-\Cref{fig:windows} shows that the bias windows are offset so that they occur just before the equator or pole. The reason for this is shown in \cref{fig:winplace}. If the torquers are biased before the satellite passes over the vertical (or horizontal) field lines then the tendency is to rotate in the desired direction. If the torquers are biased afterwards then the tendency is to rotate the satellite in the opposite direction than is desired.
+\Cref{fig:windows} shows that the bias windows are offset so that they occur just before the equator or pole. The reason for this is shown in \cref{fig:winplace}. If the torquers are biased before the satellite passes over the vertical (or horizontal) field lines then the tendency is to rotate in the desired direction. If the torquers are biased afterwards then the tendency is to rotate the satellite in the opposite direction than is desired.\cite{Mentch11}
 
 \begin{figure}[htb!]
     \centering
@@ -219,7 +219,7 @@ Mode 2 is initiated at the end of the detumble phase. In mode 2 the torquers are
     \label{fig:m2b}
 \end{figure}
 
-The original simulation transitioned from mode 2 to mode 3 after a fixed 10 orbits. This was shown to get the satellite into the desired orientation.
+The purpose of mode 2 is to get the satellite, which is in a random orientation, into the desired orientation. The original simulation transitioned from mode 2 to mode 3 after a fixed 10 orbits. This was shown to get the satellite into the desired orientation.
 
 \subsection{Mode 3}
 
@@ -243,9 +243,9 @@ The simulations in \cite{Mentch11} showed that tipoff rates of 5\textdegree/sec 
 
 The initial concept was proposed by Mentch in \cite{Mentch11}. The concept was largely based on what was possible in simulation. The simulation allowed the satellite perfect knowledge of the rotation rates which are not trivial to calculate from the magnetic field as suggested. The rotation rates can be calculated from the magnetic field using a Kalman filter as suggested in \cite{Sturm05} but this is beyond the scope of this thesis.
 
-Difficulties were also encountered with the torquers. The vernier torquers were proposed to be $\sfrac{1}{200}$ the size of the primary torquers. This presented two problems: manufacturing and balancing. Finding a suitable material for the torquers proved difficult as Mench said ``There isn't much of a marked for crappy magnets.'' The solution that was proposed was to coat a non magnetic rod with a very thin layer of magnetic material using a vacuum deposition process. There were difficulties getting torquers and later tests showed that there is enough variation in the dipole moment of the primary torquers to overwhelm the vernier torquers. 
+Difficulties were also encountered with the torquers. The vernier torquers were proposed to be $\sfrac{1}{200}$ the size of the primary torquers. This presented two problems: manufacturing and balancing. Finding a suitable material for the torquers proved difficult as Mentch said ``There isn't much of a marked for crappy magnets.'' The solution that was proposed was to coat a non magnetic rod with a very thin layer of magnetic material using a vacuum deposition process. There were difficulties getting torquers and later tests showed that there is enough variation in the dipole moment of the primary torquers to overwhelm the vernier torquers. 
 
-Because of these difficulties the \ac{ACDS} was re-scoped to focus on detumble. Instead of one pair of primary torquers and one pair of virnir torquers two pairs of primary torquers are used. This gives four possible states as shown in \cref{fig:lpmtq-flt}.
+Because of these difficulties the \ac{ACDS} was re-scoped to focus on detumble. Instead of one pair of primary torquers and one pair of vernier torquers two pairs of primary torquers are used. This gives four possible states as shown in \cref{fig:lpmtq-flt}.
 
 \begin{figure}[H]
     \centering
