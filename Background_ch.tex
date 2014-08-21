@@ -161,10 +161,10 @@ The job of the alignment algorithm is to align the \ac{ARC} in the proper attitu
     \centering
     \newcommand{\cubesat}[2]{
         \draw (#1:#2) node{\pgftext[rotate=#1]{\includegraphics[height=15mm]{cube-icon}}};
-        \draw[->,cyan,axis] (#1:\winR) -- +(#1+90:\axlen);
-        \draw (#1:\winR) ++(#1+90:\axlen) node[rotate=#1-90,anchor=south west] {\tiny +Y};
-        \draw[->,red,axis] (#1:\winR) -- +(#1:\axlen);
-        \draw (#1:\winR) ++(#1:\axlen) node[rotate=#1-90,anchor=north west] {\tiny -Z};
+        \draw[->,cyan,axis] (#1:#2) -- +(#1+90:\axlen);
+        \draw (#1:#2) ++(#1+90:\axlen) node[rotate=#1-90,anchor=south west] {\tiny +Y};
+        \draw[->,red,axis] (#1:#2) -- +(#1:\axlen);
+        \draw (#1:#2) ++(#1:\axlen) node[rotate=#1-90,anchor=north west] {\tiny -Z};
     }
 
     \tikzstyle field=[color=blue,thick,postaction={decorate,decoration={markings,
@@ -210,12 +210,80 @@ The job of the alignment algorithm is to align the \ac{ARC} in the proper attitu
 
 Mode 2 is initiated at the end of the detumble phase. In mode 2 the torquers are biased as shown in \cref{fig:m2b} and while the bias is active the algorithm in \cref{eqn:crossl} is used to dampen out the oscillations caused by the bias. Outside the three bias windows all torquers are set to cancel each other and the \ac{ARC} coasts.
 
-\begin{figure}[H]
+\begin{figure}[htb!]
     \centering
-    %NOTE: this was lifted from Crank
-    \includegraphics[width=0.5\textwidth]{Figures/Mode-2-Bias}
-    \caption{Bias regions for mode 2\protect\cite{Mentch11}}
-    \todo[inline]{Figure taken from Crank}
+    \newcommand{\cubesat}[2]{
+        \draw (#1:#2) node{\pgftext[rotate=#1]{\includegraphics[height=9mm]{cube-icon}}};
+        \draw[->,cyan,axis] (#1:#2) -- +(#1+90:\axlen);
+        \draw (#1:#2) ++(#1+90:\axlen) node[rotate=#1-90,anchor=south] {\tiny +Y};
+        \draw[->,red,axis] (#1:#2) -- +(#1:\axlen);
+        \draw (#1:#2) ++(#1:\axlen) node[rotate=#1-90,anchor=west] {\tiny -Z};
+    }
+
+    \tikzstyle field=[arrows={-Latex[color=blue,fill=red,length=3mm,width=1.5mm]}]
+    \tikzstyle axis=[thick]
+    \tikzstyle motion=[YellowOrange,very thick]
+    
+    \begin{tikzpicture}[>=stealth]
+        \def\winR{2.4cm}                                %window radius for drawing
+        \def\earthR{1.8cm}                              %earth radius for drawing
+        \def\axlen{1cm}                                 %axis length for drawing
+        \def\favang{65}                                 %angle for favorable orientation
+        \def\unfavang{115}                              %angle for unfavorable orientation
+        \def\bias{35}                                   %half angle for bias arrows
+        \begin{scope}6511478
+            \clip (0,0) circle (3cm);
+            %\clip (0,0) circle (8.5);
+
+            %draw "earth"
+            \draw[color=green!60!black,thick] (0,0) circle (\earthR);
+
+            % Computes a point on a field line given r and t
+            \newcommand{\fieldlinecurve}[2]{%
+                {(pow(#1,2))*(3*cos(#2)+cos(3*(#2)))*0.7}, {(pow(#1,2))*(sin(#2)+sin(3*(#2)))}%
+            }
+
+            \foreach \r in {0.85,0.98,1.3,1.8} {
+                \draw[color=blue,smooth,variable=\t, samples at={0,-5,-10,...,-360}] plot (\fieldlinecurve{\r}{\t});
+            }
+
+            \draw[field] (\fieldlinecurve{0.85}{17}) -- (\fieldlinecurve{0.85}{23});
+            \draw[field] (\fieldlinecurve{0.98}{23}) -- (\fieldlinecurve{0.98}{28});
+            \draw[field] (\fieldlinecurve{1.3}{50}) -- (\fieldlinecurve{1.3}{52});
+            \draw[field] (\fieldlinecurve{1.8}{65}) -- (\fieldlinecurve{1.8}{65.5});
+
+            \draw[field] (\fieldlinecurve{0.85}{-23}) -- (\fieldlinecurve{0.85}{-17});
+            \draw[field] (\fieldlinecurve{0.98}{-28}) -- (\fieldlinecurve{0.98}{-23});
+            \draw[field] (\fieldlinecurve{1.3}{-52}) -- (\fieldlinecurve{1.3}{-50});
+            \draw[field] (\fieldlinecurve{1.8}{-65.5}) -- (\fieldlinecurve{1.8}{-65});
+
+            \draw[field] (\fieldlinecurve{0.85}{180-17}) -- (\fieldlinecurve{0.85}{180-23});
+            \draw[field] (\fieldlinecurve{0.98}{180-23}) -- (\fieldlinecurve{0.98}{180-28});
+            \draw[field] (\fieldlinecurve{1.3}{180-50}) -- (\fieldlinecurve{1.3}{180-52});
+            \draw[field] (\fieldlinecurve{1.8}{180-65}) -- (\fieldlinecurve{1.8}{180-65.5});
+
+            \draw[field] (\fieldlinecurve{0.85}{180+23}) -- (\fieldlinecurve{0.85}{180+17});
+            \draw[field] (\fieldlinecurve{0.98}{180+28}) -- (\fieldlinecurve{0.98}{180+23});
+            \draw[field] (\fieldlinecurve{1.3}{180+52}) -- (\fieldlinecurve{1.3}{180+50});
+            \draw[field] (\fieldlinecurve{1.8}{180+65.5}) -- (\fieldlinecurve{1.8}{180+65});
+        \end{scope}
+
+        %draw cubesat in windows
+        \cubesat{90}{\winR}
+        \draw[<->,motion] (90:\winR) ++(90:0.1cm) ++(90-\bias:0.5cm) arc (90-\bias:90+\bias:0.5cm);
+        \cubesat{180}{\winR}
+        \draw[<->,motion] (180:\winR) ++(-90:0.1cm) ++(90+180-\bias:0.5cm) arc (90+180-\bias:90+180+\bias:0.5cm);
+        \cubesat{0}{\winR}
+        \draw[<->,motion] (0:\winR) ++(90:0.1cm) ++(90-\bias:0.5cm) arc (90-\bias:90+\bias:0.5cm);
+
+        %draw magnet
+        \fill[color=white] (0.25,0.5) rectangle (-0.25,0);
+        \fill[color=red] (0.25,0) rectangle (-0.25,-0.5);
+        \draw[color=red] (0, 0.2) node {S};
+        \draw[color=white] (0,-0.2) node {N};
+        \draw[color=black] (0.25,0.5) rectangle (-0.25,-0.5);
+    \end{tikzpicture}
+    \caption{Bias regions for mode 2}
     \label{fig:m2b}
 \end{figure}
 
@@ -225,12 +293,76 @@ The purpose of mode 2 is to get the satellite, which is in a random orientation,
 
 Mode 3 is initiated after mode 2 is complete. In mode 3 only the north pole bias window is used as shown in \cref{fig:m3b}. Outside the bias window however the algorithm in \cref{eqn:crossl} is used to maintain desired rotation rates.
 
-\begin{figure}[H]
+\begin{figure}[htb!]
     \centering
-    %NOTE: this was lifted from Crank
-    \includegraphics[width=0.5\textwidth]{Figures/Mode-3-Bias}
-    \caption{Bias region for mode 3\protect\cite{Mentch11}}
-    \todo[inline]{Figure taken from Crank}
+    \newcommand{\cubesat}[2]{
+        \draw (#1:#2) node{\pgftext[rotate=#1]{\includegraphics[height=9mm]{cube-icon}}};
+        \draw[->,cyan,axis] (#1:#2) -- +(#1+90:\axlen);
+        \draw (#1:#2) ++(#1+90:\axlen) node[rotate=#1-90,anchor=south] {\tiny +Y};
+        \draw[->,red,axis] (#1:#2) -- +(#1:\axlen);
+        \draw (#1:#2) ++(#1:\axlen) node[rotate=#1-90,anchor=west] {\tiny -Z};
+    }
+
+    \tikzstyle field=[arrows={-Latex[color=blue,fill=red,length=3mm,width=1.5mm]}]
+    \tikzstyle axis=[thick]
+    \tikzstyle motion=[YellowOrange,very thick]
+    
+    \begin{tikzpicture}[>=stealth]
+        \def\winR{2.4cm}                                %window radius for drawing
+        \def\earthR{1.8cm}                              %earth radius for drawing
+        \def\axlen{1cm}                                 %axis length for drawing
+        \def\favang{65}                                 %angle for favorable orientation
+        \def\unfavang{115}                              %angle for unfavorable orientation
+        \def\bias{35}                                   %half angle for bias arrows
+        \begin{scope}6511478
+            \clip (0,0) circle (3cm);
+            %\clip (0,0) circle (8.5);
+
+            %draw "earth"
+            \draw[color=green!60!black,thick] (0,0) circle (\earthR);
+
+            % Computes a point on a field line given r and t
+            \newcommand{\fieldlinecurve}[2]{%
+                {(pow(#1,2))*(3*cos(#2)+cos(3*(#2)))*0.7}, {(pow(#1,2))*(sin(#2)+sin(3*(#2)))}%
+            }
+
+            \foreach \r in {0.85,0.98,1.3,1.8} {
+                \draw[color=blue,smooth,variable=\t, samples at={0,-5,-10,...,-360}] plot (\fieldlinecurve{\r}{\t});
+            }
+
+            \draw[field] (\fieldlinecurve{0.85}{17}) -- (\fieldlinecurve{0.85}{23});
+            \draw[field] (\fieldlinecurve{0.98}{23}) -- (\fieldlinecurve{0.98}{28});
+            \draw[field] (\fieldlinecurve{1.3}{50}) -- (\fieldlinecurve{1.3}{52});
+            \draw[field] (\fieldlinecurve{1.8}{65}) -- (\fieldlinecurve{1.8}{65.5});
+
+            \draw[field] (\fieldlinecurve{0.85}{-23}) -- (\fieldlinecurve{0.85}{-17});
+            \draw[field] (\fieldlinecurve{0.98}{-28}) -- (\fieldlinecurve{0.98}{-23});
+            \draw[field] (\fieldlinecurve{1.3}{-52}) -- (\fieldlinecurve{1.3}{-50});
+            \draw[field] (\fieldlinecurve{1.8}{-65.5}) -- (\fieldlinecurve{1.8}{-65});
+
+            \draw[field] (\fieldlinecurve{0.85}{180-17}) -- (\fieldlinecurve{0.85}{180-23});
+            \draw[field] (\fieldlinecurve{0.98}{180-23}) -- (\fieldlinecurve{0.98}{180-28});
+            \draw[field] (\fieldlinecurve{1.3}{180-50}) -- (\fieldlinecurve{1.3}{180-52});
+            \draw[field] (\fieldlinecurve{1.8}{180-65}) -- (\fieldlinecurve{1.8}{180-65.5});
+
+            \draw[field] (\fieldlinecurve{0.85}{180+23}) -- (\fieldlinecurve{0.85}{180+17});
+            \draw[field] (\fieldlinecurve{0.98}{180+28}) -- (\fieldlinecurve{0.98}{180+23});
+            \draw[field] (\fieldlinecurve{1.3}{180+52}) -- (\fieldlinecurve{1.3}{180+50});
+            \draw[field] (\fieldlinecurve{1.8}{180+65.5}) -- (\fieldlinecurve{1.8}{180+65});
+        \end{scope}
+
+        %draw cubesat in windows
+        \cubesat{90}{\winR}
+        \draw[<->,motion] (90:\winR) ++(90:0.1cm) ++(90-\bias:0.5cm) arc (90-\bias:90+\bias:0.5cm);
+
+        %draw magnet
+        \fill[color=white] (0.25,0.5) rectangle (-0.25,0);
+        \fill[color=red] (0.25,0) rectangle (-0.25,-0.5);
+        \draw[color=red] (0, 0.2) node {S};
+        \draw[color=white] (0,-0.2) node {N};
+        \draw[color=black] (0.25,0.5) rectangle (-0.25,-0.5);
+    \end{tikzpicture}
+    \caption{Bias region for mode 3}
     \label{fig:m3b}
 \end{figure}
 
@@ -322,7 +454,6 @@ Because there are more torquer states the quantization function shown in \cref{f
 \end{figure}
 
 Adding a second set of primary torquers allows a larger dipole moment during the detumble phase but does not help during the alignment phase when smaller torques need to be generated. The original design used a 10~second charge time which meant that once a torquer was flipped it would be torquing the satellite for a minimum 10~seconds. To help mitigate the use of more powerful torquers the charge time was changed to 1~second. This means that the minimum time that the torquers can be torquing is reduced, reducing the overall change in angular velocity of the satellite. The reduction in charge time is only by a factor of 10 but the minimum torque was increased by a factor of 200 so the pointing accuracy of the satellite will suffer.
-
 
 Rotation rate determination also proved a challenge for the on orbit implementation. The satellite in simulation had full knowledge of the rotation rates. In \cite{Mentch11} it was proposed that rotation rates could be directly calculated using the magnetic field. 
 
