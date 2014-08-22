@@ -3,7 +3,7 @@
 %CubeSat Chapter 
 \chapter{Hardware Implementation of the \acf{ACDS}}\label{ch:CubeSatHardware}
 
-The hardware that was specified in \cite{Mentch11} is quite simple. All that is called for besides processing power is a way to drive torquers and a magnetometer. The \ac{LPMT} has no space flight heratage. The \ac{ACDS} on the \ac{ARC} is planned to be the first time that the \ac{LPMT} will fly.
+As stated in \cref{ch:BG} the system design from \cite{Mentch11} has been modified for the implementation in this thesis. The only hardware change from \cite{Mentch11} is to use four alnico1 torquers in each axis instead of two alnico1 and two virnir torquers as proposed. This does not effect the electrical hardware as both torquer types are the same size and are flipped by the same circuit.
 
 The \ac{ACDS} board for the \ac{ARC} only contains the processor, torquers and drivers. The sensors are located off board and managed by the \ac{LEDL}. The sensor data is sent over the bus to the \ac{ACDS} processor. 
 
@@ -314,7 +314,9 @@ Determining the dipole moment is not an easy task as the dipole moments are quit
 
 \subsection{Coils}
 
-The coils used to drive the torquers are made from four layers of 26~AWG wire. The current spike to flip the torquer peaks around 7~A which is significantly higher than 26~AWG can handle with continuous current. However, because the pulse duration is short it is not a problem.
+The coils used to drive the torquers are made from 248 turns of 26~AWG wire in four layers. The current spike to flip the torquer peaks around 7~A which is significantly higher than 26~AWG can handle with continuous current. However, because the pulse duration is short it is not a problem.
+
+A 1~inch long solenoid with 7~A through 248 turns of wire has a coercive force of 68~kA/m. This is significantly higher than the coercive force of alnico1 which is 37~kA/m\cite{AlnicoProp}. This shows that the solenoids on the \ac{ARC} are more than capable of flipping a torquer.
 
 \subsection{Drivers}
 
@@ -536,7 +538,9 @@ The least squared solution minimizes the error across all data points. This resu
 
 \subsection{\acs{MEMS} Gyros}
 
-For flight, a \ac{MEMS} gyro will also be used to sense rotation rates. The \ac{MEMS} gyro has limited resolution compared to what can be achieved with the magnetometer\todo{Perhaps should have some sort of evidence for this}. The gyro does, however, directly read the rotation rate so it is good for quickly giving a rough idea of the rotation rates of the satellite. If the satellite is rotating fast enough, the magnetometer readings will alias and it can appear that the satellite is rotating at a speed that is much less than the actual speed. If the rotation rates are too high for the \ac{MEMS} gyro, the output will saturate and while the rotation rates are not measurable a direction and lower bound can be determined.
+For flight, a LPY410AL \ac{MEMS} gyro will also be used to sense rotation rates. \ac{MEMS} gyros have limited resolution compared to what can be achieved with the magnetometer. The LPY410AL has a maximum range of \textpm 400\textdegree /sec. The LPY410AL has a zero-rate sensitivity drift of 0.03~dps/\textdegree C. The desired rotation rate of the satellite is about 500~\textmu dps. This means that for a 1\textdegree C temperature change the rotation rate could change by 58 times the desired rotation rate. The LPY410AL also has a rate noise density of 0.014~$\unit{dps}{/}\sqrt{\unit{Hz}}$ so even at a slow sample rate of 1~Hz, the noise is 27,000 times larger than the desired rotation rate.
+
+\ac{MEMS} gyros do, however, give good results if the rotation rates are large, such as after the satellite is ejected from the \ac{PPOD}. If the satellite is rotating fast enough, the magnetometer readings will alias and it can appear that the satellite is rotating at a speed that is much less than the actual speed. If the rotation rates are too high for the \ac{MEMS} gyro, the output will saturate and while the rotation rates are not measurable a direction and lower bound can be determined.
 
 
 \section{Embedded System}
