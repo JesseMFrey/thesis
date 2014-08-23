@@ -1,0 +1,49 @@
+% vim: filetype=tex spell 
+
+% We need layers to draw the block diagram
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfdeclarelayer{Hardware}
+\pgfdeclarelayer{CPU}
+
+\pgfsetlayers{background,Hardware,CPU,main,foreground}
+
+\begin{tikzpicture}
+    %first draw ARCbus
+    \begin{pgfonlayer}{Hardware}
+        \node[draw=black,minimum height=1cm,minimum width=10cm,rotate=90] (arcbus) at (0,0) {\acs{ARC} Bus};
+    \end{pgfonlayer}
+
+    %\node [power] (capchg) {Capacitor\\charging\\circuit};
+    %TODO: rotate text
+    \node[perif,right of=arcbus]    (SPI_IIC)  {\acs{SPI} + \acs{I2C}};
+    \node[prog,right of=SPI_IIC]    (command)  {command and control};
+    \node[prog,right of=command]    (lpmt)     {\acs{LPMT} algorithm};
+    \node[prog,below of=lpmt]       (housek)   {Housekeeping};
+    \node[perif,below of=housek]    (SPI)      {\acs{SPI}};
+    \node[hardware,below of=SPI]    (SD)       {\acs{SD}};
+    %TODO: rotate text
+    \node[perif,right of=lpmt]       (tqio)    {\acs{GPIO}};
+    \node[hardware,right of=tqio]    (tqio)    {H-Bridges};
+    \node [power,above of=lpmt]      (capchg) {Capacitors\\(one per axis)};
+    \node [power,right of=capchg]    (cap) {Capacitors\\(one per axis)};
+    %\path [Bus,powerL] (-3,-1.5) edge (arcbus);
+
+    \node[hardware,left of=arcbus,node distance=4cm]  (LEDL)     {\acs{LEDL} \textmu{}C};
+    \node[hardware,above of=LEDL]   (gyro)     {Gyros};
+    \node[hardware,below of=LEDL]   (mag)      {Magnetomitor};
+
+    %draw CPU boxes
+    \begin{pgfonlayer}{CPU}
+        \path[CPU] (SPI_IIC.west) +(0, 2cm) rectangle (tqio.east);
+    \end{pgfonlayer}
+
+    %draw
+    \begin{pgfonlayer}{Hardware}
+        %\path[draw=black] (3,3) rectangle (-3,-3);
+        %\path[draw=black] (-4,-3) rectangle (-5,3);
+        %\path[draw=black] (-6,3) rectangle (-8,0);
+    \end{pgfonlayer}
+\end{tikzpicture}
+
+

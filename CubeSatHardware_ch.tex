@@ -237,15 +237,7 @@ The subsystems of the \ac{ARC} will communicate with each other using the ARCBus
 \afterpage{\begin{landscape}
 \begin{figure}[p]
     \centering
-    \begin{tikzpicture}
-        %\fill[color=blue] (4,4) rectangle (-4,-4);
-        \node [power] (capchg) {Capacitor\\charging\\circuit};
-        \node [power,right of=capchg] (cap) {Capacitors\\(one per axis)};
-        \node [prog,right of=cap] (housk) {Housekeeping};
-        \node [perif,right of=housk] (gpio) {GPIO};
-        \node [hardware,right of=gpio] (ledl) {\acs{LEDL} \textmu{}C};
-        \path [Bus,powerL] (-3,-1.5) edge (3,-1.5);
-    \end{tikzpicture}
+    \input{ADCS-block}
     \caption{Block Diagram of the CubeSat \acs{ACDS} system}
     \label{fig:ACDS-block2}
 \end{figure}

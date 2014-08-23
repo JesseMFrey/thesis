@@ -65,11 +65,13 @@
             markings,%
             mark=at position 0.65 with {\arrow[scale=2]{stealth}},
           },postaction=decorate]
+          
 %hardware block diagram styles
-\tikzstyle{power} = [rectangle, draw, fill=red!80, text width=5em, text centered, minimum height=4em,node distance=2cm]
-\tikzstyle{prog} = [rectangle, draw, fill=red!20, text width=5em, text centered, minimum height=4em,node distance=2cm]
-\tikzstyle{perif} = [rectangle, draw, fill=green!40, text width=5em, text centered, minimum height=4em,node distance=2cm]
-\tikzstyle{hardware} = [rectangle, draw, fill=blue!80, text width=5em, text centered, minimum height=4em,node distance=2cm]
+\tikzstyle{power} = [rectangle, draw, fill=red!80!black, text width=5em, text centered, minimum height=4em,node distance=2cm]
+\tikzstyle{prog} = [rectangle, draw=red!30, fill=red!20, text width=5em, text centered, minimum height=4em,node distance=2cm]
+\tikzstyle{perif} = [rectangle, draw=green!80, fill=green!40,text centered,node distance=3cm]
+\tikzstyle{hardware} = [rectangle, draw, fill=blue!30, text width=5em, text centered, minimum height=4em,node distance=2cm]
+\tikzstyle{CPU} = [draw=black,fill=blue!60]
 \tikzstyle{powerL} = [draw,color=red!80]
 \tikzstyle{dataL} = [draw,color=blue]
 \tikzstyle{commandL} = [draw,color=green]
