@@ -69,10 +69,10 @@
     \begin{pgfonlayer}{foreground}
         \node[draw=black,fill=white] (legend) at (ACDSpcb.south east) {\begin{tikzpicture}
             \begin{scope}[start chain=going below,node distance=1mm]
-                \node[power] (cleg) {power component};
-                \node[prog] {program component};
-                \node[perif] {periferal};
-                \node[hardware] {hardware};
+                \node[power,text width=6em] (cleg) {Power Component};
+                \node[prog,text width=6em] {Program Component};
+                \node[perif,text width=6em] {Periferal};
+                \node[hardware,text width=6em,minimum height=1em] {Hardware};
             \end{scope}
             \begin{scope}[start chain=going below,node distance=0cm,text width=6em]
                 \node[on chain,left of=cleg,node distance=3cm] {};
