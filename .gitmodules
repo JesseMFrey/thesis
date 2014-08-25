@@ -1,3 +1,3 @@
 [submodule "uafthesis"]
 	path = uafthesis
-	url = https://github.com/jesusabdullah/uafthesis.git
+	url = git@github.com:JesseMFrey/uafthesis.git
