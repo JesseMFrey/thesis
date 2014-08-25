@@ -66,6 +66,31 @@
         \node[above,anchor=south west] at (ACDSpcb.north west) {\acs{ACDS}};
     \end{pgfonlayer}
 
+    \begin{pgfonlayer}{foreground}
+        \node[draw=black,fill=white] (legend) at (ACDSpcb.south east) {\begin{tikzpicture}
+            \begin{scope}[start chain=going below,node distance=1mm]
+                \node[power] (cleg) {power component};
+                \node[prog] {program component};
+                \node[perif] {periferal};
+                \node[hardware] {hardware};
+            \end{scope}
+            \begin{scope}[start chain=going below,node distance=0cm,text width=6em]
+                \node[on chain,left of=cleg,node distance=3cm] {};
+
+                \node[on chain,rectangle] (pl) {Power Line};
+                \path[powerL] (pl.west) ++(-5mm,0) -- ++(-1cm,0);
+
+                \node[on chain,rectangle] (dl) {Data Line};
+                \path[dataL] (dl.west) ++(-5mm,0) -- ++(-1cm,0);
+
+                \node[on chain,rectangle] (bl) {Bus Line};
+                \path[Bus] (bl.west) ++(-5mm,0) -- ++(-1cm,0);
+            \end{scope}
+            
+        \end{tikzpicture}};
+        \node[anchor=north west] at (legend.north west) {\large \bf Legend};
+    \end{pgfonlayer}
+
     \path[Bus] (LEDL) -- (arcbus);
     \path[Bus] (SPI_IIC) -- (arcbus);
     \path[Bus] (LEDL) -- (mag);
