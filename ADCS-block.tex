@@ -11,39 +11,85 @@
 \begin{tikzpicture}
     %first draw ARCbus
     \begin{pgfonlayer}{Hardware}
-        \node[draw=black,minimum height=1cm,minimum width=10cm,rotate=90] (arcbus) at (0,0) {\acs{ARC} Bus};
+        \node[draw=black,minimum height=10cm,minimum width=1cm] (arcbus) at (0,0) {\rotatebox{90}{\acs{ARC} Bus}};
     \end{pgfonlayer}
 
-    %\node [power] (capchg) {Capacitor\\charging\\circuit};
-    %TODO: rotate text
-    \node[perif,right of=arcbus]    (SPI_IIC)  {\acs{SPI} + \acs{I2C}};
-    \node[prog,right of=SPI_IIC]    (command)  {command and control};
-    \node[prog,right of=command]    (lpmt)     {\acs{LPMT} algorithm};
-    \node[prog,below of=lpmt]       (housek)   {Housekeeping};
-    \node[perif,below of=housek]    (SPI)      {\acs{SPI}};
-    \node[hardware,below of=SPI]    (SD)       {\acs{SD}};
-    %TODO: rotate text
-    \node[perif,right of=lpmt]       (tqio)    {\acs{GPIO}};
-    \node[hardware,right of=tqio]    (tqio)    {H-Bridges};
-    \node [power,above of=lpmt]      (capchg) {Capacitors\\(one per axis)};
-    \node [power,right of=capchg]    (cap) {Capacitors\\(one per axis)};
-    %\path [Bus,powerL] (-3,-1.5) edge (arcbus);
+    \begin{scope}[start chain]
+        \node[perif,right of=arcbus,node distance=2cm]    (SPI_IIC)  {\rotatebox{90}{\acs{SPI} + \acs{I2C}}};
+        \node[prog]    (command) at ([yshift=15mm,xshift=3mm]SPI_IIC) {command and control};
 
-    \node[hardware,left of=arcbus,node distance=4cm]  (LEDL)     {\acs{LEDL} \textmu{}C};
-    \node[hardware,above of=LEDL]   (gyro)     {Gyros};
-    \node[hardware,below of=LEDL]   (mag)      {Magnetomitor};
+        \begin{scope}[start branch=storage going below]
+            \node[point,on chain,node distance=15mm] (nexus) {};
+            \node[prog,text width=7em,node distance=5mm,on chain=going right]       (housek)   {Housekeeping};
+            \node[perif,node distance=2mm]    (SPI)      {\acs{SPI}};
+            \node[hardware]    (SD)       {\acs{SD}};
+        \end{scope}
 
-    %draw CPU boxes
+        \node[prog]    (lpmt)     {\acs{LPMT} algorithm};
+        \node[perif,join=by dataL]       (tqio)    {\rotatebox{90}{\acs{GPIO}}};
+        \node[hardware,join=by dataL]    (hbridge)    {H-Bridges};
+
+        \begin{scope}[start branch=power going left]
+            \node [power,on chain=going above]   (cap) {Capacitors (one per axis)};
+            \node [power]      (capchg) {Capacitor charging circuit};
+        \end{scope}
+
+        \node[hardware,on chain=going below]    (torquers)    {Torquers};
+
+    \end{scope}
+
+    \begin{scope}[start chain=LEDL going below]
+        \node[hardware,left of=arcbus,node distance =3.5cm]  (LEDL)  {\acs{LEDL} \textmu{}C};
+        \begin{scope}[start branch=gyro going above]
+            \node[hardware,node distance=5mm]   (gyro) {Gyros};
+        \end{scope}
+        \node[hardware,text width=8em]   (mag) at ([yshift=-1.5cm]LEDL)     {Magnetometer};
+    \end{scope}
+
+    %draw CPU box
     \begin{pgfonlayer}{CPU}
-        \path[CPU] (SPI_IIC.west) +(0, 2cm) rectangle (tqio.east);
+        \node (push) at ([yshift=1.3cm]command) {};
+        \node[CPU,fit=(SPI_IIC) (command) (lpmt) (housek) (SPI) (tqio) (push)] (cpu) {};
+        \node[above,anchor=south west] at (cpu.north west) {\acs{ACDS} \textmu{}C};
     \end{pgfonlayer}
 
-    %draw
+    %draw board boxes
     \begin{pgfonlayer}{Hardware}
-        %\path[draw=black] (3,3) rectangle (-3,-3);
-        %\path[draw=black] (-4,-3) rectangle (-5,3);
-        %\path[draw=black] (-6,3) rectangle (-8,0);
+        %draw LEDL board
+        \node[PCB,fit=(LEDL) (gyro)] (LEDLpcb) {};
+        \node[above,anchor=south west] at (LEDLpcb.north west) {\acs{LEDL}};
+        %draw SPB
+        \node[PCB,fit=(mag)] (spb) {};
+        \node[above,anchor=south west] at (spb.north west) {\acs{SPB}};
+        %draw ACDS
+        \node[PCB,fit=(cpu) (SD) (hbridge) (cap) (capchg) (torquers)] (ACDSpcb) {};
+        \node[above,anchor=south west] at (ACDSpcb.north west) {\acs{ACDS}};
     \end{pgfonlayer}
+
+    \path[Bus] (LEDL) -- (arcbus);
+    \path[Bus] (SPI_IIC) -- (arcbus);
+    \path[Bus] (LEDL) -- (mag);
+    \path[dataL,<->] (LEDL) -- (gyro);
+
+    %dummy nodes for getting good connections
+    \node[point] (shift1) at ([yshift=8mm]housek) {};
+    \node[point] (shift2) at ([xshift=-8mm]nexus) {};
+
+    \path[dataL] (SPI_IIC.north) |- (command.west);
+    \path[dataL] (SPI_IIC) -| (shift2);
+    \path[dataL] (nexus) -- (housek);
+    \path[dataL] (lpmt.south) |- (shift1);
+    \path[dataL] (command.south) |- (shift1);
+    \path[dataL] (shift1) -- (housek);
+    \path[dataL] (shift2) -- (housek);
+    \path[dataL] (command) -- (lpmt);
+    \path[dataL] (housek) -- (SPI);
+    \path[dataL] (SPI) -- (SD);
+
+    \path[powerL] (capchg) -- (cap);
+    \path[powerL] (cap) -- (hbridge);
+    \path[powerL] (hbridge) -- (torquers);
+
 \end{tikzpicture}
 
 
