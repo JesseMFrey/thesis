@@ -94,7 +94,7 @@
     \path[Bus] (LEDL) -- (arcbus);
     \path[Bus] (SPI_IIC) -- (arcbus);
     \path[Bus] (LEDL) -- (mag);
-    \path[dataL,<->] (LEDL) -- (gyro);
+    \path[dataL] (LEDL) -- (gyro);
 
     %dummy nodes for getting good connections
     \node[point] (shift1) at ([yshift=8mm]housek) {};
