@@ -275,6 +275,79 @@ The block diagram for the CubeSat hardware used to implement the \ac{ACDS} is sh
     \label{fig:torquers}
 \end{figure}
 
+\begin{figure}[!ht]
+    \centering
+    \begin{minipage}{0.38\linewidth}
+        \raggedleft
+        \begin{itemize}\setlength{\parskip}{0pt}
+            \item[\kern-0.2em] Z2 \tikz[na] \coordinate (Z2i);
+
+            \item[\kern-0.2em] X1 \tikz[na] \coordinate (X1i);
+            \item[\kern-0.2em] X2 \tikz[na] \coordinate (X2i);
+            \item[\kern-0.2em] X3 \tikz[na] \coordinate (X3i);
+            \item[\kern-0.2em] X4 \tikz[na] \coordinate (X4i);
+
+            \item[\kern-0.2em] Z1 \tikz[na] \coordinate (Z1i);
+        \end{itemize}
+    \end{minipage}\begin{minipage}{0.35\linewidth}
+        \begin{tikzpicture}[remember picture] 
+            \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\linewidth]{ACDS-board-render}};
+            \begin{scope}[x={(image.south east)},y={(image.north west)}]
+                \path 
+                      (0.49,0.70) coordinate (X1)
+                      (0.40,0.64) coordinate (X2)
+                      (0.16,0.58) coordinate (X3)
+                      (0.23,0.53) coordinate (X4)
+                      (0.45,0.88) coordinate (Y1)
+                      (0.45,0.93) coordinate (Y2)
+                      (0.50,0.41) coordinate (Y3)
+                      (0.50,0.33) coordinate (Y4)
+                      (0.13,0.12) coordinate (Z1)
+                      (0.04,0.87) coordinate (Z2)
+                      (0.88,0.91) coordinate (Z3)
+                      (0.89,0.14) coordinate (Z4);
+              %draw axis
+                %\path (0.15,0.72) coordinate (axOrig);
+                %\draw[->,red,very thick] (axOrig) to +(-88.3:0.1) coordinate (X);
+                %\node[red,below of=X] (Xl) {X};
+                %\draw[->,magenta,very thick] (axOrig) to +(180.5:0.1) coordinate (Y);
+                %\node[magenta,left of=Y] (Yl) {Y};
+                %\draw[->,red,very thick] (axOrig) to +(-90:0.1) coordinate (Z);
+                %\node[red,below of=Z] (Zl) {Z};
+              \end{scope}
+        \end{tikzpicture}
+    \end{minipage}\begin{minipage}{0.30\linewidth}
+        \begin{itemize}\setlength{\parskip}{0pt}
+            \item[\kern-0.2em] \tikz[na] \coordinate (Z3i); Z3
+
+            \item[\kern-0.2em] \tikz[na] \coordinate (Y2i); Y2
+            \item[\kern-0.2em] \tikz[na] \coordinate (Y1i); Y1
+            \item[\kern-0.2em] \tikz[na] \coordinate (Y3i); Y3
+            \item[\kern-0.2em] \tikz[na] \coordinate (Y4i); Y4
+
+            \item[\kern-0.2em] \tikz[na] \coordinate (Z4i); Z4
+        \end{itemize}
+    \end{minipage}
+
+    \begin{tikzpicture}[overlay,remember picture]
+            \path[->,blue,very thick] (X1i) edge (X1);
+            \path[->,blue,very thick] (X2i) edge (X2);
+            \path[->,blue,very thick] (X3i) edge (X3);
+            \path[->,blue,very thick] (X4i) edge (X4);
+
+            \path[->,black,very thick] (Y1i) edge (Y1);
+            \path[->,black,very thick] (Y2i) edge (Y2);
+            \path[->,black,very thick] (Y3i) edge (Y3);
+            \path[->,black,very thick] (Y4i) edge (Y4);
+
+            \path[->,magenta,very thick] (Z1i) edge (Z1);
+            \path[->,magenta,very thick] (Z2i) edge (Z2);
+            \path[->,magenta,very thick] (Z3i) edge (Z3);
+            \path[->,magenta,very thick] (Z4i) edge (Z4);
+    \end{tikzpicture}
+    \caption{The \ac{ARC} \ac{ACDS} torquer locations.}
+    \label{fig:TQloc}
+\end{figure}
 \subsection{Cores}
 
 Most magnetic torquers use either an air core or a soft magnetic core. Ideally both an air or a soft core only produce torque while a current is running through the coil. A soft core will produce more torque for the same geometry and current compared to an air core. However, soft magnetic materials have some hysteresis that will continue to produce undesired torque after current stops flowing. Hard magnetic materials are chosen to have a large amount of hysteresis so that torque is still produced after the current stops flowing in the coil.
