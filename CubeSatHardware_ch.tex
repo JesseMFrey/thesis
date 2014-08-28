@@ -277,19 +277,21 @@ The block diagram for the CubeSat hardware used to implement the \ac{ACDS} is sh
 
 \begin{figure}[!ht]
     \centering
-    \begin{minipage}{0.38\linewidth}
-        \raggedleft
-        \begin{itemize}\setlength{\parskip}{0pt}
-            \item[\kern-0.2em] Z2 \tikz[na] \coordinate (Z2i);
+    \begin{minipage}{1.7em}
+        \setlength{\parskip}{2mm}
+        Z2 \tikz[na] \coordinate (Z2i);
 
-            \item[\kern-0.2em] X1 \tikz[na] \coordinate (X1i);
-            \item[\kern-0.2em] X2 \tikz[na] \coordinate (X2i);
-            \item[\kern-0.2em] X3 \tikz[na] \coordinate (X3i);
-            \item[\kern-0.2em] X4 \tikz[na] \coordinate (X4i);
+        X1 \tikz[na] \coordinate (X1i);
 
-            \item[\kern-0.2em] Z1 \tikz[na] \coordinate (Z1i);
-        \end{itemize}
-    \end{minipage}\begin{minipage}{0.35\linewidth}
+        X2 \tikz[na] \coordinate (X2i);
+
+        X3 \tikz[na] \coordinate (X3i);
+
+        X4 \tikz[na] \coordinate (X4i);
+
+        Z1 \tikz[na] \coordinate (Z1i);
+    \end{minipage}\hspace{2em}\begin{minipage}{0.35\linewidth}
+        \centering
         \begin{tikzpicture}[remember picture] 
             \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\linewidth]{ACDS-board-render}};
             \begin{scope}[x={(image.south east)},y={(image.north west)}]
@@ -316,17 +318,19 @@ The block diagram for the CubeSat hardware used to implement the \ac{ACDS} is sh
                 %\node[red,below of=Z] (Zl) {Z};
               \end{scope}
         \end{tikzpicture}
-    \end{minipage}\begin{minipage}{0.30\linewidth}
-        \begin{itemize}\setlength{\parskip}{0pt}
-            \item[\kern-0.2em] \tikz[na] \coordinate (Z3i); Z3
+    \end{minipage}\hspace{2em}\begin{minipage}{1.7em}
+        \setlength{\parskip}{2mm}
+        \tikz[na] \coordinate (Z3i); Z3
 
-            \item[\kern-0.2em] \tikz[na] \coordinate (Y2i); Y2
-            \item[\kern-0.2em] \tikz[na] \coordinate (Y1i); Y1
-            \item[\kern-0.2em] \tikz[na] \coordinate (Y3i); Y3
-            \item[\kern-0.2em] \tikz[na] \coordinate (Y4i); Y4
+        \tikz[na] \coordinate (Y2i); Y2
 
-            \item[\kern-0.2em] \tikz[na] \coordinate (Z4i); Z4
-        \end{itemize}
+        \tikz[na] \coordinate (Y1i); Y1
+
+        \tikz[na] \coordinate (Y3i); Y3
+
+        \tikz[na] \coordinate (Y4i); Y4
+
+        \tikz[na] \coordinate (Z4i); Z4
     \end{minipage}
 
     \begin{tikzpicture}[overlay,remember picture]
