@@ -279,33 +279,33 @@ The block diagram for the CubeSat hardware used to implement the \ac{ACDS} is sh
     \centering
     \begin{minipage}{1.7em}
         \setlength{\parskip}{2mm}
-        Z2 \tikz[na] \coordinate (Z2i);
-
-        X1 \tikz[na] \coordinate (X1i);
+        Z1 \tikz[na] \coordinate (Z1i);
 
         X2 \tikz[na] \coordinate (X2i);
+
+        X1 \tikz[na] \coordinate (X1i);
 
         X3 \tikz[na] \coordinate (X3i);
 
         X4 \tikz[na] \coordinate (X4i);
 
-        Z1 \tikz[na] \coordinate (Z1i);
+        Z2 \tikz[na] \coordinate (Z2i);
     \end{minipage}\hspace{2em}\begin{minipage}{0.35\linewidth}
         \centering
         \begin{tikzpicture}[remember picture] 
             \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\linewidth]{ACDS-board-render}};
             \begin{scope}[x={(image.south east)},y={(image.north west)}]
                 \path 
-                      (0.49,0.70) coordinate (X1)
-                      (0.40,0.64) coordinate (X2)
+                      (0.49,0.70) coordinate (X2)
+                      (0.40,0.64) coordinate (X1)
                       (0.16,0.58) coordinate (X3)
                       (0.23,0.53) coordinate (X4)
                       (0.45,0.88) coordinate (Y1)
                       (0.45,0.93) coordinate (Y2)
-                      (0.50,0.41) coordinate (Y3)
-                      (0.50,0.33) coordinate (Y4)
-                      (0.13,0.12) coordinate (Z1)
-                      (0.04,0.87) coordinate (Z2)
+                      (0.50,0.41) coordinate (Y4)
+                      (0.50,0.33) coordinate (Y3)
+                      (0.13,0.12) coordinate (Z2)
+                      (0.04,0.87) coordinate (Z1)
                       (0.88,0.91) coordinate (Z3)
                       (0.89,0.14) coordinate (Z4);
               %draw axis
@@ -326,9 +326,9 @@ The block diagram for the CubeSat hardware used to implement the \ac{ACDS} is sh
 
         \tikz[na] \coordinate (Y1i); Y1
 
-        \tikz[na] \coordinate (Y3i); Y3
-
         \tikz[na] \coordinate (Y4i); Y4
+
+        \tikz[na] \coordinate (Y3i); Y3
 
         \tikz[na] \coordinate (Z4i); Z4
     \end{minipage}
