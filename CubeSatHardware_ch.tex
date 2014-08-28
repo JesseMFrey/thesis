@@ -352,6 +352,9 @@ The block diagram for the CubeSat hardware used to implement the \ac{ACDS} is sh
     \caption{The \ac{ARC} \ac{ACDS} torquer locations.}
     \label{fig:TQloc}
 \end{figure}
+
+\Cref{fig:TQloc} shows the location of each torquer on the \ac{ACDS} board. This is how the torquers are referred to in software.
+
 \subsection{Cores}
 
 Most magnetic torquers use either an air core or a soft magnetic core. Ideally both an air or a soft core only produce torque while a current is running through the coil. A soft core will produce more torque for the same geometry and current compared to an air core. However, soft magnetic materials have some hysteresis that will continue to produce undesired torque after current stops flowing. Hard magnetic materials are chosen to have a large amount of hysteresis so that torque is still produced after the current stops flowing in the coil.
