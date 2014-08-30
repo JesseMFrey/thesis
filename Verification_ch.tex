@@ -73,6 +73,8 @@ The torquer compensation method depends on the torquer offsets being repeatable.
 
 The plot in \cref{fig:tqoff} was generated using the \lstinline[style=code,language=Matlab]$alltorquetest$ function. To create the plot each torquer was flipped 20 times in each direction. After each flip a magnetometer calibration was done to get the offset values. The variation in the offset is then plotted as a box plot.
 
+\Cref{fig:tqoff} was plotted using \matlab's \lstinline[style=code,language=Matlab]$boxplot$ function. The boxes extend from the 25th to the \nth{75} percentile. The whiskers extend to the most extreme point in each direction that is not an outlier. Outliers are those points that are larger than $q_3 + 1.5 \left( q_3 - q_1 \right)$ or smaller than $q_1 - 1.5 \left( q_3 - q_1 \right)$ with $q_1$ and $q_2$ the \nth{25} and \nth{75} percentile respectively. This corresponds to points outside roughly $\pm 2 \sigma$ for normally distributed data. \cite{MatBox}
+
 \afterpage{\begin{landscape}
 \begin{figure}[p]
     \centering
