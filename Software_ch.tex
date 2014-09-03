@@ -7,41 +7,7 @@ The main responsibility of the \ac{ACDS} software is to determine which torquer 
 
 \section{Overview}
 
-In order to determine which torquer to flip the \ac{ACDS} needs sensor inputs. The sensors are read by the \ac{LEDL} board and forwarded to the \ac{ACDS} using the \ac{ARC}bus. The \ac{ACDS} needs to communicate with the \ac{COMM} board to receive uplinked orbital elements and respond to ground station commands.
-
-\begin{comment}
-\begin{figure}[H]
-    \centering
-    \begin{tikzpicture}[node distance = 3cm, auto]
-        % Place nodes
-        \node [block] (AB) {\acs{ARC}bus interface};
-        \node [block,right of=AB] (KF) {Kalman Filter};
-        \node [block,above of=KF] (alg) {\acs{ACDS} algorithm};
-        \node [block,above of=AB] (CMD) {\acs{ACDS} command parse};
-        \node [block,right of=alg] (TQ) {Torquer Control and state tracking};
-        \node [block,right of=KF] (HC) {House Keeping};
-        \node [point,below of=KF] (DN)  {};
-
-        \path [flow] (KF) -- (alg);
-        \path [flow] (AB) -- (CMD);
-        \path [flow] (alg) -- (TQ);
-        \path [flow] (AB) -- (KF);
-
-        %command flow
-        \path [flow] (CMD) -- (KF);
-        \path [flow] (CMD) -- (alg);
-
-        %house keeping
-        \path [flow] (alg) -- (HC);
-        \path [flow] (KF) -- (HC);
-        \path [flow] (TQ) -- (HC);
-        \path [flow] (HC) |- (DN);
-        \path [flow] (DN) -| (AB);
-
-    \end{tikzpicture}
-    \caption{\acs{ACDS} software overview}
-\end{figure}
-\end{comment}
+In order to determine which torquer to flip the \ac{ACDS} needs sensor inputs. The sensors are read by the \ac{LEDL} board and forwarded to the \ac{ACDS} using the \ac{ARC}bus. The \ac{ACDS} needs to communicate with the \ac{COMM} board to respond to ground station commands and downlink housekeeping data.
 
 \begin{figure}[H]
     \centering
@@ -63,7 +29,6 @@ In order to determine which torquer to flip the \ac{ACDS} needs sensor inputs. T
         \path [flow] (core.190) -- node {Sensor Commands} (AB.48);
 
         \path [flow] (AB.00) -- node {Ground Station} node [below]{Commands} (core.226);
-        \path [flow] (AB.68) -- node {Orbital Elements} (core.140);
 
         \path [flow] (core) -- (HC);
         \path [flow] ([yshift= \linesep]AB.290)  -- node [above]{Data Log Query} ([yshift= \linesep]HC.west);
@@ -83,70 +48,22 @@ In order to determine which torquer to flip the \ac{ACDS} needs sensor inputs. T
     \caption{\acs{ACDS} software overview}
 \end{figure}
 
-
-
 \section{System Operations Overview}
 
-\Cref{fig:sysopflow} shows the system operations flow. The code starts running after the separation switch is switched and the power system applies power to all systems. Before starting any operations the \ac{ACDS} waits for the on command from the \ac{CDH} board. After the \ac{ACDS} board receives the on command the \ac{ACDS} sends a command to the \ac{LEDL} board to tell it to start taking sensor data. Once sensor data is received the \ac{ACDS} starts to run the detumble algorithm. The Kalman filter needs to know the location of the satellite for it to operate properly so orbital elements must be uploaded before the Kalman filter can start running. Once the Kalman filter knows the location of the satellite it still needs some time to converge to a solution. During this time the \ac{ACDS} remains in detumble mode even if the rates have slowed enoughs to exit. Once the Kalman filter is locked and the rates have sufficiently slowed the \ac{ACDS} switches into mode 2. Mode two is run for a set number \todo{figure out how many and put the number here} of orbits (measured by timing). After mode 2 is complete Mode 3 starts. The \ac{ACDS} remains in mode 3 indefinably unless one of undesirable conditions is detected, see \cite{Mentch11} for details, which causes the \ac{ACDS} to attempt to kick the satellite out of the undesirable alignment and then re-stabilize by transitioning back to mode 2.
+The \ac{ACDS} starts running after the separation switch is switched and the power system applies power to all systems. Before starting any operations the \ac{ACDS} waits for the on command from the \ac{CDH} board. After the \ac{ACDS} board receives the on command the \ac{ACDS} sends a command to the \ac{LEDL} board to tell it to start taking sensor data. Once sensor data is received the \ac{ACDS} starts to run the detumble algorithm.
 
-\begin{figure}[H]
-    \centering
-    \begin{tikzpicture}[node distance = 3cm, auto]
-    % Place nodes
-    \node [block] (sep) {Separation};
-    \node [block,below of=sep] (cmd) {On Command from \acs{CDH}};
-    \node [block,below of=cmd] (sens) {Send Start Data Collection Command to \acs{LEDL}};
-    \node [point,right of=sens,node distance= 3cm]      (p3) {};
-    \node [point,right of=sep,node distance= 6cm]       (p4) {};
-    \node [block,below of=p4,node distance= 1cm] (detumble) {Detumble};
-    \node [point,right of=detumble,node distance= 4cm] (p1) {};
-    \node [decision,below of=detumble,node distance = 4cm] (dchk) {Rates and Kalman filter are ready};
-    \node [block,below of=dchk,node distance=4cm] (m2) {Mode 2};
-    \node [decision,below of=m2,node distance= 3.5cm] (m2chk) {Has Mode 2 time elapsed?};
-    \node [point,right of=m2,node distance= 4cm] (p2) {};
-    \node [block,below of=m2chk,node distance= 3.5cm] (m3) {Mode 3};
-    \node [decision,below of=m3] (cchk) {Correct Alignment?};
-    \node [block,right of=cchk,node distance=4cm]  (cor) {apply correction};
-    \node [block,above of=cor]  (timer) {reset Mode 2 timer};
 
-    \path[conn] (sep) -- (cmd);
-    \path[conn] (cmd) -- (sens);
-    \path[line] (sens) -- (p3);
-    \path[line] (p3) |- (p4);
-    \path[conn] (p4) -- (detumble);
+\subsection{Ground Station Commands}
 
-    \path[conn] (detumble) -- (dchk);
-    \path[conn] (dchk) --  node [near start] {yes} (m2);
-    \path[line] (dchk) -|  node [near start] {no} (p1);
-    \path[conn] (p1) -- (detumble);
-    \path[conn] (m2) -- (m2chk);
-    \path[conn] (m2chk) -- node [near start] {yes} (m3);
-    \path[line] (m2chk) -| node [near start] {no} (p2);
-    \path[conn] (p2) -- (m2);
+The ground station can force the \ac{ACDS} into any mode and ether let it go with the normal flow or stay in a particular mode. This allows for recovery in case the system does not function as expected.
 
-    \path[conn] (m3) -- (cchk);
-    \path[conn] (cchk) -- node [near start] {no} (cor);
-    \path[conn] (cor) -- (timer);
-    \path[conn] (timer) |- (m2);
-
-    \path[conn] (cchk.west) -- node [near start] {yes} ([xshift=-1.5cm]cchk.west) |- (m3);
-
-    \end{tikzpicture}
-    \caption{System operations chart}
-    \label{fig:sysopflow}
-\end{figure}
-
-\subsection{Deviations From the flow}
-
-The flow case the flow from \cref{fig:sysopflow} can be disrupted. This can happen due to commands from the ground station or if the gyros detect that the sattelite is rotating too fast. The ground station can force the \ac{ACDS} into any mode and ether let it go with the normal flow or stay in a particular mode. This allows for recovery in case the system does not function as expected.
+\subsection{Rotation Runaway}
 
 If the gyros detect that the satellite is rotating too fast then they will automatically send the \ac{ACDS} into a safe mode where the \ac{ACDS} does not run. It is possible that the \ac{ACDS} could get into a situation where the algorithm speeds up the rotation instead of slowing it down. In this situation the best thing to do is for the \ac{ACDS} to stop and wait for further intervention from the ground.
 
 \section{Incoming Commands\textbackslash Info}
 
 The \ac{ACDS} must respond to incoming commands that change its operation mode or uplink data. Because the \ac{ACDS} is an experimental system, it may run into unexpected problems. By uplinking commands some of the possible problems can be fixed in flight. 
-
-In order for the Kalman filter to work it needs the orbital elements for the satellite. These must be uplinked from the ground because they change as the orbit decays. In addition gains for the control algorithm and Kalman filter may need to be changed in flight to account for unexpected conditions. 
 
 \begin{comment}
 \begin{itemize}
@@ -170,14 +87,8 @@ In order for the Kalman filter to work it needs the orbital elements for the sat
     % Place nodes
     \node [block] (field) {Magnetic Field Measurements};
     \node [block,right of=field] (cal) {Torquer offset correction};
-    \node [point,right of=cal] (split) {};
-    \node [block, right of=split,node distance=1.5cm] (alg) {Torque algorithm};
+    \node [block, right of=cal] (alg) { $C {\dot{\vect{B}}}$ };
     \node [block, right of=alg] (q) {Torque Quantization};
-    \node [block, above of=alg] (rates) {Kalman Filter};
-    \node [block,left of=rates,node distance= 3cm] (igrf) {Magnetic field model};
-    \node [block,left of=igrf] (pos) {Orbit timing};
-    \node [block, below of=alg] (win) {Bias Window Determination};
-    \node [point, below of=win] (push) {};
     \node [block, right of=q] (choose) {Choose Torquers to fire};
     \node [point, right of=choose] (fb) {};
     \node [block, right of=fb,node distance=1.5cm] (fire) {Fire Torquers};
@@ -186,11 +97,7 @@ In order for the Kalman filter to work it needs the orbital elements for the sat
 
     %draw lines
     \path [conn] (field) -- (cal);
-    \path [conn] (split) |- (rates.190);
-    \path [conn] (split) |- (win);
     \path [conn] (cal) -- (alg);
-    \path [conn] (rates) -- (alg);
-    \path [conn] (win) -- (alg);
     \path [conn] (alg) -- (q);
     \path [conn] (q) -- (choose);
     \path [conn] (choose) -- (fire);
@@ -200,220 +107,18 @@ In order for the Kalman filter to work it needs the orbital elements for the sat
 
     \path [conn] (sens.190) -- (mem.350);
     \path [conn] (mem) -- (choose);
-    \path [line] (mem) |- (push);
-    \path [conn] (push) -| (cal);
-
-    \path [conn] (pos) -- (igrf);
-    \path [conn] (igrf.10) -- (rates.170);
-
+    \path [conn] (mem) -| (cal);
 
     \end{tikzpicture}
     \caption{Overall Software Block Diagram}
     \label{fig:swblock}
 \end{figure}
 
-\subsection{Mode 1}
+\subsection{B-dot Algorithm}
 
 \label{sec:bdot-desc}
 
-\begin{comment}
-\Cref{fig:mode1} shows the Mode 1 torque algorithm block diagram. In Mode 1 the required torque is simply calculated using rotation rates and field measurements with \cref{eq:crossl}. This is also sometimes referred to as the detumble phase because the tumbling motion of the satellite is slowed down to a rate that makes it easier to get into the proper alignment.
-
-\begin{figure}[H]
-    \centering
-    \begin{tikzpicture}[node distance = 3cm, auto]
-    % Place nodes
-    \node [input] (field) {Magnetic Field};
-    \node [block, right of=field] (alg) { $k {{\vect{\omega}_{err} \cross \vect{B}} \over{\vect{B} \cdot \vect{B}}}$ };
-    \node [input, right of=alg] (rates) {Rotation Rates};
-    \node [point, below of=alg] (out) {};
-
-    %draw lines
-    \path [conn] (field) -- (alg);
-    \path [conn] (rates) -- (alg);
-    \path [conn] (alg) -- (out);
-
-
-    \end{tikzpicture}
-    \caption{Mode 1 Torque Algorithm Block Diagram}
-    \label{fig:mode1}
-\end{figure}
-\end{comment}
-
-\Cref{fig:mode1} shows the Mode 1 torque algorithm block diagram. In Mode 1 the required torque is calculated using the derivative of the magnetic field. This is a method that is widely used on other CubeSats \todo{Find some B-dot reference(s)} that have magnetic \ac{ACDS}. In this mode the magnetic dipole moment is simply set to a value that is proportional to the derivative of the magnetic field. Because the knowledge of the rotation rates is not needed for Mode 1, detumble can start before the Kalman filter has locked. The gain for the B-dot controller needs to be negative in order to stop the motion of the magnetic field. This could be done by adding a negative sign to the torque expression but, in code, it is simpler to have a negative gain.
-
-\begin{figure}[H]
-    \centering
-    \begin{tikzpicture}[node distance = 3cm, auto]
-    % Place nodes
-    \node [input] (field) {Magnetic Field};
-    \node [block, right of=field] (alg) { $C {\dot{\vect{B}}}$ };
-    \node [point, right of=alg] (out) {};
-
-    %draw lines
-    \path [conn] (field) -- (alg);
-    \path [conn] (alg) -- (out);
-
-
-    \end{tikzpicture}
-    \caption{Mode 1 Torque Algorithm Block Diagram}
-    \label{fig:mode1}
-\end{figure}
-
-\subsubsection{MSP430 Implementation}
-
-\todo[inline]{Implement this and write about it}
-
-\subsection{Mode 2}
-
-\Cref{fig:mode2} shows the Mode 2 torque algorithm block diagram. Torque is calculated the same way as in Mode 1 but this time a bias is added depending on which region of the orbit the satellite is in. The bias tends to cause the satellite to rotate. This causes the algorithm to cancel out the bias. This is prevented by preventing the resulting dipole moment from being in the opposite direction as the bias. Outside of the bias regions the torquers are set to produce no torque.
-
-\begin{figure}[H]
-    \centering
-    \begin{tikzpicture}[node distance = 3cm, auto]
-    % Place nodes
-    \node [input] (field) {Magnetic Field};
-    \node [block, right of=field] (alg) { $k {{\vect{\omega}_{err} \cross \vect{B}} \over{\vect{B} \cdot \vect{B}}}$ };
-    \node [input, right of=alg] (rates) {Rotation Rates};
-    \node [oppr,below of=alg,node distance=2cm] (sum) {+};
-    \node [block,left of=sum,node distance=3cm] (bias) {Mode 2 bias table};
-    \node [input,left of=bias] (win) {Bias Window};
-    \node [block,below of=sum,node distance=2cm] (fix) {Bias Fix};
-    \node [block,below of=fix,node distance=2.5cm] (coast) {Coast?};
-    \node [point, below of=coast] (out) {};
-
-    %draw lines
-    \path [conn] (field) -- (alg);
-    \path [conn] (rates) -- (alg);
-    \path [conn] (alg) -- (sum);
-    \path [conn] (win) -- (bias);
-    \path [conn] (bias) -- (sum);
-    \path [conn] (sum) -- (fix);
-    \path [conn] (fix) -- (coast);
-    \path [conn] (win) |- (coast);
-    \path [conn] (coast) -- (out);
-    \path [conn] (bias) |- (fix);
-
-    \end{tikzpicture}
-    \caption{Mode 2 Torque Algorithm Block Diagram}
-    \label{fig:mode2}
-\end{figure}
-
-\subsection{Mode 3}
-
-\Cref{fig:mode3} shows the Mode 3 torque algorithm block diagram. This is similar to Mode 2 except only the north pole bias window is used and outside the bias window torque is generated to slow rotation rates.
-
-\begin{figure}[H]
-    \centering
-    \begin{tikzpicture}[node distance = 3cm, auto]
-    % Place nodes
-    \node [input] (field) {Magnetic Field};
-    \node [block, right of=field] (alg) { $k {{\vect{\omega}_{err} \cross \vect{B}} \over{\vect{B} \cdot \vect{B}}}$ };
-    \node [input, right of=alg] (rates) {Rotation Rates};
-    \node [oppr,below of=alg,node distance=2cm] (sum) {+};
-    \node [block,left of=sum,node distance=3cm] (bias) {Mode 3 bias table};
-    \node [input,left of=bias] (win) {Bias Window};
-    \node [block,below of=sum,node distance=2cm] (fix) {Bias Fix};
-    \node [point, below of=fix] (out) {};
-
-    %draw lines
-    \path [conn] (field) -- (alg);
-    \path [conn] (rates) -- (alg);
-    \path [conn] (alg) -- (sum);
-    \path [conn] (win) -- (bias);
-    \path [conn] (bias) -- (sum);
-    \path [conn] (sum) -- (fix);
-    \path [conn] (fix) -- (out);
-    \path [conn] (bias) |- (fix);
-
-
-    \end{tikzpicture}
-    \caption{Mode 3 Torque Algorithm Block Diagram}
-    \label{fig:mode3}
-\end{figure}
-
-\subsection{Mode Switching}
-
-Mode switching on \ac{ARC} will be time based. The original simulation used the rotation rates to switch from Mode 1 mode to Mode 2 but it was found that when the satellite did not have full knowledge of rotation rates, as will be the case if they are determined from magnetic field, then the mode was switched too soon. The switch from Mode 2 to Mode 3 is timed to be about 10 orbits after the switch into Mode 2. Once in Mode 3 no more automated mode switching is done. Modes can also be switched at all times via ground station command.
-
-\begin{comment}
-\subsection{Bias Window Determination}
-
-\Cref{fig:biaswin} shows how the bias window determination will work. To determine where \ac{ARC} is within the orbit, peaks are found in the magnitude of the magnetic field. The field magnitude is used because it is independent of attitude. The magnitude of the field is greatest at the south pole but the magnetic north pole is located closer to the geographic north pole so it's peaks are more consistent. South pole peaks are filtered out first by eliminating peaks that are ether too high or too low to be a north pole peak. Peaks are further filtered by tracking the timing of past peaks and rejecting peaks that happen too soon. If a second peak is detected very soon after a north pole peak then it is assumed to be a double peak and the average peak time is taken. After the north poles are found the orbital period can be determined and orbital progress can be tracked. The current bias window is determined using the current orbital progress and a lookup table. In case the automatic orbit tracking does not work properly it is possible to upload timing parameters for the orbit tracking to use instead.
-
-\begin{figure}[H]
-    \centering
-    \begin{tikzpicture}[node distance = 3cm, auto]
-    % Place nodes
-    \node [input] (field) {Field Measurements};
-    \node [block,below of=field,node distance=2.1cm] (mag) {Vector Magnitude};
-    \node [block,right of=mag] (peak) {Peak Detect};
-    \node [block,right of=peak] (level) {Level Check};
-    \node [block,right of=level] (pole) {North Pole Detect};
-    \node [block,right of=pole] (gen) {Orbit tracking};
-    \node [block,below of=gen,node distance=2.5cm] (time) {Timing Source};
-    \node [block,above of=gen] (upload) {Timing Parameter Upload};
-    \node [block,right of=gen] (lookup) {Bias Window Lookup};
-    \node [point,right of=lookup,node distance=2cm] (out) {};
-
-    %draw lines
-    \path [conn] (field) -- (mag);
-    \path [conn] (mag) -- (peak);
-    \path [conn] (peak) -- (level);
-    \path [conn] (level) -- (pole);
-    \path [conn] (pole) -- (gen);
-    \path [conn] (gen) -- (lookup);
-    \path [conn] (lookup) -- (out);
-    \path [conn] (time) -- (gen);
-    \path [conn,dashed] (upload) -- (gen);
-
-    \end{tikzpicture}
-    \caption{Bias Window Determination Block Diagram}
-    \label{fig:biaswin}
-\end{figure}
-
-\end{comment}
-
-\begin{comment}
-\subsection{Rotation Rate Calculations}
-
-The rotation rate is calculated using the magnetic field measurements. \Cref{eq:magrate} shows how to calculate the rotation rate using magnetic field measurements. In \cref{eq:magrate} $\dot{\vec{B}}$ is calculated using there magnetic field measurements and the central difference formula as suggested in \cite{Mentch11}.
-
-\begin{equation}
-    %TODO: add dot over B
-    \vec{\omega}={\dot{\vec{B}} \cross \vec{B} \over{\vec{B} \cdot \vec{B}}}
-    \label{eq:magrate}
-\end{equation}
-\end{comment}
-
-\subsection{Kalman Filter}
-
-\begin{figure}[H]
-    \centering
-    \begin{tikzpicture}[node distance = 3cm, auto]
-    % Place nodes
-        \node [block] (pstate) {Project State};
-        \node [block,below of=pstate] (pcov) {Project Error Covariance Ahead};
-        \node [block,right of=pcov] (gain) {Compute Kalman Gain};
-        \node [block,right of=gain] (ustate) {Update state Estimate};
-        \node [input,right of=ustate,text width = 3cm,node distance=3.5cm] (meas) {Measurement Input};
-        \node [block,above of=ustate] (ucov) {Update Error Covariance};
-
-
-    %draw lines
-
-    \path [conn] (pstate) -- (pcov);
-    \path [conn] (pcov) -- (gain);
-    \path [conn] (gain) -- (ustate);
-    \path [conn] (meas) -- (ustate);
-    \path [conn] (ustate) -- (ucov);
-    \path [conn] (ucov) -- (pstate);
-
-
-    \end{tikzpicture}
-    \caption{Extended Kalman Filter}
-    \label{fig:eKalman}
-\end{figure}
+The B-dot algorithm is used to detumble the \ac{ARC}. The B-dot algorithm uses the time derivative of the magnetic field, $\dot{\vec{B}}$, to calculate the magnetic dipole moment that the torquers should generate. This is a method that is widely used on other CubeSats \todo{Find some B-dot reference(s)} that have magnetic \ac{ACDS}. In this mode the magnetic dipole moment is simply set to a value that is proportional to the derivative of the magnetic field. The gain for the B-dot controller needs to be negative in order to stop the motion of the magnetic field. This could be done by adding a negative sign to the torque expression but, in code, it is simpler to have a negative gain.
 
 \section{Auxiliary Software Functions}
 
