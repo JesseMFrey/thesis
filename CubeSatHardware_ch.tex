@@ -126,12 +126,12 @@ For clarity the \acp{SPB} are not shown in \cref{fig:arcMech}. The \acp{SPB} are
 The core board stack contains the major subsystems for the \ac{ARC}. Some of these subsystems are designed to carry out a specific \ac{SMO} while others provide a general support role. The subsystems are as follows:
 
 \begin{description}
-    \item[\acs{LEDL} :] One of the \acp{SMO} on \ac{ARC} is to ``Characterize the thermal and vibration environment inside the launch vehicle from ignition to orbit insertion.''\cite{ARCweb} The \ac{LEDL} does this by using a separate battery to operate during the launch phase and log data from accelerometers and temperature sensors.
+    \item[\acs{LEDL} :] One of the \acp{SMO} on \ac{ARC} is to \enquote{Characterize the thermal and vibration environment inside the launch vehicle from ignition to orbit insertion.}\cite{ARCweb} The \ac{LEDL} does this by using a separate battery to operate during the launch phase and log data from accelerometers and temperature sensors.
     \item[\acs{EPS} :] The \ac{EPS} manages electrical power on \ac{ARC}. The solar cells connect to \acp{BCR} which have peak power point tracking and output the proper voltage to charge the batteries. The voltage from the batteries is regulated down to 5~V and 3.3~V. The \ac{EPS} supplies the unregulated battery voltage along with the 5~V and 3.3~V rails to the rest of the satellite. The \ac{EPS} is the only system on the \ac{ARC} not built at UAF. The \ac{EPS} is designed and built by Clyde Space.
-    \item[\acs{ACDS} :] One of the \acp{SMO} on \ac{ARC} is to ``Validate a novel low power \acf{ACDS}.'' \cite{ARCweb} This is the system discussed in this thesis.
+    \item[\acs{ACDS} :] One of the \acp{SMO} on \ac{ARC} is to \enquote{Validate a novel low power \acf{ACDS}.} \cite{ARCweb} This is the system discussed in this thesis.
     \item[Separation Switch :] This switch is screwed into one of the torquer standoffs and cuts off power to the CubeSat when it is in the \ac{PPOD}.
     \item[\acs{COMM} :] The \ac{COMM} allows for two-way communication with the ground. A 9600~bps command/beacon up/down link and a 38400~bps data down link are used. The 9600~bps link operates on the 436~MHz band and uses a tape measure monopole. The 38400~bps link operates on the 2.4~GHz and uses a ceramic patch antenna mounted on the bottom of the \ac{ARC}.
-    \item[\acs{IMG} :] One of the \acp{SMO} on \ac{ARC} is to ``Validate a high bandwidth communication system by obtaining images of changing snow/ice coverage in arctic regions.''\cite{ARCweb} The imager has a camera and an SD card. The camera is used to take pictures and store them on the SD card.
+    \item[\acs{IMG} :] One of the \acp{SMO} on \ac{ARC} is to \enquote{Validate a high bandwidth communication system by obtaining images of changing snow/ice coverage in arctic regions.}\cite{ARCweb} The imager has a camera and an SD card. The camera is used to take pictures and store them on the SD card.
 \end{description}
 
 The \ac{EPS} is designed and manufactured by Clyde Space as a generic CubeSat \ac{EPS}. The \ac{EPS} is compatible with CubeSat Kit\cite{CSK} hardware which is one of the main standards for off-the-shelf CubeSat hardware. Because of this the rest of the \ac{ARC} subsystems must be compatible with the CubeSat Kit hardware. All boards have the same header and mounting hole locations and similar outlines so that they all fit together in the CubeSat.
@@ -428,7 +428,7 @@ The current waveforms also show changes due to torquer saturation. For the first
             \draw[magenta,very thick] (detail.south east) -- (detail.south west) -- (detail.north west) -- (detail.north east) -- cycle;
             %draw box around sensor
             \draw[red,very thick] (box1) -- (box2) -- (box3) -- (box4) -- cycle;
-            %draw ``expanding lines'' to detail
+            %draw "expanding lines" to detail
             \begin{pgfonlayer}{background}
                 \draw[red,very thick] (box1) -- (detail.south east);
                 \draw[red,very thick] (box2) -- (detail.north east);
