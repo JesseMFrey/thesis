@@ -45,6 +45,8 @@ In order to determine which torquer to flip the \ac{ACDS} needs sensor inputs. T
 
 \begin{figure}[H]
     \centering
+    %separator for parallel lines
+    \def\linesep{6}
     \begin{tikzpicture}[node distance = 3cm, auto]
         % Place nodes
         \node [block,minimum height=8cm]            (AB) {\acs{ARC}bus interface};
@@ -63,14 +65,18 @@ In order to determine which torquer to flip the \ac{ACDS} needs sensor inputs. T
         \path [flow] (AB.00) -- node {Ground Station} node [below]{Commands} (core.226);
         \path [flow] (AB.68) -- node {Orbital Elements} (core.140);
 
-        \path [flow] (HC) -- (AB.290);
+        \path [flow] (core) -- (HC);
+        \path [flow] ([yshift= \linesep]AB.290)  -- node [above]{Data Log Query} ([yshift= \linesep]HC.west);
+        \path [flow] ([yshift=-\linesep]HC.west) -- node [below]{Recalled Data} ([yshift=-\linesep]AB.290);
 
-        \path [flow] (COM) -- (CDH);
+        \path [flow] ([yshift= \linesep]COM.east) -- ([yshift= \linesep]CDH.west);
+        \path [flow] ([yshift=-\linesep]CDH.west) -- ([yshift=-\linesep]COM.east);
 
-        \path [flow] (CDH) -- (AB.250);
+        \path [flow] ([yshift= \linesep]CDH.east) -- ([yshift= \linesep]AB.250);
+        \path [flow] ([yshift=-\linesep]AB.250)   -- ([yshift=-\linesep]CDH.east);
 
-        \path [flow] (LEDL.10) -- node  {Sensor Data} (AB.170);
-        \path [flow] (AB.190) -- node  {Sensor Commands} (LEDL.350);
+        \path [flow] ([yshift=-\linesep]LEDL.east) -- node [below]{Sensor Data}     ([yshift=-\linesep]AB.west);
+        \path [flow] ([yshift= \linesep]AB.west)   -- node [above]{Sensor Commands} ([yshift= \linesep]LEDL.east);
 
 
     \end{tikzpicture}
