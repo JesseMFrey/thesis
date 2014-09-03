@@ -77,16 +77,16 @@ The plot in \cref{fig:tqoff1,fig:tqoff2} were generated using the \lstinline[sty
 
 The plot in \cref{fig:tqoff1,fig:tqoff2} has the \lstinline[style=code,language=Matlab]$'extrememode'$ option set to \lstinline[style=code,language=Matlab]$'compress'$ with \lstinline[style=code,language=Matlab]$'datalim'$ set to \textpm{}20~mGauss. This prevents any points outside \textpm{}20~mGauss from compressing the scale of the plot so that the data of interest is easier to read. The dotted line marks the limit of the limit set by \lstinline[style=code,language=Matlab]$'datalim'$ and the gray lines mark the compression region. \cite{MatBox}
 
-\begin{figure}[htb!]
+\begin{figure}[!htb]
     \centering
     \includegraphics[width=\linewidth]{torqueOffsets-1}
     \caption{Box plot showing torquer offset variations}
     \label{fig:tqoff1}
 \end{figure}
 
-\begin{figure}[htb!]
+\begin{figure}[!htb]
     \centering
-    \includegraphics[width=\linewidth]{torqueOffsets-1}
+    \includegraphics[width=\linewidth]{torqueOffsets-2}
     \caption{Box plot showing torquer offset variations}
     \label{fig:tqoff2}
 \end{figure}
@@ -183,7 +183,7 @@ The \lstinline[style=code,language=Matlab]$tCalTstMSP_all$ function is used to t
 
 \Cref{fig:tcalMSPerr} shows the errors for each sample as well as the torquer states during the samples. The large jumps in the errors all correspond with torquer flips.
 
-\begin{table}[!ht]
+\begin{table}[!htb]
     \centering
     \caption{RMS errors in Gauss for \ac{ACDS} system calibration test}
     \label{tab:tcalMSPerr}
