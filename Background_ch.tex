@@ -138,7 +138,7 @@ The purpose of the detumble algorithm is to reduce the initial tipoff rates. Whe
 To detumble \ac{ARC} the control law shown in \cref{eq:crossl} is used. This is used by many CubeSats with conventional torquers to detumble \todo{find reference}. The significant difference in this case is that the magnetic dipole moment will be quantized due to the \acp{LPMT}.
 
 \begin{equation}
-    \vect{m}_{command} = k {{\vect{\omega}_{error} \cross \vect{B}} \over{\vect{B} \cdot \vect{B}}}
+    \vect{m}_{command} = k {\frac{\vect{\omega}_{error} \cross \vect{B}}{\vect{B} \cdot \vect{B}}}
     \label{eq:crossl}
 \end{equation}
 

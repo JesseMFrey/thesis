@@ -119,7 +119,7 @@ In order for the Kalman filter to work it needs the orbital elements for the sat
     \begin{tikzpicture}[node distance = 3cm, auto]
     % Place nodes
     \node [input] (field) {Magnetic Field};
-    \node [block, right of=field] (alg) { $k {{\vect{\omega}_{err} \cross \vect{B}} \over{\vect{B} \cdot \vect{B}}}$ };
+    \node [block, right of=field] (alg) { $k \frac{\vect{\omega}_{err} \cross \vect{B}}{\vect{B} \cdot \vect{B}}$ };
     \node [input, right of=alg] (rates) {Rotation Rates};
     \node [oppr,below of=alg,node distance=2cm] (sum) {+};
     \node [block,left of=sum,node distance=3cm] (bias) {Mode 2 bias table};
@@ -154,7 +154,7 @@ In order for the Kalman filter to work it needs the orbital elements for the sat
     \begin{tikzpicture}[node distance = 3cm, auto]
     % Place nodes
     \node [input] (field) {Magnetic Field};
-    \node [block, right of=field] (alg) { $k {{\vect{\omega}_{err} \cross \vect{B}} \over{\vect{B} \cdot \vect{B}}}$ };
+    \node [block, right of=field] (alg) { $k {\frac{\vect{\omega}_{err} \cross \vect{B}}{\vect{B} \cdot \vect{B}}}$ };
     \node [input, right of=alg] (rates) {Rotation Rates};
     \node [oppr,below of=alg,node distance=2cm] (sum) {+};
     \node [block,left of=sum,node distance=3cm] (bias) {Mode 3 bias table};
@@ -227,7 +227,7 @@ The rotation rate is calculated using the magnetic field measurements. \Cref{eq:
 
 \begin{equation}
     %TODO: add dot over B
-    \vec{\omega}={\dot{\vec{B}} \cross \vec{B} \over{\vec{B} \cdot \vec{B}}}
+    \vec{\omega}={\frac{\dot{\vec{B}} \cross \vec{B}}{\vec{B} \cdot \vec{B}}}
     \label{eq:magrate}
 \end{equation}
 \end{comment}
