@@ -16,7 +16,7 @@ The \ac{ACDS} board for the \ac{ARC} only contains the processor, torquers and d
 \begin{figure}[!ht]
     \centering
     \begin{minipage}{0.31\linewidth}
-        \begin{tikzpicture}[remember picture,node distance=1em]
+        \begin{tikzpicture}[remember picture,node distance=0]
             \def\sysx{0.8}
             \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\linewidth]{cubesat-core}};
             \begin{scope}[x={(image.south east)},y={(image.north west)}]
@@ -33,11 +33,11 @@ The \ac{ACDS} board for the \ac{ARC} only contains the processor, torquers and d
               %draw axis
                 \path (0.1,0.12) coordinate (axOrig);
                 \draw[->,blue,very thick] (axOrig) to +(-21:0.1) coordinate (X);
-                \node[blue,right of=X] (Xl) {X};
+                \node[blue,right=of X] (Xl) {X};
                 \draw[->,magenta,very thick] (axOrig) to +(196:0.1) coordinate (Y);
-                \node[magenta,left of=Y] (Yl) {Y};
+                \node[magenta,left=of Y] (Yl) {Y};
                 \draw[->,red,very thick] (axOrig) to +(-90:0.1) coordinate (Z);
-                \node[red,below of=Z] (Zl) {Z};
+                \node[red,below=of Z] (Zl) {Z};
               \end{scope}
         \end{tikzpicture}
     \end{minipage}\begin{minipage}{0.65\linewidth}
@@ -174,11 +174,11 @@ The \ac{ACDS} board has the same overall outline and hole pattern as the rest of
               %draw axis
                 %\path (0.15,0.72) coordinate (axOrig);
                 %\draw[->,red,very thick] (axOrig) to +(-88.3:0.1) coordinate (X);
-                %\node[red,below of=X] (Xl) {X};
+                %\node[red,below=of X] (Xl) {X};
                 %\draw[->,magenta,very thick] (axOrig) to +(180.5:0.1) coordinate (Y);
-                %\node[magenta,left of=Y] (Yl) {Y};
+                %\node[magenta,left=of Y] (Yl) {Y};
                 %\draw[->,red,very thick] (axOrig) to +(-90:0.1) coordinate (Z);
-                %\node[red,below of=Z] (Zl) {Z};
+                %\node[red,below=of Z] (Zl) {Z};
               \end{scope}
         \end{tikzpicture}
     \end{minipage}\begin{minipage}{0.30\linewidth}
@@ -311,11 +311,11 @@ The block diagram for the CubeSat hardware used to implement the \ac{ACDS} is sh
               %draw axis
                 %\path (0.15,0.72) coordinate (axOrig);
                 %\draw[->,red,very thick] (axOrig) to +(-88.3:0.1) coordinate (X);
-                %\node[red,below of=X] (Xl) {X};
+                %\node[red,below=of X] (Xl) {X};
                 %\draw[->,magenta,very thick] (axOrig) to +(180.5:0.1) coordinate (Y);
-                %\node[magenta,left of=Y] (Yl) {Y};
+                %\node[magenta,left=of Y] (Yl) {Y};
                 %\draw[->,red,very thick] (axOrig) to +(-90:0.1) coordinate (Z);
-                %\node[red,below of=Z] (Zl) {Z};
+                %\node[red,below=of Z] (Zl) {Z};
               \end{scope}
         \end{tikzpicture}
     \end{minipage}\hspace{2em}\begin{minipage}{1.7em}

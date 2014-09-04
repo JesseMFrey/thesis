@@ -8,45 +8,37 @@
 
 \begin{figure}[H]
     \centering
-    \begin{tikzpicture}[node distance = 3cm, auto]
+    \begin{tikzpicture}[node distance = 0.5cm, auto]
     % Place nodes
     \node [block] (sep) {Separation};
-    \node [block,below of=sep] (cmd) {On Command from \acs{CDH}};
-    \node [block,below of=cmd] (sens) {Send Start Data Collection Command to \acs{LEDL}};
-    \node [point,right of=sens,node distance= 3cm]      (p3) {};
-    \node [point,right of=sep,node distance= 6cm]       (p4) {};
-    \node [block,below of=p4,node distance= 1cm] (detumble) {Detumble};
-    \node [point,right of=detumble,node distance= 4cm] (p1) {};
-    \node [decision,below of=detumble,node distance = 4cm] (dchk) {Rates and Kalman filter are ready};
-    \node [block,below of=dchk,node distance=4cm] (m2) {Mode 2};
-    \node [decision,below of=m2,node distance= 3.5cm] (m2chk) {Has Mode 2 time elapsed?};
-    \node [point,right of=m2,node distance= 4cm] (p2) {};
-    \node [block,below of=m2chk,node distance= 3.5cm] (m3) {Mode 3};
-    \node [decision,below of=m3] (cchk) {Correct Alignment?};
-    \node [block,right of=cchk,node distance=4cm]  (cor) {apply correction};
-    \node [block,above of=cor]  (timer) {reset Mode 2 timer};
+    \node [block,below=of sep] (cmd) {On Command from \acs{CDH}};
+    \node [block,below=of cmd] (sens) {Send Start Data Collection Command to \acs{LEDL}};
+    \node [block,node distance= 2cm,right=of sep] (detumble) {Detumble};
+    \node [decision,below=of detumble] (dchk) {Rates and Kalman filter are ready};
+    \node [block,below=of dchk] (m2) {Mode 2};
+    \node [decision,below=of m2] (m2chk) {Has Mode 2 time elapsed?};
+    \node [block,below=of m2chk] (m3) {Mode 3};
+    \node [decision,below=of m3] (cchk) {Correct Alignment?};
+    \node [block,node distance=2cm,right=of cchk]  (cor) {apply correction};
+    \node [block,above=of cor]  (timer) {reset Mode 2 timer};
 
     \path[conn] (sep) -- (cmd);
     \path[conn] (cmd) -- (sens);
-    \path[line] (sens) -- (p3);
-    \path[line] (p3) |- (p4);
-    \path[conn] (p4) -- (detumble);
+    \path[conn] (sens.east) -- ++(0.5cm,0) |- (detumble);
 
     \path[conn] (detumble) -- (dchk);
     \path[conn] (dchk) --  node [near start] {yes} (m2);
-    \path[line] (dchk) -|  node [near start] {no} (p1);
-    \path[conn] (p1) -- (detumble);
+    \path[conn] (dchk.east) -- node [near start] {no} ++(0.7cm,0) |-  (detumble);
     \path[conn] (m2) -- (m2chk);
     \path[conn] (m2chk) -- node [near start] {yes} (m3);
-    \path[line] (m2chk) -| node [near start] {no} (p2);
-    \path[conn] (p2) -- (m2);
+    \path[line] (m2chk.east) -- node [near start] {no} ++(0.7cm,0) |- (m2);
 
     \path[conn] (m3) -- (cchk);
     \path[conn] (cchk) -- node [near start] {no} (cor);
     \path[conn] (cor) -- (timer);
     \path[conn] (timer) |- (m2);
 
-    \path[conn] (cchk.west) -- node [near start] {yes} ([xshift=-1.5cm]cchk.west) |- (m3);
+    \path[conn] (cchk.west) -- node [near start] {yes} ++(-0.7cm,0) |- (m3);
 
     \end{tikzpicture}
     \caption{System operations chart}
@@ -64,27 +56,24 @@ In order for the Kalman filter to work it needs the orbital elements for the sat
 
 \begin{figure}[H]
     \centering
-    \begin{tikzpicture}[node distance = 2.6cm, auto]
+    \begin{tikzpicture}[node distance = 0.5cm, auto]
     % Place nodes
     \node [block] (field) {Magnetic Field Measurements};
-    \node [block,right of=field] (cal) {Torquer offset correction};
-    \node [point,right of=cal] (split) {};
-    \node [block, right of=split,node distance=1.5cm] (alg) {Torque algorithm};
-    \node [block, right of=alg] (q) {Torque Quantization};
-    \node [block, above of=alg] (rates) {Kalman Filter};
-    \node [block,left of=rates,node distance= 3cm] (igrf) {Magnetic field model};
-    \node [block,left of=igrf] (pos) {Orbit timing};
-    \node [block, right of=rates] (win) {Bias Window Determination};
-    \node [point, above of=rates,node distance=2cm] (push) {};
-    \node [block, right of=q] (choose) {Choose Torquers to fire};
-    \node [point, right of=choose] (fb) {};
-    \node [block, right of=fb,node distance=1.5cm] (fire) {Fire Torquers};
-    \node [block, below of=choose] (mem) {Torquer Status Tracking};
-    \node [block, below of=fire] (sens) {Torquer feedback};
+    \node [block,right=of field] (cal) {Torquer offset correction};
+    \node [block,node distance=0.7cm,right=of cal] (alg) {Torque algorithm};
+    \node [block, right=of alg] (q) {Torque Quantization};
+    \node [block, above=of alg] (rates) {Kalman Filter};
+    \node [block,above=of cal] (igrf) {Magnetic field model};
+    \node [block,left=of igrf] (pos) {Orbit timing};
+    \node [block, above=of q] (win) {Bias Window Determination};
+    \node [block, right=of q] (choose) {Choose Torquers to fire};
+    \node [block,node distance=0.7cm, right=of choose] (fire) {Fire Torquers};
+    \node [block, below=of choose] (mem) {Torquer Status Tracking};
+    \node [block,node distance=0.86cm, below=of fire] (sens) {Torquer feedback};
 
     %draw lines
     \path [conn] (field) -- (cal);
-    \path [conn] (split) |- (rates.190);
+    \path [conn] (cal.east) -- ++(0.3cm,0) |- (rates.190);
     \path [conn] (cal) -- (alg);
     \path [conn] (rates) -- (alg);
     \path [conn] (win) -- (alg);
@@ -92,18 +81,17 @@ In order for the Kalman filter to work it needs the orbital elements for the sat
     \path [conn] (q) -- (choose);
     \path [conn] (choose) -- (fire);
 
-    \path [conn] (fb) |- (mem.10);
+    \path [conn] (choose.east) -- ++(0.3cm,0) |- (mem.10);
     \path [phconn] (fire) -- (sens);
 
-    \path [conn] (sens.190) -- (mem.350);
+    \path [conn] (sens.west) -- ++(-0.3cm,0) |- (mem);
     \path [conn] (mem) -- (choose);
     \path [conn] (mem) -| (cal);
 
     \path [conn] (pos) -- (igrf);
-    \path [conn] (igrf.10) -- (rates.170);
+    \path [conn] (igrf.east) -- ++(0.3cm,0) |- (rates.west);
 
-    \path [line] (pos) |- (push);
-    \path [conn] (push) -| (win);
+    \path [conn] (pos) |- ([yshift=0.3cm]win.north) -- (win);
 
     \end{tikzpicture}
     \caption{Overall Software Block Diagram}
@@ -116,17 +104,17 @@ In order for the Kalman filter to work it needs the orbital elements for the sat
 
 \begin{figure}[H]
     \centering
-    \begin{tikzpicture}[node distance = 3cm, auto]
+    \begin{tikzpicture}[node distance = 0.5cm, auto]
     % Place nodes
     \node [input] (field) {Magnetic Field};
-    \node [block, right of=field] (alg) { $k \frac{\vect{\omega}_{err} \cross \vect{B}}{\vect{B} \cdot \vect{B}}$ };
-    \node [input, right of=alg] (rates) {Rotation Rates};
-    \node [oppr,below of=alg,node distance=2cm] (sum) {+};
-    \node [block,left of=sum,node distance=3cm] (bias) {Mode 2 bias table};
-    \node [input,left of=bias] (win) {Bias Window};
-    \node [block,below of=sum,node distance=2cm] (fix) {Bias Fix};
-    \node [block,below of=fix,node distance=2.5cm] (coast) {Coast?};
-    \node [point, below of=coast] (out) {};
+    \node [block, right=of field] (alg) { $k \frac{\vect{\omega}_{err} \cross \vect{B}}{\vect{B} \cdot \vect{B}}$ };
+    \node [input, right=of alg] (rates) {Rotation Rates};
+    \node [oppr,node distance=1cm,below=of alg] (sum) {+};
+    \node [block,node distance=1.2cm,left=of sum] (bias) {Mode 2 bias table};
+    \node [input,left=of bias] (win) {Bias Window};
+    \node [block,node distance=1cm,below=of sum] (fix) {Bias Fix};
+    \node [block,below=of fix] (coast) {Coast?};
+    \node [point, below=of coast] (out) {};
 
     %draw lines
     \path [conn] (field) -- (alg);
@@ -151,16 +139,16 @@ In order for the Kalman filter to work it needs the orbital elements for the sat
 
 \begin{figure}[H]
     \centering
-    \begin{tikzpicture}[node distance = 3cm, auto]
+    \begin{tikzpicture}[node distance = 0.5cm, auto]
     % Place nodes
     \node [input] (field) {Magnetic Field};
-    \node [block, right of=field] (alg) { $k {\frac{\vect{\omega}_{err} \cross \vect{B}}{\vect{B} \cdot \vect{B}}}$ };
-    \node [input, right of=alg] (rates) {Rotation Rates};
-    \node [oppr,below of=alg,node distance=2cm] (sum) {+};
-    \node [block,left of=sum,node distance=3cm] (bias) {Mode 3 bias table};
-    \node [input,left of=bias] (win) {Bias Window};
-    \node [block,below of=sum,node distance=2cm] (fix) {Bias Fix};
-    \node [point, below of=fix] (out) {};
+    \node [block, right=of field] (alg) { $k {\frac{\vect{\omega}_{err} \cross \vect{B}}{\vect{B} \cdot \vect{B}}}$ };
+    \node [input, right=of alg] (rates) {Rotation Rates};
+    \node [oppr,node distance=1cm,below=of alg] (sum) {+};
+    \node [block,node distance=1.2cm,left=of sum] (bias) {Mode 3 bias table};
+    \node [input,left=of bias] (win) {Bias Window};
+    \node [block,node distance=1cm,below=of sum] (fix) {Bias Fix};
+    \node [point, below=of fix] (out) {};
 
     %draw lines
     \path [conn] (field) -- (alg);
@@ -189,18 +177,18 @@ Mode switching on \ac{ARC} will be time based. The original simulation used the 
 
 \begin{figure}[H]
     \centering
-    \begin{tikzpicture}[node distance = 3cm, auto]
+    \begin{tikzpicture}[node distance = 0.5cm, auto]
     % Place nodes
     \node [input] (field) {Field Measurements};
-    \node [block,below of=field,node distance=2.1cm] (mag) {Vector Magnitude};
-    \node [block,right of=mag] (peak) {Peak Detect};
-    \node [block,right of=peak] (level) {Level Check};
-    \node [block,right of=level] (pole) {North Pole Detect};
-    \node [block,right of=pole] (gen) {Orbit tracking};
-    \node [block,below of=gen,node distance=2.5cm] (time) {Timing Source};
-    \node [block,above of=gen] (upload) {Timing Parameter Upload};
-    \node [block,right of=gen] (lookup) {Bias Window Lookup};
-    \node [point,right of=lookup,node distance=2cm] (out) {};
+    \node [block,below=of field] (mag) {Vector Magnitude};
+    \node [block,right=of mag] (peak) {Peak Detect};
+    \node [block,right=of peak] (level) {Level Check};
+    \node [block,right=of level] (pole) {North Pole Detect};
+    \node [block,right=of pole] (gen) {Orbit tracking};
+    \node [block,below=of gen] (time) {Timing Source};
+    \node [block,above=of gen] (upload) {Timing Parameter Upload};
+    \node [block,right=of gen] (lookup) {Bias Window Lookup};
+    \node [point,right=of lookup] (out) {};
 
     %draw lines
     \path [conn] (field) -- (mag);
@@ -236,14 +224,14 @@ The rotation rate is calculated using the magnetic field measurements. \Cref{eq:
 
 \begin{figure}[H]
     \centering
-    \begin{tikzpicture}[node distance = 3cm, auto]
+    \begin{tikzpicture}[node distance = 0.5cm, auto]
     % Place nodes
         \node [block] (pstate) {Project State};
-        \node [block,below of=pstate] (pcov) {Project Error Covariance Ahead};
-        \node [block,right of=pcov] (gain) {Compute Kalman Gain};
-        \node [block,right of=gain] (ustate) {Update state Estimate};
-        \node [input,right of=ustate,text width = 3cm,node distance=3.5cm] (meas) {Measurement Input};
-        \node [block,above of=ustate] (ucov) {Update Error Covariance};
+        \node [block,below=of pstate] (pcov) {Project Error Covariance Ahead};
+        \node [block,right=of pcov] (gain) {Compute Kalman Gain};
+        \node [block,right=of gain] (ustate) {Update state Estimate};
+        \node [input,right=of ustate,text width = 3cm] (meas) {Measurement Input};
+        \node [block,right=of pstate] (ucov) {Update Error Covariance};
 
 
     %draw lines
@@ -252,7 +240,7 @@ The rotation rate is calculated using the magnetic field measurements. \Cref{eq:
     \path [conn] (pcov) -- (gain);
     \path [conn] (gain) -- (ustate);
     \path [conn] (meas) -- (ustate);
-    \path [conn] (ustate) -- (ucov);
+    \path [conn] (ustate) |- (ucov);
     \path [conn] (ucov) -- (pstate);
 
 

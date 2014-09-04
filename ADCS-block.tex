@@ -15,11 +15,11 @@
     \end{pgfonlayer}
 
     \begin{scope}[start chain]
-        \node[perif,right of=arcbus,node distance=2cm]    (SPI_IIC)  {\rotatebox{90}{\acs{SPI} + \acs{I2C}}};
+        \node[perif,node distance=1.5cm,right=of arcbus]    (SPI_IIC)  {\rotatebox{90}{\acs{SPI} + \acs{I2C}}};
         \node[prog]    (command) at ([yshift=15mm,xshift=3mm]SPI_IIC) {command and control};
 
         \begin{scope}[start branch=storage going below]
-            \node[point,on chain,node distance=15mm] (nexus) {};
+            \node[point,node distance=15mm,on chain] (nexus) {};
             \node[prog,text width=7em,node distance=5mm,on chain=going right]       (housek)   {Housekeeping};
             \node[perif,node distance=2mm]    (SPI)      {\acs{SPI}};
             \node[hardware]    (SD)       {\acs{SD}};
@@ -39,7 +39,7 @@
     \end{scope}
 
     \begin{scope}[start chain=LEDL going below]
-        \node[hardware,left of=arcbus,node distance =3.5cm]  (LEDL)  {\acs{LEDL} \textmu{}C};
+        \node[hardware,node distance =2cm,left=of arcbus]  (LEDL)  {\acs{LEDL} \textmu{}C};
         \begin{scope}[start branch=gyro going above]
             \node[hardware,node distance=5mm]   (gyro) {Gyros};
         \end{scope}
@@ -75,7 +75,7 @@
                 \node[hardware,text width=6em,minimum height=1em] {Hardware};
             \end{scope}
             \begin{scope}[start chain=going below,node distance=0cm,text width=6em]
-                \node[on chain,left of=cleg,node distance=3cm] {};
+                \node[on chain,left=of cleg] {};
 
                 \node[on chain,rectangle] (pl) {Power Line};
                 \path[powerL] (pl.west) ++(-5mm,0) -- ++(-1cm,0);

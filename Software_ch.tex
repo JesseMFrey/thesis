@@ -13,16 +13,16 @@ In order to determine which torquer to flip the \ac{ACDS} needs sensor inputs. T
     \centering
     %separator for parallel lines
     \def\linesep{6}
-    \begin{tikzpicture}[node distance = 3cm, auto]
+    \begin{tikzpicture}[node distance = 1cm, auto]
         % Place nodes
         \node [block,minimum height=8cm]            (AB) {\acs{ARC}bus interface};
 
-        \node [block,left of=AB,node distance=6cm]  (LEDL) {\acs{LEDL}};
-        \node [block,left of=AB,yshift=-3cm]        (CDH) {\acs{CDH}};
-        \node [block,left of=CDH]                   (COM) {\acs{COMM}};
+        \node [block,node distance=4cm,left=of AB]  (LEDL) {\acs{LEDL}};
+        \node [block,left=of AB,yshift=-3cm]        (CDH) {\acs{CDH}};
+        \node [block,left=of CDH]                   (COM) {\acs{COMM}};
 
-        \node [bigblock,right of=AB,node distance=7cm,minimum height=5cm,yshift=1.5cm] (core) {\acs{ACDS} software};
-        \node [bigblock,below of=core,node distance=4.5cm,minimum height=2cm] (HC) {House Keeping};
+        \node [bigblock,node distance=4cm,right=of AB,minimum height=5cm,yshift=1.5cm] (core) {\acs{ACDS} software};
+        \node [bigblock,node distance=1cm,below=of core,minimum height=2cm] (HC) {House Keeping};
 
 
         \path [flow] (AB.58) -- node  {Sensor Data} (core.170);
@@ -83,17 +83,16 @@ The \ac{ACDS} must respond to incoming commands that change its operation mode o
 
 \begin{figure}[H]
     \centering
-    \begin{tikzpicture}[node distance = 2.6cm, auto]
+    \begin{tikzpicture}[node distance = 0.5cm, auto]
     % Place nodes
     \node [block] (field) {Magnetic Field Measurements};
-    \node [block,right of=field] (cal) {Torquer offset correction};
-    \node [block, right of=cal] (alg) { $C {\dot{\vect{B}}}$ };
-    \node [block, right of=alg] (q) {Torque Quantization};
-    \node [block, right of=q] (choose) {Choose Torquers to fire};
-    \node [point, right of=choose] (fb) {};
-    \node [block, right of=fb,node distance=1.5cm] (fire) {Fire Torquers};
-    \node [block, below of=choose] (mem) {Torquer Status Tracking};
-    \node [block, below of=fire] (sens) {Torquer feedback};
+    \node [block,right=of field] (cal) {Torquer offset correction};
+    \node [block, right=of cal] (alg) { $C {\dot{\vect{B}}}$ };
+    \node [block, right=of alg] (q) {Torque Quantization};
+    \node [block, right=of q] (choose) {Choose Torquers to fire};
+    \node [block,node distance=0.7cm, right=of choose] (fire) {Fire Torquers};
+    \node [block, below=of choose] (mem) {Torquer Status Tracking};
+    \node [block,node distance=0.7cm, right=of mem] (sens) {Torquer feedback};
 
     %draw lines
     \path [conn] (field) -- (cal);
@@ -102,7 +101,7 @@ The \ac{ACDS} must respond to incoming commands that change its operation mode o
     \path [conn] (q) -- (choose);
     \path [conn] (choose) -- (fire);
 
-    \path [conn] (fb) |- (mem.10);
+    \path [conn] (choose.east) ++(0.3cm,0) |- (mem.10);
     \path [phconn] (fire) -- (sens);
 
     \path [conn] (sens.190) -- (mem.350);
