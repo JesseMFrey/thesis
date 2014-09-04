@@ -14,7 +14,7 @@ The \acf{CDS}\cite{CDS} is a small satellite standard that many universities, pr
 
 In recent years, the number of CubeSat launches has grown significantly. CubeSats are launched by universities as well as government institutions like NASA and the Air Force \todo{find references} and private companies. CubeSats were originally envisioned as an educational tool that would have the approximate capabilities of Sputnik\todo{Saw this at a CubeSat conference, find a suitable reference.}. While CubeSats may have been conceived as primarily an educational tool, \todo{find reference(s)} CubeSats have been the subject of NSF grants \cite{NSFcube}.
 
-\section{CubeSat \acs{ACDS}}
+\section{CubeSat \acs*{ACDS}}
 
 Because CubeSats are small, they have limited surface area for power generation. Many CubeSats do not use deployable solar panels because of their complexity, volume and weight. The result is that CubeSats have to run on a limited power budget. Many CubeSat science missions require at the very least a stable attitude or a nadir pointing attitude. On larger satellites, reaction wheels and thrusters are often used for attitude control. For many CubeSats, the added mass, power and volume of reaction wheels and thrusters is not a viable option.
 
@@ -28,15 +28,15 @@ In a passive system, a permanent magnet on the spacecraft forces an axis to alig
 
 Active magnetic control allows for different attitude options such as nadir pointing. Many CubeSats use air core magnetic torquers built into the solar panel \ac{PCB} such as in \cite{6511478,ClydePannel}. The coils are made of spiral shaped traces in one or more layers of the \ac{PCB}. To increase efficiency some CubeSats use wire wound torquers with a magnetic core. In both cases, however, torque is generated only when current is flowing through the coil. 
 
-\subsection{\acl{LPMT} Control}
+\subsection{\acl*{LPMT} Control}
 
 The system described in this thesis falls somewhere in between passive and active systems. The \acp{LPMT} used in the design allows more control of the attitude than a passive system, yet uses less power than current active systems\todo{Find some good numbers here}. The \ac{LPMT} is a good fit for CubeSats because of its power savings.
 
-\section{\acl{ARC}}
+\section{\acl*{ARC}}
 
-\ac{ARC} is a CubeSat built by the \ac{UAF} \ac{SSEP} and funded by \ac{ASGP}. The main purpose of \ac{ARC} is to give students a chance to work on real space flight hardware. The \ac{ARC} has two mission objectives which pertain to the \ac{ACDS} system. The first is to \enquote{Validate a novel low power \ac{ACDS}.}\cite{ARCweb} This will be accomplished by implementing a low power \ac{ACDS} and collecting data on its performance. The second is to \enquote{Validate a high bandwidth communication system by obtaining images of changing snow/ice coverage in arctic regions.}\cite{ARCweb} This will be accomplished by putting the satellite in a nadir facing attitude so the camera takes pictures of the Earth and the communication antenna talks to the ground.
+\ac{ARC} is a CubeSat built by the UAF \ac{SSEP} and funded by \ac{ASGP}. The main purpose of \ac{ARC} is to give students a chance to work on real space flight hardware. The \ac{ARC} has two mission objectives which pertain to the \ac{ACDS} system. The first is to \enquote{Validate a novel low power \ac{ACDS}.}\cite{ARCweb} This will be accomplished by implementing a low power \ac{ACDS} and collecting data on its performance. The second is to \enquote{Validate a high bandwidth communication system by obtaining images of changing snow/ice coverage in arctic regions.}\cite{ARCweb} This will be accomplished by putting the satellite in a nadir facing attitude so the camera takes pictures of the Earth and the communication antenna talks to the ground.
 
-\section{\acl{ACDS}}
+\section{\acl*{ACDS}}
 
 The basic \ac{ACDS} algorithm and torquer specifications have been designed by Dr. Donald Mentch for his doctoral thesis\cite{Mentch11}. The remaining work for this thesis is the design, implementation and testing of the hardware and software to realize the \ac{ACDS} on the \ac{ARC}. In addition some parts of the system have been changed from the way the system was originally proposed due to practical considerations.
 

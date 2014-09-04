@@ -1,7 +1,7 @@
 % vim: filetype=tex spell 
 
 %CubeSat Chapter 
-\chapter{Hardware Implementation of the \acf{ACDS}}\label{ch:CubeSatHardware}
+\chapter{Hardware Implementation of the \acf*{ACDS}}\label{ch:CubeSatHardware}
 
 As stated in \cref{ch:BG} the system design from \cite{Mentch11} has been modified for the implementation in this thesis. The only hardware change from \cite{Mentch11} is to use four alnico1 torquers in each axis instead of two alnico1 and two vernier torquers as proposed. This does not effect the electrical hardware as both torquer types are the same size and are flipped by the same circuit.
 
@@ -9,7 +9,7 @@ The \ac{ACDS} board for the \ac{ARC} only contains the processor, torquers and d
 
 %Both the  \ac{LPMT} and the biasing algorithm have never been flight tested. To test the \ac{LPMT} and bias algorithm the \ac{ARC} will fly an \ac{ACDS} that uses \acp{LPMT}. The central \ac{ACDS} processor and the hardware required to flip the torquers are located on the \ac{ACDS} board while the sensors are located on the \acp{SPB}.
 
-\section{Mechanical Configuration of the \acf{ARC}}
+\section{Mechanical Configuration of the \acf*{ARC}}
 
 \Cref{fig:arcMech} shows the mechanical design of the \ac{ARC}. The design has a central board stack with solar panels and rails attached to rings that are on the top and bottom of the board stack. The boards in the stack are connected by a 104-pin stack through header that is located on the -Y edge of each board. The header distributes power and allows for communication between boards. 
 
@@ -61,7 +61,7 @@ The \ac{ACDS} board for the \ac{ARC} only contains the processor, torquers and d
             \path[->,red,very thick] (IMGi) edge (IMG);
             %draw axis
     \end{tikzpicture}
-    \caption{The \acs{ARC} mechanical setup}
+    \caption{The \acs*{ARC} mechanical setup}
     \label{fig:arcMech}
 \end{figure}
 
@@ -136,7 +136,7 @@ The core board stack contains the major subsystems for the \ac{ARC}. Some of the
 
 The \ac{EPS} is designed and manufactured by Clyde Space as a generic CubeSat \ac{EPS}. The \ac{EPS} is compatible with CubeSat Kit\cite{CSK} hardware which is one of the main standards for off-the-shelf CubeSat hardware. Because of this the rest of the \ac{ARC} subsystems must be compatible with the CubeSat Kit hardware. All boards have the same header and mounting hole locations and similar outlines so that they all fit together in the CubeSat.
 
-\subsection{\acl{ARC} \acl{ACDS} Hardware}
+\subsection{\acl*{ARC} \acl*{ACDS} Hardware}
 
 The \ac{ACDS} board has the same overall outline and hole pattern as the rest of the \ac{ARC} subsystems, but it has 4 notches cut out to accommodate the Z-axis torquers and torquer standoffs. Additionally, there is a bump-out for the \ac{USB} connector so that it can be closer to the access port to allow a \ac{USB} cable to be easily plugged in.
 
@@ -223,13 +223,13 @@ The standard board shape has also been modified to allow the \ac{USB} connector 
 
 The subsystems of the \ac{ARC} will communicate with each other using the ARCBus. The ARCBus consists of shared connections between the subsystems to transmit commands and data. The ARCBus will primarily used by the \ac{ACDS} to get sensor data from the \ac{LEDL} and send and receive data to the ground station through the COMM system. Commands are transmited using an \ac{I2C} bus and large blocks of data are transfered using a \ac{SPI} bus which is negotiated using the \ac{I2C} bus.
 
-\section{Components of the \acl{ACDS}}
+\section{Components of the \acl*{ACDS}}
 
 \afterpage{\begin{landscape}
 \begin{figure}[p]
     \centering
     \input{ADCS-block}
-    \caption{Block Diagram of the CubeSat \acs{ACDS} system}
+    \caption{Block Diagram of the CubeSat \acs*{ACDS} system}
     \label{fig:ACDS-block2}
 \end{figure}
 \end{landscape}}
@@ -503,12 +503,12 @@ The \ac{SPB} also contains an amplifier to amplify the magnetometer signal befor
 
 \Cref{eq:amp-gain-calc} shows the gain calculations for the magnetometer amplifier to measure a \textpm 4~Gauss field. The bridge and \ac{ADC} reference voltages are 3.3~V. This gives an input voltage range for the \ac{ADC} of \textpm 1.65~V.
 
-\subsubsection{Magnetometer \acl{ADC}}
+\subsubsection{Magnetometer \acl*{ADC}}
 
 Each magnetometer has its own \ac{ADC} on each \ac{SPB}. The \ac{ADC} used is the LTC2487. The LTC2487 is a 16-bit delta sigma \ac{ADC} that has two differential analog input channels and an \ac{I2C} interface. For a bridge voltage of 3.3~V, the HMC1052 has a sensitivity 3.3~mV/Gauss. If the amplifier gain is 95 this results in a sensitivity of 0.31~V/Gauss. For a 3.3~V reference voltage the \ac{ADC} has a resolution of $25~\unit{\mu V}$ this results in a resolution of $81~\unit{\mu Gauss}$ / LSB.
 
 \subsubsection{Magnetometer Operation}
-%\subsection{\acs{AMR} Background}
+%\subsection{\acs*{AMR} Background}
 
 The HMC1052 sensors used on the \ac{ACDS} are \ac{AMR} sensors. They work by having a bridge with 4 elements that all change resistance with the applied magnetic field. The \ac{AMR} sensors are primarily sensitive to magnetic fields in their sensitive direction, ($H_s$), but they are also slightly sensitive to magnetic fields in an axis normal to the sensitive direction, ($H_C$), called the cross axis. The sensor is only sensitive to magnetic fields that are in the film plane of the \ac{AMR} sensor. For the 2-axis HMC1052 this means that both sensors show some sensitivity to fields in both the X and Y axes as shown in \cref{fig:magAxisCross}. The cross axis effect varies from sensor to sensor \todo[disable]{Test this} so calibration values must be calculated for each sensor \cite{AN215}.
 
@@ -599,7 +599,7 @@ The method of least squares is used to solve \cref{eq:magmat} for the coefficien
 
 The least squared solution minimizes the error across all data points. This results in calibration values that minimize error across the range of calibration points that were taken. This means that the points used to do the calibration should span the range of values that the magnetometer is expected to measure. 
 
-\subsection{\acs{MEMS} Gyros}
+\subsection{\acs*{MEMS} Gyros}
 
 For flight, a LPY410AL \ac{MEMS} gyro will also be used to sense rotation rates. \ac{MEMS} gyros have limited resolution compared to what can be achieved with the magnetometer. The LPY410AL has a maximum range of \textpm 400\textdegree /sec. The LPY410AL has a zero-rate sensitivity drift of 0.03~dps/\textdegree C. The desired rotation rate of the satellite is about 500~\textmu dps. This means that for a 1\textdegree C temperature change the rotation rate could change by 58 times the desired rotation rate. The LPY410AL also has a rate noise density of 0.014~$\unit{dps}{/}\sqrt{\unit{Hz}}$ so even at a slow sample rate of 1~Hz, the noise is 27,000 times larger than the desired rotation rate.
 
@@ -618,7 +618,7 @@ The processor used for the \ac{ACDS} and all systems on \ac{ARC} is the Texas In
 
 For flight data storage a SD card is used. This is necessary because of the needed space and write times. The internal flash is limited and also needs to be used for program storage making it undesirable for data storage. Furthermore, the internal flash can't be read while it is being written. Write times for the internal flash are fairly slow and require that the processor disable interrupts, making normal operation difficult. The flash shares the same address space as the \ac{RAM} and has the same access time. This makes the internal flash an attractive place to put settings and calibration data that are written few times but accessed often as any data on the SD card must be copied into \ac{RAM} before being used.
 
-\subsection{\acs{ARC} Bus Communication}
+\subsection{\acs*{ARC} Bus Communication}
 
 The sensor data is read by the \ac{LEDL} board and sent over the bus to the \ac{ACDS} board. The \ac{ACDS} board initiates the connection by sending a command to tell how often measurements should be sent. The \ac{LEDL} then takes sensor data and sends it at the requested interval.
 
@@ -643,7 +643,7 @@ The sensor data is read by the \ac{LEDL} board and sent over the bus to the \ac{
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{board-drawing}
-    \caption{3D view of the CubeSat \acs{ACDS} system}
+    \caption{3D view of the CubeSat \acs*{ACDS} system}
     \label{fig:3dview}
 \end{figure}
 
@@ -653,7 +653,7 @@ The sensor data is read by the \ac{LEDL} board and sent over the bus to the \ac{
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{board-drawing-with-standoffs}
-    \caption{3D view of the CubeSat \acs{ACDS} system with Z-axis torquers}
+    \caption{3D view of the CubeSat \acs*{ACDS} system with Z-axis torquers}
 \end{figure}
 \end{comment}
 
@@ -664,7 +664,7 @@ The \ac{ACDS} board is a four layer board with the inner layers as power and gro
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{board-design}
-    \caption{Board Layout for the CubeSat \acs{ACDS} system}
+    \caption{Board Layout for the CubeSat \acs*{ACDS} system}
     \label{fig:layout}
 \end{figure}
 
