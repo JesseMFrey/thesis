@@ -496,44 +496,6 @@ The proposed rate determination algorithm also falls short because it does not e
 To solve both of these problems a Kalman filter is used to estimate both the attitude and the rotation rates using the magnetic field data. The Kalman filter estimates the rates by using the assumed satellite dynamics along with a magnetic field model. The Kalman filter uses the knowledge of the system dynamics to smooth the rate estimates and reduce noise. 
 
 
-
-\begin{equation}
-    F_k = 
-        \begin{bmatrix}
-              0                &   \hat {\omega} _3 & - \hat {\omega} _2  & \frac{1}{2} & 0           & 0           \\
-            - \hat {\omega} _3 &   0                &   \hat {\omega} _1  & 0           & \frac{1}{2} & 0           \\
-              \hat {\omega} _2 & - \hat {\omega} _1 &   0                 & 0           & 0           & \frac{1}{2} \\
-            0 & 0 & 0 & 0                  & K_1 \hat{\omega}_3 & K_1 \hat{\omega}_2 \\
-            0 & 0 & 0 & K_2 \hat{\omega}_3 & 0                  & K_2 \hat{\omega}_1 \\
-            0 & 0 & 0 & K_3 \hat{\omega}_2 & K_3 \hat{\omega}_1 & 0                  \\
-        \end{bmatrix}
-\end{equation}
-
-\begin{equation}
-    \Phi \left( t \right) = \matt{I} + \matt{F} t = 
-        \begin{bmatrix}
-              1                  &   \hat {\omega} _3 t & - \hat {\omega} _2 t  & \frac{1}{2} t & 0             & 0             \\
-            - \hat {\omega} _3 t &   1                  &   \hat {\omega} _1 t  & 0             & \frac{1}{2} t & 0             \\
-              \hat {\omega} _2 t & - \hat {\omega} _1 t &   1                   & 0             & 0             & \frac{1}{2} t \\
-            0 & 0 & 0 & 1                    & K_1 \hat{\omega}_3 t & K_1 \hat{\omega}_2 t \\
-            0 & 0 & 0 & K_2 \hat{\omega}_3 t & 1                    & K_2 \hat{\omega}_1 t \\
-            0 & 0 & 0 & K_3 \hat{\omega}_2 t & K_3 \hat{\omega}_1 t & 1                    \\
-        \end{bmatrix}
-\end{equation}
-
-\begin{equation}
-    \matt{Q} = Q \matt{I}
-\end{equation}
-
-\begin{equation}
-    \matt{Q}_k = \int _0 ^ {T_s} \matt{\Phi} \left( \tau \right) \matt{Q} \matt{\Phi} \transpose \left( \tau \right) d\tau = Q \int _0 ^ {T_s} \matt{\Phi} \left( \tau \right) \matt{\Phi} \transpose \left( \tau \right) d\tau
-\end{equation}
-
-
-\begin{equation}
-    \matt{Q}_k = Q \int _0 ^ {T_s} \matt{\Phi} \left( \tau \right) \matt{\Phi} \transpose \left( \tau \right) d\tau
-\end{equation}
-
 \subsection{Operations Mode}
 
 Once alignment is complete the \ac{ACDS} transitions into operations mode. In operations mode the \ac{ACDS} maintains alignment with the desired attitude.
