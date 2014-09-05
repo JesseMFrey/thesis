@@ -69,6 +69,8 @@ The torquer compensation data, explained in \cref{sec:tst-tq-comp}, is used to s
 
 \subsection{Torquer Repeatability}
 
+\future{Re-do plots with full set of \acp{SPB} and make clear which boards the data is for.}
+
 The torquer compensation method depends on the torquer offsets being repeatable. If the offsets are not nearly repeatable then the offsets will induce errors in the measured field. \Cref{fig:tqoff1,fig:tqoff2} each show a plot of the torquer offsets. The plot shows the offsets of the torquers when they are polarized in each direction. Each plot shows a diffrent magnetometer axis. The offset values are normalized to show deviation from the median for better comparison. The maximum offset variation in \cref{fig:tqoff1,fig:tqoff2} is 20 mGauss.
 
 The plot in \cref{fig:tqoff1,fig:tqoff2} were generated using the \lstinline[style=code,language=Matlab]$alltorquetest$ function. To create the plot each torquer was flipped 20 times in each direction. After each flip a magnetometer calibration was done to get the offset values. The variation in the offset is then plotted as a box plot.
