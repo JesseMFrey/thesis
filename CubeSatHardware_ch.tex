@@ -213,11 +213,9 @@ The \ac{ACDS} board has the same overall outline and hole pattern as the rest of
     \label{fig:boardRender}
 \end{figure}
 
-In addition to the \ac{ACDS} hardware, the \ac{ACDS} board also contains the pull pin and \ac{USB} connection port. This is located on the \ac{ACDS} board because it is the only board that is accessible through the \ac{SPB}. The pull pin and \ac{USB} connection connect directly to the header and are not connected to the core \ac{ACDS} hardware. 
+In addition to the \ac{ACDS} hardware, the \ac{ACDS} board also is the connection point for the pull pin, separation switch, and \ac{USB} connection port. These are located on the \ac{ACDS} board because it is the only board that is accessible through the \ac{SPB}. The pull pin, separation switch, and \ac{USB} connection connect directly to the header and are not connected to the core \ac{ACDS} hardware. The \ac{USB} port is used for charging and satellite diagnostics during testing and on the ground. The Pull pin, when inserted, keeps the satellite powered off until it is inserted into the \ac{PPOD} when the separation switch keeps the satellite powered off until orbital insertion.
 
 The Z-axis torquers are housed inside the standoffs which are located on the four corners of the board. The \ac{ACDS} board shape has been modified from the standard board shape to accommodate the torquers and standoffs. This is visible in \cref{fig:boardRender}. The notches are designed to fit the z-axis torquer standoffs and keep them aligned in the proper orientation. The torquers fit into a hole drilled into the standoffs and are held in place with epoxy. 
-
-The standard board shape has also been modified to allow the \ac{USB} connector to be placed closer to the access port so that the \ac{USB} cable can be easily plugged in. This is also visible in \cref{fig:boardRender}.
 
 \subsection{Bus Communication}
 
@@ -230,7 +228,7 @@ The subsystems of the \ac{ARC} will communicate with each other using the ARCBus
     \centering
     \input{ADCS-block}
     \caption{Block Diagram of the CubeSat \acs*{ACDS} system}
-    \label{fig:ACDS-block2}
+    \label{fig:ACDS-block}
 \end{figure}
 \end{landscape}}
 
@@ -379,7 +377,9 @@ Determining the dipole moment is not an easy task as the dipole moments are quit
 
 The coils used to drive the torquers are made from 248 turns of 26~AWG wire in four layers. The current spike to flip the torquer peaks around 7~A which is significantly higher than 26~AWG can handle with continuous current. However, because the pulse duration is short it is not a problem.
 
-A 1~inch long solenoid with 7~A through 248 turns of wire has a coercive force of 68~kA/m. This is significantly higher than the coercive force of alnico1 which is 37~kA/m\cite{AlnicoProp}. This shows that the solenoids on the \ac{ARC} are more than capable of flipping a torquer.
+%NOTE: H= N/l * I
+
+A 1~inch long solenoid with 11~A through 248 turns of wire has a coercive force of 107~kA/m. This is significantly higher than the coercive force of alnico1 which is 37~kA/m\cite{AlnicoProp}. This shows that the solenoids on the \ac{ARC} are more than capable of flipping a torquer.
 
 \subsection{Drivers}
 
@@ -487,7 +487,7 @@ The \ac{SPB} also contains an amplifier to amplify the magnetometer signal befor
     A = \frac{V_{adc}}{B_{max} \cdot V_{bridge} \cdot S_s + V_{os} \cdot V_{bridge}}
 \end{equation}
 
-\Cref{eq:amp-gain} shows the equation used to calculate the amplifier gain. The maximum voltage readable by the \ac{ADC}, $V_{adc}$, is divided by the maximum expected output from the magnetometer. The maximum output from the magnetometer is found by adding the output due to the desired full scale field and the maximum possible bridge offset.
+\Cref{eq:amp-gain} shows the equation used to calculate the desired amplifier gain. The maximum voltage readable by the \ac{ADC}, $V_{adc}$, is divided by the maximum expected output from the magnetometer. The maximum output from the magnetometer is found by adding the output due to the desired full scale field and the maximum possible bridge offset.
 
 %The gain for the amplifier can be calculated as follows: If the maximum output range of the sensor is restricted to \textpm 4 Gauss. With a bridge voltage of 3.3 V and a sensitivity of 1~mV/V/Gauss, this results in a \textpm 13.2~mV voltage swing. The bridge offset is \textpm 1.25~mV/V or \textpm 4.125~mV. This results in a total possible swing of \textpm 17.325~mV. The input voltage range of the \ac{ADC} is \textpm 1.65~V. This results in a gain of about 95. 
 
@@ -568,7 +568,7 @@ In this case $V_s'$ and $V_c'$ are the \ac{ADC} values for the cross and sensiti
 \label{sec:magcal}
 
 To calibrate the magnetometer, the coefficients in \cref{eq:magcal} must be calculated. The magnetometer is first placed inside the Helmholtz Cage. The field is set under \matlab control so the entire calibration process can run automatically. The calibration program sweeps the field inside the Helmholtz Cage through a predefined sequence and reads the sensor output at each point. 
-http://feeds.thisamericanlife.org/~r/talpodcast/~5/7S0vlAUUcfQ/532.mp3
+
 The method of least squares is used to solve \cref{eq:magmat} for the coefficients in \cref{eq:magcal}. Each line in the $\matt{A}$ matrix represents a separate magnetic field measurement. $H_n$ is the $n^{\text{\tiny th}}$ value set by the Helmholtz cage in the sensitive axis. 
 
 \begin{equation}
