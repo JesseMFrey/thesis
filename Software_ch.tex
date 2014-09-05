@@ -178,32 +178,32 @@ During \ac{ACDS} operations data is collected during flight. This data is stored
     \label{tab:logdat}
     \begin{tabular}{|l|c|c|}
         \hline
-        Data&size (bits)&Format\\
-        \hline
-        mode&2&unsigned integer\\
+        Data&size (bytes)&Format\\
         \hline
         Time Stamp&32&unsigned integer\\
         \hline
+        mode&1&unsigned integer\\
+        \hline
+        torquer feedback&1&flags\\
+        \hline
+        Magnetic Flux Vector&12&Floating point vector\\
+        \hline
+        $M_{cmd}$&12&Floating point vector\\
+        \hline
         torquer status&48&flags\\
         \hline
-        magnetometer readings&48&unsigned integer (one per axis)\\
+        raw magnetometer readings&24&unsigned integer (one per axis)\\
         \hline
-        gyro readings&36&unsigned integers (one per axis)\\
+        gyro readings&6&unsigned integers (one per axis)\\
         \hline
-        algorithm intermediate results&TBD&\\
+        %$\dot{\vec{B}}$&12&Floating point vector\\
+        B-dot&12&Floating point vector\\
         \hline
-        torquers flipped&48&unsigned integer (one per axis)\\
+        torquers flipped&6&unsigned integer (one per axis)\\
         \hline
-        torquer feedback&12&flags\\
-        \hline
-        Kalman filter status&TBD&\\
-        \hline
-        Kalman filter internal variables&TBD&\\
-        \hline
-        \multicolumn{1}{|r|}{\bfseries Total :}&TBD&\\
+        \multicolumn{1}{|r|}{\bfseries Total :}&154&\\
         \hline
     \end{tabular}
-    \todo[inline]{Resolve DBD's}
 \end{table}
 
 \subsection{On Board data processing}
