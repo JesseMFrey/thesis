@@ -79,7 +79,7 @@ The \ac{ACDS} must respond to incoming commands that change its operation mode o
 
 \section{Algorithm Software}
 
-\Cref{fig:swblock} shows the overall software block diagram for the \ac{ACDS} system. Field measurements from the magnetometer are calibrated using the current torquer state and a table of field measurements at different torquer states. The calibrated readings are used to calculate rotation rate and latitude which a long with the field readings are used to calculate the torque that should be applied to the satellite. The torque is then quantized based on \cref{fig:lpmtq}. The torquers to flip are chosen based current knowledge of torquer stated as well as the desired torque.
+\Cref{fig:swblock} shows the software block diagram for the \ac{ACDS} algorithm. Field measurements from the magnetometer are calibrated using the current torquer state and the compensation data. The B-dot algorithm uses the compensated data to calculate the dipole moments that should be generated. The dipole moments are then quantized based on \cref{fig:lpmtq-flt}. The torquers to flip are chosen based current knowledge of torquer stated as well as the desired torque. The torquer feedback checks to make sure that the torquer flip happened. The torquer status is tracked by reading the torquer feedback and by knowing which torquers were flipped.
 
 \begin{figure}[H]
     \centering
