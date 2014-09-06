@@ -31,11 +31,8 @@
     \draw[<->] (-\axisLen,0) -- (\axisLen,0);
     \draw[<->] (0,-\axisLen) -- (0,\axisLen);
 
-    {
-        \tikzset{>=triangle 45} %make a bigger arrow
-        \draw[->] (25:\winR+0.5cm) arc (25:45:\winR+0.5cm);
-        \draw[winLbl]   (35:\winR+0.5cm) node[anchor=south west] {\small Orbit Direction};
-    }
+    \draw[-{Triangle[width=6pt,length=6pt]}] (25:\winR+0.5cm) arc (25:45:\winR+0.5cm);
+    \draw[winLbl]   (35:\winR+0.5cm) node[anchor=south west] {\small Orbit Direction};
 
 
     %draw bias windows
