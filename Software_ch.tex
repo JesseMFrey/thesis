@@ -184,7 +184,9 @@ During \ac{ACDS} operations data is collected during flight. This data is stored
         \hline
         mode&1&unsigned integer\\
         \hline
-        torquer feedback&1&flags\\
+        flags&1&flags\\
+        \hline
+        torquer feedback&2&flags\\
         \hline
         Magnetic Flux Vector&12&Floating point vector\\
         \hline
@@ -192,14 +194,14 @@ During \ac{ACDS} operations data is collected during flight. This data is stored
         \hline
         torquer status&48&flags\\
         \hline
+        torquers flipped&6&unsigned integer (one per axis)\\
+        \hline
         raw magnetometer readings&24&unsigned integer (one per axis)\\
         \hline
         gyro readings&6&unsigned integers (one per axis)\\
         \hline
         %$\dot{\vec{B}}$&12&Floating point vector\\
         B-dot&12&Floating point vector\\
-        \hline
-        torquers flipped&6&unsigned integer (one per axis)\\
         \hline
         \multicolumn{1}{|r|}{\bfseries Total :}&154&\\
         \hline
