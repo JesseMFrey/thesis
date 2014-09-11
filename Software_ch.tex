@@ -64,19 +64,6 @@ If the gyros detect that the satellite is rotating too fast then they will autom
 \section{Incoming Commands\textbackslash Info}
 
 The \ac{ACDS} must respond to incoming commands that change its operation mode or uplink data. Because the \ac{ACDS} is an experimental system, it may run into unexpected problems. By uplinking commands some of the possible problems can be fixed in flight. 
-
-\begin{comment}
-\begin{itemize}
-    \item Ground Station Commands
-        \begin{itemize}
-            \item Uplink Orbit Data
-            \item Stop \ac{ACDS}
-            \item Force Mode
-        \end{itemize}
-    \item Sensor Data
-\end{itemize}
-\end{comment}
-
 \section{Algorithm Software}
 
 \Cref{fig:swblock} shows the software block diagram for the \ac{ACDS} algorithm. Field measurements from the magnetometer are calibrated using the current torquer state and the compensation data. The B-dot algorithm uses the compensated data to calculate the dipole moments that should be generated. The dipole moments are then quantized based on \cref{fig:lpmtq-flt}. The torquers to flip are chosen based current knowledge of torquer stated as well as the desired torque. The torquer feedback checks to make sure that the torquer flip happened. The torquer status is tracked by reading the torquer feedback and by knowing which torquers were flipped.
@@ -156,21 +143,6 @@ To calculate the compensation values for the torquers the calibration procedure 
 \subsection{Data Logging}
 
 During \ac{ACDS} operations data is collected during flight. This data is stored in nonvolatile memory and can be recalled and transmitted to the ground in order to evaluate the \ac{ACDS} system performance. The data that is recorded is shown in \cref{tab:logdat}
-
-\begin{comment}
-\begin{itemize}
-    \item magnetometer and gyro readings
-    \item torquer status
-    \item mode
-    \item algorithm intermediate results
-    \item torquers flipped
-    \item torquer feedback
-    \item Kalman filter status
-    \item Kalman filter internal variables
-    \item Kalman filter state
-    \item \todo[inline]{More?}
-\end{itemize}
-\end{comment}
 
 \begin{table}[H]
     \centering
