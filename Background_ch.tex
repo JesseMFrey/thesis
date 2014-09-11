@@ -467,7 +467,7 @@ In \cite{Sturm05} a Kalman filter is used to calculate rotation rates from magne
 
 \subsection{B-dot control}
 
-Because of the lack of a Kalman filter for the flight implementation the algorithm in \cref{eq:crossl} can not be used. The B-dot algorithm uses the magnetic field time derivative, $\dot{\vec{B}}$, as its only input so full knowledge of spacecraft rotation rates is not necessary for detumble.
+The algorithm in \cref{eq:crossl} can not be used for flight because the rotation rates, $\vec{\omega}$, are not known. The B-dot algorithm uses the magnetic field time derivative, $\dot{\vec{B}}$, as its only input so full knowledge of spacecraft rotation rates is not necessary for detumble.
 
 \begin{equation}
     \vec{m}_{command}= C \dot{\vec{B}}
