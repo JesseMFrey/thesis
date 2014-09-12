@@ -50,36 +50,36 @@ In order to determine which torquer to flip the \ac{ACDS} needs sensor inputs. T
 
 \section{System Operations Overview}
 
-The \ac{ACDS} starts running after the separation switch is switched and the power system applies power to all systems. Before starting any operations the \ac{ACDS} waits for the on command from the \ac{CDH} board. After the \ac{ACDS} board receives the on command the \ac{ACDS} sends a command to the \ac{LEDL} board to tell it to start taking sensor data. Once sensor data is received the \ac{ACDS} starts to run the detumble algorithm.
+The \ac{ACDS} starts running after the separation switch is switched and the power system applies power to all systems. Before starting any operations the \ac{ACDS} waits for the \enquote{on} command from the \ac{CDH} board. After the \ac{ACDS} board receives the \enquote{on} command, the \ac{ACDS} sends a command to the \ac{LEDL} board to tell it to start taking sensor data. Once sensor data is received the \ac{ACDS} starts to run the detumble algorithm.
 
 
 \subsection{Ground Station Commands}
 
-The ground station can force the \ac{ACDS} into any mode and ether let it go with the normal flow or stay in a particular mode. This allows for recovery in case the system does not function as expected.
+The ground station can force the \ac{ACDS} into any mode and either let it go with the normal flow or stay in a particular mode. This allows for recovery in case the system does not function as expected.
 
 \subsection{Rotation Runaway}
 
-If the gyros detect that the satellite is rotating too fast then they will automatically send the \ac{ACDS} into a safe mode where the \ac{ACDS} does not run. It is possible that the \ac{ACDS} could get into a situation where the algorithm speeds up the rotation instead of slowing it down. In this situation the best thing to do is for the \ac{ACDS} to stop and wait for further intervention from the ground.
+If the gyros detect that the satellite is rotating too fast then they will automatically send the \ac{ACDS} into a safe mode where the \ac{ACDS} does not run. In this situation the best thing to do is for the \ac{ACDS} to stop and wait for further intervention from the ground.
 
 \section{Incoming Commands\textbackslash Info}
 
-The \ac{ACDS} must respond to incoming commands that change its operation mode or uplink data. Because the \ac{ACDS} is an experimental system, it may run into unexpected problems. By uplinking commands some of the possible problems can be fixed in flight. 
+The \ac{ACDS} must respond to incoming commands that change its operation mode or uplink data. Because the \ac{ACDS} is an experimental system, it may run into unexpected problems. By uplinking commands some of the possible problems might be able to be diagnosed and fixed after \ac{ARC} is in flight. 
 \section{Algorithm Software}
 
-\Cref{fig:swblock} shows the software block diagram for the \ac{ACDS} algorithm. Field measurements from the magnetometer are calibrated using the current torquer state and the compensation data. The B-dot algorithm uses the compensated data to calculate the dipole moments that should be generated. The dipole moments are then quantized based on \cref{fig:lpmtq-flt}. The torquers to flip are chosen based current knowledge of torquer stated as well as the desired torque. The torquer feedback checks to make sure that the torquer flip happened. The torquer status is tracked by reading the torquer feedback and by knowing which torquers were flipped.
+\Cref{fig:swblock} shows the software block diagram for the \ac{ACDS} algorithm. Field measurements from the magnetometer are calibrated using the current torquer state and the compensation data. The B-dot algorithm uses the compensated data to calculate the dipole moments that should be generated. The dipole moments are then quantized based on \cref{fig:lpmtq-flt}. The torquers to flip are chosen based on current knowledge of torquer status as well as the desired torque. The torquer feedback checks to make sure that the torquers and drivers are functioning correctly. The torquer status is tracked by reading the torquer feedback and by knowing which torquers were flipped.
 
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}[node distance = 0.5cm, auto]
     % Place nodes
     \node [block] (field) {Magnetic Field Measurements};
-    \node [block,right=of field] (cal) {Torquer offset correction};
+    \node [block,right=of field] (cal) {Torquer Offset Correction};
     \node [block, right=of cal] (alg) { $C {\dot{\vect{B}}}$ };
     \node [block, right=of alg] (q) {Torque Quantization};
-    \node [block, right=of q] (choose) {Choose Torquers to fire};
+    \node [block, right=of q] (choose) {Choose Torquers to Fire};
     \node [block,node distance=0.7cm, right=of choose] (fire) {Fire Torquers};
     \node [block, below=of choose] (mem) {Torquer Status Tracking};
-    \node [block,node distance=0.7cm, right=of mem] (sens) {Torquer feedback};
+    \node [block,node distance=0.7cm, right=of mem] (sens) {Torquer Feedback};
 
     %draw lines
     \path [conn] (field) -- (cal);
@@ -104,45 +104,45 @@ The \ac{ACDS} must respond to incoming commands that change its operation mode o
 
 \label{sec:bdot-desc}
 
-The B-dot algorithm is used to detumble the \ac{ARC}. The B-dot algorithm uses the time derivative of the magnetic field, $\dot{\vec{B}}$, to calculate the magnetic dipole moment that the torquers should generate. This is a method that is widely used on other CubeSats \todo{Find some B-dot reference(s)} that have magnetic \ac{ACDS}. In this mode the magnetic dipole moment is simply set to a value that is proportional to the derivative of the magnetic field. The gain for the B-dot controller needs to be negative in order to stop the motion of the magnetic field. This could be done by adding a negative sign to the torque expression but, in code, it is simpler to have a negative gain.
+The B-dot algorithm is used to detumble the \ac{ARC}. The B-dot algorithm uses the time derivative of the magnetic field, $\dot{\vec{B}}$, to calculate the magnetic dipole moment that the torquers should generate. This is a method that is widely used on other CubeSats \todo{Find some B-dot reference(s)} that have magnetic \ac{ACDS}. In this mode the magnetic dipole moment is simply set to a value that is proportional to the derivative of the magnetic field. The gain for the B-dot controller needs to be negative in order to stop the motion of the magnetic field.
 
 \section{Auxiliary Software Functions}
 
-In addition to the algorithm software the \ac{ACDS} also requires some auxiliary software to function. In order to generate the proper dipole moment the status of the torquers must be tracked in software so that the right torquer can be flipped. The torquer status also needs to be tracked so that the torquer offsets can be subtracted from the magnetometer measurements. 
+In addition to the algorithm software the \ac{ACDS} also requires some auxiliary software functions. In order to generate the proper dipole moment the status of the torquers must be tracked in software so that the correct torquer can be flipped. The torquer status also needs to be tracked so that the torquer offsets can be subtracted from the magnetometer measurements. 
 
 \subsection{Torquer Flipping Logic}
 
-The torquer flipping logic keeps track of the torquer status and sets the torquers to the dipole moment that is closest to the dipole moment requested by the control algorithm. The torquer flipping logic also attempts to distribute the flips somewhat evenly across the torquers in any given axis. This way if there are any degradation effects, in the torquer field or the hardware, they will be minimized. 
+The torquer flipping logic keeps track of the torquer status and sets the torquers to the dipole moment that is closest to the dipole moment requested by the control algorithm. The torquer flipping logic also attempts to distribute the flips somewhat evenly among the torquers in any given axis. This way if there are any degradation effects in the torquer field or the hardware, they will be minimized. 
 
 \subsubsection{Status Tracking}
 
 The status of each torquer is tracked by the flipping logic. This includes flags to indicate if each torquer has been flipped and has had errors being flipped. The last four torquers that were flipped are also tracked. This is used to chose which torquer to flip.
 
-When it is time to flip a torquer the software looks at the current torquer status to figure out which direction a torquer needs to be flipped in. Next the software looks for the torquer that can be flipped in that direction that was flipped the least recently and flips it. This way the torquer flips are distributed across the torquers in a given axis. If torquers are marked as uninitialized then they are flipped first before other torquers so that all torquers are in a known state as quickly as possible.
+When it is time to flip a torquer the software looks at the current torquer status and desired torque to figure out which direction a torquer needs to be flipped in. Next the software finds torquers that can be flipped in the needed direction. Finally, the torquer that was flipped the least recently is flipped. This way the torquer flips are distributed across the torquers in a given axis. If torquers are marked as uninitialized then they are flipped first before other torquers so that all torquers are in a known state as quickly as possible such as after a reset or on power-up.
 
-\subsubsection{torquer feedback}
+\subsubsection{Torquer Feedback}
 
-Before and after each torquer flip the torquer feedback comparators are read. After the torquer flip is complete the feedback values are examined to determine if the torquer flipped. If the capacitor voltage was below the upper threshold before the flip then an error is flagged in the torquer status indicating that there is a problem with the capacitor. If the capacitor voltage after a flip is not below the lower threshold then there is likely a bad connection to the torquer windings. Torquers that failed to flip are flagged and not flipped in the future. It is possible that the comparator could malfunction and indicate that it is both above the upper threshold and below the lower threshold in this case a flag is set to indicate the error and the torquer is assumed to have flipped as normal.
+Before and after each torquer flip the torquer feedback comparators are read. After the torquer flip is complete the feedback values are examined to determine if the torquer flipped. If the capacitor voltage was below the upper threshold before the flip then an error is flagged in the torquer status indicating that there is a problem with the capacitor. If the capacitor voltage after a flip is not below the lower threshold then there is likely a bad connection to the torquer windings. Torquers that failed to flip are flagged and not flipped in the future. It is possible that the comparator could be broken and indicate that it is both above the upper threshold and below the lower threshold. In this case a flag is set to indicate the error and the torquer is assumed to have flipped as normal.
 
 \subsection{Torquer Compensation}
 
-Because the geometry of the system should not change in flight, the field offset seen by each magnetometer depends on the combination of torquer states. By taking measurements in the Helmholtz cage these offsets can be calculated and eliminated during flight in order to measure Earth's magnetic field.
+Because the geometry of the system should not change in flight, the field offset seen by each magnetometer depends on the combination of torquer states. By taking measurements in the Helmholtz cage these offsets can be calculated and eliminated during flight in order to measure Earth's magnetic field. As described in \cref{sec:tqcomp}.
 
 \subsubsection{Compensation Data Set}
 
 \label{sec:comp-dat-set}
 
-There are a total of 12 \acp{LPMT} on the \ac{ACDS}. Each \ac{LPMT} has two states which results in a total of 4096 possible states. If the offset for each state uses four bytes this results in a data set that is 16kB. The field produced at each state however, is the sum of the field contributions of all of the torquers. The dataset can be reduced by doing three separate calibration, one for the set of torquers in each axis. The calibrations are then combined to get a calibration set where one offset is chosen for each axis and added together to get the full offset this reduces the number of states to $3*16 + 1 = 49$ which is only about 200 bytes of data, much reduced from using all possible states.
+There are a total of 12 \acp{LPMT} on the \ac{ACDS}. Each \ac{LPMT} has two states which results in a total of 4096 possible states. If the offset for each state uses four bytes this results in a data set that is 16~kB. The field produced at each state is the sum of the field contributions of all of the torquers. The dataset can be reduced by doing three separate calibrations, one for the set of torquers in each axis. The calibrations are then combined by superposition to get a calibration set where one offset is chosen for each axis and added together to get the full offset. This reduces the number of states to $3 \times 16 + 1 = 49$ which is only about 200~bytes of data, much reduced from using all possible states.
 
 \subsubsection{Compensation Routine}
 
 \label{sec:tq-comp}
 
-To calculate the compensation values for the torquers the calibration procedure described in \cref{sec:magcal} is run for each combination of torquer states. The results of the compensation is $C_1$, $C_2$, $C_4$ and $ C_5$ which are the same calibration constants computed with the magnetometer calibration routine. In addition there is one common pair of offsets and then 3 sets of 16 offsets for each set of torquers. The total offset value for a given torquer state is the sum of the common offset value and an offset determined by the state of the torquers in the X, Y and Z axes.
+To calculate the compensation values for the torquers, the calibration procedure described in \cref{sec:magcal} is run for each combination of torquer states. The results of the compensation is $C_1$, $C_2$, $C_4$ and $ C_5$, which are the same calibration constants computed with the magnetometer calibration routine. In addition there is one common pair of offsets and then 3 sets of 16 offsets for each set of torquers. The total offset value for a given torquer state is the sum of the common offset value and an offset determined by the state of the torquers in the X, Y and Z axes.
 
 \subsection{Data Logging}
 
-During \ac{ACDS} operations data is collected during flight. This data is stored in nonvolatile memory and can be recalled and transmitted to the ground in order to evaluate the \ac{ACDS} system performance. The data that is recorded is shown in \cref{tab:logdat}
+During \ac{ACDS} operations data on the system status is collected during flight. This data is stored in nonvolatile memory and can be recalled and transmitted to the ground in order to evaluate the \ac{ACDS} system performance. The data that is recorded is shown in \cref{tab:logdat}
 
 \begin{table}[H]
     \centering
@@ -152,7 +152,7 @@ During \ac{ACDS} operations data is collected during flight. This data is stored
         \hline
         Data&size (bytes)&Format\\
         \hline
-        Time Stamp&32&unsigned integer\\
+        Time Stamp&4&unsigned integer\\
         \hline
         mode&1&unsigned integer\\
         \hline
@@ -180,13 +180,15 @@ During \ac{ACDS} operations data is collected during flight. This data is stored
     \end{tabular}
 \end{table}
 
-\subsection{On Board data processing}
+\subsection{On-Board Data Processing}
 
-Because the downlink data speed is limited, it is necessary to reduce the data that needs to be downlinked. One way to do this is to do some level of on board processing to reduce the data before it is downlinked. For the \ac{ACDS} system this will most likely take the form of returning only the desired data from the recorded data set or returning min/max values from within a data set. 
+Because the downlink data speed is limited, it is necessary to reduce the data that needs to be downlinked. One way to do this is to do some level of on-board processing to reduce the data before it is downlinked. For the \ac{ACDS} system this will most likely take the form of returning only the desired data from the recorded data set or returning min/max values from within a data set. 
 
 \subsection{Beacon Data}
 
-The beacon data is transmitted at a fixed rate and provides information about the present state of the satellite. The beacon data could be the only data that is available to diagnose the system. The beacon data must contain enough data to be useful but not so much data that the beacon packets are too big. The beacon data should include raw sensor information as well as information on torquer status. The beacon data from the \ac{ACDS} is shown in \cref{tab:beacondat}
+The \ac{ARC} \ac{COMM} system sends a beacon packet every 10~seconds. The purpose of the beacon is to be able to locate the \ac{ARC} and determine how well the satellite is functioning. The beacon packet contains a small amount of data from each subsystem which gives an idea of how well the system is operating.
+
+The beacon data from the \ac{ACDS} is shown in \cref{tab:beacondat}. The data contains enough data to be able to see how well the system is operating but not exceed the maximum packet size.
 
 \begin{table}[H]
     \centering
