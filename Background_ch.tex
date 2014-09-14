@@ -260,11 +260,8 @@ Mode 2 is initiated at the end of the detumble phase. In mode 2 the torquers are
         \draw[bias] (0:\winR) ++(90:0.1cm) ++(90-\bias:0.5cm) arc (90-\bias:90+\bias:0.5cm);
 
         %draw magnet
-        \fill[color=white] (0.25,0.5) rectangle (-0.25,0);
-        \fill[color=red] (0.25,0) rectangle (-0.25,-0.5);
-        \draw[color=red] (0, 0.2) node {S};
-        \draw[color=white] (0,-0.2) node {N};
-        \draw[color=black] (0.25,0.5) rectangle (-0.25,-0.5);
+        \magnet
+
     \end{tikzpicture}
     \caption{Bias regions for mode 2}
     \label{fig:m2b}
@@ -330,11 +327,7 @@ Mode 3 is initiated after mode 2 is complete. In mode 3 only the north pole bias
         \draw[bias] (90:\winR) ++(90:0.1cm) ++(90-\bias:0.5cm) arc (90-\bias:90+\bias:0.5cm);
 
         %draw magnet
-        \fill[color=white] (0.25,0.5) rectangle (-0.25,0);
-        \fill[color=red] (0.25,0) rectangle (-0.25,-0.5);
-        \draw[color=red] (0, 0.2) node {S};
-        \draw[color=white] (0,-0.2) node {N};
-        \draw[color=black] (0.25,0.5) rectangle (-0.25,-0.5);
+        \magnet
     \end{tikzpicture}
     \caption{Bias region for mode 3}
     \label{fig:m3b}

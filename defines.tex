@@ -110,3 +110,12 @@
 %rotation arrow style for winplace figure
 \tikzstyle motion=[->,Plum,very thick]
 
+%draw magnet
+\newcommand{\magnet}{
+    %draw magnet
+    \fill[color=white] (0.25,0.5) rectangle (-0.25,0);
+    \fill[color=red] (0.25,0) rectangle (-0.25,-0.5);
+    \draw[color=red] (0, 0.2) node {S};
+    \draw[color=white] (0,-0.2) node {N};
+    \draw[color=black] (0.25,0.5) rectangle (-0.25,-0.5);
+}
