@@ -100,3 +100,13 @@
     \draw (#1:#2) ++(#1:\axlen) node[rotate=#1-90,anchor=north west] {\tiny -Z};
 }
 
+%styles for bias modes
+\tikzstyle fieldarrow=[arrows={-Latex[color=blue,fill=red,length=3mm,width=1.5mm]}]  %field arrow style
+\tikzstyle bias=[<->,YellowOrange,very thick]                                        %bias arrows style
+
+%field lines for winplace figure
+\tikzstyle field=[color=blue,thick,postaction={decorate,decoration={markings,mark=at position .35 with {\arrowreversed[thin]{Latex[length=8mm,width=3mm,fill=red]}}}}]
+
+%rotation arrow style for winplace figure
+\tikzstyle motion=[->,Plum,very thick]
+
