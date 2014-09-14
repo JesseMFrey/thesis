@@ -91,3 +91,12 @@
 %name of MATLAB
 \newcommand{\matlab}{MATLAB\xspace}
 
+%draw cubesat with axes
+\newcommand{\cubesat}[2]{
+    \draw (#1:#2) node{\pgftext[rotate=#1]{\includegraphics[height=\ARCheight]{cube-icon}}};
+    \draw[->,cyan,thick] (#1:#2) -- +(#1+90:\axlen);
+    \draw (#1:#2) ++(#1+90:\axlen) node[rotate=#1-90,anchor=south west] {\tiny +Y};
+    \draw[->,red,thick] (#1:#2) -- +(#1:\axlen);
+    \draw (#1:#2) ++(#1:\axlen) node[rotate=#1-90,anchor=north west] {\tiny -Z};
+}
+

@@ -2,8 +2,8 @@
 
 \tikzstyle{winLbl} = [rectangle,text width=5em,text centered]
 
-\newcommand{\cubesat}[2]{
-    \draw (#1:#2) node{\pgftext[rotate=#1]{\includegraphics[height=7mm]{cube-icon}}};
+\newcommand{\cubesatonly}[2]{
+    \draw (#1:#2) node{\pgftext[rotate=#1]{\includegraphics[height=\ARCheight]{cube-icon}}};
 }
 
 %digram showing bias windows for the alignment algorithm
@@ -17,6 +17,7 @@
     \def\eqWindow{15}                           % Equatorial alignment window in degrees
     %\def\latTrigger{\incline-\poleWindow}       % Corrects polar window for inclination angle
     \def\latTrigger{80}                         % Corrects polar window for inclination angle
+    \def\ARCheight{7mm}
 
     \def\winR{3cm}                                %window radius for drawing
     \def\axisLen{4cm}
@@ -45,7 +46,7 @@
 
     \draw[green,winLbl] (-\offset:\winR+0.5cm) node[anchor=north west] {\small Northbound Equatorial Window};
     %draw CubeSat
-    \cubesat{-\offset}{\winR}
+    \cubesatonly{-\offset}{\winR}
 
 
     %south bound equatorial window
@@ -57,7 +58,7 @@
 
     \draw[red,winLbl] (180-\offset:\winR+0.5cm) node[anchor=south east] {\small Southbound Equatorial Window};
     %draw CubeSat
-    \cubesat{180-\offset}{\winR}
+    \cubesatonly{180-\offset}{\winR}
 
 
     %north polar window
@@ -69,7 +70,7 @@
 
     \draw[blue,winLbl] (90-\poleWindow/2-\offset/2:\winR+0.5cm) node[anchor=south west] {\small North Polar Window};
     %draw CubeSat
-    \cubesat{90-\poleWindow/2-\offset/2}{\winR}
+    \cubesatonly{90-\poleWindow/2-\offset/2}{\winR}
 
     %draw axis labels
     \draw (0,\axisLen) node[anchor=south] {N};

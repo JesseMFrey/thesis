@@ -159,14 +159,6 @@ The job of the alignment algorithm is to align the \ac{ARC} in the proper attitu
 
 \begin{figure}[htb!]
     \centering
-    \newcommand{\cubesat}[2]{
-        \draw (#1:#2) node{\pgftext[rotate=#1]{\includegraphics[height=15mm]{cube-icon}}};
-        \draw[->,cyan,axis] (#1:#2) -- +(#1+90:\axlen);
-        \draw (#1:#2) ++(#1+90:\axlen) node[rotate=#1-90,anchor=south west] {\tiny +Y};
-        \draw[->,red,axis] (#1:#2) -- +(#1:\axlen);
-        \draw (#1:#2) ++(#1:\axlen) node[rotate=#1-90,anchor=north west] {\tiny -Z};
-    }
-
     \tikzstyle field=[color=blue,thick,postaction={decorate,decoration={markings,
         mark=at position .35 with {\arrowreversed[thin]{Latex[length=8mm,width=3mm,fill=red]}}}}]
     \tikzstyle axis=[thick]
@@ -179,6 +171,8 @@ The job of the alignment algorithm is to align the \ac{ARC} in the proper attitu
         \def\favang{65}                                 %angle for favorable orientation
         \def\unfavang{115}                              %angle for unfavorable orientation
         \def\bias{35}                                   %half angle for bias arrows
+        \def\ARCheight{15mm}
+
         \begin{scope}
             %\clip (0,0) ellipse (6.3 and 3.5);
             \clip (-\winR,2cm) rectangle (\winR,\winR+\axlen);
@@ -214,14 +208,6 @@ Mode 2 is initiated at the end of the detumble phase. In mode 2 the torquers are
 
 \begin{figure}[htb!]
     \centering
-    \newcommand{\cubesat}[2]{
-        \draw (#1:#2) node{\pgftext[rotate=#1]{\includegraphics[height=9mm]{cube-icon}}};
-        \draw[->,cyan,axis] (#1:#2) -- +(#1+90:\axlen);
-        \draw (#1:#2) ++(#1+90:\axlen) node[rotate=#1-90,anchor=south] {\tiny +Y};
-        \draw[->,red,axis] (#1:#2) -- +(#1:\axlen);
-        \draw (#1:#2) ++(#1:\axlen) node[rotate=#1-90,anchor=west] {\tiny -Z};
-    }
-
     \tikzstyle field=[arrows={-Latex[color=blue,fill=red,length=3mm,width=1.5mm]}]
     \tikzstyle axis=[thick]
     \tikzstyle motion=[YellowOrange,very thick]
@@ -233,6 +219,8 @@ Mode 2 is initiated at the end of the detumble phase. In mode 2 the torquers are
         \def\favang{65}                                 %angle for favorable orientation
         \def\unfavang{115}                              %angle for unfavorable orientation
         \def\bias{35}                                   %half angle for bias arrows
+        \def\ARCheight{9mm}                             %Height of CubeSat
+
         \begin{scope}6511478
             \clip (0,0) circle (3cm);
             %\clip (0,0) circle (8.5);
@@ -297,14 +285,6 @@ Mode 3 is initiated after mode 2 is complete. In mode 3 only the north pole bias
 
 \begin{figure}[htb!]
     \centering
-    \newcommand{\cubesat}[2]{
-        \draw (#1:#2) node{\pgftext[rotate=#1]{\includegraphics[height=9mm]{cube-icon}}};
-        \draw[->,cyan,axis] (#1:#2) -- +(#1+90:\axlen);
-        \draw (#1:#2) ++(#1+90:\axlen) node[rotate=#1-90,anchor=south] {\tiny +Y};
-        \draw[->,red,axis] (#1:#2) -- +(#1:\axlen);
-        \draw (#1:#2) ++(#1:\axlen) node[rotate=#1-90,anchor=west] {\tiny -Z};
-    }
-
     \tikzstyle field=[arrows={-Latex[color=blue,fill=red,length=3mm,width=1.5mm]}]
     \tikzstyle axis=[thick]
     \tikzstyle motion=[YellowOrange,very thick]
@@ -316,6 +296,8 @@ Mode 3 is initiated after mode 2 is complete. In mode 3 only the north pole bias
         \def\favang{65}                                 %angle for favorable orientation
         \def\unfavang{115}                              %angle for unfavorable orientation
         \def\bias{35}                                   %half angle for bias arrows
+        \def\ARCheight{9mm}                             %Height of CubeSat
+
         \begin{scope}6511478
             \clip (0,0) circle (3cm);
             %\clip (0,0) circle (8.5);
