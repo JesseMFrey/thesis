@@ -6,6 +6,14 @@
     \draw (#1:#2) node{\pgftext[rotate=#1]{\includegraphics[height=\ARCheight]{cube-icon}}};
 }
 
+\newcommand{\biaswindow}[3]{%start,end,color
+    \begin{scope}
+        \clip                        (0,0)  -- (#1:\winR) arc (#1:#2:\winR) -- cycle;
+        \draw[#3,thick]              (0,0)  -- (#1:\winR) arc (#1:#2:\winR) -- cycle;
+        \fill[nearly transparent,#3] (0,0)  -- (#1:\winR) arc (#1:#2:\winR) -- cycle;
+    \end{scope}
+}
+
 %digram showing bias windows for the alignment algorithm
 
 \begin{tikzpicture}
@@ -38,11 +46,7 @@
 
     %draw bias windows
     %northbound equatorial window
-    \begin{scope}
-        \clip                           (0,0)  -- (\eqWindow/2 - \offset:\winR) arc (\eqWindow/2 - \offset:-\eqWindow/2 - \offset:\winR) -- cycle;
-        \draw[green,thick]              (0,0)  -- (\eqWindow/2 - \offset:\winR) arc (\eqWindow/2 - \offset:-\eqWindow/2 - \offset:\winR) -- cycle;
-        \fill[nearly transparent,green] (0,0)  -- (\eqWindow/2 - \offset:\winR) arc (\eqWindow/2 - \offset:-\eqWindow/2 - \offset:\winR) -- cycle;
-    \end{scope}
+    \biaswindow{\eqWindow/2 - \offset}{-\eqWindow/2 - \offset}{green}
 
     \draw[green,winLbl] (-\offset:\winR+0.5cm) node[anchor=north west] {\small Northbound Equatorial Window};
     %draw CubeSat
@@ -50,11 +54,7 @@
 
 
     %south bound equatorial window
-    \begin{scope}
-        \clip                         (0,0)  -- (180-\eqWindow/2 - \offset:\winR) arc (180-\eqWindow/2 - \offset:180 +\eqWindow/2 - \offset:\winR) -- cycle;
-        \draw[red,thick]              (0,0)  -- (180-\eqWindow/2 - \offset:\winR) arc (180-\eqWindow/2 - \offset:180 +\eqWindow/2 - \offset:\winR) -- cycle;
-        \fill[nearly transparent,red] (0,0)  -- (180-\eqWindow/2 - \offset:\winR) arc (180-\eqWindow/2 - \offset:180 +\eqWindow/2 - \offset:\winR) -- cycle;
-    \end{scope}
+    \biaswindow{180-\eqWindow/2 - \offset}{180 +\eqWindow/2 - \offset}{red}
 
     \draw[red,winLbl] (180-\offset:\winR+0.5cm) node[anchor=south east] {\small Southbound Equatorial Window};
     %draw CubeSat
@@ -62,11 +62,7 @@
 
 
     %north polar window
-    \begin{scope}
-        \clip                          (0,0)  -- (\latTrigger - \offset:\winR) arc (\latTrigger - \offset:90:\winR) -- cycle;
-        \draw[blue,thick]              (0,0)  -- (\latTrigger - \offset:\winR) arc (\latTrigger - \offset:90:\winR) -- cycle;
-        \fill[nearly transparent,blue] (0,0)  -- (\latTrigger - \offset:\winR) arc (\latTrigger - \offset:90:\winR) -- cycle;
-    \end{scope}
+    \biaswindow{\latTrigger - \offset}{90}{blue}
 
     \draw[blue,winLbl] (90-\poleWindow/2-\offset/2:\winR+0.5cm) node[anchor=south west] {\small North Polar Window};
     %draw CubeSat
