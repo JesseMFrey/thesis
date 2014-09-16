@@ -100,7 +100,7 @@ Ground station commands will be provided to change the operation of the \ac{ACDS
 
 \label{sec:bdot-desc}
 
-The B-dot algorithm is used to detumble the \ac{ARC}. The B-dot algorithm uses the time derivative of the magnetic field, $\dot{\vec{B}}$, to calculate the magnetic dipole moment that the torquers should generate. This is a method that is widely used on other CubeSats \todo{Find some B-dot reference(s)} that have magnetic \ac{ACDS}. In this mode the magnetic dipole moment is simply set to a value that is proportional to the derivative of the magnetic field. The gain for the B-dot controller needs to be negative in order to stop the motion of the magnetic field.
+The B-dot algorithm is used to detumble the \ac{ARC}. The B-dot algorithm uses the time derivative of the magnetic field, $\dot{\vec{B}}$, to calculate the magnetic dipole moment that the torquers should generate. This is a method that is widely used on other CubeSats that have magnetic \ac{ACDS}\cite{Silani2005357}. In this mode the magnetic dipole moment is simply set to a value that is proportional to the derivative of the magnetic field. The gain for the B-dot controller needs to be negative in order to stop the motion of the magnetic field.
 
 \section{Auxiliary Software Functions}
 
