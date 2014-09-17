@@ -26,7 +26,7 @@ The \acp{LPMT} used for the \ac{ACDS} pose a unique challenge when compared to b
 
 The magnetic field of the Earth ranges from 0.3 to 0.6 Gauss \cite[pp.~114]{Wertz}. In order to measure the attitude of the \ac{ARC} to within {\textpm5\textdegree} the Earth's magnetic field must be measured with an error of less than 26~mGauss. This means that the offsets from the torquers must be known with an accuracy of at least 26~mGauss.
 
-Because of the nature of the dipole magnetic field, the offsets measured by each magnetometer are unique to each magnetometer and torquer combination. Some torquers have only a small effect on each magnetometer and some have a much larger effect. 
+Because of the nature of the dipole magnetic field, the offsets measured by each magnetometer are unique to the relative placement between each magnetometer and torquer. Some torquers have only a small effect on each magnetometer and some have a much larger effect. 
 
 The torquer compensation data, explained in \cref{sec:tst-tq-comp}, is used to show the effect that the torquers have on the magnetometers. The \lstinline[style=code,language=Matlab]$offsetplot$ function is used to plot the changes in torquer offset. The offset part of the compensation data is plotted with respect to torquer state.
 
