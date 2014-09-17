@@ -39,19 +39,19 @@ An Alpha lab \#3AMG Milligauss Meter is used to measure the magnetic field of th
 
     \pgfsetlayers{background,Hardware,CPU,main,foreground}
 
-    \begin{tikzpicture}[node distance = 1cm, auto]
+    \begin{tikzpicture}[node distance = 6mm, auto]
         \node[prog,text width=2.2cm]     (cc)    {cage\_control class};
         \node[perif,right=of cc]      (gpib)  {\rotatebox{90}{\acs*{GPIB}}};
         \node[perif,above=of cc]      (daq)   {DAQ};
         \node[hardware,right=of gpib] (ps)    {Power Supplies};
-        \node[hardware,right=of ps]   (dir)   {Direction Switch};
+        \node[hardware,right=of ps]   (dir)   {H-bridge};
         \node[hardware,right=of dir]  (coils) {Helmholtz Coils};
         \node[hardware,above=of daq]  (mag)   {Three-axis Magnetometer};
 
         \node[prog,text width=2.2cm,left=of cc]       (user)   {User Application};
 
         \begin{pgfonlayer}{CPU}
-            \node (push) at ([yshift=-1cm,xshift=-5mm]user.south west) {};
+            \node (push) at ([yshift=-1cm,xshift=-4mm]user.south west) {};
             \node[CPU,fit=(cc) (gpib) (daq) (push) (user)] (cpu) {};
             \node[above,anchor=south west] at (cpu.south west) {Helmholtz cage computer};
         \end{pgfonlayer}
@@ -68,7 +68,7 @@ An Alpha lab \#3AMG Milligauss Meter is used to measure the magnetic field of th
         \path[powerL] (dir) -- (coils);
 
         \path[phconn] (coils) |- (mag);
-        \path[dataL] ([xshift=2mm]daq.north) -- ++(0,5mm) -| (dir);
+        \path[dataL] ([xshift=2mm]daq.north) -- ++(0,2mm) -| (dir);
 
     \end{tikzpicture}
     \caption{Helmholtz cage software block diagram}
