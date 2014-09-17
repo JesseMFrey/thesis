@@ -28,7 +28,7 @@ An Alpha lab \#3AMG Milligauss Meter is used to measure the magnetic field of th
     \label{fig:helmholtz-comp}
 \end{figure}
 
-\Cref{fig:hc-block} shows the block diagram of the Helmholtz cage.
+\Cref{fig:hc-block} shows the block diagram of the Helmholtz cage. The cage control class is a \matlab class that is used for low level interfacing to the Helmholtz cage hardware. The \ac{GPIB} interface is used to connect to the power supplies. The power supplies are connected to the coils through the H-bridge so that the current direction can be reversed. The H-bridge is controlled using the digital I\textbackslash{}O on the DAQ card. The magnetometer is connected to the analog input channels of the DAQ and reads the magnetic field in the Helmholtz cage. 
 
 \begin{figure}[!ht]
     % We need layers to draw the block diagram
@@ -75,4 +75,7 @@ An Alpha lab \#3AMG Milligauss Meter is used to measure the magnetic field of th
     \label{fig:hc-block}
 \end{figure}
 
+The feedback from the magnetometer is used to calibrate the Helmholtz cage. The cage is calibrated by setting the power supplies to a range of currents and reading back the magnetic field. The data is then used to compute a $4\times4$ transformation matrix to get from current to magnetic field. The magnetometer is not used in a closed loop fashion because magnetic fields produced by a device under test would change the magnetic field giving erroneous results.
+
+The cage control class takes care of all of the low level hardware interaction and calibration for the Helmholtz cage. The cage control class opens interface objects to the power supplies and the DAQ. 
 
