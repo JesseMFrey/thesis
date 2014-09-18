@@ -185,6 +185,8 @@ The \lstinline[style=code,language=Matlab]$tCalTstMSP_all$ function is used to t
 
 \Cref{fig:tcalMSPerr} shows the errors for each sample as well as the torquer states during the samples. The large jumps in the errors all correspond with torquer flips.
 
+\Cref{tab:tcalMSPerr} shows the RMS errors in table form. The N/As in the table are because each \ac{SPB} only measures in two axes. For each axis the total error is less than the lowest error from a single axis. This indicates that having multiple measurements of the magnetic field reduces the overall error.
+
 \begin{table}[!htb]
     \centering
     \caption{RMS errors in Gauss for \ac{ACDS} system calibration test}
@@ -204,7 +206,7 @@ The \lstinline[style=code,language=Matlab]$tCalTstMSP_all$ function is used to t
     \end{tabular}
 \end{table}
 
-\Cref{tab:tcalMSPerr} shows the RMS errors in table form. The N/As in the table are because each \ac{SPB} only measures in two axes. For each axis the total error is less than the lowest error from a single axis. This indicates that having multiple measurements of the magnetic field reduces the overall error.
+\Cref{fig:tcalMSPerr-axis} shows the errors from each board in each axis.
 
 \afterpage{\begin{landscape}
 \begin{figure}[p]
@@ -214,8 +216,6 @@ The \lstinline[style=code,language=Matlab]$tCalTstMSP_all$ function is used to t
     \label{fig:tcalMSPerr-axis}
 \end{figure}
 \end{landscape}}
-
-\Cref{fig:tcalMSPerr-axis} shows the errors from each board in each axis.
 
 \section{B-dot controller simulations}
 
@@ -242,15 +242,6 @@ The B-dot algorithm equation is shown in \cref{eq:bdot-alg}.
 
 Substituting \cref{eq:bdot-mul} into \cref{eq:bdot-alg} and solving for $\omega$ gives \cref{eq:omega-th}, where $M_{th}$ is the torque switching threshold for the torquers and $\omega_{th}$ is the minimum rotation rate required to flip a torquer.
 
-\afterpage{\begin{landscape}
-\begin{figure}[p]
-    \centering
-    \includegraphics[height=\textwidth]{detumble-sim}
-  \caption{Simulation of torquer output with spinning magnetic field}
-    \label{fig:detumble-sim}
-\end{figure}
-\end{landscape}}
-
 \begin{equation}
     \omega _ {th} = \frac{M _ {th}}{C \left| \vec{B} \right|}
     \label{eq:omega-th}
@@ -269,6 +260,14 @@ To understand what the response of the \ac{ACDS} to a rotating magnetic field sh
 
 \Cref{fig:detumble-sim} shows a simulation of the detumble algorithm in a spinning magnetic field. The field vector spins about the Z-axis and has a magnitude of 0.3~Gauss. The gain of the simulated controller was -4 as discussed in \cref{sec:bdot-desc}. The plots show the magnetic dipole moment that the algorithm calculated and the magnetic dipole moment that can be generated as the magnetic field spins around.
 
+\afterpage{\begin{landscape}
+\begin{figure}[p]
+    \centering
+    \includegraphics[height=\textwidth]{detumble-sim}
+  \caption{Simulation of torquer output with spinning magnetic field}
+    \label{fig:detumble-sim}
+\end{figure}
+\end{landscape}}
 
 \section{Detumble Flip Test}
 
