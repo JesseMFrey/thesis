@@ -106,6 +106,7 @@ There are several steps to verify and calibrate the magnetometers on the \acp{SP
 
 The magnetometer verification is done using the Helmholtz cage. The verification is used to test a \ac{SPB} to see if the magnetometer is performing correctly. The \lstMat$spbMag$ function is used for verification. A calibration (see \cref{sec:magcal}) is run on a board separate from the CubeSat. The calibration coefficients are used to calculated parameters found on the datasheet to verify that the magnetometer is performing within specifications.
 
+\begin{minipage}{\linewidth}
 \begin{lstlisting}[caption={\ac{SPB} verification results},label={lst:vspb-res},language=verbatim]
 X  Ss     0.9628 mV/V/Gauss    Pass
 X  Ds    -7.9555%              Pass
@@ -115,6 +116,7 @@ Y  Ds    -5.1552%              Pass
 Y Vos    -0.1989 mV/V          Pass
 All Tests Passed!!!
 \end{lstlisting}
+\end{minipage}
 
 \Cref{lst:vspb-res} shows the output from the \ac{SPB} verification. The calculated datasheet parameters are shown along with pass or fail depending on if the values are within the maximums specified by the datasheet.
 
