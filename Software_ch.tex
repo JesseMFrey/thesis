@@ -52,18 +52,14 @@ In order to determine which torquer to flip the \ac{ACDS} needs sensor inputs. T
 
 The \ac{ACDS} starts running after the separation switch is switched and the power system applies power to all systems. Before starting any operations the \ac{ACDS} waits for the \enquote{on} command from the \ac{CDH} board. After the \ac{ACDS} board receives the \enquote{on} command, the \ac{ACDS} sends a command to the \ac{LEDL} board to tell it to start taking sensor data. Once sensor data is received the \ac{ACDS} starts to run the detumble algorithm.
 
-
-\subsection{Ground Station Commands}
-
-The ground station can force the \ac{ACDS} into any mode and either let it go with the normal flow or stay in a particular mode. This allows for recovery in case the system does not function as expected.
-
 \subsection{Rotation Runaway}
 
-If the gyros detect that the satellite is rotating too fast then they will automatically send the \ac{ACDS} into a safe mode where the \ac{ACDS} does not run. In this situation the best thing to do is for the \ac{ACDS} to stop and wait for further intervention from the ground.
+If the gyros detect that the satellite is rotating too fast then they will automatically send the \ac{ACDS} into a safe mode where the \ac{ACDS} does not run. This could happen for many reasons such as errors in the algorithm or unexpected conditions during flight. In this situation the best thing to do is for the \ac{ACDS} to stop and wait for further intervention from the ground.
 
-\section{Incoming Commands\textbackslash Info}
+\section{Ground Station Commands}
 
-The \ac{ACDS} must respond to incoming commands that change its operation mode or uplink data. Because the \ac{ACDS} is an experimental system, it may run into unexpected problems. By uplinking commands some of the possible problems might be able to be diagnosed and fixed after \ac{ARC} is in flight. 
+Ground station commands will be provided to change the operation of the \ac{ACDS} system in case it does not function as intended. Because the \ac{ACDS} is an experimental system, it may run into unexpected problems. By uplinking commands some of the possible problems might be able to be diagnosed and fixed after \ac{ARC} is in flight. 
+
 \section{Algorithm Software}
 
 \Cref{fig:swblock} shows the software block diagram for the \ac{ACDS} algorithm. Field measurements from the magnetometer are calibrated using the current torquer state and the compensation data. The B-dot algorithm uses the compensated data to calculate the dipole moments that should be generated. The dipole moments are then quantized based on \cref{fig:lpmtq-flt}. The torquers to flip are chosen based on current knowledge of torquer status as well as the desired torque. The torquer feedback checks to make sure that the torquers and drivers are functioning correctly. The torquer status is tracked by reading the torquer feedback and by knowing which torquers were flipped.
@@ -104,7 +100,7 @@ The \ac{ACDS} must respond to incoming commands that change its operation mode o
 
 \label{sec:bdot-desc}
 
-The B-dot algorithm is used to detumble the \ac{ARC}. The B-dot algorithm uses the time derivative of the magnetic field, $\dot{\vec{B}}$, to calculate the magnetic dipole moment that the torquers should generate. This is a method that is widely used on other CubeSats \todo{Find some B-dot reference(s)} that have magnetic \ac{ACDS}. In this mode the magnetic dipole moment is simply set to a value that is proportional to the derivative of the magnetic field. The gain for the B-dot controller needs to be negative in order to stop the motion of the magnetic field.
+The B-dot algorithm is used to detumble the \ac{ARC}. The B-dot algorithm uses the time derivative of the magnetic field, $\dot{\vec{B}}$, to calculate the magnetic dipole moment that the torquers should generate. This is a method that is widely used on other CubeSats that have magnetic \ac{ACDS}\cite{Silani2005357}. In this mode the magnetic dipole moment is simply set to a value that is proportional to the derivative of the magnetic field. The gain for the B-dot controller needs to be negative in order to stop the motion of the magnetic field.
 
 \section{Auxiliary Software Functions}
 
@@ -126,7 +122,7 @@ Before and after each torquer flip the torquer feedback comparators are read. Af
 
 \subsection{Torquer Compensation}
 
-Because the geometry of the system should not change in flight, the field offset seen by each magnetometer depends on the combination of torquer states. By taking measurements in the Helmholtz cage these offsets can be calculated and eliminated during flight in order to measure Earth's magnetic field. As described in \cref{sec:tqcomp}.
+Because the geometry of the system should not change in flight, the field offset seen by each magnetometer depends on the combination of torquer states. By taking measurements in the Helmholtz cage these offsets can be calculated and eliminated during flight in order to measure Earth's magnetic field. As described in \cref{sec:tq-comp-tst}.
 
 \subsubsection{Compensation Data Set}
 
@@ -138,7 +134,7 @@ There are a total of 12 \acp{LPMT} on the \ac{ACDS}. Each \ac{LPMT} has two stat
 
 \label{sec:tq-comp}
 
-To calculate the compensation values for the torquers, the calibration procedure described in \cref{sec:magcal} is run for each combination of torquer states. The results of the compensation is $C_1$, $C_2$, $C_4$ and $ C_5$, which are the same calibration constants computed with the magnetometer calibration routine. In addition there is one common pair of offsets and then 3 sets of 16 offsets for each set of torquers. The total offset value for a given torquer state is the sum of the common offset value and an offset determined by the state of the torquers in the X, Y and Z axes.
+To calculate the compensation values for the torquers, the calibration procedure described in \cref{sec:magcal} is run for each combination of torquer states. The results of the compensation is $C_1$, $C_2$, $C_4$ and $ C_5$, which are the same calibration constants computed with the magnetometer calibration routine. The offsets are separated into a common pair of offsets and then 3 sets of 16 offsets for each set of torquers as described in \cref{sec:tq-comp-tst}. The total offset value for a given torquer state is the sum of the common offset value and an offset determined by the state of the torquers in the X, Y and Z axes.
 
 \subsection{Data Logging}
 

@@ -6,11 +6,13 @@
 
 The \ac{ACDS} is a unique system that was developed specifically for the \ac{ARC} and has not yet been flight tested. Ideally everything would be verified before launch but, it is difficult to replicate the on-orbit environment closely. The magnetic field can be effectively simulated using the Helmholtz cage so the sensors can be calibrated and tested. 
 
+Using the Helmholtz cage the \ac{ACDS} system can not be fully tested. The control algorithm can be stimulated by generating a rotating magnetic field but this only tests how the algorithm responds and not what effect the response will have on the rotation rate of the spacecraft.
+
 \section{Motivation}
 
-The \acp{LPMT} used for the \ac{ACDS} pose a unique challenge when compared to both passive magnetic torquers and active proportional torquers, the \acp{LPMT} switch but can't be switched off. Magnetometer measurements are used for attitude determination but the field from the torquers, if not compensated for, will overwhelm the measurements of the Earth's magnetic field making attitude determination impossible.
+The \acp{LPMT} used for the \ac{ACDS} pose a unique challenge when compared to both passive magnetic torquers and active proportional torquers. The \acp{LPMT} can be changed like active proportional torquers but, they can't be switched off to produce zero field. Passive torquers are just a permanent magnet which can be calibrated out because it is static but the field from \acp{LPMT} can't. Magnetometer measurements are used for attitude determination but the field from the torquers, if not compensated for, will overwhelm the measurements of the Earth's magnetic field making attitude determination impossible.
 
-\subsection{Torquer offsets}
+\subsection{Torquer Offsets}
 
 
 \afterpage{\begin{landscape}
@@ -26,16 +28,16 @@ The \acp{LPMT} used for the \ac{ACDS} pose a unique challenge when compared to b
 
 The magnetic field of the Earth ranges from 0.3 to 0.6 Gauss \cite[pp.~114]{Wertz}. In order to measure the attitude of the \ac{ARC} to within {\textpm5\textdegree} the Earth's magnetic field must be measured with an error of less than 26~mGauss. This means that the offsets from the torquers must be known with an accuracy of at least 26~mGauss.
 
-Because of the nature of the dipole magnetic field, the offsets measured by each magnetometer are unique to each magnetometer and torquer combination. Some torquers have only a small effect on each magnetometer and some have a much larger effect. 
+Because of the nature of the dipole magnetic field, the offsets measured by each magnetometer are unique to the relative placement between each magnetometer and torquer. Some torquers have only a small effect on each magnetometer and some have a much larger effect. 
 
-The torquer compensation data, explained in \cref{sec:tst-tq-comp}, is used to show the effect that the torquers have on the magnetometers. The \lstinline[style=code,language=Matlab]$offsetplot$ function is used to plot the changes in torquer offset. The offset part of the compensation data is plotted with respect to torquer state.
+The torquer compensation data, explained in \cref{sec:tst-tq-comp}, is used to show the effect that the torquers have on the magnetometers. The \lstMat$offsetplot$ function is used to plot the changes in torquer offset. The offset part of the compensation data is plotted with respect to torquer state.
 
-\Cref{fig:b-offset} shows the plot from \lstinline[style=code,language=Matlab]$offsetplot$. The plot only shows the 48 torquer states used for calibration out of the 4096 possible states. The state of each torquer is indicated with a \enquote{\texttt{+}} if the torquer was flipped in the positive direction and a \enquote{\texttt{-}} if the torquer was flipped in the negative direction. The torquers are separated into groups of four torquers by axis. For the locations of torquers on the \ac{ACDS} board refer back to \cref{fig:TQloc}. The first group is for the X-axis and the last is for the Z-axis. In the first 16 states the X-axis torquers are flipped in all possible states, for the next 16 the Y-axis torquers are flipped through all possible states and for the last 16 states the Z-axis torquers are flipped through all possible states.
+\Cref{fig:b-offset} shows the plot from \lstMat$offsetplot$. The plot only shows the 48 torquer states used for calibration out of the 4096 possible states. The state of each torquer is indicated with a \enquote{\texttt{+}} if the torquer was flipped in the positive direction and a \enquote{\texttt{-}} if the torquer was flipped in the negative direction. The torquers are separated into groups of four torquers by axis. For the locations of torquers on the \ac{ACDS} board refer back to \cref{fig:TQloc}. The first group is for the X-axis and the last is for the Z-axis. In the first 16 states the X-axis torquers are flipped in all possible states, for the next 16 the Y-axis torquers are flipped through all possible states and for the last 16 states the Z-axis torquers are flipped through all possible states.
 
  
 \begin{table}[!ht]
     \centering
-    \caption{Information from \lstinline[style=code,language=Matlab]$offsetplot$. All numbers are in Gauss}
+    \caption{Information from \lstMat$offsetplot$. All numbers are in Gauss}
     \label{tab:off-stat}
     \begin{tabular}{|c|c|c|c|}
         \hline
@@ -62,7 +64,7 @@ The torquer compensation data, explained in \cref{sec:tst-tq-comp}, is used to s
     \end{tabular}
 \end{table}
 
-\Cref{tab:off-stat} shows the offset maximums and minimums. The deviation is the difference between the maximum and minim torquer offsets for a given magnetometer. The deviation is an indication of how much of an effect the torquers have on the magnetometers. The greatest deviation is just over 5~Gauss for the Y+ \ac{SPB} measuring the X-axis. The Y+ \ac{SPB} also has the second highest deviation of almost 3~Gauss. The Y- and Z+ \acp{SPB} have deviations that are closer to 1~Gauss. Looking back at \cref{fig:torquers} it makes sense that the Y+ \ac{SPB} has the largest torquer offset as it is located close to a pair of X torquers and a pair of Z-torquers. The Y- \ac{SPB} is located next to the header so the torquers are located farther away. The Z+ board is located farthest away from the torquers so one would expect that the offsets for it would be smaller.
+\Cref{tab:off-stat} shows the offset maximums and minimums. The deviation is the difference between the maximum and minimum torquer offsets for a given magnetometer. The deviation is an indication of how much of an effect the torquers have on the magnetometers. The greatest deviation is just over 5~Gauss for the Y+ \ac{SPB} measuring the X-axis. The Y+ \ac{SPB} also has the second highest deviation of almost 3~Gauss. The Y- and Z+ \acp{SPB} have deviations that are closer to 1~Gauss. Looking back at \cref{fig:torquers} it makes sense that the Y+ \ac{SPB} has the largest torquer offset as it is located close to a pair of X torquers and a pair of Z-torquers. The Y- \ac{SPB} is located next to the header so the torquers are located farther away. The Z+ board is located farthest away from the torquers so one would expect that the offsets for it would be smaller.
 
 
 \Cref{fig:b-offset,tab:off-stat} show the necessity of torquer compensation. There are large variations in the measured magnetic field due to the torquers changing state. These variations in the magnetic field measurements make attitude determination impossible without torquer compensation. What \cref{fig:b-offset,tab:off-stat} do not show is how repeatable the offsets are which determines if compensation is possible. 
@@ -73,11 +75,11 @@ The torquer compensation data, explained in \cref{sec:tst-tq-comp}, is used to s
 
 The torquer compensation method depends on the torquer offsets being repeatable. If the offsets are not nearly repeatable then the offsets will induce errors in the measured field. \Cref{fig:tqoff1,fig:tqoff2} each show a plot of the torquer offsets. The plot shows the offsets of the torquers when they are polarized in each direction. Each plot shows a diffrent magnetometer axis. The offset values are normalized to show deviation from the median for better comparison. The maximum offset variation in \cref{fig:tqoff1,fig:tqoff2} is 20 mGauss.
 
-The plot in \cref{fig:tqoff1,fig:tqoff2} were generated using the \lstinline[style=code,language=Matlab]$alltorquetest$ function. To create the plot each torquer was flipped 20 times in each direction. After each flip a magnetometer calibration was done to get the offset values. The variation in the offset is then plotted as a box plot.
+The plot in \cref{fig:tqoff1,fig:tqoff2} were generated using the \lstMat$alltorquetest$ function. To create the plot each torquer was flipped 20 times in each direction. After each flip a magnetometer calibration was done to get the offset values. The variation in the offset is then plotted as a box plot.
 
-\Cref{fig:tqoff1,fig:tqoff2} were plotted using \matlab's \lstinline[style=code,language=Matlab]$boxplot$ function. The boxes extend from the 25th to the \nth{75} percentile. The whiskers extend to the most extreme point in each direction that is not an outlier. Outliers are those points that are larger than $q_3 + 1.5 \left( q_3 - q_1 \right)$ or smaller than $q_1 - 1.5 \left( q_3 - q_1 \right)$ with $q_1$ and $q_2$ the \nth{25} and \nth{75} percentile respectively. This corresponds to points outside roughly $\pm 2 \sigma$ for normally distributed data. \cite{MatBox}
+\Cref{fig:tqoff1,fig:tqoff2} were plotted using \matlab's \lstMat$boxplot$ function. The boxes extend from the 25th to the \nth{75} percentile. The whiskers extend to the most extreme point in each direction that is not an outlier. Outliers are those points that are larger than $q_3 + 1.5 \left( q_3 - q_1 \right)$ or smaller than $q_1 - 1.5 \left( q_3 - q_1 \right)$ with $q_1$ and $q_2$ the \nth{25} and \nth{75} percentile respectively. This corresponds to points outside roughly $\pm 2 \sigma$ for normally distributed data. \cite{MatBox}
 
-The plot in \cref{fig:tqoff1,fig:tqoff2} has the \lstinline[style=code,language=Matlab]$'extrememode'$ option set to \lstinline[style=code,language=Matlab]$'compress'$ with \lstinline[style=code,language=Matlab]$'datalim'$ set to \textpm{}20~mGauss. This prevents any points outside \textpm{}20~mGauss from compressing the scale of the plot so that the data of interest is easier to read. The dotted line marks the limit of the limit set by \lstinline[style=code,language=Matlab]$'datalim'$ and the gray lines mark the compression region. \cite{MatBox}
+The plot in \cref{fig:tqoff1,fig:tqoff2} has the \lstMat$'extrememode'$ option set to \lstMat$'compress'$ with \lstMat$'datalim'$ set to \textpm{}20~mGauss. This prevents any points outside \textpm{}20~mGauss from compressing the scale of the plot so that the data of interest is easier to read. The dotted line marks the limit of the limit set by \lstMat$'datalim'$ and the gray lines mark the compression region. \cite{MatBox}
 
 \begin{figure}[!htb]
     \centering
@@ -102,7 +104,7 @@ There are several steps to verify and calibrate the magnetometers on the \acp{SP
 
 \subsection{Initial Verification}
 
-The magnetometer verification is done using the Helmholtz cage. The verification is used to test a \ac{SPB} to see if the magnetometer is performing correctly. The \lstinline[style=code,language=Matlab]$spbMag$ function is used for verification. A calibration (see \cref{sec:magcal}) is run on a board separate from the CubeSat. The calibration coefficients are used to calculated parameters found on the datasheet to verify that the magnetometer is performing within specifications.
+The magnetometer verification is done using the Helmholtz cage. The verification is used to test a \ac{SPB} to see if the magnetometer is performing correctly. The \lstMat$spbMag$ function is used for verification. A calibration (see \cref{sec:magcal}) is run on a board separate from the CubeSat. The calibration coefficients are used to calculated parameters found on the datasheet to verify that the magnetometer is performing within specifications.
 
 \begin{lstlisting}[caption={\ac{SPB} verification results},label={lst:vspb-res},language=verbatim]
 TODO: run command and collect ouput
@@ -115,14 +117,14 @@ TODO: run command and collect ouput
 
 \label{sec:tst-tq-comp}
 
-The \lstinline[style=code,language=Matlab]$calall$ function is used to calculate the torquer compensation data for a \ac{SPB} and the full set of torquers. The \lstinline[style=code,language=Matlab]$callall$ function calls the \lstinline[style=code,language=Matlab]$tCal$ function three times, once for the X, Y and Z axis. The \lstinline[style=code,language=Matlab]$tCal$ function works similarly to the magnetometer calibration, but the field is swept through the sequence 16 times, once for each torquer state. The data from each sweep is used to calculate the scaling factors for the compensation ($C_1$, $C_2$, $C_4$, and $C_5$ from \cref{eq:magcal}) for all torquer states as well as offset values, $C_3$ and $C_6$ from \cref{eq:magcal}, for each torquer state.
+The \lstMat$calall$ function is used to calculate the torquer compensation data for a \ac{SPB} and the full set of torquers. The \lstMat$callall$ function calls the \lstMat$tCal$ function three times, once for the X, Y and Z axis. The \lstMat$tCal$ function works similarly to the magnetometer calibration, but the field is swept through the sequence 16 times, once for each torquer state. The data from each sweep is used to calculate the scaling factors for the compensation ($C_1$, $C_2$, $C_4$, and $C_5$ from \cref{eq:magcal}) for all torquer states as well as offset values, $C_3$ and $C_6$ from \cref{eq:magcal}, for each torquer state.
 
-The calibration values for each torquer axis are computed separately. This gives three sets of scaling factors and 3 sets of 16 offsets which must be combined into a single data set that can calculate the offset for any torquer state. The offset due to a particular torquer state is the sum of the offset from the magnetometer and the offset caused by each torquer. The \enquote{\texttt{++-{}- ++-{}- ++-{}-}} state is common to the data from each axis. A common offset is calculated by averaging the offsets from the \enquote{\texttt{++-{}- ++-{}- ++-{}-}} state. The common offset is saved and subtracted from the offsets for all states so that the torquer offset can be calculated as the sum of the common offset and one offset for each torquer axis. The three sets of scaling factors should be close to each other and are averaged together to get a single set of scaling factors for all states. The scaling factors, common offset and offsets for each torquer state are combined together to into a single data set for each \ac{SPB} which is the compensation data set.
+The calibration values for each torquer axis are computed separately. This gives three sets of scaling factors and 3 sets of 16 offsets which must be combined into a single data set that can calculate the offset for any torquer state. The offset due to a particular torquer state is the sum of the offset from the magnetometer and the offset caused by each torquer. The \enquote{\texttt{++-{}- ++-{}- ++-{}-}} state is common to the data from each axis. A common offset is calculated by averaging the offsets from the \enquote{\texttt{++-{}- ++-{}- ++-{}-}} state. The common offset is saved and subtracted from the offsets for all states so that the torquer offset can be calculated as the sum of the common offset and one offset for each torquer axis. The three sets of scaling factors should be close to each other and are averaged together to get a single set of scaling factors for all states. The scaling factors, common offset and offsets for each torquer state are combined together to into a single compensation data set for each \ac{SPB}.
 
 \subsection{Compensation Testing}
 \label{sec:tq-comp-tst}
 
-The torquer compensation is tested using the \lstinline[style=code,language=Matlab]$tCalTstFull$ function. The function runs the Helmholtz Cage through a field sequence and takes a magnetometer measurement at each point in the field sequence. During the process a random torquer is flipped every 10 field sequence points. The measurements are corrected, in \matlab, using the compensation data set and compared to the expected field. The RMS error is also calculated for the data set so the effectiveness of the torquer compensation can be compared to the calibration without torquers.
+The torquer compensation is tested using the \lstMat$tCalTstFull$ function. The function runs the Helmholtz Cage through a field sequence and takes a magnetometer measurement at each point in the field sequence. During the process a random torquer is flipped every 10 field sequence points. The measurements are corrected, in \matlab, using the compensation data set and compared to the expected field. The RMS error is also calculated for the data set so the effectiveness of the torquer compensation can be compared to the calibration without torquers.
 
 \begin{figure}[!ht]
     \centering
@@ -131,7 +133,9 @@ The torquer compensation is tested using the \lstinline[style=code,language=Matl
     \label{fig:tqtst}
 \end{figure}
 
-\Cref{fig:tqtst} shows a plot of the Y+ compensation test data. The commanded are the magnetic field values that were programmed into the Helmholtz cage. The scale only corrected values are the measurements from the magnetometer corrected using the scaling values ($C_1$ $C_2$ $C_4$ and $C_5$ from \cref{eq:magcal}) from the correction but not the offset values ($C_3$ and $C_6$ from \cref{eq:magcal}). This shows what could be achieved without torquer compensation. The corrected values are the measurements from the magnetometer corrected using the full correction data set. The scale only corrected values show that the torquers have corrupted the magnetometer measurements so that, with out the correction values, they can't be used to measure the Earth's magnetic field. The corrected values, however, follow the commanded values much more closely and, while there is a small amount of error visible, appear to be usable for measuring the Earth's magnetic field.
+\Cref{fig:tqtst} shows a plot of the Y+ compensation test data. The \enquote{commanded} values are the magnetic field values that were programmed into the Helmholtz cage. The \enquote{scale only corrected} values are the measurements from the magnetometer corrected using the scaling values ($C_1$ $C_2$ $C_4$ and $C_5$ from \cref{eq:magcal}) from the correction but not the offset values ($C_3$ and $C_6$ from \cref{eq:magcal}). This shows what could be achieved without torquer compensation. The \enquote{corrected} values are the measurements from the magnetometer corrected using the full correction data set.
+
+The \enquote{scale only corrected} values show that the torquers have corrupted the magnetometer measurements so that, with out the correction values, they can't be used to measure the Earth's magnetic field. The \enquote{corrected} values, however, follow the \enquote{commanded} values much more closely and, while there is a small amount of error visible, appear to be usable for measuring the Earth's magnetic field.
 
 \afterpage{\begin{landscape}
 \begin{figure}[p]
@@ -151,19 +155,19 @@ The torquer compensation is tested using the \lstinline[style=code,language=Matl
 
 The compensation data set is generated in \matlab, but to be used in flight it must be stored on the \ac{ACDS} board. The calibration data is stored in the internal flash memory on the \ac{ACDS} microcontroller. The on-board flash has the benefit of reading the same as \ac{RAM} and is also more abundant but is a bit disruptive to write. This works well in the case of the compensation data because the values are expected to be written once but read often. The other option would be to store the data on the \ac{SD} that is used to log data. In this case the calibration data would need to be buffered in \ac{RAM} which is much more limited than the flash. 
 
-The main flash memory is divided into sectors that are 512 bytes long. Erasing is done on a full sector so the correction data for each \ac{SPB} is stored in its own sector. The correction data is 408 bytes long. It is stored with header and \ac{CRC} that are 4 bytes long. This leaves 100 extra unused bytes. This is not a big deal as there is an abundance of flash memory.
+The main flash memory is divided into sectors that are 512 bytes long. Erasing is done on a full sector so the correction data for each \ac{SPB} is stored in its own sector. The correction data is 408 bytes long. It is stored with header and \ac{CRC} that are 4 bytes long. This leaves 100 extra unused bytes. This is not significant as there is an abundance of flash memory.
 
-Before the correction data is sent to the \ac{ACDS} it must be repackaged. This is done using the \lstinline[style=code,language=Matlab]$make_cor_dat$ function. Correction data is transfered as single precision IEEE~754 floating point numbers. Because both the \ac{ACDS} processor and most of the machines commonly used to run \matlab are little endian machines, the byte order for the transfered data is little endian. It is important to note that in both ends of the transfer no effort is made to make sure that the data order is correct so this needs to be taken into account if the endianness of either the \ac{ACDS} processor or the lab machine changes.
+Before the correction data is sent to the \ac{ACDS} it must be repackaged. This is done using the \lstMat$make_cor_dat$ function. Correction data is transfered as single precision IEEE~754 floating point numbers. Because both the \ac{ACDS} processor and most of the machines commonly used to run \matlab are little endian machines, the byte order for the transfered data is little endian. It is important to note that in both ends of the transfer no effort is made to make sure that the data order is correct so would need to be taken into account if the endianness of either the \ac{ACDS} processor or the lab machine changes.
 
-The data generated with \lstinline[style=code,language=Matlab]$make_cor_dat$ is temporally stored in the \ac{SD} on the \ac{ACDS} board. An identifier is stored with the correction data to identify the corresponding \ac{SPB}. On the \ac{ACDS} board the data is unpacked from the \ac{SD}, reformatted slightly, and stored in the on-board flash. 
+The data generated with \lstMat$make_cor_dat$ is temporally stored in the \ac{SD} on the \ac{ACDS} board. An identifier is stored with the correction data to identify the corresponding \ac{SPB}. On the \ac{ACDS} board the data is unpacked from the \ac{SD}, reformatted slightly, and stored in the on-board flash. 
 
-The \lstinline[style=code,language=Matlab]$store_all_cal$ function simplifies the process of generating a calibration set. The \lstinline[style=code,language=Matlab]$store_all_cal$ function generates correction data for all \ac{SPB} boards, sends the data to the \ac{ACDS} and tells the \ac{ACDS} to store the data in flash. 
+The \lstMat$store_all_cal$ function simplifies the process of generating a calibration set. The \lstMat$store_all_cal$ function generates correction data for all \ac{SPB} boards, sends the data to the \ac{ACDS} and tells the \ac{ACDS} to store the data in flash. 
 
 \subsection{Embedded Compensation Testing}
 
-The test in \cref{fig:tqtst,fig:tqerr} only used the \ac{ACDS} embedded system to flip torquers and take measurements. \matlab was used to do all of the calculations for the calibration. During the flight the sensor data must be calibrated using the embedded system on the \ac{ACDS} board. Furthermore the previous tests were for a single \ac{SPB} and could only measure two axes. In flight the measurements from all \acp{SPB} will be combined to get a 3-axis measurement of the magnetic field.
+The test in \cref{fig:tqtst,fig:tqerr} only used the \ac{ACDS} embedded system to flip torquers and take measurements. \matlab was used to do all of the calculations for the calibration. During the flight the sensor data must be calibrated using the embedded system on the \ac{ACDS} board. Furthermore the tests in \cref{fig:tqtst,fig:tqerr} were for a single \ac{SPB} and could only measure two axes. In flight the measurements from all \acp{SPB} will be combined to get a 3-axis measurement of the magnetic field.
 
-The \lstinline[style=code,language=Matlab]$tCalTstMSP_all$ function is used to test the embedded calibration. The engineering development prototype of the \ac{ARC}, with compensation data stored on the \ac{ACDS} processor, is placed in the Helmholtz cage. The \lstinline[style=code,language=Matlab]$tCalTstMSP_all$ function operates in much the same way that the \lstinline[style=code,language=Matlab]$tCalTstFull$, explained in \cref{sec:tq-comp-tst}, does. The magnetic field is swept through a field sequence. At every point in the sequence the magnetic field is measured and after every 10 points a random torquer is flipped in each axis. The calibrated total magnetic field values as well as the calibrated values from each \ac{SPB} are read by \matlab and the results are plotted as shown in \cref{fig:tcalMSP,fig:tcalMSPerr,fig:tcalMSPerr-axis}.
+The \lstMat$tCalTstMSP_all$ function is used to test the embedded calibration. The engineering development prototype of the \ac{ARC}, with compensation data stored on the \ac{ACDS} processor, is placed in the Helmholtz cage. The \lstMat$tCalTstMSP_all$ function operates in much the same way that the \lstMat$tCalTstFull$, explained in \cref{sec:tq-comp-tst}, does. The magnetic field is swept through a field sequence. At every point in the sequence the magnetic field is measured and after every 10 points a random torquer is flipped in each axis. The calibrated total magnetic field values as well as the calibrated values from each \ac{SPB} are read by \matlab and the results are plotted as shown in \cref{fig:tcalMSP,fig:tcalMSPerr,fig:tcalMSPerr-axis}.
 
 \begin{figure}[!ht]
     \centering
@@ -185,6 +189,8 @@ The \lstinline[style=code,language=Matlab]$tCalTstMSP_all$ function is used to t
 
 \Cref{fig:tcalMSPerr} shows the errors for each sample as well as the torquer states during the samples. The large jumps in the errors all correspond with torquer flips.
 
+\Cref{tab:tcalMSPerr} shows the RMS errors in table form. The N/As in the table are because each \ac{SPB} only measures in two axes. For each axis the total error is less than the lowest error from a single axis. This indicates that having multiple measurements of the magnetic field reduces the overall error.
+
 \begin{table}[!htb]
     \centering
     \caption{RMS errors in Gauss for \ac{ACDS} system calibration test}
@@ -204,7 +210,7 @@ The \lstinline[style=code,language=Matlab]$tCalTstMSP_all$ function is used to t
     \end{tabular}
 \end{table}
 
-\Cref{tab:tcalMSPerr} shows the RMS errors in table form. The N/As in the table are because each \ac{SPB} only measures in two axes. For each axis the total error is less than the lowest error from a single axis. This indicates that having multiple measurements of the magnetic field reduces the overall error.
+\Cref{fig:tcalMSPerr-axis} shows the errors from each board in each axis.
 
 \afterpage{\begin{landscape}
 \begin{figure}[p]
@@ -214,8 +220,6 @@ The \lstinline[style=code,language=Matlab]$tCalTstMSP_all$ function is used to t
     \label{fig:tcalMSPerr-axis}
 \end{figure}
 \end{landscape}}
-
-\Cref{fig:tcalMSPerr-axis} shows the errors from each board in each axis.
 
 \section{B-dot controller simulations}
 
@@ -242,15 +246,6 @@ The B-dot algorithm equation is shown in \cref{eq:bdot-alg}.
 
 Substituting \cref{eq:bdot-mul} into \cref{eq:bdot-alg} and solving for $\omega$ gives \cref{eq:omega-th}, where $M_{th}$ is the torque switching threshold for the torquers and $\omega_{th}$ is the minimum rotation rate required to flip a torquer.
 
-\afterpage{\begin{landscape}
-\begin{figure}[p]
-    \centering
-    \includegraphics[height=\textwidth]{detumble-sim}
-  \caption{Simulation of torquer output with spinning magnetic field}
-    \label{fig:detumble-sim}
-\end{figure}
-\end{landscape}}
-
 \begin{equation}
     \omega _ {th} = \frac{M _ {th}}{C \left| \vec{B} \right|}
     \label{eq:omega-th}
@@ -269,10 +264,18 @@ To understand what the response of the \ac{ACDS} to a rotating magnetic field sh
 
 \Cref{fig:detumble-sim} shows a simulation of the detumble algorithm in a spinning magnetic field. The field vector spins about the Z-axis and has a magnitude of 0.3~Gauss. The gain of the simulated controller was -4 as discussed in \cref{sec:bdot-desc}. The plots show the magnetic dipole moment that the algorithm calculated and the magnetic dipole moment that can be generated as the magnetic field spins around.
 
+\afterpage{\begin{landscape}
+\begin{figure}[p]
+    \centering
+    \includegraphics[height=\textwidth]{detumble-sim}
+  \caption{Simulation of torquer output with spinning magnetic field}
+    \label{fig:detumble-sim}
+\end{figure}
+\end{landscape}}
 
 \section{Detumble Flip Test}
 
-To test the detumble algorithm on the \ac{ACDS} hardware the \lstinline[style=code,language=Matlab]$bdot_test$ function is used. A timer is used to update the magnetic field in the Helmholtz cage every half second. The field is set to a field that by default rotates around the Z-axis at 2~rpm. The \ac{ACDS} is set to operate in detumble mode and the data that the \ac{ACDS} outputs are captured.
+To test the detumble algorithm on the \ac{ACDS} hardware the \lstMat$bdot_test$ function is used. A timer is used to update the magnetic field in the Helmholtz cage every half second. The field is set to a field that by default rotates around the Z-axis at 2~rpm. The \ac{ACDS} is set to operate in detumble mode and the data that the \ac{ACDS} outputs are captured.
 
 \afterpage{\begin{landscape}
 \begin{figure}[p]
