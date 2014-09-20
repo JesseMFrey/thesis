@@ -67,7 +67,7 @@
     \end{pgfonlayer}
 
     \begin{pgfonlayer}{foreground}
-        \node[draw=black,fill=white] (legend) at (ACDSpcb.south east) {\begin{tikzpicture}
+        \node[draw=black,fill=white] (legend) at ([xshift=-2cm]ACDSpcb.south east) {\begin{tikzpicture}
             \begin{scope}[start chain=going below,node distance=1mm]
                 \node[power,text width=6em] (cleg) {Power Component};
                 \node[prog,text width=6em] {Program Component};
