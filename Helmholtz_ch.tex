@@ -22,7 +22,7 @@ The coils are driven by a set of six Agilent E3633A power supplies as shown in \
 
 Both coils in each pair require the same current to be driven in each coil to get a uniform field. This could be achieved by putting both coils in a pair in series but this would make the required voltage too large to be feasible. The coils could also be put in parallel but this requires the coils to be matched. The Helmholtz cage software sets the power supply currents to be the same for both coils in each pair.
 
-An Alpha lab \#3AMG Milligauss Meter is used to measure the magnetic field of the Helmholtz cage. The meter is visible in \cref{fig:helmholtz-comp} to the left of the computer monitors. The Miligauss Meter has a digital display and an analog voltage output. The voltage output is read by a NI PCI-6010 Multifunction DAQ installed in the Helmholtz cage computer.
+An Alpha lab \#3AMG Milligauss Meter is used to measure the magnetic field of the Helmholtz cage. The meter is visible in \cref{fig:helmholtz-comp} to the left of the computer monitors. The Miligauss Meter has a digital display and an analog voltage output. The voltage output is read by a NI PCI-6010 Multifunction \ac{DAQ} installed in the Helmholtz cage computer.
 
 \begin{figure}[!ht]
     \includegraphics[width=\linewidth]{helmholtz-computer}
@@ -32,7 +32,7 @@ An Alpha lab \#3AMG Milligauss Meter is used to measure the magnetic field of th
 
 \section{software}
 
-\Cref{fig:hc-block} shows the block diagram of the Helmholtz cage. The cage control class is a \matlab class that is used for low level interfacing to the Helmholtz cage hardware. The \ac{GPIB} interface is used to connect to the power supplies. The power supplies are connected to the coils through the H-bridge so that the current direction can be reversed. The H-bridge is controlled using the digital I\textbackslash{}O on the DAQ card. The magnetometer is connected to the analog input channels of the DAQ and reads the magnetic field in the Helmholtz cage. 
+\Cref{fig:hc-block} shows the block diagram of the Helmholtz cage. The cage control class is a \matlab class that is used for low level interfacing to the Helmholtz cage hardware. The \ac{GPIB} interface is used to connect to the power supplies. The power supplies are connected to the coils through the H-bridge so that the current direction can be reversed. The H-bridge is controlled using the digital I\textbackslash{}O on the \ac{DAQ} card. The magnetometer is connected to the analog input channels of the \ac{DAQ} and reads the magnetic field in the Helmholtz cage. 
 
 \begin{figure}[!ht]
     % We need layers to draw the block diagram
@@ -46,7 +46,7 @@ An Alpha lab \#3AMG Milligauss Meter is used to measure the magnetic field of th
     \begin{tikzpicture}[node distance = 6mm, auto]
         \node[prog,text width=2.2cm]     (cc)    {cage\_control class};
         \node[perif,right=of cc]      (gpib)  {\rotatebox{90}{\acs*{GPIB}}};
-        \node[perif,above=of cc]      (daq)   {DAQ};
+        \node[perif,above=of cc]      (daq)   {\acs*{DAQ}};
         \node[hardware,right=of gpib] (ps)    {Power Supplies};
         \node[hardware,right=of ps]   (dir)   {H-bridge};
         \node[hardware,right=of dir]  (coils) {Helmholtz Coils};
@@ -81,9 +81,9 @@ An Alpha lab \#3AMG Milligauss Meter is used to measure the magnetic field of th
 
 The feedback from the magnetometer is used to calibrate the Helmholtz cage. The cage is calibrated by setting the power supplies to a range of currents and reading back the magnetic field. The data is then used to compute a $4\times4$ transformation matrix to get from current to magnetic field. The magnetometer is not used in a closed loop fashion because magnetic fields produced by a device under test would change the magnetic field giving erroneous results.
 
-The cage control class takes care of all of the low level hardware interaction and calibration for the Helmholtz cage. The cage control class opens interface objects to the power supplies and the DAQ. The Helmholtz cage is controlled by setting properties of the class. Setting the \lstMat$Is$ property changes the current that the power supplies drive through the coils. The \lstMat$Bs$ property is a dependant property. Setting the \lstMat{Bs} property calculates the required currents using the calibration matrix \lstMat{T}, and sets \lstMat{Is}. Reading the \lstMat{Bs} property calculates the magnetic field setpoint using \lstMat{I} and \lstMat{T}. The \lstMat{Bm} property is also dependant as it represents the magnetic field read by the sensor. Reading \lstMat{Bm} causes the output voltage of the magnetometer to be read by the DAQ and converted to a magnetic field reading.
+The cage control class takes care of all of the low level hardware interaction and calibration for the Helmholtz cage. The cage control class opens interface objects to the power supplies and the \ac{DAQ}. The Helmholtz cage is controlled by setting properties of the class. Setting the \lstMat$Is$ property changes the current that the power supplies drive through the coils. The \lstMat$Bs$ property is a dependant property. Setting the \lstMat{Bs} property calculates the required currents using the calibration matrix \lstMat{T}, and sets \lstMat{Is}. Reading the \lstMat{Bs} property calculates the magnetic field setpoint using \lstMat{I} and \lstMat{T}. The \lstMat{Bm} property is also dependant as it represents the magnetic field read by the sensor. Reading \lstMat{Bm} causes the output voltage of the magnetometer to be read by the \ac{DAQ} and converted to a magnetic field reading.
 
 \subsection{Compatibility}
 
-The cage\_control class was originally developed on a 32-bit machine. When the code was moved to a 64-bit machine running \matlab R2011b the code did not work. This was because the cage\_control class uses the legacy interface for the DAQ which is not supported in 64-bit \matlab. The 64-bit version of \matlab only supports the session-based interface which is the newer interface. The NI PCI-6010 is not usable with the session-based interface in \matlab R2011b to R2013b due to a known bug. The work around was to install 32-bit \matlab on the 64-bit machine which allowed the legacy interface to be used. The bug is supposedly fixed in \matlab R2014a so the cage\_control class could be ported to the session-based interface but, at the time of this thesis it has not been done.
+The cage\_control class was originally developed on a 32-bit machine. When the code was moved to a 64-bit machine running \matlab R2011b the code did not work. This was because the cage\_control class uses the legacy interface for the \ac{DAQ} which is not supported in 64-bit \matlab. The 64-bit version of \matlab only supports the session-based interface which is the newer interface. The NI PCI-6010 is not usable with the session-based interface in \matlab R2011b to R2013b due to a known bug. The work around was to install 32-bit \matlab on the 64-bit machine which allowed the legacy interface to be used. The bug is supposedly fixed in \matlab R2014a so the cage\_control class could be ported to the session-based interface but, at the time of this thesis it has not been done.
 
