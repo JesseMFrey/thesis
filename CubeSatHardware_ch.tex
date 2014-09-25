@@ -15,10 +15,10 @@ The \ac{ACDS} board for the \ac{ARC} only contains the processor, torquers and d
 
 \begin{figure}[!ht]
     \centering
-    \begin{minipage}{0.31\linewidth}
+    \begin{minipage}{0.33\linewidth}
         \begin{tikzpicture}[remember picture,node distance=0]
             \def\sysx{0.8}
-            \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\linewidth]{cubesat-core}};
+            \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=0.9\linewidth]{cubesat-core}};
             \begin{scope}[x={(image.south east)},y={(image.north west)}]
                 % define destination coordinates
                 \path (\sysx,0.751) coordinate (LEDL)
@@ -150,7 +150,7 @@ The \ac{ACDS} board has the same overall outline and hole pattern as the rest of
             \item[\kern-0.2em] Pull Pin Housing \tikz[na] \coordinate (PPi);
             \item[\kern-0.2em] \acf{USB} connection \tikz[na] \coordinate (USBi);
         \end{itemize}
-    \end{minipage}\begin{minipage}{0.35\linewidth}
+    \end{minipage}\begin{minipage}{0.32\linewidth}
         \begin{tikzpicture}[remember picture] 
             \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\linewidth]{ACDS-board-render}};
             \begin{scope}[x={(image.south east)},y={(image.north west)}]
@@ -228,7 +228,7 @@ The block diagram for the CubeSat hardware used to implement the \ac{ACDS} is sh
 \afterpage{\begin{landscape}
 \begin{figure}[p!]
     \centering
-    \input{ADCS-block}
+    \input{ACDS-block}
     \caption{Block Diagram of the CubeSat \acs*{ACDS} system}
     \label{fig:ACDS-block}
 \end{figure}

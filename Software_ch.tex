@@ -21,7 +21,7 @@ In order to determine which torquer to flip the \ac{ACDS} needs sensor inputs. T
         \node [block,left=of AB,yshift=-3cm]        (CDH) {\acs{CDH}};
         \node [block,left=of CDH]                   (COM) {\acs{COMM}};
 
-        \node [bigblock,node distance=4cm,right=of AB,minimum height=5cm,yshift=1.5cm] (core) {\acs{ACDS} software};
+        \node [bigblock,node distance=3.5cm,right=of AB,minimum height=5cm,yshift=1.5cm] (core) {\acs{ACDS} software};
         \node [bigblock,node distance=1cm,below=of core,minimum height=2cm] (HC) {House Keeping};
 
 
@@ -70,7 +70,7 @@ Ground station commands will be provided to change the operation of the \ac{ACDS
     % Place nodes
     \node [block] (field) {Magnetic Field Measurements};
     \node [block,right=of field] (cal) {Torquer Offset Correction};
-    \node [block, right=of cal] (alg) { $C {\dot{\vect{B}}}$ };
+    \node [block, right=of cal,text width=1cm] (alg) { $C {\dot{\vect{B}}}$ };
     \node [block, right=of alg] (q) {Torque Quantization};
     \node [block, right=of q] (choose) {Choose Torquers to Fire};
     \node [block,node distance=0.7cm, right=of choose] (fire) {Fire Torquers};
