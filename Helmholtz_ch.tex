@@ -87,3 +87,25 @@ The cage control class takes care of all of the low level hardware interaction a
 
 The cage\_control class was originally developed on a 32-bit machine. When the code was moved to a 64-bit machine running \matlab R2011b the code did not work. This was because the cage\_control class uses the legacy interface for the \ac{DAQ} which is not supported in 64-bit \matlab. The 64-bit version of \matlab only supports the session-based interface which is the newer interface. The NI PCI-6010 is not usable with the session-based interface in \matlab R2011b to R2013b due to a known bug. The work around was to install 32-bit \matlab on the 64-bit machine which allowed the legacy interface to be used. The bug is supposedly fixed in \matlab R2014a so the cage\_control class could be ported to the session-based interface in the future.
 
+\section{Testing}
+
+The accuracy of the Helmholtz cage is important because it is used to measure the accuracy of the magnetometers on the CubeSat. The Helmholtz cage is not magnetically shielded so outside disturbances can affect the magnetic field in the cage.
+
+To test the Helmholtz cage the commanded magnetic field was swept as shown in \cref{fig:hc-tst} and the field inside the cage was measured with the sensor. The measured field follows the commanded field for the most part but there are several areas where there is a visible difference between the measured and commanded field. 
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.8\linewidth]{HCtst}
+    \caption{Helmholtz cage test field}
+    \label{fig:hc-tst}
+\end{figure}
+
+\Cref{fig:hc-tst-err} shows the magnetic field error from the testin in \cref{fig:hc-tst}. 
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\linewidth]{HCtst-error}
+    \caption{Helmholtz cage test error}
+    \label{fig:hc-tst-err}
+\end{figure}
+
