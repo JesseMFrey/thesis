@@ -7,7 +7,7 @@ The main responsibility of the \ac{ACDS} software is to determine which torquer 
 
 \section{Overview}
 
-In order to determine which torquer to flip the \ac{ACDS} needs sensor inputs. The sensors are read by the \ac{LEDL} board and forwarded to the \ac{ACDS} using the \ac{ARC}bus. The \ac{ACDS} needs to communicate with the \ac{COMM} board to respond to ground station commands and downlink housekeeping data.
+\Cref{fig:soft-overview} shows the overview of the \ac{ACDS} and how it connects to other systems on the \ac{ARC}. In order to determine which torquer to flip the \ac{ACDS} needs sensor inputs. The sensors are read by the \ac{LEDL} board and forwarded to the \ac{ACDS} using the \ac{ARC}bus. The \ac{ACDS} needs to communicate with the \ac{COMM} board to respond to ground station commands and downlink housekeeping data.
 
 \begin{figure}[H]
     \centering
@@ -45,6 +45,7 @@ In order to determine which torquer to flip the \ac{ACDS} needs sensor inputs. T
 
 
     \end{tikzpicture}
+    \label{fig:soft-overview}
     \caption{\acs*{ACDS} software overview}
 \end{figure}
 
@@ -54,7 +55,7 @@ The \ac{ACDS} starts running after the separation switch is switched and the pow
 
 \subsection{Rotation Runaway}
 
-If the gyros detect that the satellite is rotating too fast then they will automatically send the \ac{ACDS} into a safe mode where the \ac{ACDS} does not run. This could happen for many reasons such as errors in the algorithm or unexpected conditions during flight. In this situation the best thing to do is for the \ac{ACDS} to stop and wait for further intervention from the ground.
+If the gyros detect that the satellite is rotating too fast then they will automatically send the \ac{ACDS} into a safe mode where the \ac{ACDS} does not run. This could potentially happen for many reasons such as errors in the algorithm or unexpected conditions during flight. In this situation the best thing to do is for the \ac{ACDS} to stop and wait for further intervention from the ground.
 
 \section{Ground Station Commands}
 
@@ -62,7 +63,7 @@ Ground station commands will be provided to change the operation of the \ac{ACDS
 
 \section{Algorithm Software}
 
-\Cref{fig:swblock} shows the software block diagram for the \ac{ACDS} algorithm. Field measurements from the magnetometer are calibrated using the current torquer state and the compensation data. The B-dot algorithm uses the compensated data to calculate the dipole moments that should be generated. The dipole moments are then quantized based on \cref{fig:lpmtq-flt}. The torquers to flip are chosen based on current knowledge of torquer status as well as the desired torque. The torquer feedback checks to make sure that the torquers and drivers are functioning correctly. The torquer status is tracked by reading the torquer feedback and by knowing which torquers were flipped.
+\Cref{fig:swblock} shows the software block diagram for the \ac{ACDS} algorithm. Field measurements from the magnetometer are calibrated using the current torquer state and the compensation data. The B-dot algorithm uses the compensated data to calculate the dipole moments that should be generated. The dipole moments are then quantized as illustrated in \cref{fig:lpmtq-flt}. The algorithm decides which torquers to flip based on current torquer status and the desired torque. The torquer feedback checks to make sure that the torquers and drivers are functioning correctly. The torquer status is tracked by reading the torquer feedback and by knowing which torquers were flipped.
 
 \begin{figure}[H]
     \centering
@@ -100,7 +101,7 @@ Ground station commands will be provided to change the operation of the \ac{ACDS
 
 \label{sec:bdot-desc}
 
-The B-dot algorithm is used to detumble the \ac{ARC}. The B-dot algorithm uses the time derivative of the magnetic field, $\dot{\vec{B}}$, to calculate the magnetic dipole moment that the torquers should generate. This is a method that is widely used on other CubeSats that have magnetic \ac{ACDS}\cite{Silani2005357}. In this mode the magnetic dipole moment is simply set to a value that is proportional to the derivative of the magnetic field. The gain for the B-dot controller needs to be negative in order to stop the motion of the magnetic field.
+The B-dot algorithm is used to detumble the \ac{ARC}. The B-dot algorithm uses the time derivative of the magnetic field, $\dot{\vec{B}}$, to calculate the magnetic dipole moment that the torquers should generate. This is a method that is widely used on other CubeSats that have magnetic \ac{ACDS}\cite{Silani2005357}. In this mode the magnetic dipole moment is simply set to a value that is proportional to the derivative of the magnetic field. The gain for the B-dot controller needs to be negative in order to oppose the motion of the magnetic field.
 
 \section{Auxiliary Software Functions}
 
@@ -112,9 +113,9 @@ The torquer flipping logic keeps track of the torquer status and sets the torque
 
 \subsubsection{Status Tracking}
 
-The status of each torquer is tracked by the flipping logic. This includes flags to indicate if each torquer has been flipped and has had errors being flipped. The last four torquers that were flipped are also tracked. This is used to chose which torquer to flip.
+The status of each torquer is tracked by the flipping logic. The status information includes direction, initialization, and error flags for each torquer. The last four torquers that were flipped are also tracked. This is used to chose which torquer to flip.
 
-When it is time to flip a torquer the software looks at the current torquer status and desired torque to figure out which direction a torquer needs to be flipped in. Next the software finds torquers that can be flipped in the needed direction. Finally, the torquer that was flipped the least recently is flipped. This way the torquer flips are distributed across the torquers in a given axis. If torquers are marked as uninitialized then they are flipped first before other torquers so that all torquers are in a known state as quickly as possible such as after a reset or on power-up.
+When it is time to flip a torquer the software looks at the current torquer status and the desired torque to figure out which direction a torquer needs to be flipped. Next the software finds torquers that can be flipped in the needed direction. Finally, the torquer that was flipped the least recently is flipped. This way the torquer flips are distributed across the torquers in a given axis. If torquers are marked as uninitialized then they are flipped first before other torquers so that all torquers are in a known state as quickly as possible such as after a reset or power-up.
 
 \subsubsection{Torquer Feedback}
 
@@ -122,19 +123,19 @@ Before and after each torquer flip the torquer feedback comparators are read. Af
 
 \subsection{Torquer Compensation}
 
-Because the geometry of the system should not change in flight, the field offset seen by each magnetometer depends on the combination of torquer states. By taking measurements in the Helmholtz cage these offsets can be calculated and eliminated during flight in order to measure Earth's magnetic field. As described in \cref{sec:tq-comp-tst}.
+Because the geometry of the system should not change in flight, the field offset seen by each magnetometer depends on the combination of torquer states. By taking measurements in the Helmholtz cage these offsets can be calculated, as described in \cref{sec:tq-comp-tst}, and eliminated during flight in order to measure the Earth's magnetic field.
 
 \subsubsection{Compensation Data Set}
 
 \label{sec:comp-dat-set}
 
-There are a total of 12 \acp{LPMT} on the \ac{ACDS}. Each \ac{LPMT} has two states which results in a total of 4096 possible states. If the offset for each state uses four bytes this results in a data set that is 16~kB. The field produced at each state is the sum of the field contributions of all of the torquers. The dataset can be reduced by doing three separate calibrations, one for the set of torquers in each axis. The calibrations are then combined by superposition to get a calibration set where one offset is chosen for each axis and added together to get the full offset. This reduces the number of states to $3 \times 16 + 1 = 49$ which is only about 200~bytes of data, much reduced from using all possible states.
+There are a total of 12 \acp{LPMT} on the \ac{ACDS}. Each \ac{LPMT} has two states which results in a total of 4096 possible states. If the offset for each state uses four bytes this results in a data set that is 16~kB. The field produced at each state is the sum of the field contributions of all of the torquers. The dataset can be reduced by doing three separate calibrations, one for the set of torquers in each axis. The calibrations are then combined by superposition to get a calibration set where one offset is chosen for each axis and added together to get the full offset. This reduces the number of states to $3 \times 16 + 1 = 49$, which is only about 200~bytes of data, much reduced from using all possible states.
 
 \subsubsection{Compensation Routine}
 
 \label{sec:tq-comp}
 
-To calculate the compensation values for the torquers, the calibration procedure described in \cref{sec:magcal} is run for each combination of torquer states. The results of the compensation is $C_1$, $C_2$, $C_4$ and $ C_5$, which are the same calibration constants computed with the magnetometer calibration routine. The offsets are separated into a common pair of offsets and then 3 sets of 16 offsets for each set of torquers as described in \cref{sec:tq-comp-tst}. The total offset value for a given torquer state is the sum of the common offset value and an offset determined by the state of the torquers in the X, Y and Z axes.
+To calculate the compensation values for the torquers, the calibration procedure described in \cref{sec:magcal} is run for each combination of torquer states. The compensation routine calculates values for $C_1$, $C_2$, $C_4$ and $ C_5$, which are the same calibration constants computed with the magnetometer calibration routine. The offsets are separated into a common pair of offsets and then 3 sets of 16 offsets for each set of torquers as described in \cref{sec:tq-comp-tst}. The total offset value for a given torquer state is the sum of the common offset value and an offset determined by the state of the torquers in the X, Y and Z axes.
 
 \subsection{Data Logging}
 
@@ -150,28 +151,27 @@ During \ac{ACDS} operations data on the system status is collected during flight
         \hline
         Time Stamp&4&unsigned integer\\
         \hline
-        mode&1&unsigned integer\\
+        Mode&1&unsigned integer\\
         \hline
-        flags&1&flags\\
+        Flags&1&flags\\
         \hline
-        torquer feedback&2&flags\\
+        Torquer feedback&2&flags\\
         \hline
-        Magnetic Flux Vector&12&Floating point vector\\
+        Magnetic flux vector&12&floating point vector\\
         \hline
-        $M_{cmd}$&12&Floating point vector\\
+        $M_{cmd}$&12&floating point vector\\
         \hline
-        torquer status&48&flags\\
+        Torquer status&12&flags\\
         \hline
-        torquers flipped&6&unsigned integer (one per axis)\\
+        Torquers flipped&6&unsigned integer (one per axis)\\
         \hline
-        raw magnetometer readings&24&unsigned integer (one per axis)\\
+        Raw magnetometer readings&24&unsigned integer (one per axis)\\
         \hline
-        gyro readings&6&unsigned integers (one per axis)\\
+        Gyro readings&6&unsigned integers (one per axis)\\
         \hline
-        %$\dot{\vec{B}}$&12&Floating point vector\\
-        B-dot&12&Floating point vector\\
+        B-dot&12&floating point vector\\
         \hline
-        \multicolumn{1}{|r|}{\bfseries Total :}&154&\\
+        \multicolumn{1}{|r|}{\bfseries Total :}&92&\\
         \hline
     \end{tabular}
 \end{table}
@@ -184,7 +184,7 @@ Because the downlink data speed is limited, it is necessary to reduce the data t
 
 The \ac{ARC} \ac{COMM} system sends a beacon packet every 10~seconds. The purpose of the beacon is to be able to locate the \ac{ARC} and determine how well the satellite is functioning. The beacon packet contains a small amount of data from each subsystem which gives an idea of how well the system is operating.
 
-The beacon data from the \ac{ACDS} is shown in \cref{tab:beacondat}. The data contains enough data to be able to see how well the system is operating but not exceed the maximum packet size.
+The beacon data from the \ac{ACDS} is shown in \cref{tab:beacondat}. The data contains enough data to be able to see how well the system is operating but not exceed the maximum packet size. As discused in \cref{sec:kalman-filter} the Kalman filter may be added as a future enhancement the Kalman filter attitude field of the beacon packet will be filled with zeros until this is written. Similarly the Kalman filter rates are not calculated by the software at the time of this thesis they will be filled with the gyro rotation rates.
 
 \begin{table}[H]
     \centering
@@ -194,13 +194,13 @@ The beacon data from the \ac{ACDS} is shown in \cref{tab:beacondat}. The data co
         \hline
         Data&size (bytes)&Format\\
         \hline
-        current magnetometer readings&6&signed integers (one per axis)\\
+        Current magnetometer readings&6&signed integers (one per axis)\\
         \hline
         Mode&1&unsigned integer\\
         \hline
-        current torquer status&3&flags\\
+        Current torquer status&3&flags\\
         \hline
-        number of torquer flips so far & 6 & unsigned integers (one per axis)\\
+        Number of torquer flips so far & 6 & unsigned integers (one per axis)\\
         \hline
         Kalman filter attitude&8&integer quaternion\\
         \hline
