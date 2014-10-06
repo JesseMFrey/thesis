@@ -4,13 +4,13 @@
 
 \label{ch:Verification}
 
-The \ac{ACDS} is a unique system that was developed specifically for the \ac{ARC} and has not yet been flight tested. Ideally everything would be verified before launch but, it is difficult to replicate the on-orbit environment closely. The magnetic field can be effectively simulated using the Helmholtz cage so the sensors can be calibrated and tested. 
+The \ac{ACDS} is a unique system that was developed specifically for the \ac{ARC} and has not yet been flight tested. Ideally everything would be verified before launch, but it is difficult to replicate the on-orbit environment closely. The magnetic field can be effectively simulated using the Helmholtz cage so the sensors can be calibrated and tested. 
 
-Using the Helmholtz cage the \ac{ACDS} system can not be fully tested. The control algorithm can be stimulated by generating a rotating magnetic field but this only tests how the algorithm responds and not what effect the response will have on the rotation rate of the spacecraft.
+Using the Helmholtz cage the \ac{ACDS} system can not be fully tested. The algorithm will flip torquers if a rotating magnetic field is generated, but this only tests how the algorithm responds to the magnetic field inputs but not the effect the torquers have on spacecraft dynamics.
 
 \section{Motivation}
 
-The \acp{LPMT} used for the \ac{ACDS} pose a unique challenge when compared to both passive magnetic torquers and active proportional torquers. The \acp{LPMT} can be changed like active proportional torquers but, they can't be switched off to produce zero field. Passive torquers are just a permanent magnet which can be calibrated out because it is static but the field from \acp{LPMT} can't. Magnetometer measurements are used for attitude determination but the field from the torquers, if not compensated for, will overwhelm the measurements of the Earth's magnetic field making attitude determination impossible.
+The \acp{LPMT} used for the \ac{ACDS} pose a unique challenge when compared to both passive magnetic torquers and active proportional torquers. The \acp{LPMT} can be changed like active proportional torquers but, they can't be switched off to produce zero field. Passive torquers use a permanent magnet which only opperates in one state and is easily calibrated out, but the \acp{LPMT} can be in many states. Magnetometer measurements are used for attitude determination but the field from the torquers, if not compensated for, will overwhelm the measurements of the Earth's magnetic field making attitude determination impossible.
 
 \subsection{Torquer Offsets}
 
