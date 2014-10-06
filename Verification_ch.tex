@@ -39,29 +39,7 @@ The torquer compensation data, explained in \cref{sec:tst-tq-comp}, is used to s
     \centering
     \caption{Information from \lstMat$offsetplot$. All numbers are in Gauss}
     \label{tab:off-stat}
-    \begin{tabular}{|c|c|c|c|}
-        \hline
-        \acs{SPB}&Max Offset&Min Offset&Deviation\\
-        \hline
-        \multicolumn{4}{|c|}{\bfseries X-axis}\\
-        \hline
-        Y-&0.24&-1.12&1.36\\
-        \hline
-        Y+&2.11&-3.14&5.25\\
-        \hline
-        Z+&0.87&-0.35&1.23\\
-        \hline
-        \multicolumn{4}{|c|}{\bfseries Y-axis}\\
-        \hline
-        Z+&2.45&1.45&1.00\\
-        \hline
-        \multicolumn{4}{|c|}{\bfseries Z-axis}\\
-        \hline
-        Y-&1.25&0.14&1.11\\
-        \hline
-        Y+&0.61&-2.36&2.97\\
-        \hline
-    \end{tabular}
+    \input{offsetplot-table-dat}
 \end{table}
 
 \Cref{tab:off-stat} shows the offset maximums and minimums. The deviation is the difference between the maximum and minimum torquer offsets for a given magnetometer. The deviation is an indication of how much of an effect the torquers have on the magnetometers. The greatest deviation is just over 5~Gauss for the Y+ \ac{SPB} measuring the X-axis. The Y+ \ac{SPB} also has the second highest deviation of almost 3~Gauss. The Y- and Z+ \acp{SPB} have deviations that are closer to 1~Gauss. Looking back at \cref{fig:torquers} it makes sense that the Y+ \ac{SPB} has the largest torquer offset as it is located close to a pair of X torquers and a pair of Z-torquers. The Y- \ac{SPB} is located next to the header so the torquers are located farther away. The Z+ board is located farthest away from the torquers so one would expect that the offsets for it would be smaller.
