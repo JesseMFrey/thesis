@@ -66,8 +66,8 @@ In order for the Kalman filter to work it needs the orbital elements for the sat
     \node [block,right=of field] (cal) {Torquer offset correction};
     \node [block,node distance=0.7cm,right=of cal] (alg) {Torque algorithm};
     \node [block, right=of alg] (q) {Torque Quantization};
-    \node [block, above=of alg] (rates) {Kalman Filter};
     \node [block,above=of cal] (igrf) {Magnetic field model};
+    \node [block,node distance=0.7cm,right=of igrf] (rates) {Kalman Filter};
     \node [block,left=of igrf] (pos) {Orbit timing};
     \node [block, above=of q] (win) {Bias Window Determination};
     \node [block, right=of q] (choose) {Choose Torquers to fire};
