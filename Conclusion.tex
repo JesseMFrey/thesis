@@ -4,59 +4,27 @@
 
 \section{Conclusion}
 
+The goal of this thesis was to make a working prototype of the hardware described in \cite{Mentch11}. Flight hardware has been built with software to detumble the satellite. The alignment phase described in \cite{Mentch11} was not implemented primarily due to the reasons stated in \cref{ch:BG} but in addition the orbit in \cite{Mentch11} was circular and for the \ac{ARC}1 mission the orbit will be elliptical.
+
+In a circular orbit the angular velocity required to remain nadir pointing is constant throughout the orbit. In an elliptical orbit the angular velocity to remain nadir pointing is not constant throughout the orbit. The changing angular velocity presents a problem because the algorithm in \cite{Mentch11} works by setting the angular velocity of the satellite to be constant. 
+
+A large part of the work for this thesis was focused on the torquer compesation. It was sugested that torquer compensation was possible but it was not mentioned in \cite{Mentch11}. Software has been written to interface with the \ac{LEDL} board to read magnetometer data and compensate for the torquer field. The torquer compensation has been tested and found to accurately measure the external magnetic field well enough to compute the attitude to within \textpm{}5\textdegree.
+
 \section{Future Work}
 
-\subsection{System Operations Overview}
+The system built for this thesis does not fully implement everything described in \cite{Mentch11}. The main shortcomings of the described system is the software. The hardware is essentially the same as described in \cite{Mentch11} except for the torquer sizing.
 
-\Cref{fig:sysopflow} shows the system operations flow. The code starts running after the separation switch is switched and the power system applies power to all systems. Before starting any operations the \ac{ACDS} waits for the on command from the \ac{CDH} board. After the \ac{ACDS} board receives the on command the \ac{ACDS} sends a command to the \ac{LEDL} board to tell it to start taking sensor data. Once sensor data is received the \ac{ACDS} starts to run the detumble algorithm. The Kalman filter needs to know the location of the satellite for it to operate properly so orbital elements must be uploaded before the Kalman filter can start running. Once the Kalman filter knows the location of the satellite it still needs some time to converge to a solution. During this time the \ac{ACDS} remains in detumble mode even if the rates have slowed enoughs to exit. Once the Kalman filter is locked and the rates have sufficiently slowed the \ac{ACDS} switches into mode 2. Mode two is run for a set number \todo{figure out how many and put the number here} of orbits (measured by timing). After mode 2 is complete Mode 3 starts. The \ac{ACDS} remains in mode 3 indefinably unless one of undesirable conditions is detected, see \cite{Mentch11} for details, which causes the \ac{ACDS} to attempt to kick the satellite out of the undesirable alignment and then re-stabilize by transitioning back to mode 2.
+The torquers as described in \cite{Mentch11} are not feasible. The torquer flips in \cref{fig:satWV} showed about a \textpm{}0.5\% variation across multiple flips. The vernier torquers described in \cite{Mentch11} were $\sfrac{1}{200}^{\mathrm{th}}$, or 0.5\%, the strength of the primary torquers. The result is that a set of primary torquers that is set to produce zero torque could produce the same amount of torque as a pair of vernier torquers. The solution used in this thesis was to not use the vernier torquers and fill the empty slots with primary torquers. This could be improved upon if a torquer core could be made with approximately 10\% the dipole moment of the alnico torquers. 
 
-\begin{figure}[H]
-    \centering
-    \begin{tikzpicture}[node distance = 0.5cm, auto]
-    % Place nodes
-    \node [block] (sep) {Separation};
-    \node [block,below=of sep] (cmd) {On Command from \acs{CDH}};
-    \node [block,below=of cmd] (sens) {Send Start Data Collection Command to \acs{LEDL}};
-    \node [block,node distance= 2cm,right=of sep] (detumble) {Detumble};
-    \node [decision,below=of detumble] (dchk) {Rates and Kalman filter are ready};
-    \node [block,below=of dchk] (m2) {Mode 2};
-    \node [decision,below=of m2] (m2chk) {Has Mode 2 time elapsed?};
-    \node [block,below=of m2chk] (m3) {Mode 3};
-    \node [decision,below=of m3] (cchk) {Correct Alignment?};
-    \node [block,node distance=2cm,right=of cchk]  (cor) {apply correction};
-    \node [block,above=of cor]  (timer) {reset Mode 2 timer};
+The rotation rate determination algorithm was found to be a much more complex problem than described in \cite{Mentch11} which suggested that rotation rates could be determined directly from magnetic field measurements. Upon further investigation it was found that this was not feasible for the alignment phase. As an alternative the rotation rates can be determined from the magnetic field using a Kalman filter. The Kalman filter brings an additional level of complexity that the original system attempted to avoid. 
 
-    \path[conn] (sep) -- (cmd);
-    \path[conn] (cmd) -- (sens);
-    \path[conn] (sens.east) -- ++(0.5cm,0) |- (detumble);
+The Kalman filter uses a magnetic field model for attitude determination. The magnetic field model uses the location of the satellite to calculate the expected local magnetic field in the orbital reference frame. This requires that the position of the satellite be known for the Kalman filter to work. The location will be calculated by uplinking the orbital parameters of the satellite and using an orbit propagator to calculate position as the satellite moves through its orbit.
 
-    \path[conn] (detumble) -- (dchk);
-    \path[conn] (dchk) --  node [near start] {yes} (m2);
-    \path[conn] (dchk.east) -- node [near start] {no} ++(0.7cm,0) |-  (detumble);
-    \path[conn] (m2) -- (m2chk);
-    \path[conn] (m2chk) -- node [near start] {yes} (m3);
-    \path[line] (m2chk.east) -- node [near start] {no} ++(0.7cm,0) |- (m2);
+The bias window were originally supposed to be determined using the magnetic field to estimate the latitude. With the Kalman filter the location can be directly determined using the orbit propagator so there is no need for latitude determination from the Earth's magnetic field.
 
-    \path[conn] (m3) -- (cchk);
-    \path[conn] (cchk) -- node [near start] {no} (cor);
-    \path[conn] (cor) -- (timer);
-    \path[conn] (timer) |- (m2);
+\subsection{New Concept of Operations}
 
-    \path[conn] (cchk.west) -- node [near start] {yes} ++(-0.7cm,0) |- (m3);
-
-    \end{tikzpicture}
-    \caption{System operations chart}
-    \label{fig:sysopflow}
-\end{figure}
-
-The flow case the flow from \cref{fig:sysopflow} can be disrupted. This can happen due to commands from the ground station or if the gyros detect that the sattelite is rotating too fast. The ground station can force the \ac{ACDS} into any mode and ether let it go with the normal flow or stay in a particular mode. This allows for recovery in case the system does not function as expected.
-
-If the gyros detect that the satellite is rotating too fast then they will automatically send the \ac{ACDS} into a safe mode where the \ac{ACDS} does not run. It is possible that the \ac{ACDS} could get into a situation where the algorithm speeds up the rotation instead of slowing it down. In this situation the best thing to do is for the \ac{ACDS} to stop and wait for further intervention from the ground.
-
-\subsubsection{Additional Ground station Commands}
-
-In order for the Kalman filter to work it needs the orbital elements for the satellite. These must be uplinked from the ground because they change as the orbit decays. In addition gains for the control algorithm and Kalman filter may need to be changed in flight to account for unexpected conditions. 
-
+The algorithm shown in \cref{fig:swblock} with additions is shown in \cref{fig:swblock-future}. The orbital parameters are used to determine the bias window and to determine the local magnetic field direction. The Kalman filter is used to output rates to the torque algorithm. The bias window is used by the torque algorithm to determine when and how to bias the torquers.
 
 \begin{figure}[H]
     \centering
@@ -68,7 +36,7 @@ In order for the Kalman filter to work it needs the orbital elements for the sat
     \node [block, right=of alg] (q) {Torque Quantization};
     \node [block,above=of cal] (igrf) {Magnetic field model};
     \node [block,node distance=0.7cm,right=of igrf] (rates) {Kalman Filter};
-    \node [block,left=of igrf] (pos) {Orbit timing};
+    \node [block,left=of igrf] (pos) {Orbit Propagator};
     \node [block, above=of q] (win) {Bias Window Determination};
     \node [block, right=of q] (choose) {Choose Torquers to fire};
     \node [block,node distance=0.7cm, right=of choose] (fire) {Fire Torquers};
@@ -101,6 +69,8 @@ In order for the Kalman filter to work it needs the orbital elements for the sat
     \caption{Overall Software Block Diagram}
     \label{fig:swblock-future}
 \end{figure}
+
+The torque algorithm varies depending on the current mode. In mode 1 the Kalman filter and bias window determination are not used and the algorithm is the one showin in \cref{fig:swblock}. In modes 2 and 3 the algorithms shown in \cref{fig:mode2,fig:mode3} are used.
 
 \subsubsection{Mode 2}
 
@@ -169,4 +139,9 @@ In order for the Kalman filter to work it needs the orbital elements for the sat
     \caption{Mode 3 Torque Algorithm Block Diagram}
     \label{fig:mode3}
 \end{figure}
+
+\subsection{Alternate operations}
+
+The original system presented in \cite{Mentch11} used the biasing scheme to get the satellite into the correct attitude without ever knowing the attitude. The Kalman filter proposed for rate determination must compute attitude in order to compute the rotation rates. Because the attitude is known a more traditional attitude control algorithm to be used. Using a more traditional algorithm will allow the \ac{ACDS} to function in orbits that are elliptical. 
+
 
