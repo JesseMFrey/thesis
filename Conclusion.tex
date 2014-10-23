@@ -8,7 +8,7 @@ The goal of this thesis was to make a working prototype of an \ac{ACDS} using \a
 
 In a circular orbit the angular velocity required to remain nadir pointing is constant throughout the orbit. In an elliptical orbit the angular velocity to remain nadir pointing is not constant throughout the orbit. The changing angular velocity presents a problem because the algorithm in \cite{Mentch11} works by setting the angular velocity of the satellite to be constant. 
 
-A large part of the work for this thesis was focused on the torquer compensation. It was suggested that torquer compensation was possible but it was not mentioned in \cite{Mentch11}. Software has been written to interface with the \ac{LEDL} board to read magnetometer data and compensate for the torquer field. The torquer compensation has been tested and found to accurately measure the external magnetic field well enough to compute the attitude to within \textpm{}5\textdegree.
+A large part of the work for this thesis was focused on the torquer compensation. Torquer compensation is needed so that the Earth's magnetic field can be measured using magnetometers that are not separated from the torquers. It was suggested that torquer compensation was possible but it was not mentioned in \cite{Mentch11}. Software has been written to interface with the \ac{LEDL} board to read magnetometer data and compensate for the torquer field. The torquer compensation has been tested and found to accurately measure the external magnetic field well enough to compute the attitude to within \textpm{}5\textdegree.
 
 \section{Future Work}
 
