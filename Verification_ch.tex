@@ -49,11 +49,9 @@ The torquer compensation data, explained in \cref{sec:tst-tq-comp}, is used to s
 
 \subsection{Torquer Repeatability}
 
-\future{Re-do plots with full set of \acp{SPB} and make clear which boards the data is for.}
-
 The torquer compensation method depends on the torquer offsets being repeatable. If the offsets are not nearly repeatable then the offsets will induce errors in the measured field. \Cref{fig:tqoff1,fig:tqoff2} each show a plot of the torquer offsets. The plot shows the offsets of the torquers when they are polarized in each direction. Each plot shows a diffrent magnetometer axis. The offset values are normalized to show deviation from the median for better comparison. The maximum offset variation in \cref{fig:tqoff1,fig:tqoff2} is 20 mGauss.
 
-The plot in \cref{fig:tqoff1,fig:tqoff2} were generated using the \lstMat$alltorquetest$ function. To create the plot each torquer was flipped 20 times in each direction. After each flip a magnetometer calibration was done to get the offset values. The variation in the offset is then plotted as a box plot.
+The plot in \cref{fig:tqoff1,fig:tqoff2} were generated using the \lstMat$alltorquetest$ function. The plots for the Y+ \ac{SPB} are shown because, as shown in \cref{tab:off-stat}, the Y+ board has the largest torquer offsets. To create the plot each torquer was flipped 20 times in each direction. After each flip a magnetometer calibration was done to get the offset values. The variation in the offset is then plotted as a box plot.
 
 \Cref{fig:tqoff1,fig:tqoff2} were plotted using \matlab's \lstMat$boxplot$ function. The boxes extend from the 25th to the \nth{75} percentile. The whiskers extend to the most extreme point in each direction that is not an outlier. Outliers are those points that are larger than $q_3 + 1.5 \left( q_3 - q_1 \right)$ or smaller than $q_1 - 1.5 \left( q_3 - q_1 \right)$ with $q_1$ and $q_2$ the \nth{25} and \nth{75} percentile respectively. This corresponds to points outside roughly $\pm 2 \sigma$ for normally distributed data. \cite{MatBox}
 
@@ -61,19 +59,19 @@ The plot in \cref{fig:tqoff1,fig:tqoff2} has the \lstMat$'extrememode'$ option s
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[width=\linewidth]{torqueOffsets-1}
-    \caption{Box plot showing torquer offset variations}
+    \includegraphics[width=\linewidth]{torqueOffsets_Y+SPB-X}
+    \caption{Box plot showing torquer offset variations for the X-axis of the Y+ SPB}
     \label{fig:tqoff1}
 \end{figure}
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[width=\linewidth]{torqueOffsets-2}
-    \caption{Box plot showing torquer offset variations}
+    \includegraphics[width=\linewidth]{torqueOffsets_Y+SPB-Z}
+    \caption{Box plot showing torquer offset variations for the Z-axis of the Y+ SPB}
     \label{fig:tqoff2}
 \end{figure}
 
-\Cref{fig:tqoff1,fig:tqoff2} show that there is some variation in the torquer offsets. \future{Say something more specific about the torquer offsets once the new plot is finished}
+\Cref{fig:tqoff1,fig:tqoff2} show that there is some variation in the torquer offsets. The variations, except for outliers, are all below \textpm{}15~mGauss. 
 
 \section{Magnetometer Verification}
 

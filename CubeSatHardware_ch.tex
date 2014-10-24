@@ -240,33 +240,51 @@ The block diagram for the CubeSat hardware used to implement the \ac{ACDS} is sh
 
 \begin{figure}[!htbp]
     \centering
-    \begin{minipage}{0.25\linewidth}
-        \begin{itemize}\setlength{\parskip}{0pt}
-            \item[\kern-0.2em] Magnetometer \tikz[na] \coordinate (MAGi);
-            \item[\kern-0.2em] Y torquers \tikz[na] \coordinate (YTi);
+    \begin{minipage}{0.27\linewidth}
+        \begin{itemize}\setlength{\parskip}{3pt}
+            \item[\kern-0.2em] Magnetometers \tikz[na] \coordinate (MAGi);
             \item[\kern-0.2em] X torquers \tikz[na] \coordinate (XTi);
+            \item[\kern-0.2em] Y torquers \tikz[na] \coordinate (YTi);
             \item[\kern-0.2em] Z torquers\tikz[na] \coordinate (ZTi);
         \end{itemize}
-    \end{minipage}\begin{minipage}{0.55\linewidth}
+        \vspace{1em}
+    \end{minipage}\begin{minipage}{0.68\linewidth}
         \begin{tikzpicture}[remember picture] 
             \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\linewidth]{torquers}};
             \begin{scope}[x={(image.south east)},y={(image.north west)}]
-                \fill[blue,fill opacity=0.3] (0.722,0.712) -- (0.74,0.709) -- (0.74,0.683) -- (0.723,0.685) -- cycle;
-                \path (0.722, 0.7) coordinate (MAG)
-                      (0.28,0.49) coordinate (XT)
-                      (0.208,0.51) coordinate (YT)
-                      (0.1,0.45) coordinate (ZT1)
-                      (0.48,0.4) coordinate (ZT2);
+                \fill[blue,fill opacity=0.3] (0.725,0.758) -- (0.744,0.757) -- (0.743,0.731) -- (0.725,0.732) -- cycle;
+                \fill[blue,fill opacity=0.3] (0.183,0.763) -- (0.2015,0.7635) -- (0.202,0.739) -- (0.184,0.738) -- cycle;
+                \path (0.725, 0.742) coordinate (MAG1)
+                      (0.183, 0.742) coordinate (MAG2)
+
+                      (0.26,0.55) coordinate (XT1)
+                      (0.41,0.57) coordinate (XT2)
+
+                      (0.288,0.59) coordinate (YT1)
+                      (0.528,0.54) coordinate (YT2)
+
+                      (0.115,0.51) coordinate (ZT1)
+                      (0.48,0.4) coordinate (ZT2)
+                      (0.45,0.61) coordinate (ZT3)
+                      (0.77,0.54) coordinate (ZT4);
               \end{scope}
         \end{tikzpicture}
     \end{minipage}
 
     \begin{tikzpicture}[overlay,remember picture]
-            \path[->,red,very thick] (MAGi) edge (MAG);
-            \path[->,red,very thick] (XTi) edge (XT);
-            \path[->,red,very thick] (YTi) edge (YT);
-            \path[->,red,very thick] (ZTi) edge (ZT1);
-            \path[->,red,very thick] (ZTi) edge (ZT2);
+            \path[->,red,very thick] (MAGi) edge (MAG1);
+            \path[->,red,very thick] (MAGi) edge (MAG2);
+
+            \path[->,blue,very thick] (XTi) edge (XT1);
+            \path[->,blue,very thick] (XTi) edge (XT2);
+
+            \path[->,black,very thick] (YTi) edge (YT1);
+            \path[->,black,very thick] (YTi) edge (YT2);
+
+            \path[->,magenta,very thick] (ZTi) edge (ZT1);
+            \path[->,magenta,very thick] (ZTi) edge (ZT2);
+            \path[->,magenta,very thick] (ZTi) edge (ZT3);
+            \path[->,magenta,very thick] (ZTi) edge (ZT4);
     \end{tikzpicture}
     
     \caption{Torquer locations within the \ac{ARC}}
