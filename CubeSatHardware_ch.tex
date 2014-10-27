@@ -138,7 +138,7 @@ The \ac{EPS} is designed and manufactured by Clyde Space as a generic CubeSat \a
 
 \subsection{\acl*{ARC} \acl*{ACDS} Hardware}
 
-The \ac{ACDS} board has the same overall outline and hole pattern as the rest of the \ac{ARC} subsystems, but it has 4 notches cut out to accommodate the Z-axis torquers and torquer standoffs. Additionally, there is a bump-out for the \ac{USB} connector so that it can be closer to the access port to allow a \ac{USB} cable to be easily plugged in.
+The \ac{ACDS} board has the same overall outline and hole pattern as the rest of the \ac{ARC} subsystems but, it has 4 notches cut out to accommodate the Z-axis torquers and torquer standoffs. Additionally, there is a bump-out for the \ac{USB} connector so that it can be closer to the access port to allow a \ac{USB} cable to be easily plugged in.
 
 \begin{figure}[!ht]
     \centering
@@ -223,8 +223,6 @@ The subsystems of the \ac{ARC} will communicate with each other using the ARCBus
 
 \section{Components of the \acl*{ACDS}}
 
-The block diagram for the CubeSat hardware used to implement the \ac{ACDS} is shown in \cref{fig:ACDS-block}. The hardware necessary for the \ac{ACDS} is spread over multiple subsystems of the \ac{ARC}. The \ac{ACDS} board contains the torquers, driving hardware along with the microcontroller which will run the attitude control algorithm. There is one two-axis magnetometer located on each of the six of the \acp{SPB}. These are used by the \ac{ACDS} to calculate rotation rates and calculate the magnetic dipole moment required to generate the necessary torque. Spreading the magnetometers across all six faces should give some degree of noise immunity and redundancy. The \ac{LEDL} board also contains \ac{MEMS} angular rate sensors as a redundant measurement of the rotation rate of the \ac{ARC}. The sensors on the \acp{SPB} are read by the \ac{LEDL}, which then forwards the magnetometer and angular rate measurements to the \ac{ACDS}.
-
 \afterpage{\begin{landscape}
 \begin{figure}[p!]
     \centering
@@ -233,6 +231,8 @@ The block diagram for the CubeSat hardware used to implement the \ac{ACDS} is sh
     \label{fig:ACDS-block}
 \end{figure}
 \end{landscape}}
+
+The block diagram for the CubeSat hardware used to implement the \ac{ACDS} is shown in \cref{fig:ACDS-block}. The hardware necessary for the \ac{ACDS} is spread over multiple subsystems of the \ac{ARC}. The \ac{ACDS} board contains the torquers, driving hardware along with the microcontroller which will run the attitude control algorithm. There is one two-axis magnetometer located on each of the six of the \acp{SPB}. These are used by the \ac{ACDS} to calculate rotation rates and calculate the magnetic dipole moment required to generate the necessary torque. Spreading the magnetometers across all six faces should give some degree of noise immunity and redundancy. The \ac{LEDL} board also contains \ac{MEMS} angular rate sensors as a redundant measurement of the rotation rate of the \ac{ARC}. The sensors on the \acp{SPB} are read by the \ac{LEDL}, which then forwards the magnetometer and angular rate measurements to the \ac{ACDS}.
 
 \section{Torquers}
 
@@ -421,7 +421,7 @@ In the idle state, all of the \acp{MOSFET} are off and the torquer coils are flo
     \label{fig:driveWV}
 \end{figure}
 
-\Cref{fig:driveWV} shows the driving waveform when driving a torquer multiple times in the same direction. The first torquer flip is shown in blue and the last flip is shown in red. The first waveform is the only waveform that differs significantly from the subsequent waveforms because the torquer is fully saturated in the first flip, thus demonstrating that the driving circuit is adequate to completely flip the torquers using a single 1~ms pulse.
+\Cref{fig:driveWV} shows the driving waveform when driving a torquer multiple times in the same direction. The first torquer flip is shown in blue and the last flip is shown in red. The first waveform is the only waveform that differs significantly from the subsequent waveforms because the torquer is fully saturated in the first flip, thus demonstrating that the driving circuit is adequate to completely flip the torquers using a single 2~ms pulse.
 
 The magnetic field waveform for the first flip starts at about +125~Gauss. This is because the torquer was flipped in the opposite direction before the test started. The subsequent waveforms start at about -125~Gauss. This is because the first flip drives the torquer into saturation flipping the torquers direction of magnetization. For all of the flips after the first flip, the change in magnetic field waveform is only due to the torquer coil and not to an actual torquer flip.
 
@@ -458,7 +458,7 @@ The current waveforms also show changes due to torquer saturation. For the first
     \label{fig:WVsetup}
 \end{figure}
 
-\Cref{fig:WVsetup} shows the hardware used to take the data for \cref{fig:driveWV,fig:satWV}. The \ac{ACDS} board was used to drive the torquers. To communicate with the \ac{ACDS}, another microcontroller board was used along with a \ac{USB}-to-serial converter. The torquer connects to the \ac{ACDS} board through a current sensor which is read by the oscilloscope. The torquer is placed inside a plastic housing with an attached Hall effect sensor. The hall effect sensor is located against the end of the torquer and is read by the oscilloscope. A pin on the \ac{ACDS} microcontroller is  used to trigger the scope which is automatically configured by a \matlab script that communicates with the \ac{ACDS} board and the oscilloscope.
+\Cref{fig:WVsetup} shows the hardware used to take the data for \cref{fig:driveWV,fig:satWV}. The \ac{ACDS} board was used to drive the torquers. To communicate with the \ac{ACDS}, another microcontroller board was used along with a \ac{USB}-to-serial converter. The torquer connects to the \ac{ACDS} board through a current sensor which is read by the oscilloscope. The torquer is placed inside a plastic housing with an attached Hall effect sensor to read the magnetic field. The hall effect sensor is located against the end of the torquer and is read by the oscilloscope. A pin on the \ac{ACDS} microcontroller is  used to trigger the scope which is automatically configured by a \matlab script that communicates with the \ac{ACDS} board and the oscilloscope.
 
 \begin{figure}[htb!]
     \centering
@@ -557,7 +557,7 @@ The bridge voltages are measured using an \ac{ADC} that uses the bridge voltage 
 
 \Cref{eq:magcross} is useful to determine the voltage that would be produced for a given magnetic field condition, but not the reverse when the sensor voltages are known but the fields are not.
 
-Because the calculated field in the sensitive direction also depends on the field in the cross axis direction, \cref{eq:magcross} was duplicated for the cross field sensor voltage and both equations were solved simultaneously. This resulted in twice as many constants as \cref{eq:magcross}. The voltages $V_s'$ and $V_c'$ are the normalized \ac{ADC} voltages in the sensitive and cross axes, respectively. Each of the constants from \cref{eq:magcross} has similar duplicate forms that comes from the extra equation that was used to solve for $H_s$. To distinguish the constants additional subscripts have been added. \Cref{eq:magsolved} shows \cref{eq:magcross} solved for the unknown quantity, $H_s$.
+Because the calculated field in the sensitive direction also depends on the field in the cross axis direction, \cref{eq:magcross} was duplicated for the cross field sensor voltage and both equations were solved simultaneously. This resulted in twice as many constants as \cref{eq:magcross}. The voltages $V_s'$ and $V_c'$ are the normalized \ac{ADC} voltages in the sensitive and cross axes, respectively. Each of the constants from \cref{eq:magcross} has similar duplicate forms that comes from the extra equation that was used to solve for $H_s$. To distinguish the constants additional subscripts have been added. For example ${S_s}_s$ is the sensistivity of the sensitive axis field to the sensitive axis input while ${S_s}_c$ is the sensitivity of the cross axis to magnetic fields in the sensitive axis direction. \Cref{eq:magsolved} shows \cref{eq:magcross} solved for the unknown quantity, $H_s$.
 
 \begin{equation}
     \begin{split}

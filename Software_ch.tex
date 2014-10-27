@@ -184,7 +184,7 @@ Because the downlink data speed is limited, it is necessary to reduce the data t
 
 The \ac{ARC} \ac{COMM} system sends a beacon packet every 10~seconds. The purpose of the beacon is to be able to locate the \ac{ARC} and determine how well the satellite is functioning. The beacon packet contains a small amount of data from each subsystem which gives an idea of how well the system is operating.
 
-The beacon data from the \ac{ACDS} is shown in \cref{tab:beacondat}. The data contains enough data to be able to see how well the system is operating but not exceed the maximum packet size. As discused in \cref{sec:kalman-filter} the Kalman filter may be added as a future enhancement the Kalman filter attitude field of the beacon packet will be filled with zeros until this is written. Similarly the Kalman filter rates are not calculated by the software at the time of this thesis they will be filled with the gyro rotation rates.
+The beacon data from the \ac{ACDS} is shown in \cref{tab:beacondat}. The data contains enough data to be able to see how well the system is operating but not exceed the maximum packet size. As discused in \cref{sec:future-work} the Kalman filter may be added as a future enhancement the Kalman filter attitude field of the beacon packet will be filled with zeros until this is written. Similarly the Kalman filter rates are not calculated by the software at the time of this thesis they will be filled with the gyro rotation rates.
 
 \begin{table}[H]
     \centering

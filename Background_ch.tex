@@ -19,12 +19,12 @@ The \ac{ARC} \ac{ACDS} uses \acfp{LPMT} to create the torque needed to properly 
     \label{eq:magtorque}
 \end{equation}
 
-Other CubewSats have used magnetic torque rods and coils are governed by the same equation. The unique part about \acp{LPMT} is that the magnetic dipole moment comes from the core of the torquer and does not depend on a continuous current flow to create torque.
+Other CubeSats have used magnetic torque rods and coils are governed by the same equation. The unique part about \acp{LPMT} is that the magnetic dipole moment comes from the core of the torquer and does not depend on a continuous current flow to create torque.
 
 
 \subsection{Hard Magnetic Core}
 
-The cores of the \acp{LPMT} are made of a hard magnetic material that ideally have a saturation curve that looks like \cref{fig:histlpmt}. The hysteresis curve shows the response of the torquer,$M$, with respect to the driving force, H, which is proportional to the current through the solenoid. The response of the torquer depends on the driving force as well as the previous state of the torquer so that when there is no driving force the torquer response has two possible states depending on how the torquer was last driven. The \ac{LPMT} operates by switching the cores between these saturation points, $M_s$ and $-M_s$. The \ac{LPMT} cores are driven to saturation using a capacitor to provide a current pulse through a solenoid surrounding the magnetic core. Even after current stops flowing through the solenoid the core will have a dipole moment of $\pm M_r$ depending on which direction the current was run in \cite{Mentch11}.
+The cores of the \acp{LPMT} are made of a hard magnetic material that ideally have a saturation curve that looks like \cref{fig:histlpmt}. The hysteresis curve shows the response of the torquer, $M$, with respect to the driving force, H, which is proportional to the current through the solenoid. The response of the torquer depends on the driving force as well as the previous state of the torquer so that when there is no driving force the torquer response has two possible states depending on how the torquer was last driven. The \ac{LPMT} operates by switching the cores between these saturation points, $M_s$ and $-M_s$. The \ac{LPMT} cores are driven into saturation using a capacitor to provide a current pulse through a solenoid surrounding the magnetic core. Even after current stops flowing through the solenoid the core will have a dipole moment of $\pm M_r$ depending on which direction the current was run in \cite{Mentch11}.
 
 \begin{figure}[H]
     \centering
@@ -142,7 +142,7 @@ To detumble \ac{ARC} the control law shown in \cref{eq:crossl} is used. This is 
     \label{eq:crossl}
 \end{equation}
 
-The original simulation transitioned to detumble once the rotation rate error was less than $0.002~\unit{\frac{rad}{sec}}$, corresponding to about 1.7 revolutions/orbit. It was later suggested that the transition could run for a pre-determined time that was more than sufficient to detumble the satellite.
+The original simulation transitioned to detumble once the rotation rate error was reduced below $0.002~\unit{\frac{rad}{sec}}$, corresponding to about 1.7 revolutions/orbit, from the tipoff rates. It was later suggested that the transition could run for a pre-determined time that was more than sufficient to detumble the satellite.
 
 \section{Alignment Algorithm}
 
@@ -275,7 +275,7 @@ The simulations in \cite{Mentch11} showed that tipoff rates of 5\textdegree/sec 
 
 \section{Concept of Operations for the \acl*{ARC}}
 
-The initial concept was proposed by Mentch in \cite{Mentch11}. The concept was largely based on what was possible in simulation. The simulation allowed the satellite perfect knowledge of the rotation rates which are not trivial to calculate from the magnetic field as suggested. The rotation rates can be calculated from the magnetic field using a Kalman filter as suggested in \cite{Sturm05} but this is beyond the scope of this thesis.
+The initial concept was proposed by Mentch in \cite{Mentch11}. The concept was largely based on what was possible in simulation. The simulation allowed the satellite perfect knowledge of the rotation rates which are not trivial to calculate in a real system from measured magnetic fields. The rotation rates can be calculated from the magnetic field using a Kalman filter as suggested in \cite{Sturm05} but this is beyond the scope of this thesis.
 
 Difficulties were also encountered with the torquers. The vernier torquers were proposed to be $\sfrac{1}{200}$ the size of the primary torquers. This presented two problems: manufacturing and balancing. Finding a suitable, weaker, magnetic material for the torquers proved difficult as Mentch said \enquote{There isn't much of a marked for crappy magnets.} The solution that was proposed was to coat a non magnetic rod with a very thin layer of magnetic material using a vacuum deposition process. There were difficulties fabricating torquers and later tests showed that there is enough variation in the dipole moment of the primary torquers to overwhelm the vernier torquers. 
 

@@ -6,11 +6,11 @@
 
 \label{ch:Helmholtz}
 
-The testing and calibration of the \ac{ACDS} it is required create a controllable, uniform magnetic field. The Helmholtz cage was constructed in 2009 by the \ac{ARC} mechanical team. The cage was designed to be able to create a 2~gauss magnetic field in any direction within the cage. This allows the Earth's magnetic field to be canceled out and the field inside to be equivalent to the Earth's field at any point above the Earth's surface.
+The testing and calibration of the \ac{ACDS} requires a controllable, uniform magnetic field. The Helmholtz cage was constructed in 2009 by the \ac{ARC} mechanical team. The cage was designed to be able to create a 2~gauss magnetic field in any direction within the cage. This allows the Earth's magnetic field to be canceled out and the field inside to be equivalent to the Earth's field at any point above the Earth's surface.
 
 \section{Hardware}
 
-The cage Helmholtz consists of 3 pairs of perpendicular coils as shown in \cref{fig:helmholtz}. Each coil pair generates a nearly uniform magnetic perpendicular to the plane of the coil. Together the three perpendicular coil pairs can generated a field in any direction.
+The Helmholtz cage consists of 3 pairs of perpendicular coils as shown in \cref{fig:helmholtz}. Each coil pair generates a nearly uniform magnetic perpendicular to the plane of the coil. Together the three perpendicular coil pairs can generated a field in any direction.
 
 \begin{figure}[!ht]
     \includegraphics[width=\linewidth]{helmholtz-cage}
@@ -91,7 +91,7 @@ The cage\_control class was originally developed on a 32-bit machine. When the c
 
 The accuracy of the Helmholtz cage is important because it is used to measure the accuracy of the magnetometers on the CubeSat. The Helmholtz cage is not magnetically shielded so outside disturbances can affect the magnetic field in the cage.
 
-To test the Helmholtz cage the commanded magnetic field was swept as shown in \cref{fig:hc-tst} and the field inside the cage was measured with the sensor. The measured field follows the commanded field for the most part but there are several areas where there is a visible difference between the measured and commanded field. 
+To test the Helmholtz cage the commanded magnetic field was swept as shown in \cref{fig:hc-tst} and the field inside the cage was measured with the Alpha lab \#3AMG Milligauss Meter. The measured field follows the commanded field for the most part but there are several areas where there is a visible difference between the measured and commanded field. 
 
 \begin{figure}[htb]
     \centering
@@ -100,7 +100,7 @@ To test the Helmholtz cage the commanded magnetic field was swept as shown in \c
     \label{fig:hc-tst}
 \end{figure}
 
-\Cref{fig:hc-tst-err} shows the magnetic field error from the testing in \cref{fig:hc-tst}. The total RMS error for the plot is 9.4~mGauss. There are a few large error spikes shown in the graph. Repeating the test shows that the errors are not consistent meaning that the errors are not caused by the cage it self but the environment around it.  It is possible that the interference may be attributed to the position of the elevator or fire doors which are just outside the lab.
+\Cref{fig:hc-tst-err} shows the magnetic field error from the testing in \cref{fig:hc-tst}. The total RMS error for the plot is 9.4~mGauss. There are a few large error spikes shown in the graph. Repeating the test shows that the errors are not consistent meaning that the errors are not caused by the cage itself but the environment around it.  It is possible that the interference may be attributed to the position of the elevator or fire doors which are just outside the lab.
 
 \begin{figure}[htb]
     \centering
