@@ -1,0 +1,122 @@
+% vim: filetype=tex spell
+
+\chapter{Calibration Equation Derivation}
+
+Starting with the equation from \cite{AN215} as shown in \cref{eq:magcross}:
+
+\begin{equation}
+    V_s = V_b \left(S_s H_s + D \cdot H_c + V_{os} \right)
+    \label{eq:magcross2}
+\end{equation}
+
+The same substatution shown in \cref{eq:adcsub} is made:
+
+\begin{equation}
+    V_s'=\frac{V_s}{V_b}
+    \label{eq:adcsub2}
+\end{equation}
+
+Which results in:
+
+\begin{equation}
+    V_s' = S_s H_s + D \cdot H_c + V_{os}
+    \label{eq:magcross-sub}
+\end{equation}
+
+To solve for $H_c$ and $H_s$ \cref{eq:magcross-sub} is duplicated for the cross axis direction:
+
+\begin{equation}
+    \begin{aligned}
+        V_s' - {V_{os}}_s &=  {S_s}_s H_s  + D_s \cdot H_c\\
+        V' - {V_{os}}_s &=  {S_s}_c H_c  + D_c \cdot H_s
+    \end{aligned}
+\end{equation}
+
+To solve the equations are put into matrix form:
+
+\begin{equation}
+    \begin{bmatrix}
+        V'_s - {V_{os}}_s\\
+        V'_c - {V_{os}}_c\\
+    \end{bmatrix} =
+    \begin{bmatrix}
+        {S_s}_s & D_s \\
+        D_c & {S_s}_c \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        H_s\\
+        H_c\\
+    \end{bmatrix}
+\end{equation}
+
+The equations are solved using the 2X2 matrix inverse:
+
+\begin{equation}
+    \begin{bmatrix}
+        H_s\\
+        H_c\\
+    \end{bmatrix} =
+    \begin{bmatrix}
+        {S_s}_s & D_s \\
+        D_c & {S_s}_c \\
+    \end{bmatrix} ^{-1}
+    \begin{bmatrix}
+        V'_s - {V_{os}}_s\\
+        V'_c - {V_{os}}_c\\
+    \end{bmatrix}
+    =
+    \frac{1}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c}
+    \begin{bmatrix}
+        {S_s}_c & -D_s \\
+        -D_c & {S_s}_s \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        V'_s - {V_{os}}_s\\
+        V'_c - {V_{os}}_c\\
+    \end{bmatrix}
+\end{equation}
+
+Which yields:
+ 
+\begin{equation}
+    \begin{aligned}
+        H_s & = \frac{{S_s}_c \left( V'_s - {V_{os}}_s \right)}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c} - \frac{D_s \left( V'_c - {V_{os}}_c \right)}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c}\\
+        H_c & = - \frac{D_c \left( V'_s - {V_{os}}_s \right)}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c} + \frac{{S_s}_s \left( V'_c - {V_{os}}_c \right)}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c}
+    \end{aligned}
+    \label{eq:cal-solved}
+\end{equation}
+
+Expanding \cref{eq:cal-solved} yields:
+
+\begin{equation}
+    \begin{aligned}
+        H_s & = \frac{{S_s}_c \cdot V'_s }{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c} - \frac{D_s \cdot  V'_c }{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c} - \frac{{S_s}_c \cdot {V_{os}}_s  -D_s \cdot {V_{os}}_c}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c}\\
+        H_c & = - \frac{D_c \cdot V'_s }{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c} + \frac{{S_s}_c \cdot  V'_c }{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c} - \frac{{S_s}_s \cdot {V_{os}}_s  -D_c \cdot {V_{os}}_c}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c}
+    \end{aligned}
+\end{equation}
+
+To simplify the equation the following substitutions are made:
+
+\begin{equation}
+    \begin{aligned}
+        C_1 &=   \frac{{S_s}_c}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c}\\
+        C_2 &= - \frac{D_s}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c}\\
+        C_3 &= - \frac{{S_s}_c \cdot {V_{os}}_s  -D_s \cdot {V_{os}}_c}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c}\\
+        C_4 &= - \frac{D_c}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c}\\
+        C_5 &= \frac{{S_s}_c}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c}\\
+        C_6 &= - \frac{{S_s}_s \cdot {V_{os}}_s  -D_c \cdot {V_{os}}_c}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c}
+    \end{aligned}
+\end{equation}
+
+Which gives \cref{eq:magcal} repeated here:
+
+\begin{equation}
+    \label{eq:magcal2}
+    \begin{split}
+        H_s &= C_1 \cdot V_s' + C_2 \cdot V_c' + C_3\\
+        H_c &= C_4 \cdot V_s' + C_5 \cdot V_c' + C_6
+    \end{split}
+\end{equation}
+
+
+
