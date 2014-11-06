@@ -6,7 +6,7 @@
 
 The \ac{ACDS} is a unique system that was developed specifically for the \ac{ARC} and has not yet been flight tested. Ideally everything would be verified before launch, but it is difficult to replicate the on-orbit environment closely. The magnetic field can be effectively simulated using the Helmholtz cage so the sensors can be calibrated and tested. 
 
-Using the Helmholtz cage the \ac{ACDS} system can not be fully tested. The algorithm will flip torquers if a rotating magnetic field is generated, but this only tests how the algorithm responds to the magnetic field inputs but not the effect the torquers have on spacecraft dynamics.
+Using the Helmholtz cage the \ac{ACDS} system can't be fully tested. The algorithm will flip torquers if a rotating magnetic field is generated, but this only tests how the algorithm responds to the magnetic field inputs but does not include the effect the torquers have on spacecraft dynamics.
 
 \section{Motivation}
 
@@ -49,11 +49,11 @@ The torquer compensation data, explained in \cref{sec:tst-tq-comp}, is used to s
 
 \subsection{Torquer Repeatability}
 
-The torquer compensation method depends on the torquer offsets being repeatable. If the offsets are not nearly repeatable then the offsets will induce errors in the measured field. \Cref{fig:tqoff1,fig:tqoff2} each show a plot of the torquer offsets. The plot shows the offsets of the torquers when they are polarized in each direction. Each plot shows a diffrent magnetometer axis. The offset values are normalized to show deviation from the median for better comparison. The maximum offset variation in \cref{fig:tqoff1,fig:tqoff2} is 20 mGauss.
+The torquer compensation method depends on the torquer offsets being repeatable. If the offsets are not nearly repeatable then the offsets will induce errors in the measured field. \Cref{fig:tqoff1,fig:tqoff2} each show a plot of the torquer offsets. The plot shows the offsets of the torquers when they are polarized in each direction. Each plot shows a different magnetometer axis. The offset values are normalized to show deviation from the median for better comparison. The maximum offset variation in \cref{fig:tqoff1,fig:tqoff2} is 20 mGauss.
 
 The plot in \cref{fig:tqoff1,fig:tqoff2} were generated using the \lstMat$alltorquetest$ function. The plots for the Y+ \ac{SPB} are shown because, as shown in \cref{tab:off-stat}, the Y+ board has the largest torquer offsets. To create the plot each torquer was flipped 20 times in each direction. After each flip a magnetometer calibration was done to get the offset values. The variation in the offset is then plotted as a box plot.
 
-\Cref{fig:tqoff1,fig:tqoff2} were plotted using \matlab's \lstMat$boxplot$ function. The boxes extend from the 25th to the \nth{75} percentile. The whiskers extend to the most extreme point in each direction that is not an outlier. Outliers are those points that are larger than $q_3 + 1.5 \left( q_3 - q_1 \right)$ or smaller than $q_1 - 1.5 \left( q_3 - q_1 \right)$ with $q_1$ and $q_2$ the \nth{25} and \nth{75} percentile respectively. This corresponds to points outside roughly $\pm 2 \sigma$ for normally distributed data. \cite{MatBox}
+\Cref{fig:tqoff1,fig:tqoff2} were plotted using \matlab's \lstMat$boxplot$ function. The boxes extend from the \nth{25} to the \nth{75} percentile. The whiskers extend to the most extreme point in each direction that is not an outlier. Outliers are those points that are larger than $q_3 + 1.5 \left( q_3 - q_1 \right)$ or smaller than $q_1 - 1.5 \left( q_3 - q_1 \right)$ with $q_1$ and $q_2$ the \nth{25} and \nth{75} percentile respectively. This corresponds to points outside roughly $\pm 2 \sigma$ for normally distributed data. \cite{MatBox}
 
 The plot in \cref{fig:tqoff1,fig:tqoff2} has the \lstMat$'extrememode'$ option set to \lstMat$'compress'$ with \lstMat$'datalim'$ set to \textpm{}20~mGauss. This prevents any points outside \textpm{}20~mGauss from compressing the scale of the plot so that the data of interest is easier to read. The dotted line marks the limit of the limit set by \lstMat$'datalim'$ and the gray lines mark the compression region. \cite{MatBox}
 
@@ -80,7 +80,7 @@ There are several steps to verify and calibrate the magnetometers on the \acp{SP
 
 \subsection{Initial Verification}
 
-The magnetometer verification is done using the Helmholtz cage. The verification is used to test a \ac{SPB} to see if the magnetometer is performing correctly. The \lstMat$spbMag$ function is used for verification. A calibration (see \cref{sec:magcal}) is run on a board separate from the CubeSat. The calibration coefficients are used to calculated parameters found on the datasheet to verify that the magnetometer is performing within specifications.
+The magnetometer verification is done using the Helmholtz cage. The verification is used to test a \ac{SPB} to see if the magnetometer is performing correctly. The \lstMat$spbMag$ function is used for verification. A calibration (see \cref{sec:magcal}) is run on a board separate from the CubeSat. The calibration coefficients are used to calculate parameters found on the datasheet to verify that the magnetometer is performing within specifications.
 
 \begin{minipage}{\linewidth}
 \begin{lstlisting}[caption={\ac{SPB} verification results},label={lst:vspb-res},language=verbatim,style=verbatim]
@@ -103,7 +103,7 @@ All Tests Passed!!!
 
 The \lstMat$calall$ function is used to calculate the torquer compensation data for a \ac{SPB} and the full set of torquers. The \lstMat$callall$ function calls the \lstMat$tCal$ function three times, once for the X, Y and Z axis. The \lstMat$tCal$ function works similarly to the magnetometer calibration, but the field is swept through the sequence 16 times, once for each torquer state. The data from each sweep is used to calculate the scaling factors for the compensation ($C_1$, $C_2$, $C_4$, and $C_5$ from \cref{eq:magcal}) for all torquer states as well as offset values, $C_3$ and $C_6$ from \cref{eq:magcal}, for each torquer state.
 
-The calibration values for each torquer axis are computed separately. This gives three sets of scaling factors and 3 sets of 16 offsets which must be combined into a single data set that can calculate the offset for any torquer state. The offset due to a particular torquer state is the sum of the offset from the magnetometer and the offset caused by each torquer. The \enquote{\texttt{++-{}- ++-{}- ++-{}-}} state is common to the data from each axis. A common offset is calculated by averaging the offsets from the \enquote{\texttt{++-{}- ++-{}- ++-{}-}} state. The common offset is saved and subtracted from the offsets for all states so that the torquer offset can be calculated as the sum of the common offset and one offset for each torquer axis. The three sets of scaling factors should be close to each other and are averaged together to get a single set of scaling factors for all states. The scaling factors, common offset and offsets for each torquer state are combined together to into a single compensation data set for each \ac{SPB}.
+The calibration values for each torquer axis are computed separately. This gives three sets of scaling factors and 3 sets of 16 offsets which must be combined into a single data set that can calculate the offset for any torquer state. The offset due to a particular torquer state is the sum of the offset from the magnetometer and the offset caused by each torquer. The \enquote{\texttt{++-{}- ++-{}- ++-{}-}} state is common to the data from each axis. A common offset is calculated by averaging the offsets from the \enquote{\texttt{++-{}- ++-{}- ++-{}-}} state. The common offset is saved and subtracted from the offsets for all states so that the torquer offset can be calculated as the sum of the common offset and one offset for each torquer axis. The three sets of scaling factors should be close to each other and are averaged together to get a single set of scaling factors for all states. The scaling factors, common offset and offsets for each torquer state are combined together into a single compensation data set for each \ac{SPB}.
 
 \subsection{Compensation Testing}
 \label{sec:tq-comp-tst}
@@ -130,7 +130,7 @@ The \enquote{scale only corrected} values show that the torquers have corrupted 
 \end{figure}
 \end{landscape}}
 
-\Cref{fig:tqerr} shows the error for the torquer compensation test. The RMS error for the compensated data is 28~mGauss. The maximum error is 60~mGauss. The RMS error is close to the 26~mGauss to get {\textpm5\textdegree} error but the maximum error of 60~mGauss is much higher. This is likely due to, in part, to the Y+ \ac{SPB} being in a location that gives the highest swing of any other board as shown in \cref{tab:off-stat}.
+\Cref{fig:tqerr} shows the error for the torquer compensation test. The RMS error for the compensated data is 28~mGauss. The maximum error is 60~mGauss. The RMS error is close to the 26~mGauss to get {\textpm5\textdegree} error but the maximum error of 60~mGauss is much higher. This is likely due to, in part, to the Y+ \ac{SPB} being in a location that gives a higher swing than any other board as shown in \cref{tab:off-stat}.
 
 %\Cref{fig:tqerr} shows the error for the torquer compensation test. The RMS error for the compensated data is 9 mGauss. The maximum error is 24 mGauss. On a 300 mGauss field a 24 mGauss error will cause an angular error of \textpm5\textdegree. The addition of the torquers causes an increase in the RMS and maximum error.
 %This can be seen by comparing \cref{fig:tqerr} with \cref{fig:magerr}. In \cref{fig:tqerr} steps in the error are seen as torquers are flipped whereas in \cref{fig:magerr} the error is more consistent across the entire run.
@@ -149,7 +149,7 @@ The \lstMat$store_all_cal$ function simplifies the process of generating a calib
 
 \subsection{Embedded Compensation Testing}
 
-The test in \cref{fig:tqtst,fig:tqerr} only used the \ac{ACDS} embedded system to flip torquers and take measurements. \matlab was used to do all of the calculations for the calibration. During the flight the sensor data must be calibrated using the embedded system on the \ac{ACDS} board. Furthermore the tests in \cref{fig:tqtst,fig:tqerr} were for a single \ac{SPB} and could only measure two axes. In flight the measurements from all \acp{SPB} will be combined to get a 3-axis measurement of the magnetic field.
+The test in \cref{fig:tqtst,fig:tqerr} only used the \ac{ACDS} embedded system to flip torquers and take measurements. \matlab was used to do all of the calculations for the calibration. During the flight the sensor data must be calibrated using the embedded system on the \ac{ACDS} board. Furthermore the tests in \cref{fig:tqtst,fig:tqerr} were for a single \ac{SPB} and could only measure two axes. In flight the measurements from all \acp{SPB} will be averaged together to get a 3-axis measurement of the magnetic field.
 
 The \lstMat$tCalTstMSP_all$ function is used to test the embedded calibration. The engineering development prototype of the \ac{ARC}, with compensation data stored on the \ac{ACDS} processor, is placed in the Helmholtz cage. The \lstMat$tCalTstMSP_all$ function operates in much the same way that the \lstMat$tCalTstFull$, explained in \cref{sec:tq-comp-tst}, does. The magnetic field is swept through a field sequence. At every point in the sequence the magnetic field is measured and after every 10 points a random torquer is flipped in each axis. The calibrated total magnetic field values as well as the calibrated values from each \ac{SPB} are read by \matlab and the results are plotted as shown in \cref{fig:tcalMSP,fig:tcalMSPerr,fig:tcalMSPerr-axis}.
 
