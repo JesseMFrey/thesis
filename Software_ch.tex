@@ -25,8 +25,8 @@ The main responsibility of the \ac{ACDS} software is to determine which torquer 
         \node [bigblock,node distance=1cm,below=of core,minimum height=2cm] (HC) {House Keeping};
 
 
-        \path [flow] (AB.58) -- node  {Sensor Data} (core.170);
-        \path [flow] (core.190) -- node {Sensor Commands} (AB.48);
+        \path [flow] ([yshift= \linesep]AB.54)    -- node  {Sensor Data}    ([yshift= \linesep]core.180);
+        \path [flow] ([yshift=-\linesep]core.180) -- node {Sensor Commands} ([yshift=-\linesep]AB.54);
 
         \path [flow] (AB.00) -- node {Ground Station} node [below]{Commands} (core.226);
 
