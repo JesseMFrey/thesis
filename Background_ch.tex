@@ -24,7 +24,7 @@ Other CubeSats have used magnetic torque rods and coils are governed by the same
 
 \subsection{Hard Magnetic Core}
 
-The cores of the \acp{LPMT} are made of a hard magnetic material that ideally have a saturation curve that looks like \cref{fig:histlpmt}. The hysteresis curve shows the response of the torquer, $M$, with respect to the driving force, H, which is proportional to the current through the solenoid. The response of the torquer depends on the driving force as well as the previous state of the torquer so that when there is no driving force the torquer response has two possible states depending on how the torquer was last driven. The \ac{LPMT} operates by switching the cores between these saturation points, $M_s$ and $-M_s$. The \ac{LPMT} cores are driven into saturation using a capacitor to provide a current pulse through a solenoid surrounding the magnetic core. Even after current stops flowing through the solenoid the core will have a dipole moment of $\pm M_r$ depending on which direction the current was run in \cite{Mentch11}.
+The cores of the \acp{LPMT} are made of a hard magnetic material that ideally have a saturation curve that looks like \cref{fig:histlpmt}. The hysteresis curve shows the dipole moment of the torquer, $M$, with respect to the driving force, H, which is proportional to the current through the solenoid. The response of the torquer depends on the driving force as well as the previous state of the torquer so that when there is no driving force the torquer response has two possible states depending on how the torquer was last driven. The \ac{LPMT} operates by switching the cores between these saturation points, $M_s$ and $-M_s$. The \ac{LPMT} cores are driven into saturation using a capacitor to provide a current pulse through a solenoid surrounding the magnetic core. Even after current stops flowing through the solenoid the core will have a residual dipole moment of $\pm M_r$ depending on which direction the current was run in \cite{Mentch11}.
 
 \begin{figure}[H]
     \centering
@@ -155,7 +155,7 @@ The job of the alignment algorithm is to align the \ac{ARC} in the proper attitu
     \label{fig:windows}
 \end{figure}
 
-\Cref{fig:windows} shows that the bias windows are offset so that they occur just before the equator or pole. The reason for this is shown in \cref{fig:winplace}. If the torquers are biased before the satellite passes over the vertical (or horizontal) field lines then the tendency is to rotate in the desired direction. If the torquers are biased afterwards then the tendency is to rotate the satellite opposite the desired direction.\cite{Mentch11}
+\Cref{fig:windows} shows that the bias windows are offset so that they occur just before the equator or pole. The reason for this is shown in \cref{fig:winplace}. If the torquers are biased before the satellite passes over the vertical (or horizontal) field lines then the tendency is to rotate in the desired direction. If the torquers are biased afterwards then the tendency is to rotate the satellite opposite the desired direction\cite{Mentch11}.
 
 \begin{figure}[htb!]
     \centering
@@ -279,7 +279,7 @@ The initial concept was proposed by Mentch in \cite{Mentch11}. The concept was l
 
 Difficulties were also encountered with the torquers. The vernier torquers were proposed to be $\sfrac{1}{200}$ the size of the primary torquers. This presented two problems: manufacturing and balancing. Finding a suitable, weaker, magnetic material for the torquers proved difficult as Mentch said \enquote{There isn't much of a marked for crappy magnets.} The solution that was proposed was to coat a non magnetic rod with a very thin layer of magnetic material using a vacuum deposition process. There were difficulties fabricating torquers and later tests showed that there is enough variation in the dipole moment of the primary torquers to overwhelm the vernier torquers. 
 
-Because of these difficulties the \ac{ACDS} was re-scoped to focus on detumble. Instead of one pair of primary torquers and one pair of vernier torquers, two pairs of primary torquers are used. This gives four possible states as shown in \cref{fig:lpmtq-flt}.
+Because of these difficulties the \ac{ACDS} was re-scoped to focus on detumble. Instead of one pair of primary torquers and one pair of vernier torquers, two pairs of primary torquers are used. This gives five possible states as shown in \cref{fig:moments-flt}.
 
 \begin{figure}[H]
     \centering
@@ -365,9 +365,9 @@ The other problem with rate determination is that the desired rotation of the sa
 
 In \cite{Sturm05} a Kalman filter is used to calculate rotation rates from magnetic field measurements. This solution solves both problems. By taking into account the spacecraft dynamics, the full rotation rate vector can be estimated. Because the rates come from the estimated system state they are less noisy than those from a single set of magnetic field measurements. The problem is that Kalman filters are not trivial to get working and must correctly model the system to function correctly. This is beyond the scope of this thesis so the alignment phase of the attitude control system is not implemented.
 
-\subsection{B-dot control}
+\subsection{B-dot Control}
 
-The algorithm in \cref{eq:crossl} can not be used for flight because the rotation rates, $\vec{\omega}$, are not known. The B-dot algorithm uses the magnetic field time derivative, $\dot{\vec{B}}$, as its only input so full knowledge of spacecraft rotation rates is not necessary for detumble.
+The algorithm in \cref{eq:crossl} can't be used for flight because the rotation rates, $\vec{\omega}$, are not known. The B-dot algorithm uses the magnetic field time derivative, $\dot{\vec{B}}$, as its only input so full knowledge of spacecraft rotation rates is not necessary for detumble.
 
 \begin{equation}
     \vec{m}_{command}= C \dot{\vec{B}}
