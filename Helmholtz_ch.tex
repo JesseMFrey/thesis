@@ -10,7 +10,7 @@ The testing and calibration of the \ac{ACDS} requires a controllable, uniform ma
 
 \section{Hardware}
 
-The Helmholtz cage consists of 3 pairs of perpendicular coils as shown in \cref{fig:helmholtz}. Each coil pair generates a nearly uniform magnetic perpendicular to the plane of the coil. Together the three perpendicular coil pairs can generated a field in any direction.
+The Helmholtz cage consists of 3 pairs of perpendicular coils as shown in \cref{fig:helmholtz}. Each coil pair generates a nearly uniform magnetic field perpendicular to the plane of the coil. Together the three perpendicular coil pairs can generate a field in any direction.
 
 \begin{figure}[!ht]
     \includegraphics[width=\linewidth]{helmholtz-cage}
@@ -32,7 +32,7 @@ An Alpha lab \#3AMG Milligauss Meter is used to measure the magnetic field of th
 
 \section{Software}
 
-\Cref{fig:hc-block} shows the block diagram of the Helmholtz cage. The cage control class is a \matlab class that is used for low level interfacing to the Helmholtz cage hardware. The \ac{GPIB} interface is used to connect to the power supplies. The power supplies are connected to the coils through the H-bridge so that the current direction can be reversed. The H-bridge is controlled using the digital I\textbackslash{}O on the \ac{DAQ} card. The magnetometer is connected to the analog input channels of the \ac{DAQ} and reads the magnetic field in the Helmholtz cage. 
+\Cref{fig:hc-block} shows the block diagram of the Helmholtz cage. The cage control class is a \matlab class that is used for low level interfacing to the Helmholtz cage hardware. The \ac{GPIB} interface is used to connect to the power supplies. The power supplies are connected to the coils through the H-bridge so that the current direction can be reversed. The H-bridge is controlled using the digital I/O on the \ac{DAQ} card. The magnetometer is connected to the analog input channels of the \ac{DAQ} and reads the magnetic field in the Helmholtz cage. 
 
 \begin{figure}[!ht]
     % We need layers to draw the block diagram
