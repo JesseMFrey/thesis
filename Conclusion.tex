@@ -22,7 +22,7 @@ The rotation rate determination algorithm was found to be a much more complex pr
 
 The Kalman filter uses a magnetic field model for attitude determination. The magnetic field model uses the location of the satellite to calculate the expected local magnetic field in the orbital reference frame. This requires that the position of the satellite be known for the Kalman filter to work. The location will be calculated by uplinking the orbital parameters of the satellite and using an orbit propagator to calculate position as the satellite moves through its orbit.
 
-The bias window were originally supposed to be determined using the magnetic field to estimate the latitude. With the Kalman filter the location can be directly determined using the orbit propagator so there is no need for latitude determination from the Earth's magnetic field.
+The bias windows were originally supposed to be determined using the magnetic field to estimate the latitude. With the Kalman filter the location can be directly determined using the orbit propagator so there is no need for latitude determination from the Earth's magnetic field.
 
 \subsection{New Concept of Operations}
 
