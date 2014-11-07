@@ -2,37 +2,32 @@
 
 \chapter{Calibration Equation Derivation}
 
-Starting with the equation from \cite{AN215} as shown in \cref{eq:magcross}:
+\Cref{eq:magcross2} shows the equation from \cite{AN215} as shown in \cref{eq:magcross}.
 
 \begin{equation}
     V_s = V_b \left(S_s H_s + D \cdot H_c + V_{os} \right)
     \label{eq:magcross2}
 \end{equation}
 
-The same substatution shown in \cref{eq:adcsub} is made:
+The substitution shown in \cref{eq:adcsub} is made to get \cref{eq:magcross-sub}
 
-\begin{equation}
-    V_s'=\frac{V_s}{V_b}
-    \label{eq:adcsub2}
-\end{equation}
-
-Which results in:
-
-\begin{equation}
-    V_s' = S_s H_s + D \cdot H_c + V_{os}
+\begin{align}
+    V_s' & =\frac{V_s}{V_b}\\
+    V_s' & = S_s H_s + D \cdot H_c + V_{os}
     \label{eq:magcross-sub}
-\end{equation}
+\end{align}
 
-To solve for $H_c$ and $H_s$ \cref{eq:magcross-sub} is duplicated for the cross axis direction:
+To solve for $H_c$ and $H_s$ \cref{eq:magcross-sub} is duplicated for the cross axis direction to get \cref{eq:add-cross}.
 
 \begin{equation}
     \begin{aligned}
         V_s' - {V_{os}}_s &=  {S_s}_s H_s  + D_s \cdot H_c\\
         V' - {V_{os}}_s &=  {S_s}_c H_c  + D_c \cdot H_s
     \end{aligned}
+    \label{eq:add-cross}
 \end{equation}
 
-To solve the equations are put into matrix form:
+To solve the equations are put into matrix form as shown in \cref{eq:eqmat}.
 
 \begin{equation}
     \begin{bmatrix}
@@ -47,11 +42,12 @@ To solve the equations are put into matrix form:
         H_s\\
         H_c\\
     \end{bmatrix}
+    \label{eq:eqmat}
 \end{equation}
 
-The equations are solved using the 2X2 matrix inverse:
+The equations are solved using the 2X2 matrix inverse to get \cref{eq:cal-solved}
 
-\begin{equation}
+\begin{gather}
     \begin{bmatrix}
         H_s\\
         H_c\\
@@ -73,29 +69,25 @@ The equations are solved using the 2X2 matrix inverse:
     \begin{bmatrix}
         V'_s - {V_{os}}_s\\
         V'_c - {V_{os}}_c\\
-    \end{bmatrix}
-\end{equation}
-
-Which yields:
- 
-\begin{equation}
+    \end{bmatrix}\\
     \begin{aligned}
         H_s & = \frac{{S_s}_c \left( V'_s - {V_{os}}_s \right)}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c} - \frac{D_s \left( V'_c - {V_{os}}_c \right)}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c}\\
         H_c & = - \frac{D_c \left( V'_s - {V_{os}}_s \right)}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c} + \frac{{S_s}_s \left( V'_c - {V_{os}}_c \right)}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c}
     \end{aligned}
     \label{eq:cal-solved}
-\end{equation}
+\end{gather}
 
-Expanding \cref{eq:cal-solved} yields:
+\Cref{eq:cal-expanded} shows \cref{eq:cal-solved} after expanding and gathering like terms.
 
 \begin{equation}
     \begin{aligned}
         H_s & = \frac{{S_s}_c \cdot V'_s }{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c} - \frac{D_s \cdot  V'_c }{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c} - \frac{{S_s}_c \cdot {V_{os}}_s  -D_s \cdot {V_{os}}_c}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c}\\
         H_c & = - \frac{D_c \cdot V'_s }{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c} + \frac{{S_s}_c \cdot  V'_c }{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c} - \frac{{S_s}_s \cdot {V_{os}}_s  -D_c \cdot {V_{os}}_c}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c}
     \end{aligned}
+    \label{eq:cal-expanded}
 \end{equation}
 
-To simplify the equation the following substitutions are made:
+\Cref{eq:cal-expanded} is simplified using the substitutions shown in \cref{eq:cal-sub} to get \cref{eq:magcal2}.
 
 \begin{equation}
     \begin{aligned}
@@ -106,16 +98,18 @@ To simplify the equation the following substitutions are made:
         C_5 &= \frac{{S_s}_c}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c}\\
         C_6 &= - \frac{{S_s}_s \cdot {V_{os}}_s  -D_c \cdot {V_{os}}_c}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c}
     \end{aligned}
+    \label{eq:cal-sub}
 \end{equation}
 
 Which gives \cref{eq:magcal} repeated here:
+\Cref{eq:magcal2} is the same as \cref{eq:magcal}.
 
 \begin{equation}
-    \label{eq:magcal2}
     \begin{split}
         H_s &= C_1 \cdot V_s' + C_2 \cdot V_c' + C_3\\
         H_c &= C_4 \cdot V_s' + C_5 \cdot V_c' + C_6
     \end{split}
+    \label{eq:magcal2}
 \end{equation}
 
 
