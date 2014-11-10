@@ -85,6 +85,8 @@
 \frontchap*{List of Acronyms}
 \addcontentsline{toc}{frontchapter}{List of Acronyms}
 
+%with out this page numbers for some reason switch to arabic
+\renewcommand{\thepage}{\roman{page}}% Roman page numbers
 \input{acronyms}
 
 %\listofothermaterials
@@ -99,6 +101,8 @@
 \end{acknowledgements}
 
 \cleardoublepage
+
+\pagenumbering{arabic}
 
 \acresetall 
 
