@@ -65,7 +65,7 @@ The \ac{ACDS} board for the \ac{ARC} only contains the processor, torquers and d
     \label{fig:arcMech}
 \end{figure}
 
-The \ac{ACDS} board is located 3rd from the bottom of the stack. This puts it in the center of the board stack. Because the solar cells cover all of the side faces except a small strip in the center this makes the \ac{ACDS} board the only place to put the pull pin and \ac{USB} connector, that need to be accessed while \ac{ARC} is in the \ac{PPOD}. The separation switch connections are also located on the \ac{ACDS} board, as the separation switch is attached to one of the torquer standoffs.
+The \ac{ACDS} board is located 3rd from the bottom of the stack. This puts it in the center of the board stack. Because the solar cells cover all of the side faces except a small strip in the center, this makes the \ac{ACDS} board the only place to put the pull pin and \ac{USB} connector that need to be accessed while \ac{ARC} is in the \ac{PPOD}. The separation switch connections are also located on the \ac{ACDS} board, because the separation switch is attached to one of the torquer standoffs.
 
 \begin{figure}[!ht]
     \centering
@@ -126,19 +126,19 @@ For clarity the \acp{SPB} are not shown in \cref{fig:arcMech}. The \acp{SPB} are
 The core board stack contains the major subsystems for the \ac{ARC}. Some of these subsystems are designed to carry out a specific \ac{SMO} while others provide a general support role. The subsystems are as follows:
 
 \begin{description}
-    \item[\acs{LEDL} :] One of the \acp{SMO} on \ac{ARC} is to \enquote{Characterize the thermal and vibration environment inside the launch vehicle from ignition to orbit insertion.}\cite{ARCweb} The \ac{LEDL} does this by using a separate battery to operate during the launch phase and log data from accelerometers and temperature sensors.
-    \item[\acs{EPS} :] The \ac{EPS} manages the electrical power on \ac{ARC}. The solar cells connect to \acp{BCR} which have peak power point tracking and output the proper voltage to charge the batteries. The voltage from the batteries is regulated down to 5~V and 3.3~V. The \ac{EPS} supplies the unregulated battery voltage along with the 5~V and 3.3~V rails to the rest of the satellite. The \ac{EPS} is the only system on the \ac{ARC} not built at UAF. The \ac{EPS} is designed and built by Clyde Space. \cite{ClydeEPS}
-    \item[\acs{ACDS} :] One of the \acp{SMO} on \ac{ARC} is to \enquote{Validate a novel low power \acf{ACDS}.} \cite{ARCweb} This is the system discussed in this thesis.
+    \item[\acs{LEDL} :] One of the \acp{SMO} on \ac{ARC} is to \enquote{Characterize the thermal and vibration environment inside the launch vehicle from ignition to orbit insertion}\cite{ARCweb}. The \ac{LEDL} does this by using a separate battery to operate during the launch phase and log data from accelerometers and temperature sensors.
+    \item[\acs{EPS} :] The \ac{EPS} manages the electrical power on \ac{ARC}. The solar cells connect to \acp{BCR} which have peak power point tracking and output the proper voltage to charge the batteries. The voltage from the batteries is regulated down to 5~V and 3.3~V. The \ac{EPS} supplies the unregulated battery voltage along with the 5~V and 3.3~V rails to the rest of the satellite. The \ac{EPS} is the only system on the \ac{ARC} not built at UAF. The \ac{EPS} is designed and built by Clyde Space\cite{ClydeEPS}.
+    \item[\acs{ACDS} :] One of the \acp{SMO} on \ac{ARC} is to \enquote{Validate a novel low power \acf{ACDS}}\cite{ARCweb}. This is the system discussed in this thesis.
     \item[Separation Switch :] This switch is screwed into one of the torquer standoffs and cuts off power to the CubeSat when it is in the \ac{PPOD}.
     \item[\acs{COMM} :] The \ac{COMM} allows for two-way communication with the ground. A 9600~bps command/beacon up/down link and a 38400~bps data down link are used. The 9600~bps link operates on the 436~MHz band and uses a tape measure monopole. The 38400~bps link operates on the 2.4~GHz and uses a ceramic patch antenna mounted on the bottom of the \ac{ARC}.
-    \item[\acs{IMG} :] One of the \acp{SMO} on the \ac{ARC} is to \enquote{Validate a high bandwidth communication system by obtaining images of changing snow/ice coverage in arctic regions.}\cite{ARCweb} The imager has a camera and an \ac{SD}. The camera is used to take pictures and store them on the \ac{SD}.
+    \item[\acs{IMG} :] One of the \acp{SMO} on the \ac{ARC} is to \enquote{Validate a high bandwidth communication system by obtaining images of changing snow/ice coverage in arctic regions}\cite{ARCweb}. The imager has a camera and an \ac{SD}. The camera is used to take pictures and store them on the \ac{SD}.
 \end{description}
 
 The \ac{EPS} is designed and manufactured by Clyde Space as a generic CubeSat \ac{EPS}. The \ac{EPS} is compatible with CubeSat Kit\cite{CSK} hardware which is one of the main standards for off-the-shelf CubeSat hardware. Because of this the rest of the \ac{ARC} subsystems must be compatible with the CubeSat Kit hardware. All boards have the same header and mounting hole locations and similar outlines so that they all fit together in the CubeSat.
 
 \subsection{\acl*{ARC} \acl*{ACDS} Hardware}
 
-The \ac{ACDS} board has the same overall outline and hole pattern as the rest of the \ac{ARC} subsystems but, it has 4 notches cut out to accommodate the Z-axis torquers and torquer standoffs. Additionally, there is a bump-out for the \ac{USB} connector so that it can be closer to the access port to allow a \ac{USB} cable to be easily plugged in.
+The \ac{ACDS} board has the same overall outline and hole pattern as the rest of the \ac{ARC} subsystems but it has 4 notches cut out to accommodate the Z-axis torquers and torquer standoffs. Additionally, there is a bump-out for the \ac{USB} connector so that it can be closer to the access port to allow a \ac{USB} cable to be easily plugged in.
 
 \begin{figure}[!ht]
     \centering
@@ -232,7 +232,7 @@ The subsystems of the \ac{ARC} will communicate with each other using the ARCBus
 \end{figure}
 \end{landscape}}
 
-The block diagram for the CubeSat hardware used to implement the \ac{ACDS} is shown in \cref{fig:ACDS-block}. The hardware necessary for the \ac{ACDS} is spread over multiple subsystems of the \ac{ARC}. The \ac{ACDS} board contains the torquers and, driving hardware along with the microcontroller which will run the attitude control algorithm. There is one two-axis magnetometer located on each of the six \acp{SPB}. These are used by the \ac{ACDS} to calculate rotation rates and calculate the magnetic dipole moment required to generate the necessary torque. Spreading the magnetometers across all six faces should give some degree of noise immunity and redundancy. The \ac{LEDL} board also contains \ac{MEMS} angular rate sensors as a redundant measurement of the rotation rate of the \ac{ARC}. The sensors on the \acp{SPB} are read by the \ac{LEDL}, which then forwards the magnetometer and angular rate measurements to the \ac{ACDS}.
+The block diagram for the CubeSat hardware used to implement the \ac{ACDS} is shown in \cref{fig:ACDS-block}. The hardware necessary for the \ac{ACDS} is spread over multiple subsystems of the \ac{ARC}. The \ac{ACDS} board contains the torquers and driving hardware along with the microcontroller which will run the attitude control algorithm. There is one two-axis magnetometer located on each of the six \acp{SPB}. These are used by the \ac{ACDS} to calculate rotation rates and calculate the magnetic dipole moment required to generate the necessary torque. Spreading the magnetometers across all six faces should give some degree of noise immunity and redundancy. The \ac{LEDL} board also contains \ac{MEMS} angular rate sensors as a redundant measurement of the rotation rate of the \ac{ARC}. The sensors on the \acp{SPB} are read by the \ac{LEDL}, which then forwards the magnetometer and angular rate measurements to the \ac{ACDS}.
 
 \section{Torquers}
 
@@ -379,15 +379,15 @@ The torquer cores for the \ac{ARC} are made of Alnico1, which is a hard magnetic
 
 \subsubsection{Core Sizing}
 
-The proposed torquer cores consisted of a large and a small pair in each axis. The large pair were to be made of Alnico1 and produce a magnetic dipole moment of $0.022 \unit{A \cdot m^2}$. The small pair was proposed to have an inert core with a thin permalloy coating to give it a dipole moment of $0.00011 \unit{A \cdot m^2}$. All torquer cores were to be the same size, one inch long of $\sfrac{1}{16}$-inch diameter rod.
+The proposed torquer cores consisted of a large and a small pair in each axis. The large pair were to be made of Alnico1 and produce a magnetic dipole moment of $0.022 \unit{A \cdot m^2}$. The small pair was proposed to have an inert core with a thin permalloy coating to give it a dipole moment of $0.00011 \unit{A \cdot m^2}$. All torquer cores were to be the same size: one inch long $\sfrac{1}{16}$-inch diameter rod.
 
-As discussed in \cite{Mentch11} the large cores were sized by first determining the desired torque for each torquer, and to produce then calculating the necessary dipole moment. Simulation was used to refine the required dipole moment. Alnico5 was the core material that had been used in previous experiments for much larger cores\cite{Mentch11}\todo{Look for other reference?}. The minimum manufactured size of Alnico rods is $\sfrac{1}{16}$-inch. It is desirable to have a length-to-diameter ratio greater than 10, which fixes the minimum torque that can be achieved. The torque using Alnico5 was larger than the desired torque so Alnico1 was used instead, which has a lower residual induction. 
+As discussed in \cite{Mentch11} the large cores were sized by first determining the desired torque for each torquer, and then calculating the necessary dipole moment. Simulation was used to refine the required dipole moment. Alnico5 was the core material that had been used in previous experiments for much larger cores\cite{Mentch11}\todo{Look for other reference?}. The minimum manufactured size of Alnico rods is $\sfrac{1}{16}$-inch. It is desirable to have a length-to-diameter ratio greater than 10, which fixes the minimum torque that can be achieved. The torque using Alnico5 was larger than the desired torque so Alnico1 was used instead, which has a lower residual induction. 
 
 The proposed size of the vernier torquers was $\sfrac{1}{200}$th the torque of the Alnico torquers. The fabrication of the proposed vernier torquer was not completed and even if it had it is not clear that testing could have been done to quantify the dipole moment. In addition to fabrication and testing issues there is the problem of balancing the primary cores. Because of theses difficulties the original design for the small torquers was dropped and an extra set of Alnico torquers was added in their place. The charge time was also shortened from 10 seconds to 1 second.
 
 \subsection{Coils}
 
-The coils used to drive the torquers are made from 248 turns of 26~AWG wire in four layers. The current spike to flip the torquer peaks around 7~A which is significantly higher than 26~AWG can handle with continuous current. However, because the pulse duration is short it is not a problem.
+The coils used to drive the torquers are made from 248 turns of 26~AWG wire in four layers. The current spike to flip the torquer peaks around 11~A which is significantly higher than 26~AWG can handle with continuous current. However, because the pulse duration is short it is not a problem.
 
 %NOTE: H= N/l * I
 
@@ -417,7 +417,7 @@ In the idle state, all of the \acp{MOSFET} are off and the torquer coils are flo
 
 \Cref{fig:driveWV} shows the driving waveform when driving a torquer multiple times in the same direction. The first torquer flip is shown in blue and the last flip is shown in red. The first waveform is the only waveform that differs significantly from the subsequent waveforms because the torquer is fully saturated in the first flip, thus demonstrating that the driving circuit is adequate to completely flip the torquers using a single 2~ms pulse.
 
-The magnetic field waveform for the first flip starts at about +125~Gauss. This is because the torquer was flipped in the opposite direction before the test started. The subsequent waveforms start at about -125~Gauss. This is because the first flip drives the torquer into saturation flipping the torquers direction of magnetization. For all of the flips after the first flip, the change in magnetic field waveform is only due to the torquer coil and not to an actual torquer flip.
+The magnetic field waveform for the first flip starts at about +125~Gauss. This is because the torquer was flipped in the opposite direction before the test started. The subsequent waveforms start at about -125~Gauss. This is because the first flip drives the torquer into saturation and flips the torquers direction of magnetization. For all of the flips after the first flip, the change in magnetic field waveform is only due to the torquer coil and not to an actual torquer flip.
 
 The current waveforms also show changes due to torquer saturation. For the first flip the current initially increases at a slower rate. This is because, on the Alnico1 B-H curve, the slope is steeper closer to the B-axis resulting in a higher inductance. As the torquer reaches saturation, the inductance of the torquer goes down and the rate of change of current increases. For the subsequent torquer flips, the torquer is already saturated so the inductance is low and the driving current reaches its peak much faster.
 
@@ -484,7 +484,7 @@ The only sensor specified in \cite{Mentch11} was a magnetometer. The magnetomete
 
 \subsection{Magnetometer}
 
-The magnetometers on the satellite are Honeywell HMC1052 \ac{AMR} sensors. These sensors use \ac{AMR} elements in a bridge configuration to measure the field in each axis. The HMC1052 is a 2-axis sensor that measures the field in the axis that are parallel to the board that it is mounted on (X and Y). Each face of \ac{ARC} will have a single HMC1052 giving a total of 4 measurements in each axis.
+The magnetometers on the satellite are Honeywell HMC1052 \ac{AMR} sensors. These sensors use \ac{AMR} elements in a bridge configuration to measure the field in each axis. The HMC1052 is a 2-axis sensor that measures the field in the axes that are parallel to the board that it is mounted on (X and Y). Each face of \ac{ARC} will have a single HMC1052 giving a total of 4 measurements in each axis.
 
 The magnetometers are located on the back of the \acs{SPB}, shown in \cref{fig:SPB}. The magnetometer, with surrounding circuitry, is visible on the back of the board as are the \ac{ADC} and amplifier. An accelerometer is also located on the back of the solar panel board and is used for a different mission objective. The data connector powers the sensors and provides access to the sensor data.
 
@@ -536,7 +536,7 @@ The HMC1052 sensors used on the \ac{ACDS} are \ac{AMR} sensors. They work by hav
     \label{fig:magAxisCross}
 \end{figure}
 
-\Cref{eq:magcross} shows the simplified equation for the magnetometer as described in \cite{AN215}. $V_b$ is the bridge voltage that is applied to the sensor. $S_s$ is the sensitivity in the sensitive direction. D is the cross field sensitivity offset. The HMC1052 datasheet\cite{HMC1052} mentions that the sensors have a bridge offset. The bridge offset is the sensor output when zero field is applied to the sensor and can be as large as \textpm1.25 Gauss. The bridge represented by $V_{os}$ in \cref{eq:magcross}.
+\Cref{eq:magcross} shows the simplified equation for the magnetometer as described in \cite{AN215}. $V_b$ is the bridge voltage that is applied to the sensor. $S_s$ is the sensitivity in the sensitive direction. D is the cross field sensitivity offset. The HMC1052 datasheet\cite{HMC1052} mentions that the sensors have a bridge offset. The bridge offset is the sensor output when zero field is applied to the sensor and can be as large as \textpm1.25 Gauss. The bridge offset is represented by $V_{os}$ in \cref{eq:magcross}.
 
 \begin{equation}
     V_s = V_b \left(S_s H_s + D \cdot H_c + V_{os} \right)
@@ -576,7 +576,7 @@ In this case $V_s'$ and $V_c'$ are the \ac{ADC} values for the sensitive and cro
 \subsubsection{Magnetometer Calibration}
 \label{sec:magcal}
 
-To calibrate the magnetometer, the coefficients in \cref{eq:magcal} must be calculated. The magnetometer is first placed inside the Helmholtz Cage. The field is set under \matlab control so the entire calibration process can run automatically. The calibration program sweeps the field inside the Helmholtz Cage through a predefined sequence and reads the sensor output at each point. \cite{Frey14}
+To calibrate the magnetometer, the coefficients in \cref{eq:magcal} must be calculated. The magnetometer is first placed inside the Helmholtz Cage. The field is set under \matlab control so the entire calibration process can run automatically. The calibration program sweeps the field inside the Helmholtz Cage through a predefined sequence and reads the sensor output at each point\cite{Frey14}.
 
 The method of least squares is used to solve \cref{eq:magmat} for the coefficients in \cref{eq:magcal}. Each line in the $\matt{A}$ matrix represents a separate magnetic field measurement. $H_n$ is the $n^{\text{\tiny th}}$ value set by the Helmholtz cage in the sensitive axis. 
 
@@ -625,7 +625,7 @@ The processor used for the \ac{ACDS} and all systems on \ac{ARC} is the Texas In
 
 \subsection{SD card}
 
-For flight data storage a SD card is used. This is necessary because of the needed space and write times. The internal flash is limited and also needs to be used for program storage making it undesirable for data storage. Furthermore, the internal flash can't be read while it is being written. Write times for the internal flash are fairly slow and require that the processor disable interrupts, making normal operation difficult. The flash shares the same address space as the \ac{RAM} and has the same access time. This makes the internal flash an attractive place to put settings and calibration data that are written few times but accessed often as any data on the SD card must be copied into \ac{RAM} before being used.
+For flight data storage a SD card is used. This is necessary because of the needed space and write times. The internal flash is limited and also needs to be used for program storage making it undesirable for data storage. Furthermore, the internal flash can't be read while it is being written. Write times for the internal flash are fairly slow and require that the processor disable interrupts, making normal operation difficult. The flash shares the same address space as the \ac{RAM} and has the same access time. This makes the internal flash an attractive place to put settings and calibration data that are written only a few times but accessed often as any data on the SD card must be copied into \ac{RAM} before being used.
 
 \subsection{\acs*{ARC} Bus Communication}
 

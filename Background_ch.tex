@@ -234,7 +234,7 @@ Mode 2 is initiated at the end of the detumble phase. In mode 2 the torquers are
     \label{fig:m2b}
 \end{figure}
 
-The purpose of mode 2 is to get the satellite, which is in a random orientation, into the desired orientation. The original simulation transitioned from mode 2 to mode 3 after a fixed 10 orbits. This was shown to get the satellite into the desired orientation.
+The purpose of mode 2 is to get the satellite, which is in a random orientation, into the desired orientation. The original simulation transitioned from mode 2 to mode 3 after 10 orbits. This was shown to get the satellite into the desired orientation.
 
 \subsection{Mode 3}
 
@@ -277,7 +277,7 @@ The simulations in \cite{Mentch11} showed that tipoff rates of 5\textdegree/sec 
 
 The initial concept was proposed by Mentch in \cite{Mentch11}. The concept was largely based on what was possible in simulation. The simulation allowed the satellite perfect knowledge of the rotation rates which are not trivial to calculate in a real system from measured magnetic fields. The rotation rates can be calculated from the magnetic field using a Kalman filter as suggested in \cite{Sturm05} but this is beyond the scope of this thesis.
 
-Difficulties were also encountered with the torquers. The vernier torquers were proposed to be $\sfrac{1}{200}$ the size of the primary torquers. This presented two problems: manufacturing and balancing. Finding a suitable, weaker, magnetic material for the torquers proved difficult as Mentch said \enquote{There isn't much of a marked for crappy magnets.} The solution that was proposed was to coat a non magnetic rod with a very thin layer of magnetic material using a vacuum deposition process. There were difficulties fabricating torquers and later tests showed that there is enough variation in the dipole moment of the primary torquers to overwhelm the vernier torquers. 
+Difficulties were also encountered with the torquers. The vernier torquers were proposed to be $\sfrac{1}{200}$ the size of the primary torquers. This presented two problems: manufacturing and balancing. Finding a suitable, weaker, magnetic material for the torquers proved difficult as Mentch said \enquote{There isn't much of a market for crappy magnets.} The solution that was proposed was to coat a non-magnetic rod with a very thin layer of magnetic material using a vacuum deposition process. There were difficulties fabricating torquers and later tests showed that there is enough variation in the dipole moment of the primary torquers to overwhelm the vernier torquers. 
 
 Because of these difficulties the \ac{ACDS} was re-scoped to focus on detumble. Instead of one pair of primary torquers and one pair of vernier torquers, two pairs of primary torquers are used. This gives five possible states as shown in \cref{fig:moments-flt}.
 
@@ -374,4 +374,4 @@ The algorithm in \cref{eq:crossl} can't be used for flight because the rotation 
     \label{eq:bg-bdot}
 \end{equation}
 
-\Cref{eq:bg-bdot} shows the B-dot control law. Because $\dot{\vec{B}}$ results largely from the spacecraft rotation, it is largely perpendicular to $\vec{B}$. This results in a dipole moment that is perpendicular to the magnetic field which is desirable for efficiency reasons. The gain $C$ is a scalar value less than zero that is used to tune the algorithm. Large values of $C$ increase the sensitivity of the algorithm and allow it to detumble to a lower rotation rate. Lower values of $C$ are less sensitive to noise. \cite{Vej10}
+\Cref{eq:bg-bdot} shows the B-dot control law. Because $\dot{\vec{B}}$ results largely from the spacecraft rotation, it is largely perpendicular to $\vec{B}$. This results in a dipole moment that is perpendicular to the magnetic field which is desirable for efficiency reasons. The gain $C$ is a scalar value less than zero that is used to tune the algorithm. Large values of $C$ increase the sensitivity of the algorithm and allow it to detumble to a lower rotation rate. Lower values of $C$ result in less sensitivity to noise. \cite{Vej10}
