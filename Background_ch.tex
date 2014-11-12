@@ -123,7 +123,6 @@ Because each \ac{LPMT} pair can only produce three distinct values of dipole mom
     \end{tikzpicture}
     %\caption{Quantization function for \acs*{LPMT}\protect\nocite{Mentch11}}
     \caption{Quantization function for \acs*{LPMT}}
-    \todo[inline]{Figure reproduced from Crank}
     \label{fig:lpmtq}
 \end{figure}
 
@@ -133,9 +132,9 @@ For the initial design in \cite{Mentch11} it was proposed to use a 10 second tor
 
 \section{Detumble Algorithm (Mode 1)}
 
-The purpose of the detumble algorithm is to reduce the initial tipoff rates. When CubeSats are ejected from the \ac{PPOD} significant rotation rates can be induced\todo{find reference}.
+The purpose of the detumble algorithm is to reduce the initial tipoff rates. When CubeSats are ejected from the \ac{PPOD} significant rotation rates can be induced.
 
-To detumble \ac{ARC} the control law shown in \cref{eq:crossl} is used. This is used by many CubeSats with conventional torquers to detumble\todo{find reference}. The significant difference in this case is that the magnetic dipole moment will be quantized due to the \acp{LPMT}.
+To detumble \ac{ARC} the control law shown in \cref{eq:crossl} is used. This is used by many CubeSats with conventional torquers to detumble. The significant difference in this case is that the magnetic dipole moment will be quantized due to the \acp{LPMT}.
 
 \begin{equation}
     \vect{m}_{command} = k {\frac{\vect{\omega}_{error} \cross \dot{\vect{B}}}{\vect{B} \cdot \vect{B}}}
