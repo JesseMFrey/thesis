@@ -113,9 +113,9 @@ The torquer flipping logic keeps track of the torquer status and sets the torque
 
 \subsubsection{Status Tracking}
 
-The status of each torquer is tracked by the flipping logic. The status information includes direction, initialization, and error flags for each torquer. The last four torquers that were flipped are also tracked. This is used to chose which torquer to flip.
+The status of each torquer is tracked by the flipping logic. The status information includes direction, initialization, and error flags for each torquer. The last four torquers that were flipped are also tracked. This is used to choose which torquer to flip.
 
-When it is time to flip a torquer the software looks at the current torquer status and the desired torque to figure out which direction a torquer needs to be flipped. Next the software finds torquers that can be flipped in the needed direction. Finally, the torquer that was flipped the least recently is flipped. This way the torquer flips are distributed across the torquers in a given axis. If torquers are marked as uninitialized then they are flipped first before other torquers so that all torquers are in a known state as quickly as possible such as after a reset or power-up.
+When it is time to flip a torquer the software looks at the current torquer status and the desired torque to figure out which direction a torquer needs to be flipped. Next the software finds torquers that can be flipped in the needed direction. Finally, the torquer that was flipped the least recently is flipped. This way the torquer flips are distributed across the torquers in a given axis. If torquers are marked as uninitialized then they are flipped first before other torquers so that all torquers are in a known state as quickly as possible after a reset or power-up.
 
 \subsubsection{Torquer Feedback}
 
@@ -139,7 +139,7 @@ To calculate the compensation values for the torquers, the calibration procedure
 
 \subsection{Data Logging}
 
-During \ac{ACDS} operations data on the system status is collected during flight. This data is stored in nonvolatile memory and can be recalled and transmitted to the ground in order to evaluate the \ac{ACDS} system performance. The data that is recorded is shown in \cref{tab:logdat}
+During \ac{ACDS} operations data on the system status is collected during flight. This data is stored in nonvolatile memory and can be recalled and transmitted to the ground in order to evaluate the \ac{ACDS} system performance. The data that is recorded is shown in \cref{tab:logdat}.
 
 \begin{table}[H]
     \centering
@@ -178,13 +178,13 @@ During \ac{ACDS} operations data on the system status is collected during flight
 
 \subsection{On-Board Data Processing}
 
-Because the downlink data speed is limited, it is necessary to reduce the data that needs to be downlinked. One way to do this is to do some level of on-board processing to reduce the data before it is downlinked. For the \ac{ACDS} system this will most likely take the form of returning only the desired data from the recorded data set or returning min/max values from within a data set. 
+Because the downlink data speed is limited, it is necessary to reduce the data that needs to be downlinked. One way to do this is to through on-board processing to reduce the data before it is downlinked. For the \ac{ACDS} system this will most likely take the form of returning only the desired data from the recorded data set or returning min/max values from within a data set. 
 
 \subsection{Beacon Data}
 
 The \ac{ARC} \ac{COMM} system sends a beacon packet every 10~seconds. The purpose of the beacon is to be able to locate the \ac{ARC} and determine how well the satellite is functioning. The beacon packet contains a small amount of data from each subsystem which gives an idea of how well the system is operating.
 
-The beacon data from the \ac{ACDS} is shown in \cref{tab:beacondat}. The data contains enough data to be able to see how well the system is operating but not exceed the maximum packet size. As discused in \cref{sec:future-work} the Kalman filter may be added as a future enhancement. The Kalman filter attitude field of the beacon packet will be filled with zeros until this is written. Similarly the Kalman filter rates, until the kalman filter is implemented, will be filled with the gyro rotation rates.
+The beacon data from the \ac{ACDS} is shown in \cref{tab:beacondat}. The data contains enough data to be able to see how well the system is operating but not exceed the maximum packet size. As discused in \cref{sec:future-work} the Kalman filter may be added as a future enhancement. The Kalman filter attitude field of the beacon packet will be filled with zeros until this is written. Similarly the Kalman filter rates will be filled with the gyro rotation rates, until the Kalman filter is implemented.
 
 \begin{table}[H]
     \centering

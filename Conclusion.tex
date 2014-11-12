@@ -4,7 +4,7 @@
 
 \section{Conclusion}
 
-The goal of this thesis was to make a working prototype of an \ac{ACDS} using \acp{LPMT}, as described by Donald Mentch in \cite{Mentch11}. For this thesis flight hardware has been built with software to detumble the satellite. The alignment phase, using bias windows to establish and maintain desired alignment, was not implemented primarily because the rotation rates proved more complex to calculate than originally described in \cite{Mentch11}. In addition the orbit in \cite{Mentch11} was circular and for the \ac{ARC}1 mission the orbit will be elliptical.
+The goal of this thesis was to make a working prototype of an \ac{ACDS} using \acp{LPMT}, as described by Donald Mentch in \cite{Mentch11}. For this thesis flight hardware has been built with software to detumble the satellite. The alignment phase, using bias windows to establish and maintain desired alignment, was not implemented primarily because the rotation rates proved more complex to calculate than originally described in \cite{Mentch11}. In addition the required orbit in \cite{Mentch11} was circular and for the \ac{ARC}1 mission the orbit will be elliptical.
 
 In a circular orbit the angular velocity required to remain nadir pointing is constant throughout the orbit. In an elliptical orbit the angular velocity to remain nadir pointing is not constant throughout the orbit. The changing angular velocity presents a problem because the algorithm in \cite{Mentch11} works by setting the angular velocity of the satellite to be constant. 
 
@@ -20,13 +20,13 @@ The torquers as described in \cite{Mentch11} are not feasible. The torquer flips
 
 The rotation rate determination algorithm was found to be a much more complex problem than described in \cite{Mentch11} which suggested that rotation rates could be determined directly from magnetic field measurements. Upon further investigation it was found that this was not feasible for the alignment phase. As an alternative the rotation rates can be determined from the magnetic field using a Kalman filter. The Kalman filter brings an additional level of complexity that the original system attempted to avoid. 
 
-The Kalman filter uses a magnetic field model for attitude determination. The magnetic field model uses the location of the satellite to calculate the expected local magnetic field in the orbital reference frame. This requires that the position of the satellite be known for the Kalman filter to work. The location will be calculated by uplinking the orbital parameters of the satellite and using an orbit propagator to calculate position as the satellite moves through its orbit.
+The Kalman filter uses a magnetic field model for attitude determination. The magnetic field model uses the location of the satellite to calculate the expected local magnetic field in the orbital reference frame. This requires that the position of the satellite be known for the Kalman filter to work. The location could be calculated by uplinking the orbital parameters of the satellite and using an orbit propagator to calculate position as the satellite moves through its orbit.
 
 The bias windows were originally supposed to be determined using the magnetic field to estimate the latitude. With the Kalman filter the location can be directly determined using the orbit propagator so there is no need for latitude determination from the Earth's magnetic field.
 
 \subsection{New Concept of Operations}
 
-The algorithm shown in \cref{fig:swblock} with additions is shown in \cref{fig:swblock-future}. The orbital parameters are used to determine the bias window and to determine the local magnetic field direction. The Kalman filter is used to output rates to the torque algorithm. The bias window is used by the torque algorithm to determine when and how to bias the torquers.
+The algorithm shown in \cref{fig:swblock} with the above additions is shown in \cref{fig:swblock-future}. The orbital parameters are used to determine the bias window and to determine the local magnetic field direction. The Kalman filter is used to output rates to the torque algorithm. The bias window is used by the torque algorithm to determine when and how to bias the torquers.
 
 \begin{figure}[H]
     \centering

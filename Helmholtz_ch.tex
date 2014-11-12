@@ -22,7 +22,7 @@ The coils are driven by a set of six Agilent E3633A power supplies as shown in \
 
 Both coils in each pair require the same current to be driven in each coil to get a uniform field. This could be achieved by putting both coils in a pair in series but this would make the required voltage too large to be feasible. The coils could also be put in parallel but this requires the coils to be matched. The Helmholtz cage software sets the power supply currents to be the same for both coils in each pair.
 
-An Alpha lab \#3AMG Milligauss Meter is used to measure the magnetic field of the Helmholtz cage. The meter is visible in \cref{fig:helmholtz-comp} to the left of the computer monitors. The Miligauss Meter has a digital display and an analog voltage output. The voltage output is read by a NI PCI-6010 Multifunction \ac{DAQ} installed in the Helmholtz cage computer.
+An Alpha Lab \#3AMG Milligauss Meter is used to measure the magnetic field of the Helmholtz cage. The meter is visible in \cref{fig:helmholtz-comp} to the left of the computer monitors. The Milligauss Meter has a digital display and an analog voltage output. The voltage output is read by a NI PCI-6010 Multifunction \ac{DAQ} installed in the Helmholtz cage computer.
 
 \begin{figure}[!ht]
     \includegraphics[width=\linewidth]{helmholtz-computer}
@@ -91,7 +91,7 @@ The cage\_control class was originally developed on a 32-bit machine. When the c
 
 The accuracy of the Helmholtz cage is important because it is used to measure the accuracy of the magnetometers on the CubeSat. The Helmholtz cage is not magnetically shielded so outside disturbances can affect the magnetic field in the cage.
 
-To test the Helmholtz cage the commanded magnetic field was swept as shown in \cref{fig:hc-tst} and the field inside the cage was measured with the Alpha lab \#3AMG Milligauss Meter. The measured field follows the commanded field for the most part but there are several areas where there is a visible difference between the measured and commanded field. 
+To test the Helmholtz cage the commanded magnetic field was swept as shown in \cref{fig:hc-tst} and the field inside the cage was measured with the Alpha Lab \#3AMG Milligauss Meter. The measured field follows the commanded field for the most part but there are several areas where there is a visible difference between the measured and commanded field. 
 
 \begin{figure}[htb]
     \centering
