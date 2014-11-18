@@ -492,22 +492,20 @@ The magnetometers are located on the back of the \acs{SPB}, shown in \cref{fig:S
 
 The \ac{SPB} also contains an amplifier to amplify the magnetometer signal before it is read by the \ac{ADC}. This allows the output voltage of the magnetometer to fill the input range of the \ac{ADC}. The required range of the magnetometer will be largely dependent on the torquer geometry and could be more than the \textpm 600~mGauss or so of Earth's field. The amplifier can be used to trade range for resolution depending on requirements.
 
-\Cref{eq:amp-gain} shows the equation used to calculate the desired amplifier gain. The maximum voltage readable by the \ac{ADC}, $V_{adc}$, is divided by the maximum expected output from the magnetometer. The maximum output from the magnetometer is found by adding the output due to the desired full scale field and the maximum possible bridge offset.
-
+\Cref{eq:amp-gain} shows the equation used to calculate the desired amplifier gain. The maximum voltage readable by the \ac{ADC}, $V_{adc}$, is divided by the maximum expected output from the magnetometer. The maximum output from the magnetometer is found by adding the output due to the desired full scale field and the maximum possible bridge offset,
 \begin{equation}
     \label{eq:amp-gain}
-    A = \frac{V_{adc}}{B_{max} \cdot V_{bridge} \cdot S_s + V_{os} \cdot V_{bridge}}
+    A = \frac{V_{adc}}{B_{max} \cdot V_{bridge} \cdot S_s + V_{os} \cdot V_{bridge}} \mathp{.}
 \end{equation}
 
-\Cref{eq:amp-gain-calc} shows the gain calculations for the magnetometer amplifier to measure a \textpm 4~Gauss field. The bridge and \ac{ADC} reference voltages are 3.3~V. This gives an input voltage range for the \ac{ADC} of \textpm 1.65~V.
-
+\Cref{eq:amp-gain-calc} shows the gain calculations for the magnetometer amplifier to measure a \textpm 4~Gauss field. The bridge and \ac{ADC} reference voltages are 3.3~V. This gives an input voltage range for the \ac{ADC} of \textpm 1.65~V,
 \begin{equation}
     \label{eq:amp-gain-calc}
     \begin{split}
         A &= \frac{1.65~\unit{V}}{4~\unit{Gauss} \cdot 3.3~\unit{V} \cdot 1~\unit{mV/V/Gauss} + 1.25~\unit{mV/V} \cdot 3.3~\unit{V}}\\ 
           &= \frac{1.65~\unit{V}}{13.2~\unit{mV} + 4.125~\unit{mV}} \\
           &= \frac{1.65~\unit{V}}{17.325~\unit{mV}} \\
-          &= 95.24
+          &= 95.24 \mathp{.}
     \end{split}
 \end{equation}
 
@@ -536,38 +534,35 @@ The HMC1052 sensors used on the \ac{ACDS} are \ac{AMR} sensors. They work by hav
     \label{fig:magAxisCross}
 \end{figure}
 
-\Cref{eq:magcross} shows the simplified equation for the magnetometer as described in \cite{AN215}. $V_b$ is the bridge voltage that is applied to the sensor. $S_s$ is the sensitivity in the sensitive direction. D is the cross field sensitivity offset. The HMC1052 datasheet\cite{HMC1052} mentions that the sensors have a bridge offset. The bridge offset is the sensor output when zero field is applied to the sensor and can be as large as \textpm1.25 Gauss. The bridge offset is represented by $V_{os}$ in \cref{eq:magcross}.
-
+\Cref{eq:magcross} shows the simplified equation for the magnetometer as described in \cite{AN215}. $V_b$ is the bridge voltage that is applied to the sensor. $S_s$ is the sensitivity in the sensitive direction. D is the cross field sensitivity offset. The HMC1052 datasheet\cite{HMC1052} mentions that the sensors have a bridge offset. The bridge offset is the sensor output when zero field is applied to the sensor and can be as large as \textpm1.25 Gauss. The bridge offset is represented by $V_{os}$ in \cref{eq:magcross},
 \begin{equation}
-    V_s = V_b \left(S_s H_s + D \cdot H_c + V_{os} \right)
+    V_s = V_b \left(S_s H_s + D \cdot H_c + V_{os} \right) \mathp{.}
     \label{eq:magcross}
 \end{equation}
  
 The bridge voltages are measured using an \ac{ADC} that uses the bridge voltage as its reference. To take this into account and simplify the equations, the following substitution is made:
 \begin{equation}
-    V_s'=\frac{V_s}{V_b}
+    V_s'=\frac{V_s}{V_b}\mathp{.}
     \label{eq:adcsub}
 \end{equation}
 
 \Cref{eq:magcross} is useful to determine the voltage that would be produced for a given magnetic field condition, but not the reverse when the sensor voltages are known but the fields are not.
 
-Because the calculated field in the sensitive direction also depends on the field in the cross axis direction, \cref{eq:magcross} was duplicated for the cross field sensor voltage and both equations were solved simultaneously. This resulted in twice as many constants as \cref{eq:magcross}. The voltages $V_s'$ and $V_c'$ are the normalized \ac{ADC} voltages in the sensitive and cross axes, respectively. Each of the constants from \cref{eq:magcross} has similar duplicate forms that comes from the extra equation that was used to solve for $H_s$. To distinguish the constants additional subscripts have been added. For example ${S_s}_s$ is the sensistivity of the sensitive axis field to the sensitive axis input while ${S_s}_c$ is the sensitivity of the cross axis to magnetic fields in the sensitive axis direction. \Cref{eq:magsolved} shows \cref{eq:magcross} solved for the unknown quantity, $H_s$.
-
+Because the calculated field in the sensitive direction also depends on the field in the cross axis direction, \cref{eq:magcross} was duplicated for the cross field sensor voltage and both equations were solved simultaneously. This resulted in twice as many constants as \cref{eq:magcross}. The voltages $V_s'$ and $V_c'$ are the normalized \ac{ADC} voltages in the sensitive and cross axes, respectively. Each of the constants from \cref{eq:magcross} has similar duplicate forms that comes from the extra equation that was used to solve for $H_s$. To distinguish the constants additional subscripts have been added. For example ${S_s}_s$ is the sensistivity of the sensitive axis field to the sensitive axis input while ${S_s}_c$ is the sensitivity of the cross axis to magnetic fields in the sensitive axis direction. \Cref{eq:magsolved} shows \cref{eq:magcross} solved for the unknown quantity, $H_s$,
 \begin{equation}
     \begin{split}
     H_s = & \frac{V'_s }{{S_s}_s - \frac{D_s \cdot D_c}{{S_s}_c}} - \frac{D_s \cdot  V'_c }{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c}\\
-    & {}- \frac{{S_s}_c \cdot {V_{os}}_s  -D_s \cdot {V_{os}}_c}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c}
+    & {}- \frac{{S_s}_c \cdot {V_{os}}_s  -D_s \cdot {V_{os}}_c}{{S_s}_c \cdot {S_s}_s - D_s \cdot D_c} \mathp{.}
     \end{split}
     \label{eq:magsolved} 
 \end{equation}
 
-\Cref{eq:magsolved} can be used to calculate the magnetic field from measured voltages, but the relationship between the constants is complex. To simplify \cref{eq:magsolved} the constants can be consolidated, as shown in \cref{ch:mag-deriv}, to get \cref{eq:magcal}.
-
+\Cref{eq:magsolved} can be used to calculate the magnetic field from measured voltages, but the relationship between the constants is complex. To simplify \cref{eq:magsolved} the constants can be consolidated, as shown in \cref{ch:mag-deriv}, to get \cref{eq:magcal},
 \begin{equation}
     \label{eq:magcal}
     \begin{split}
-        H_s &= C_1 \cdot V_s' + C_2 \cdot V_c' + C_3\\
-        H_c &= C_4 \cdot V_s' + C_5 \cdot V_c' + C_6
+        H_s &= C_1 \cdot V_s' + C_2 \cdot V_c' + C_3\mathp{,}\\
+        H_c &= C_4 \cdot V_s' + C_5 \cdot V_c' + C_6\mathp{.}
     \end{split}
 \end{equation}
 
@@ -578,8 +573,7 @@ In this case $V_s'$ and $V_c'$ are the \ac{ADC} values for the sensitive and cro
 
 To calibrate the magnetometer, the coefficients in \cref{eq:magcal} must be calculated. The magnetometer is first placed inside the Helmholtz Cage. The field is set under \matlab control so the entire calibration process can run automatically. The calibration program sweeps the field inside the Helmholtz Cage through a predefined sequence and reads the sensor output at each point\cite{Frey14}.
 
-The method of least squares is used to solve \cref{eq:magmat} for the coefficients in \cref{eq:magcal}. Each line in the $\matt{A}$ matrix represents a separate magnetic field measurement. $H_n$ is the $n^{\text{\tiny th}}$ value set by the Helmholtz cage in the sensitive axis. 
-
+The method of least squares is used to solve \cref{eq:magmat} for the coefficients in \cref{eq:magcal}. Each line in the $\matt{A}$ matrix represents a separate magnetic field measurement. $H_n$ is the $n^{\text{\tiny th}}$ value set by the Helmholtz cage in the sensitive axis,
 \begin{equation}
     \label{eq:magmat}
     \begin{split}
@@ -602,7 +596,7 @@ The method of least squares is used to solve \cref{eq:magmat} for the coefficien
         C_1 \\
         C_2 \\
         C_3 \\
-    \end{bmatrix} 
+    \end{bmatrix}\mathp{.} 
     \end{split}
 \end{equation}
 

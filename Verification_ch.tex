@@ -208,37 +208,29 @@ The \lstMat$tCalTstMSP_all$ function is used to test the embedded calibration. T
 \section{B-dot Controller Simulations}
 
 To verify the B-dot algorithm, the \ac{ACDS} is placed in the Helmholtz cage and a rotating field is generated. The minimum rotation rate of the magnetic field that will cause a torquer flip is calculated by starting with \cref{eq:bdot-cross}
-
 \begin{equation}
-    \dot{\vec{B}} = \vec{B} \cross \omega
+    \dot{\vec{B}} = \vec{B} \cross \omega \mathp{.}
     \label{eq:bdot-cross}
 \end{equation}
-
 If the axis of rotation is perpendicular to the field rotation then \cref{eq:bdot-cross} becomes \cref{eq:bdot-mul}
-
 \begin{equation}
-    \dot{\vec{B}} = \left| \vec{B} \right| \cdot \left| \omega \right|
+    \dot{\vec{B}} = \left| \vec{B} \right| \cdot \left| \omega \right| \mathp{.}
     \label{eq:bdot-mul}
 \end{equation}
-
-The B-dot algorithm equation is shown in \cref{eq:bdot-alg}.
-
+The B-dot algorithm equation is shown in \cref{eq:bdot-alg},
 \begin{equation}
-    M_{cmd} = C \dot{\vec{B}} 
+    M_{cmd} = C \dot{\vec{B}} \mathp{.}
     \label{eq:bdot-alg}
 \end{equation}
 
-Substituting \cref{eq:bdot-mul} into \cref{eq:bdot-alg} and solving for $\omega$ gives \cref{eq:omega-th}, where $M_{th}$ is the torque switching threshold for the torquers and $\omega_{th}$ is the minimum rotation rate required to flip a torquer.
-
+Substituting \cref{eq:bdot-mul} into \cref{eq:bdot-alg} and solving for $\omega$ gives \cref{eq:omega-th}, where $M_{th}$ is the torque switching threshold for the torquers and $\omega_{th}$ is the minimum rotation rate required to flip a torquer,
 \begin{equation}
-    \omega _ {th} = \frac{M _ {th}}{C \left| \vec{B} \right|}
+    \omega _ {th} = \frac{M _ {th}}{C \left| \vec{B} \right|} \mathp{.}
     \label{eq:omega-th}
 \end{equation}
-
-The torque switching threshold ($M_{th}$) is $0.022 \unit{A \cdot m} ^2$, the same as the dipole moment of a single torquer. This can be seen in \cref{fig:lpmtq-flt}. The gain, $C$ is empirically determined by simulation and testing to be -4. The magnitude of the Earth's magnetic field, ${\left| \vec{B} \right|}$, will vary from 0.3 to 0.6 Gauss \cite[pp.~114]{Wertz}. A value of 0.3~Gauss gives the worst case (largest) switching threshold so it is used for ${\left| \vec{B} \right|}$. \Cref{eq:omega-th-calc} shows the calculation of $\omega_{th}$.
-
+The torque switching threshold ($M_{th}$) is $0.022 \unit{A \cdot m} ^2$, the same as the dipole moment of a single torquer. This can be seen in \cref{fig:lpmtq-flt}. The gain, $C$ is empirically determined by simulation and testing to be -4. The magnitude of the Earth's magnetic field, ${\left| \vec{B} \right|}$, will vary from 0.3 to 0.6 Gauss \cite[pp.~114]{Wertz}. A value of 0.3~Gauss gives the worst case (largest) switching threshold so it is used for ${\left| \vec{B} \right|}$. \Cref{eq:omega-th-calc} shows the calculation of $\omega_{th}$,
 \begin{equation}
-    \omega _ {th} =  \frac{0.022}{4 \cdot 0.3} = 0.0183 ~ \unit{rad / sec}
+    \omega _ {th} =  \frac{0.022}{4 \cdot 0.3} = 0.0183 ~ \unit{rad / sec} \mathp{.}
     \label{eq:omega-th-calc}
 \end{equation}
 

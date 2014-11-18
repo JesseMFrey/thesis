@@ -12,10 +12,9 @@ The \ac{LPMT} was originally designed in 1971 by Dr. Michael Polites\cite{Polite
 
 \section{\aclp{LPMT}}
 
-The \ac{ARC} \ac{ACDS} uses \acfp{LPMT} to create the torque needed to properly orient the CubeSat. The torque equation for all magnetic torquers, including the \acp{LPMT}, is shown in \cref{eq:magtorque} where $\vec{m}$ is the magnetic dipole moment of the torquer and $\vec{B}$ is the local magnetic field. The torque produced is always perpendicular to the magnetic field and the dipole moment. Also the component of $\vec{m}$ that is perpendicular to $\vec{B}$ is the only component that produces torque.
-
+The \ac{ARC} \ac{ACDS} uses \acfp{LPMT} to create the torque needed to properly orient the CubeSat. The torque equation for all magnetic torquers, including the \acp{LPMT}, is shown in \cref{eq:magtorque} where $\vec{m}$ is the magnetic dipole moment of the torquer and $\vec{B}$ is the local magnetic field. The torque produced is always perpendicular to the magnetic field and the dipole moment. Also the component of $\vec{m}$ that is perpendicular to $\vec{B}$ is the only component that produces torque,
 \begin{equation}
-    \vec{\tau} = \vec{m} \cross \vec{B}
+    \vec{\tau} = \vec{m} \cross \vec{B}\mathp{.}
     \label{eq:magtorque}
 \end{equation}
 
@@ -134,10 +133,9 @@ For the initial design in \cite{Mentch11} it was proposed to use a 10 second tor
 
 The purpose of the detumble algorithm is to reduce the initial tipoff rates. When CubeSats are ejected from the \ac{PPOD} significant rotation rates can be induced.
 
-To detumble \ac{ARC} the control law shown in \cref{eq:crossl} is used. This is used by many CubeSats with conventional torquers to detumble. The significant difference in this case is that the magnetic dipole moment will be quantized due to the \acp{LPMT}.
-
+To detumble \ac{ARC} the control law shown in \cref{eq:crossl} is used. This is used by many CubeSats with conventional torquers to detumble. The significant difference in this case is that the magnetic dipole moment will be quantized due to the \acp{LPMT},
 \begin{equation}
-    \vect{m}_{command} = k {\frac{\vect{\omega}_{error} \cross \dot{\vect{B}}}{\vect{B} \cdot \vect{B}}}
+    \vect{m}_{command} = k {\frac{\vect{\omega}_{error} \cross \dot{\vect{B}}}{\vect{B} \cdot \vect{B}}} \mathp{.}
     \label{eq:crossl}
 \end{equation}
 
@@ -366,10 +364,9 @@ In \cite{Sturm05} a Kalman filter is used to calculate rotation rates from magne
 
 \subsection{B-dot Control}
 
-The algorithm in \cref{eq:crossl} can't be used for flight because the rotation rates, $\vec{\omega}$, are not known. The B-dot algorithm uses the magnetic field time derivative, $\dot{\vec{B}}$, as its only input so full knowledge of spacecraft rotation rates is not necessary for detumble.
-
+The algorithm in \cref{eq:crossl} can't be used for flight because the rotation rates, $\vec{\omega}$, are not known. The B-dot algorithm uses the magnetic field time derivative, $\dot{\vec{B}}$, as its only input so full knowledge of spacecraft rotation rates is not necessary for detumble,
 \begin{equation}
-    \vec{m}_{command}= C \dot{\vec{B}}
+    \vec{m}_{command}= C \dot{\vec{B}} \mathp{.}
     \label{eq:bg-bdot}
 \end{equation}
 
