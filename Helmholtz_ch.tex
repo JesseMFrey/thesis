@@ -44,15 +44,18 @@ An Alpha Lab \#3AMG Milligauss Meter is used to measure the magnetic field of th
     \pgfsetlayers{background,Hardware,CPU,main,foreground}
 
     \begin{tikzpicture}[node distance = 6mm, auto]
-        \node[prog,text width=2.2cm]     (cc)    {cage\_control class};
-        \node[perif,right=of cc]      (gpib)  {\rotatebox{90}{\acs*{GPIB}}};
-        \node[perif,above=of cc]      (daq)   {\acs*{DAQ}};
-        \node[hardware,right=of gpib] (ps)    {Power Supplies};
-        \node[hardware,right=of ps]   (dir)   {H-bridge};
-        \node[hardware,right=of dir]  (coils) {Helmholtz Coils};
-        \node[hardware,above=of daq]  (mag)   {Three-axis Magnetometer};
+        \begin{scope}[start chain]
+            \node[prog,text width=2.2cm]     (cc)    {cage\_control class};
+            \node[perif,right=of cc]      (gpib)  {\rotatebox{90}{\acs*{GPIB}}};
+            \node[perif,above=of cc]      (daq)   {\acs*{DAQ}};
+            \node[hardware,right=of gpib] (ps)    {Power Supplies};
+            \node[hardware,right=of ps]   (dir)   {H-bridge};
+            \node[hardware,right=of dir]  (coils) {Helmholtz Coils};
+            \node[hardware,above=of daq]  (mag)   {Three-axis Magnetometer};
 
-        \node[prog,text width=2.2cm,left=of cc]       (user)   {User Application};
+            \node[prog,text width=2.2cm,left=of cc]       (user)   {User Application};
+
+        \end{scope}
 
         \begin{pgfonlayer}{CPU}
             \node (push) at ([yshift=-1cm,xshift=-4mm]user.south west) {};
