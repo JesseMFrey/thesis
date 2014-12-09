@@ -141,7 +141,7 @@ To calculate the compensation values for the torquers, the calibration procedure
 
 During \ac{ACDS} operations data on the system status is collected during flight. This data is stored in nonvolatile memory and can be recalled and transmitted to the ground in order to evaluate the \ac{ACDS} system performance. The data that is recorded is shown in \cref{tab:logdat}.
 
-\begin{table}[H]
+\begin{table}[htb]
     \centering
     \caption{\ac{ACDS} operations data format}
     \label{tab:logdat}
@@ -186,7 +186,7 @@ The \ac{ARC} \ac{COMM} system sends a beacon packet every 10~seconds. The purpos
 
 The beacon data from the \ac{ACDS} is shown in \cref{tab:beacondat}. The data contains enough data to be able to see how well the system is operating but not exceed the maximum packet size. As discused in \cref{sec:future-work} the Kalman filter may be added as a future enhancement. The Kalman filter attitude field of the beacon packet will be filled with zeros until this is written. Similarly the Kalman filter rates will be filled with the gyro rotation rates, until the Kalman filter is implemented.
 
-\begin{table}[H]
+\begin{table}[htb]
     \centering
     \caption{\ac{ACDS} Beacon Data format}
     \label{tab:beacondat}
